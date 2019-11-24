@@ -5,7 +5,7 @@ class  Register extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body:Center(
-        child: Text('Login'),
+        child: Text('Registro'),
         ),
       
     );

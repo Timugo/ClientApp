@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class  Login extends StatelessWidget {
+class  Services extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body:Center(
-        child: Text('Login'),
-      ),
+        child: Text('Servicios'),
+        ),
       
     );
   }
