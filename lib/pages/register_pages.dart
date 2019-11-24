@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:timugo_client_app/providers/register_provider.dart';
 import 'package:validators/validators.dart' as validator;
+import 'login_pages.dart';
 import 'model.dart';
-import 'services.dart';
+import 'services_pages.dart';
 class  Register extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
    final appTitle = 'REGISTRATE';
+
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -180,14 +183,31 @@ class _TestFormState extends State<TestForm> {
    void _subimit(){
             if (_formKey.currentState.validate()) {
               _formKey.currentState.save();
-              registeProvider.createUser(model);
-            Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => Service(model: this.model)));
+              var res= registeProvider.createUser(model);
+              res.then((response){
+                if (response['response'] == 2){
 
-              }
-     }
+
+                   Navigator.push(
+                   context,
+                  
+                   MaterialPageRoute(
+                 //  builder: (context) => Service(model: this.model)));
+                     builder: (context) => Login()));
+
+
+                }
+
+              });
+
+              
+            }
+              
+           
+
+              
+   }
+     
 }
 
 class MyTextFormField extends StatelessWidget {

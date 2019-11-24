@@ -69,12 +69,36 @@ class Service extends StatelessWidget {
       )
     );
     
+    final cajaAzul = Transform.rotate(
+      angle: -pi / 5.0,
+      child: Container(
+        height: 360.0,
+        width: 360.0,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(90.0),
+          gradient: LinearGradient(
+            colors: [
+               Color.fromRGBO(20, 196, 193, 1.0),
+             Color.fromRGBO(255, 255, 255, 1.0),
+             
+            ]
+          )
+        ),
+      )
+    );
+    
     return Stack(
       children: <Widget>[
         gradiente,
         Positioned(
-          top: -100.0,
+          top: -80.0,
           child: cajaRosa
+        ),
+        Positioned(
+          top: 600,
+          left: -120,
+          child: cajaAzul,
+
         )
       ],
     );
@@ -85,13 +109,13 @@ class Service extends StatelessWidget {
 
     return SafeArea(
       child: Container(
-        padding: EdgeInsets.all(20.0),
+        padding: EdgeInsets.all(80.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text('Hola '+model.firstName+'!', style: TextStyle( color: Colors.white, fontSize: 30.0, fontWeight: FontWeight.bold )),
+            Text('Hola '+model.firstName+'!', style: TextStyle( color: Colors.white, fontSize: 35.0, fontWeight: FontWeight.bold )),
             SizedBox( height: 10.0 ),
-            Text('Disfruta lo mejor  de Timugo', style: TextStyle( color: Colors.white, fontSize: 18.0 )),
+            Text('Disfruta lo mejor  de Timugo.', style: TextStyle( color: Colors.white, fontSize: 15.0 )),
           ],
         ),
       ),
@@ -134,16 +158,17 @@ class Service extends StatelessWidget {
 
     return Table(
       children: [
+        
         TableRow(
           children: [
-            _crearBotonRedondeado( Colors.white, Icons.border_all, 'Corte' ),
-            _crearBotonRedondeado( Colors.white10, Icons.directions_bus, 'Depilacion' ),
+            _crearBotonRedondeado( Colors.black, Icons.border_all, 'Corte'),
+            _crearBotonRedondeado( Colors.black, Icons.directions_bus, 'Depilacion' ),
           ]
         ),
         TableRow(
           children: [
-            _crearBotonRedondeado( Colors.white10, Icons.shop, 'mascarillas' ),
-            _crearBotonRedondeado( Colors.white10, Icons.insert_drive_file, 'bbe' ),
+            _crearBotonRedondeado( Colors.black, Icons.shop, 'mascarillas' ),
+            _crearBotonRedondeado( Colors.black, Icons.insert_drive_file, 'bbe' ),
           ]
         ),
        
@@ -162,7 +187,7 @@ class Service extends StatelessWidget {
           height: 180.0,
           margin: EdgeInsets.all(15.0),
           decoration: BoxDecoration(
-            color: Color.fromRGBO(62, 66, 107, 0.7),
+            color: Color.fromRGBO(13, 83, 215, 0.1),
             borderRadius: BorderRadius.circular(20.0)
           ),
           child: Column(
