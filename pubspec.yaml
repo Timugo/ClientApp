@@ -26,6 +26,8 @@ dependencies:
   validators: ^2.0.0+1
   http:
   
+  rxdart: ^0.22.0
+  http:
 
 dev_dependencies:
   flutter_test:
