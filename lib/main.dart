@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:timugo_client_app/pages/login_pages.dart';
-import 'package:timugo_client_app/pages/register.dart';
-import 'package:timugo_client_app/pages/services.pages.dart';
+import 'package:timugo_client_app/pages/register_pages.dart';
+import 'package:timugo_client_app/pages/services_pages.dart';
 import 'package:timugo_client_app/providers/providers.dart';
  
 void main() => runApp(MyApp());
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         routes: {
           'login':(BuildContext context ) => Login(),
           'register':(BuildContext context ) => Register(),
-          'services':(BuildContext context ) => Services()
+          'services':(BuildContext context ) => Service()
         },
         title: 'Material App',
         theme: ThemeData(

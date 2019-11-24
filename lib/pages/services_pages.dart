@@ -113,7 +113,8 @@ class Service extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text('Hola '+model.firstName+'!', style: TextStyle( color: Colors.white, fontSize: 35.0, fontWeight: FontWeight.bold )),
+            // Text('Hola '+model.firstName+'!', style: TextStyle( color: Colors.white, fontSize: 35.0, fontWeight: FontWeight.bold )),
+            Text('Hola!', style: TextStyle( color: Colors.white, fontSize: 35.0, fontWeight: FontWeight.bold )),
             SizedBox( height: 10.0 ),
             Text('Disfruta lo mejor  de Timugo.', style: TextStyle( color: Colors.white, fontSize: 15.0 )),
           ],

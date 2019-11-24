@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:timugo_client_app/pages/services_pages.dart';
 import 'package:timugo_client_app/providers/login_providers.dart';
 import 'package:timugo_client_app/providers/providers.dart';
 
@@ -153,7 +154,13 @@ _login(LoginBloc bloc, BuildContext context) {
   final response = loginProvider.login(bloc.email, bloc.password);
   response.then((res){
     if(res['response'] == 2){
-      Navigator.pushNamed(context, 'services');
+      Navigator.push(
+        context,
+      
+        MaterialPageRoute(
+      //  builder: (context) => Service(model: this.model)));
+          builder: (context) => Service()));
+      // Navigator.pushNamed(context, 'services');
     } else {
       showDialog(
         context: context,
