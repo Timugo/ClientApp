@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:timugo_client_app/providers/register_provider.dart';
 import 'package:validators/validators.dart' as validator;
 import 'model.dart';
 import 'result.dart';
 class  Register extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-   final appTitle = 'REGISTRARME';
+   final appTitle = 'REGISTRATE';
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -28,6 +30,8 @@ class TestForm extends StatefulWidget {
 
 class _TestFormState extends State<TestForm> {
   final _formKey = GlobalKey<FormState>();
+  final  registeProvider = RegisterProvider();
+  final  _makePostRequest = RegisterProvider();
   Model model = Model();
 
   @override
@@ -91,6 +95,18 @@ class _TestFormState extends State<TestForm> {
               model.email = value;
             },
           ),
+           MyTextFormField(
+            hintText: 'Adresss',
+            validator: (String value) {
+              if ( value.length < 10){
+                return 'Please enter a valid address';
+              }
+              return null;
+            },
+            onSaved: (String value) {
+              model.address = value;
+            },
+            ),
           MyTextFormField(
             hintText: 'Phone',
             validator: (String value) {
@@ -100,7 +116,19 @@ class _TestFormState extends State<TestForm> {
               return null;
             },
             onSaved: (String value) {
-              model.phone = value;
+              model.phone = int.parse(value);
+            },
+          ),
+           MyTextFormField(
+            hintText: 'birth',
+            validator: (String value) {
+              if ( value.isEmpty ){
+                return 'Please enter a valid birth';
+              }
+              return null;
+            },
+            onSaved: (String value) {
+              model.birth = DateTime.parse(value);
             },
           ),
           MyTextFormField(
@@ -136,16 +164,7 @@ class _TestFormState extends State<TestForm> {
           ),
           RaisedButton(
             color: Colors.blueAccent,
-            onPressed: () {
-              if (_formKey.currentState.validate()) {
-                _formKey.currentState.save();
-
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => Result(model: this.model)));
-              }
-            },
+            onPressed: _subimit,
             child: Text(
               'Sign Up',
               style: TextStyle(
@@ -156,7 +175,17 @@ class _TestFormState extends State<TestForm> {
         ],
       ),
     );
+
+    
   }
+   void _subimit(){
+            if (_formKey.currentState.validate()) {
+              _formKey.currentState.save();
+              registeProvider.createUser(model);
+            
+
+              }
+     }
 }
 
 class MyTextFormField extends StatelessWidget {
@@ -192,5 +221,12 @@ class MyTextFormField extends StatelessWidget {
         keyboardType: isEmail ? TextInputType.emailAddress : TextInputType.text,
       ),
     );
+
+
+    
   }
+  
 }
+
+
+
