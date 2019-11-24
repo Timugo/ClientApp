@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: 'login',
+      initialRoute: 'register',
       routes: {
         'login':(BuildContext context ) => Login(),
         'register':(BuildContext context ) => Register(),
@@ -19,3 +19,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
