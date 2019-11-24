@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:timugo_client_app/providers/register_provider.dart';
 import 'package:validators/validators.dart' as validator;
 import 'model.dart';
-import 'result.dart';
+import 'services.dart';
 class  Register extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -182,7 +181,10 @@ class _TestFormState extends State<TestForm> {
             if (_formKey.currentState.validate()) {
               _formKey.currentState.save();
               registeProvider.createUser(model);
-            
+            Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Service(model: this.model)));
 
               }
      }

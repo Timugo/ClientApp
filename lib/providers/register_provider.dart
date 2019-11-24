@@ -10,7 +10,7 @@ class RegisterProvider{
 
    Future <bool>  createUser(model) async{
      try {
-      Map<String, String> headers = {"Content-type": "application/json"};
+      Map<String, String> headers = {"Content-Type": "application/json"};
       String json = registerModelToJson(model);
   // make POST request
       http.Response response = await http.post(url, headers: headers, body: json);
