@@ -22,7 +22,7 @@ class Service extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 _titulos(),
-                _botonesRedondeados()
+                _botonesRedondeados(context)
               ],
             ),
           )
@@ -155,80 +155,81 @@ class Service extends StatelessWidget {
   }
 
 
-  Widget _botonesRedondeados() {
+  Widget _botonesRedondeados(BuildContext context) {
 
     return Table(
       children: [
         
         TableRow(
           children: [
-            _crearBotonRedondeado( Colors.black, Icons.border_all, 'Corte'),
-            _crearBotonRedondeado( Colors.black, Icons.directions_bus, 'Depilacion' ),
-          ]
-        ),
-        TableRow(
-          children: [
-            _crearBotonRedondeado( Colors.black, Icons.shop, 'mascarillas' ),
-            _crearBotonRedondeado( Colors.black, Icons.insert_drive_file, 'bbe' ),
-          ]
-        ),
-       
-      ],
-    );
+                        _crearBotonRedondeado( Colors.black,'assets/images/barber.png', '  Corte de Cabello',context,'order'),
+                        _crearBotonRedondeado( Colors.black, 'assets/images/arthur-humeau-Twd3yaqA2NM-unsplash.jpg', 'Depilacion',context,null),
+                      ]
+                    ),
+                    TableRow(
+                      children: [
+                        _crearBotonRedondeado( Colors.black, 'assets/images/piel.png', 'mascarillas',context,null),
+                        _crearBotonRedondeado( Colors.black, 'assets/images/piel.png', 'bbe',context,null),
+                      ]
+                    ),
+                   
+                  ],
+                );
+            
+              }
+            
+            
+    Widget _crearBotonRedondeado( Color color, String ruta, String texto,BuildContext context,String page) {
 
-  }
+                  return Padding(
+      padding: EdgeInsets.all(15.0),
+        child: GestureDetector(
+          onTap: () => Navigator.pushNamed(context, page),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20.0),
+            child: BackdropFilter(
+              filter: ImageFilter.blur( sigmaX: 10.0, sigmaY: 10.0 ),
+              child: Container(
+                height: 180.0,
+                decoration: BoxDecoration(
+                  color: Color.fromRGBO(62, 66, 107, 0.7),
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    SizedBox( height: 5.0 ),
+                    Center(
+                    child:new Container(
 
-  Widget _crearBotonRedondeado( Color color, IconData icono, String texto ) {
- 
- 
-    return ClipRect(
-      child: BackdropFilter(
-        filter: ImageFilter.blur( sigmaX: 10.0, sigmaY: 10.0 ),
-        child: Container(
-          height: 180.0,
-          margin: EdgeInsets.all(15.0),
-          decoration: BoxDecoration(
-            color: Color.fromRGBO(13, 83, 215, 0.1),
-            borderRadius: BorderRadius.circular(20.0)
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              SizedBox( height: 5.0 ),
-              CircleAvatar(
-                backgroundColor: color,
-                radius: 35.0,
-                child: Icon( icono, color: Colors.white, size: 30.0 ),
+                             
+                             
+                             
+                    child:
+                      new CircleAvatar(
+                        backgroundImage: AssetImage(ruta),
+                          radius: 75.0,
+                        
+                            child: new Container(
+                              padding: const EdgeInsets.all(0.0),
+                                child: new Text(texto),
+                          ),
+                      ),
+                           
+                         
+                        
+                           ),
+                    ),
+                  ],
+                ),
               ),
-              Text( texto , style: TextStyle( color: color )),
-              SizedBox( height: 5.0 )
-            ],
+            ),
           ),
- 
         ),
-      ),
     );
+ 
   }
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
