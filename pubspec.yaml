@@ -30,6 +30,7 @@ dependencies:
   font_awesome_flutter: ^8.2.0
   google_maps_flutter: ^0.5.21+8
   geolocator: ^5.1.5
+  permission_handler: '^4.0.0'
 
 dev_dependencies:
   flutter_test:
