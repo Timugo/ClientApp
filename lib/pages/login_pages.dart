@@ -7,9 +7,21 @@ class  Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       body:Stack(
         children: <Widget>[
-          _crearFondo(context),
+           Container(
+      
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/imag.jpg'),
+              fit: BoxFit.fitWidth,
+              alignment: Alignment.topCenter,
+              colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.8), BlendMode.dstATop)
+            )
+          ),
+        ),
+        //  _crearFondo(context),
           _loginForm(context),
         ],
       ),
@@ -27,36 +39,29 @@ Widget _loginForm(BuildContext context) {
     child: Column(
       children: <Widget>[
 
-        SafeArea(
-          child: Container(
-            height: 180.0,
-          )
-        ),
+       
 
-        Container(
-          width: size.width * 0.85,
-          margin: EdgeInsets.symmetric(vertical: 30.0),
-          padding: EdgeInsets.symmetric(vertical: 50.0),
+         Container(
+          width: MediaQuery.of(context).size.width,
+          margin: EdgeInsets.only(top: 270),
           decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
             color: Colors.white,
-            borderRadius: BorderRadius.circular(5.0),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                color: Colors.black26,
-                blurRadius: 3.0,
-                offset: Offset(0.0, 5.0),
-                spreadRadius: 3.0
-              )
-            ]
           ),
+          
+            
+                
           child: Column(
             children: <Widget>[
-              Text('Ingreso', style: TextStyle(fontSize: 20.0)),
+              Text('Ingreso', textAlign: TextAlign.left,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30)
+                    ),
               SizedBox(height: 60.0),
               _crearEmail( bloc ),
               SizedBox(height: 30.0),
               _crearPassword( bloc ),
-              SizedBox(height: 30.0),
+              SizedBox(height: 90.0),
               _crearBoton( bloc )
             ],
           ),
@@ -67,7 +72,7 @@ Widget _loginForm(BuildContext context) {
             Navigator.pushNamed(context, 'register');
           },
         ),
-        SizedBox(height: 100.0,)
+        SizedBox(height: 80.0,)
       ],
     ),
   );
@@ -78,16 +83,26 @@ Widget _crearEmail(LoginBloc bloc) {
     stream: bloc.emailStream,
     builder: (BuildContext context, AsyncSnapshot snapshot){
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
+        padding: EdgeInsets.symmetric(horizontal: 40.0),
 
         child: TextFormField(
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
-            icon: Icon( Icons.alternate_email, color: Colors.deepPurple),
+            icon: Icon( Icons.alternate_email, color: Colors.black),
             hintText: 'ejemplo@correo.com',
             labelText: 'Correo electrónico',
             // counterText: snapshot.data,
-            errorText: snapshot.error
+            errorText: snapshot.error,
+             enabledBorder: const OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.white, width: 0.0),
+                     borderRadius: const BorderRadius.all(
+                        const Radius.circular(30.0),
+                      ),),
+                    border: new OutlineInputBorder(
+                    borderRadius: const BorderRadius.all(
+                        const Radius.circular(30.0),
+                      ),
+              )
           ),
           onChanged: ( value ) => bloc.changeEmail(value),
         ),
@@ -103,15 +118,26 @@ Widget _crearPassword(LoginBloc bloc) {
     builder: (BuildContext context, AsyncSnapshot snapshot){
       
       return Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
+        padding: EdgeInsets.symmetric(horizontal: 40.0),
 
         child: TextFormField(
           obscureText: true,
           decoration: InputDecoration(
-            icon: Icon( Icons.lock, color: Colors.deepPurple),
+            icon: Icon( Icons.lock, color: Colors.black),
             labelText: 'Contraseña',
             // counterText: snapshot.data,
-            errorText: snapshot.error
+            errorText: snapshot.error,
+
+             enabledBorder: const OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.white, width: 0.0),
+                     borderRadius: const BorderRadius.all(
+                        const Radius.circular(30.0),
+                      ),),
+                    border: new OutlineInputBorder(
+                    borderRadius: const BorderRadius.all(
+                        const Radius.circular(30.0),
+                      ),
+              )
           ),
           onChanged: ( value ) => bloc.changePassword(value),
         ),
@@ -127,14 +153,14 @@ Widget _crearBoton(LoginBloc bloc){
     builder: (BuildContext context, AsyncSnapshot snapshot){
       return RaisedButton(
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
+          padding: EdgeInsets.symmetric(horizontal: 150.0, vertical: 20.0),
           child: Text('Ingresar'),
         ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5.0)
+          borderRadius: BorderRadius.circular(7.0)
         ),
         elevation: 0.0,
-        color: Colors.deepPurple,
+        color: Colors.red,
         textColor: Colors.white,
         onPressed: snapshot.hasData ? () => _login(bloc, context) : null,
       );
@@ -184,39 +210,39 @@ _login(LoginBloc bloc, BuildContext context) {
 
 }
 
-Widget _crearFondo(BuildContext context){
+// Widget _crearFondo(BuildContext context){
 
-  final size = MediaQuery.of(context).size;
+//   final size = MediaQuery.of(context).size;
 
-  final fondoMorado = Container(
-    height: size.height * 0.4, //40% de la pantalla
-    width: double.infinity, //Ancho de la pantalla
-    decoration: BoxDecoration(
-      gradient: LinearGradient(
-        colors: <Color> [
-          Color.fromRGBO(63, 63, 156, 1.0),
-          Color.fromRGBO(90, 70, 178, 1.0)
-        ]
-      )
-    ),
-  );
+//   final fondoMorado = Container(
+//     height: size.height * 0.4, //40% de la pantalla
+//     width: double.infinity, //Ancho de la pantalla
+//     decoration: BoxDecoration(
+//       gradient: LinearGradient(
+//         colors: <Color> [
+//           Color.fromRGBO(63, 63, 156, 1.0),
+//           Color.fromRGBO(90, 70, 178, 1.0)
+//         ]
+//       )
+//     ),
+//   );
 
-  return Stack(
-    children: <Widget>[
-      fondoMorado,
+//   return Stack(
+//     children: <Widget>[
+//       fondoMorado,
 
-      Container(
-        padding: EdgeInsets.only(top:50.0),
-        child: Column(
-          children: <Widget>[
-            Icon(Icons.person_pin_circle, color: Colors.white, size: 100.0),
-            SizedBox(height: 10.0, width: double.infinity),
-            Text('TimuGO', style: TextStyle(color: Colors.white, fontSize: 25.0))
+//       Container(
+//         padding: EdgeInsets.only(top:50.0),
+//         child: Column(
+//           children: <Widget>[
+//             Icon(Icons.person_pin_circle, color: Colors.white, size: 100.0),
+//             SizedBox(height: 10.0, width: double.infinity),
+//             Text('TimuGO', style: TextStyle(color: Colors.white, fontSize: 25.0))
 
-          ],
-        )
-      )
-    ],
-  );
+//           ],
+//         )
+//       )
+//     ],
+//   );
 
-}
+// }
