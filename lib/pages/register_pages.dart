@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:timugo_client_app/providers/register_provider.dart';
 import 'package:validators/validators.dart' as validator;
-import 'login_pages.dart';
 import 'model.dart';
 import 'services_pages.dart';
+
+
 class  Register extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -16,10 +16,9 @@ class  Register extends StatelessWidget {
 
       title: appTitle,
       home: Scaffold(
-        appBar: AppBar(
-          title: Text(appTitle),
-        ),
-        body: TestForm(),
+        body: new Center(
+        child:TestForm(),
+        )
       ),
     );
   }
@@ -33,7 +32,6 @@ class TestForm extends StatefulWidget {
 class _TestFormState extends State<TestForm> {
   final _formKey = GlobalKey<FormState>();
   final  registeProvider = RegisterProvider();
-  final  _makePostRequest = RegisterProvider();
   Model model = Model();
 
   @override
@@ -42,6 +40,7 @@ class _TestFormState extends State<TestForm> {
 
     return Form(
       key: _formKey,
+      child: SingleChildScrollView(
       child: Column(
         children: <Widget>[
           Container(
@@ -53,7 +52,9 @@ class _TestFormState extends State<TestForm> {
                   alignment: Alignment.topCenter,
                   width: halfMediaWidth,
                   child: MyTextFormField(
+                    text: Icon(Icons.people),
                     hintText: 'First Name',
+                    
                     validator: (String value) {
                       if (value.isEmpty) {
                         return 'Enter your first name';
@@ -85,8 +86,11 @@ class _TestFormState extends State<TestForm> {
             ),
           ),
           MyTextFormField(
+          
+
             hintText: 'Email',
             isEmail: true,
+            text: Icon(Icons.email),
             validator: (String value) {
               if (!validator.isEmail(value)) {
                 return 'Please enter a valid email';
@@ -98,6 +102,8 @@ class _TestFormState extends State<TestForm> {
             },
           ),
            MyTextFormField(
+            text: Icon(Icons.person_pin_circle),
+
             hintText: 'Adresss',
             validator: (String value) {
               if ( value.length < 10){
@@ -110,6 +116,7 @@ class _TestFormState extends State<TestForm> {
             },
             ),
           MyTextFormField(
+            text: Icon(Icons.phone_android),
             hintText: 'Phone',
             validator: (String value) {
               if ( value.length < 10){
@@ -122,6 +129,7 @@ class _TestFormState extends State<TestForm> {
             },
           ),
            MyTextFormField(
+            text: Icon(Icons.cake),
             hintText: 'birth',
             validator: (String value) {
               if ( value.isEmpty ){
@@ -135,6 +143,7 @@ class _TestFormState extends State<TestForm> {
           ),
           MyTextFormField(
             hintText: 'Password',
+            text: Icon(Icons.vpn_key),
             isPassword: true,
             validator: (String value) {
               if (value.length < 7) {
@@ -165,17 +174,20 @@ class _TestFormState extends State<TestForm> {
             },
           ),
           RaisedButton(
+          
             color: Colors.blueAccent,
             onPressed: _subimit,
             child: Text(
               'Sign Up',
               style: TextStyle(
                 color: Colors.white,
+                
               ),
             ),
           )
         ],
       ),
+    ),
     );
 
     
@@ -192,8 +204,8 @@ class _TestFormState extends State<TestForm> {
                    context,
                   
                    MaterialPageRoute(
-                 //  builder: (context) => Service(model: this.model)));
-                     builder: (context) => Login()));
+                 builder: (context) => Service(model: this.model)));
+                 //    builder: (context) => Login()));
 
 
                 }
@@ -211,6 +223,7 @@ class _TestFormState extends State<TestForm> {
 }
 
 class MyTextFormField extends StatelessWidget {
+  final Icon text;
   final String hintText;
   final Function validator;
   final Function onSaved;
@@ -218,6 +231,7 @@ class MyTextFormField extends StatelessWidget {
   final bool isEmail;
 
   MyTextFormField({
+    this.text,
     this.hintText,
     this.validator,
     this.onSaved,
@@ -229,13 +243,27 @@ class MyTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(8.0),
+      
       child: TextFormField(
-        decoration: InputDecoration(
-          hintText: hintText,
-          contentPadding: EdgeInsets.all(15.0),
-          border: InputBorder.none,
-          filled: true,
-          fillColor: Colors.grey[200],
+
+      decoration: InputDecoration(
+              hintText: hintText,
+              filled: true,
+              fillColor: Colors.white,
+              contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+              prefixIcon:text,
+
+
+              enabledBorder: const OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.white, width: 0.0),
+                     borderRadius: const BorderRadius.all(
+                        const Radius.circular(30.0),
+                      ),),
+                    border: new OutlineInputBorder(
+                    borderRadius: const BorderRadius.all(
+                        const Radius.circular(30.0),
+                      ),
+              )
         ),
         obscureText: isPassword ? true : false,
         validator: validator,
