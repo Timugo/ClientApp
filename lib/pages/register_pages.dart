@@ -14,10 +14,35 @@ class  Register extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
 
-      title: appTitle,
+      title: appTitle
+      
+      ,
       home: Scaffold(
-        body: new Center(
-        child:TestForm(),
+        
+        
+      
+        
+        body: Stack(
+          children: <Widget>[
+            Container(
+             child: _fondoApp(),
+
+              
+            ),
+            Center(
+            
+            child:Container(
+
+              
+             child:TestForm(),
+
+            )
+            )
+
+          ],
+          
+
+       
         )
       ),
     );
@@ -53,11 +78,15 @@ class _TestFormState extends State<TestForm> {
                   width: halfMediaWidth,
                   child: MyTextFormField(
                     text: Icon(Icons.people),
+<<<<<<< HEAD
                     hintText: 'First Name',
+=======
+                    hintText: 'Nombre',
+>>>>>>> b8614098e69ba7b26c0f8b3fb396d7c9401880d0
                     
                     validator: (String value) {
                       if (value.isEmpty) {
-                        return 'Enter your first name';
+                        return 'Digita tu nombre';
                       }
                       return null;
                     },
@@ -70,10 +99,10 @@ class _TestFormState extends State<TestForm> {
                   alignment: Alignment.topCenter,
                   width: halfMediaWidth,
                   child: MyTextFormField(
-                    hintText: 'Last Name',
+                    hintText: 'Apellido',
                     validator: (String value) {
                       if (value.isEmpty) {
-                        return 'Enter your last name';
+                        return 'Digita tu Apellido';
                       }
                       return null;
                     },
@@ -88,12 +117,16 @@ class _TestFormState extends State<TestForm> {
           MyTextFormField(
           
 
+<<<<<<< HEAD
             hintText: 'Email',
+=======
+            hintText: 'Correo',
+>>>>>>> b8614098e69ba7b26c0f8b3fb396d7c9401880d0
             isEmail: true,
             text: Icon(Icons.email),
             validator: (String value) {
               if (!validator.isEmail(value)) {
-                return 'Please enter a valid email';
+                return 'Digita tu correo';
               }
               return null;
             },
@@ -104,10 +137,14 @@ class _TestFormState extends State<TestForm> {
            MyTextFormField(
             text: Icon(Icons.person_pin_circle),
 
+<<<<<<< HEAD
             hintText: 'Adresss',
+=======
+            hintText: 'Direccion',
+>>>>>>> b8614098e69ba7b26c0f8b3fb396d7c9401880d0
             validator: (String value) {
               if ( value.length < 10){
-                return 'Please enter a valid address';
+                return 'Digita direccion valida';
               }
               return null;
             },
@@ -117,10 +154,14 @@ class _TestFormState extends State<TestForm> {
             ),
           MyTextFormField(
             text: Icon(Icons.phone_android),
+<<<<<<< HEAD
             hintText: 'Phone',
+=======
+            hintText: 'Celular',
+>>>>>>> b8614098e69ba7b26c0f8b3fb396d7c9401880d0
             validator: (String value) {
               if ( value.length < 10){
-                return 'Please enter a valid phone';
+                return 'Digita un numero valido';
               }
               return null;
             },
@@ -130,10 +171,14 @@ class _TestFormState extends State<TestForm> {
           ),
            MyTextFormField(
             text: Icon(Icons.cake),
+<<<<<<< HEAD
             hintText: 'birth',
+=======
+            hintText: 'Cumpleaños',
+>>>>>>> b8614098e69ba7b26c0f8b3fb396d7c9401880d0
             validator: (String value) {
               if ( value.isEmpty ){
-                return 'Please enter a valid birth';
+                return 'Por favor digita una fecha valida';
               }
               return null;
             },
@@ -142,12 +187,16 @@ class _TestFormState extends State<TestForm> {
             },
           ),
           MyTextFormField(
+<<<<<<< HEAD
             hintText: 'Password',
+=======
+            hintText: 'contraseña',
+>>>>>>> b8614098e69ba7b26c0f8b3fb396d7c9401880d0
             text: Icon(Icons.vpn_key),
             isPassword: true,
             validator: (String value) {
               if (value.length < 7) {
-                return 'Password should be minimum 7 characters';
+                return 'La contraseña de tener minimo 7 caracteres';
               }
 
               _formKey.currentState.save();
@@ -159,15 +208,15 @@ class _TestFormState extends State<TestForm> {
             },
           ),
           MyTextFormField(
-            hintText: 'Confirm Password',
+            hintText: 'Confirmar Contraseña',
             isPassword: true,
             validator: (String value) {
               if (value.length < 7) {
-                return 'Password should be minimum 7 characters';
+                return 'La contraseña de tener minimo 7 caracteres';
               } else if (model.password != null && value != model.password) {
                 print(value);
                 print(model.password);
-                return 'Password not matched';
+                return 'La contraseñas no coinciden';
               }
 
               return null;
@@ -221,6 +270,30 @@ class _TestFormState extends State<TestForm> {
    }
      
 }
+
+  Widget _fondoApp(){
+
+    final gradiente = Container(
+      width: double.infinity,
+      height: double.infinity,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: FractionalOffset(0.0, 0.2),
+          end: FractionalOffset(0.0, 1.0),
+          colors: [
+            Color.fromRGBO(33, 72, 91, 1.0),
+            Color.fromRGBO(255, 255, 255, 0.5)
+          ]
+        )
+      ),
+    );
+    return Stack(
+      children: <Widget>[
+        gradiente
+      ]
+    );
+
+  }
 
 class MyTextFormField extends StatelessWidget {
   final Icon text;

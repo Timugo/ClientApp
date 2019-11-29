@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:timugo_client_app/pages/menu_widget.dart';
 import 'model.dart';
 import 'dart:math';
 import 'dart:ui';
+
+
 
 // Text('Hola '+model.firstName+'!', style: TextStyle(fontSize: 35)),
 
@@ -14,10 +17,13 @@ class Service extends StatelessWidget {
  
      Widget build(BuildContext context) {
     return Scaffold(
+       appBar: AppBar(
+        title: Text('Preferencias de Usuario'),
+      ),
+      drawer: MenuWidget(),
       body: Stack(
         children: <Widget>[
-          _fondoApp(),
-
+           _profile(context),
           SingleChildScrollView(
             child: Column(
               children: <Widget>[
@@ -34,77 +40,6 @@ class Service extends StatelessWidget {
   }
 
 
-  Widget _fondoApp(){
-
-    final gradiente = Container(
-      width: double.infinity,
-      height: double.infinity,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: FractionalOffset(0.0, 0.6),
-          end: FractionalOffset(0.0, 1.0),
-          colors: [
-            Color.fromRGBO(255, 255, 255, 1.0),
-            Color.fromRGBO(255, 255, 255, 1.0)
-          ]
-        )
-      ),
-    );
-
-
-    final cajaRosa = Transform.rotate(
-      angle: -pi / 5.0,
-      child: Container(
-        height: 360.0,
-        width: 360.0,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(80.0),
-          gradient: LinearGradient(
-            colors: [
-              Color.fromRGBO(255, 255, 255, 1.0),
-              Color.fromRGBO(13, 83, 215, 1.0)
-            ]
-          )
-        ),
-      )
-    );
-    
-    final cajaAzul = Transform.rotate(
-      angle: -pi / 5.0,
-      child: Container(
-        height: 360.0,
-        width: 360.0,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(90.0),
-          gradient: LinearGradient(
-            colors: [
-               Color.fromRGBO(20, 196, 193, 1.0),
-             Color.fromRGBO(255, 255, 255, 1.0),
-             
-            ]
-          )
-        ),
-      )
-    );
-    
-    return Stack(
-      children: <Widget>[
-        gradiente,
-        Positioned(
-          top: -80.0,
-          child: cajaRosa
-        ),
-        Positioned(
-          top: 600,
-          left: -120,
-          child: cajaAzul,
-
-        )
-      ],
-    );
-
-  }
-
   Widget _titulos() {
 
     return SafeArea(
@@ -114,14 +49,51 @@ class Service extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             // Text('Hola '+model.firstName+'!', style: TextStyle( color: Colors.white, fontSize: 35.0, fontWeight: FontWeight.bold )),
-            Text('Hola!', style: TextStyle( color: Colors.white, fontSize: 35.0, fontWeight: FontWeight.bold )),
+            Text('Hola!', style: TextStyle( color: Colors.black, fontSize: 35.0, fontWeight: FontWeight.bold )),
             SizedBox( height: 10.0 ),
-            Text('Disfruta lo mejor  de Timugo.', style: TextStyle( color: Colors.white, fontSize: 15.0 )),
+            Text('Disfruta lo mejor  de Timugo.', style: TextStyle( color: Colors.black, fontSize: 15.0 )),
           ],
         ),
       ),
     );
 
+  }
+
+  Widget _profile(BuildContext context){
+
+    return Scaffold(
+
+
+      body: Stack(
+        children: <Widget>[
+          Positioned(
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Container(
+                margin: EdgeInsets.only(top: 30),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    FunctionalButton(
+                      icon: Icons.arrow_left,
+                      title: "",
+                      onPressed: () {},
+                    ),
+                    PriceWidget(
+                      price: "0.00",
+                      onPressed: () {},
+                    ),
+                    ProfileWidget(onPressed: () => Navigator.pushNamed(context, '/notifications'),),
+                  ],
+                ),
+              ),
+            ),
+          ),
+         
+        ],
+      )
+    );
   }
 
   Widget _bottomNavigationBar(BuildContext context) {
@@ -228,6 +200,175 @@ class Service extends StatelessWidget {
         ),
     );
  
+  }
+}
+
+class FunctionalButton extends StatefulWidget {
+  final String title;
+  final IconData icon;
+  final Function() onPressed;
+
+  const FunctionalButton({Key key, this.title, this.icon, this.onPressed})
+      : super(key: key);
+
+  @override
+  _FunctionalButtonState createState() => _FunctionalButtonState();
+}
+
+class _FunctionalButtonState extends State<FunctionalButton> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        RawMaterialButton(
+          onPressed: widget.onPressed,
+          splashColor: Colors.black,
+          fillColor: Colors.white,
+          elevation: 15.0,
+          shape: CircleBorder(),
+          child: Padding(
+              padding: EdgeInsets.all(14.0),
+              child: Icon(
+                widget.icon,
+                size: 30.0,
+                color: Colors.black,
+              )),
+        ),
+      ],
+    );
+  }
+}
+
+class ProfileWidget extends StatefulWidget {
+  final Function() onPressed;
+
+  const ProfileWidget({Key key, this.onPressed}) : super(key: key);
+
+  @override
+  _ProfileWidgetState createState() => _ProfileWidgetState();
+}
+
+class _ProfileWidgetState extends State<ProfileWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: widget.onPressed,
+          child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.white, width: 4),
+          shape: BoxShape.circle,
+          boxShadow: [
+            BoxShadow(
+                color: Colors.grey, blurRadius: 11, offset: Offset(3.0, 4.0))
+          ],
+        ),
+        child: ClipOval(
+          child: Image.asset(
+            "assets/images/piel.png",
+            width: 60,
+            height: 60,
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class PriceWidget extends StatefulWidget {
+  final String price;
+  final Function() onPressed;
+
+  const PriceWidget({Key key, this.price, this.onPressed}) : super(key: key);
+
+  @override
+  _PriceWidgetState createState() => _PriceWidgetState();
+}
+
+class _PriceWidgetState extends State<PriceWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 120,
+      height: 60,
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.white, width: 4),
+        color: Colors.black,
+        borderRadius: BorderRadius.all(Radius.circular(50.0)),
+        boxShadow: [
+          BoxShadow(
+              color: Colors.grey, blurRadius: 11, offset: Offset(3.0, 4.0))
+        ],
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text("\$",
+              style: TextStyle(
+                  color: Colors.green,
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold)),
+          Text(widget.price,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold)),
+        ],
+      ),
+    );
+  }
+}
+
+class GoButton extends StatefulWidget {
+  final String title;
+  final Function() onPressed;
+
+  const GoButton({Key key, this.title, this.onPressed}) : super(key: key);
+
+  @override
+  _GoButtonState createState() => _GoButtonState();
+}
+
+
+class _GoButtonState extends State<GoButton> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Container(
+          decoration: BoxDecoration(
+              border: Border.all(color: Colors.blue, width: 10),
+              shape: BoxShape.circle),
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.white, width: 2),
+              shape: BoxShape.circle,
+            ),
+            child: RawMaterialButton(
+              onPressed: widget.onPressed,
+              splashColor: Colors.black,
+              fillColor: Colors.blue,
+              elevation: 15.0,
+              shape: CircleBorder(),
+              child: Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: Text(widget.title,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 28))),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
 
