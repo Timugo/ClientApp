@@ -26,17 +26,11 @@ class  Register extends StatelessWidget {
           children: <Widget>[
             Container(
              child: _fondoApp(),
-
-              
             ),
             Center(
-            
-            child:Container(
-
-              
-             child:TestForm(),
-
-            )
+              child:Container(
+                child:TestForm(),
+                )
             )
 
           ],
@@ -68,6 +62,10 @@ class _TestFormState extends State<TestForm> {
       child: SingleChildScrollView(
       child: Column(
         children: <Widget>[
+          Text('Registrate', textAlign: TextAlign.left,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 40)
+                    ),
           Container(
             alignment: Alignment.topCenter,
             child: Row(

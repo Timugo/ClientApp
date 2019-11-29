@@ -3,7 +3,7 @@ import 'dart:convert';
 
 class LoginProvider {
    
-  static final _url = 'http://167.99.99.86:3000';
+  static final _url = 'http://167.99.99.86';
   
 
   Future<Map<String, dynamic>> login(email, password) async {

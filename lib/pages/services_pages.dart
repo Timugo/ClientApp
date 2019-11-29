@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as prefix0;
 import 'package:timugo_client_app/pages/menu_widget.dart';
 import 'model.dart';
 import 'dart:math';
@@ -18,16 +19,31 @@ class Service extends StatelessWidget {
      Widget build(BuildContext context) {
     return Scaffold(
        appBar: AppBar(
-        title: Text('Preferencias de Usuario'),
+
+      iconTheme: new IconThemeData(color: Colors.black),
+        backgroundColor: Colors.white,
       ),
+
       drawer: MenuWidget(),
       body: Stack(
         children: <Widget>[
            _profile(context),
           SingleChildScrollView(
             child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                
+
               children: <Widget>[
-                _titulos(),
+                
+                SizedBox(height: 30.0),
+                Align(alignment: Alignment.centerLeft,child: Text('Hola!', style: TextStyle( color: Colors.black, fontSize: 35.0,fontWeight:FontWeight.w300 ),textAlign: TextAlign.center,),),
+                SizedBox(height: 0.0),
+                Align(alignment: Alignment.centerLeft,child: Text('Anderson', style: TextStyle( color: Colors.black, fontSize: 35.0 , fontWeight: FontWeight.bold ),),),
+                SizedBox( height: 50.0 ),
+                Text('Servicios', style: TextStyle( color: Colors.black, fontSize: 18.0, fontWeight: FontWeight.w800 ),),
+                 SizedBox( height: 10.0 ),
+                new Container(height: 1,  color: Colors.black,
+                        margin: const EdgeInsets.only(left: 10.0, right: 10.0),),
                 _botonesRedondeados(context)
               ],
             ),
@@ -40,24 +56,6 @@ class Service extends StatelessWidget {
   }
 
 
-  Widget _titulos() {
-
-    return SafeArea(
-      child: Container(
-        padding: EdgeInsets.all(80.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            // Text('Hola '+model.firstName+'!', style: TextStyle( color: Colors.white, fontSize: 35.0, fontWeight: FontWeight.bold )),
-            Text('Hola!', style: TextStyle( color: Colors.black, fontSize: 35.0, fontWeight: FontWeight.bold )),
-            SizedBox( height: 10.0 ),
-            Text('Disfruta lo mejor  de Timugo.', style: TextStyle( color: Colors.black, fontSize: 15.0 )),
-          ],
-        ),
-      ),
-    );
-
-  }
 
   Widget _profile(BuildContext context){
 
@@ -74,18 +72,6 @@ class Service extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    FunctionalButton(
-                      icon: Icons.arrow_left,
-                      title: "",
-                      onPressed: () {},
-                    ),
-                    PriceWidget(
-                      price: "0.00",
-                      onPressed: () {},
-                    ),
-                    ProfileWidget(onPressed: () => Navigator.pushNamed(context, '/notifications'),),
-                  ],
                 ),
               ),
             ),
@@ -100,29 +86,47 @@ class Service extends StatelessWidget {
 
     return Theme(
       data: Theme.of(context).copyWith(
-        canvasColor: Color.fromRGBO(55, 57, 84, 1.0),
-        primaryColor: Colors.pinkAccent,
+        canvasColor: Color.fromRGBO(255, 255, 255, 1.0),
+        primaryColor: Colors.blueAccent,
         textTheme: Theme.of(context).textTheme
-          .copyWith( caption: TextStyle( color: Color.fromRGBO(116, 117, 152, 1.0) ) )
+          .copyWith( caption: TextStyle( color: Color.fromRGBO(3, 3, 3, 1) ) )
       ),
       child: BottomNavigationBar(
         
         items: [
           BottomNavigationBarItem(
-            icon: Icon( Icons.calendar_today, size: 30.0 ),
+            icon: Icon( Icons.shopping_basket, size: 30.0 ),
+            title: Container(),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon( Icons.headset_mic, size: 30.0 ),
             title: Container()
           ),
           BottomNavigationBarItem(
-            icon: Icon( Icons.bubble_chart, size: 30.0 ),
-            title: Container()
-          ),
-          BottomNavigationBarItem(
-            icon: Icon( Icons.supervised_user_circle, size: 30.0 ),
+            icon: Icon( Icons.notifications, size: 30.0 ),
             title: Container()
           ),
         ],
+
+        onTap: (index) {
+          
+            
+            switch (index) {
+              case 0:
+               Navigator.pushNamed(context, 'services');
+               break;
+              case 1:
+                Navigator.pushNamed(context, 'services');
+                break;
+              case 2:
+                Navigator.pushNamed(context, 'services');
+                break;
+            }
+          }
       ),
-    );
+        
+      );
+    
 
   }
 
@@ -135,7 +139,7 @@ class Service extends StatelessWidget {
         TableRow(
           children: [
                         _crearBotonRedondeado( Colors.black,'assets/images/barber.png', '  Corte de Cabello',context,'order'),
-                        _crearBotonRedondeado( Colors.black, 'assets/images/arthur-humeau-Twd3yaqA2NM-unsplash.jpg', 'Depilacion',context,null),
+                        _crearBotonRedondeado( Colors.black, 'assets/images/barber.png', 'Depilacion',context,null),
                       ]
                     ),
                     TableRow(
@@ -158,41 +162,17 @@ class Service extends StatelessWidget {
         child: GestureDetector(
           onTap: () => Navigator.pushNamed(context, page),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(20.0),
-            child: BackdropFilter(
-              filter: ImageFilter.blur( sigmaX: 10.0, sigmaY: 10.0 ),
+            borderRadius: BorderRadius.circular(30.0),
+            child: BackdropFilter(filter: ImageFilter.blur( sigmaX: 10.0, sigmaY: 10.0 ),
               child: Container(
-                height: 180.0,
-                decoration: BoxDecoration(
-                  color: Color.fromRGBO(62, 66, 107, 0.7),
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                    SizedBox( height: 5.0 ),
-                    Center(
-                    child:new Container(
-
-                             
-                             
-                             
-                    child:
-                      new CircleAvatar(
-                        backgroundImage: AssetImage(ruta),
-                          radius: 75.0,
-                        
-                            child: new Container(
-                              padding: const EdgeInsets.all(0.0),
-                                child: new Text(texto),
-                          ),
+                    Container(
+                      child:Image.asset(ruta)
                       ),
-                           
-                         
-                        
-                           ),
-                    ),
-                  ],
+                      Text( texto , style: TextStyle( color: color,fontSize: 15, fontWeight: FontWeight.bold)),
+
+                  ]
                 ),
               ),
             ),

@@ -131,14 +131,14 @@ class _MyHomePageState extends State<Order> {
                     FunctionalButton(
                       icon: Icons.arrow_left,
                       title: "",
-                      onPressed: () {},
+                      onPressed: () => Navigator.pushNamed(context, 'services'),
                     ),
                     PriceWidget(
-                      price: "0.00",
+                      price: "15.000",
                       onPressed: () {},
                     ),
                     ProfileWidget(
-                      onPressed: () => Navigator.pushNamed(context, 'notifications'),),
+                      onPressed: () => Navigator.pushNamed(context, 'notificaciones'),),
                   ],
                 ),
               ),
@@ -167,7 +167,7 @@ class _MyHomePageState extends State<Order> {
     );
   }
 }
-}
+
 
 class FunctionalButton extends StatefulWidget {
   final String title;
@@ -308,20 +308,17 @@ class _GoButtonState extends State<GoButton> {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Container(
-          decoration: BoxDecoration(
-              border: Border.all(color: Colors.blue, width: 10),
-              shape: BoxShape.circle),
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.white, width: 2),
-              shape: BoxShape.circle,
-            ),
+        
             child: RawMaterialButton(
               onPressed: widget.onPressed,
               splashColor: Colors.black,
-              fillColor: Colors.blue,
+              fillColor: Colors.greenAccent,
               elevation: 15.0,
-              shape: CircleBorder(),
+              shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(7.0)),
+              
+            
+            
               child: Padding(
                   padding: EdgeInsets.all(20.0),
                   child: Text(widget.title,
@@ -329,9 +326,10 @@ class _GoButtonState extends State<GoButton> {
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 28))),
+                          
             ),
           ),
-        ),
+        
       ],
     );
   }

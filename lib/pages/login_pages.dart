@@ -17,7 +17,7 @@ class  Login extends StatelessWidget {
               image: AssetImage('assets/images/imag.jpg'),
               fit: BoxFit.fitWidth,
               alignment: Alignment.topCenter,
-              colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.8), BlendMode.dstATop)
+            //  colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.8), BlendMode.dstATop)
             )
           ),
         ),
@@ -153,7 +153,7 @@ Widget _crearBoton(LoginBloc bloc){
     builder: (BuildContext context, AsyncSnapshot snapshot){
       return RaisedButton(
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 150.0, vertical: 20.0),
+          padding: EdgeInsets.symmetric(horizontal: 90.0, vertical: 20.0),
           child: Text('Ingresar'),
         ),
         shape: RoundedRectangleBorder(

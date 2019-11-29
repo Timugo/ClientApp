@@ -43,15 +43,6 @@ class _NotificationsViewState extends State<NotificationsView> {
                   ),
                 ),
                 actions: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Text(
-                        "HELP",
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      ),
-                      Icon(Icons.help, size: 28, color: Colors.white),
-                    ],
-                  )
                 ],
                 flexibleSpace: FlexibleSpaceBar(
                   background: Stack(
@@ -68,25 +59,14 @@ class _NotificationsViewState extends State<NotificationsView> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
-                                FunctionalButton(
-                                  icon: Icons.attach_money,
-                                  title: "Earnings",
-                                  onPressed: () =>
-                                      Navigator.pushNamed(context, "/earnings"),
-                                ),
+                              
+                                
                                 ProfileButton(
-                                  onPressed: () =>
-                                      Navigator.pushNamed(context, "/profile"),
                                   icon: Icons.star,
-                                  title: "Profile",
+                                  title: "Jeisson",
                                   rating: "4.88",
                                 ),
-                                FunctionalButton(
-                                  icon: Icons.settings,
-                                  title: "Account",
-                                  onPressed: () =>
-                                      Navigator.pushNamed(context, "/account"),
-                                ),
+                              
                               ],
                             ),
                           ],
@@ -108,137 +88,17 @@ class _NotificationsViewState extends State<NotificationsView> {
                   Padding(
                     padding: EdgeInsets.all(20),
                     child: Text(
-                      "Notifications",
+                      "Descripcion",
                       style: TextStyle(fontSize: 28, color: Colors.black),
                     ),
                   ),
                   Divider(),
                   ListTile(
-                    title: Text("Explore these safety features",
-                        style: TextStyle(fontSize: 20)),
-                    subtitle: Container(
-                        margin: EdgeInsets.only(top: 10),
-                        child: Text("9/17/18, 3:54 PM",
-                            style: TextStyle(fontSize: 16))),
-                    leading: Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                          color: Colors.blue, shape: BoxShape.circle),
-                      child: Icon(
-                        Icons.lightbulb_outline,
-                        color: Colors.white,
-                        size: 40,
-                      ),
-                    ),
-                  ),
-                  Divider(),
-                  ListTile(
-                    title: Text("Free Instant Pay cashouts this week",
-                        style: TextStyle(fontSize: 20)),
-                    subtitle: Container(
-                        margin: EdgeInsets.only(top: 10),
-                        child: Text("9/17/18, 3:54 PM",
-                            style: TextStyle(fontSize: 16))),
-                    leading: Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                          color: Colors.blue, shape: BoxShape.circle),
-                      child: Icon(
-                        Icons.warning,
-                        color: Colors.white,
-                        size: 40,
-                      ),
-                    ),
-                  ),
-                  Divider(),
-                  ListTile(
-                    title: Text("Track your earnings",
-                        style: TextStyle(fontSize: 20)),
-                    subtitle: Container(
-                        margin: EdgeInsets.only(top: 10),
-                        child: Text("9/17/18, 3:54 PM",
-                            style: TextStyle(fontSize: 16))),
-                    leading: Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                          color: Colors.blue, shape: BoxShape.circle),
-                      child: Icon(
-                        Icons.lightbulb_outline,
-                        color: Colors.white,
-                        size: 40,
-                      ),
-                    ),
-                  ),
-                  Divider(),
-                  ListTile(
-                    title: Text("Follow the opportunity",
-                        style: TextStyle(fontSize: 20)),
-                    subtitle: Container(
-                        margin: EdgeInsets.only(top: 10),
-                        child: Text("9/17/18, 3:54 PM",
-                            style: TextStyle(fontSize: 16))),
-                    leading: Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                          color: Colors.blue, shape: BoxShape.circle),
-                      child: Icon(
-                        Icons.lightbulb_outline,
-                        color: Colors.white,
-                        size: 40,
-                      ),
-                    ),
-                  ),
-                  Divider(),
-                  ListTile(
-                    title: Text("Plan your day with ease the opportunity",
-                        style: TextStyle(fontSize: 20)),
-                    subtitle: Container(
-                        margin: EdgeInsets.only(top: 10),
-                        child: Text("9/17/18, 3:54 PM",
-                            style: TextStyle(fontSize: 16))),
-                    leading: Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                          color: Colors.blue, shape: BoxShape.circle),
-                      child: Icon(
-                        Icons.lightbulb_outline,
-                        color: Colors.white,
-                        size: 40,
-                      ),
-                    ),
-                  ),
-                  Divider(),
-                  ListTile(
-                    title: Text("Your earnings are processed Tuesday at noon",
-                        style: TextStyle(fontSize: 20)),
-                    subtitle: Container(
-                        margin: EdgeInsets.only(top: 10),
-                        child: Text("9/17/18, 3:54 PM",
-                            style: TextStyle(fontSize: 16))),
-                    leading: Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                          color: Colors.blue, shape: BoxShape.circle),
-                      child: Icon(
-                        Icons.attach_money,
-                        color: Colors.white,
-                        size: 40,
-                      ),
-                    ),
-                  ),
-                  Divider(),
-                  ListTile(
                     title:
-                        Text("Welcome, Márcio", style: TextStyle(fontSize: 20)),
+                        Text("Soy, Jeisson", style: TextStyle(fontSize: 20)),
                     subtitle: Container(
                         margin: EdgeInsets.only(top: 10),
-                        child: Text("9/17/18, 3:54 PM",
+                        child: Text("Me gusta trasquilar wey no mames",
                             style: TextStyle(fontSize: 16))),
                     leading: Container(
                       width: 60,
@@ -339,7 +199,7 @@ class _ProfileButtonState extends State<ProfileButton> {
             children: <Widget>[
               ClipOval(
                 child: Image.asset(
-                  "assets/images/user_profile.jpg",
+                  "assets/images/profile.png",
                   width: 100,
                   height: 100,
                   fit: BoxFit.cover,
