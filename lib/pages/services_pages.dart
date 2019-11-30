@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart' as prefix0;
 import 'package:timugo_client_app/pages/menu_widget.dart';
 import 'model.dart';
-import 'dart:math';
 import 'dart:ui';
 
-
-
-// Text('Hola '+model.firstName+'!', style: TextStyle(fontSize: 35)),
 
 class Service extends StatelessWidget {
   Model model;
@@ -15,8 +10,7 @@ class Service extends StatelessWidget {
   Service({this.model});
 
   @override
- 
-     Widget build(BuildContext context) {
+    Widget build(BuildContext context) {
     return Scaffold(
        appBar: AppBar(
 
@@ -30,20 +24,16 @@ class Service extends StatelessWidget {
            _profile(context),
           SingleChildScrollView(
             child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                
                 
 
               children: <Widget>[
-                
-                SizedBox(height: 30.0),
-                Align(alignment: Alignment.centerLeft,child: Text('Hola!', style: TextStyle( color: Colors.black, fontSize: 35.0,fontWeight:FontWeight.w300 ),textAlign: TextAlign.center,),),
-                SizedBox(height: 0.0),
-                Align(alignment: Alignment.centerLeft,child: Text('Anderson', style: TextStyle( color: Colors.black, fontSize: 35.0 , fontWeight: FontWeight.bold ),),),
-                SizedBox( height: 50.0 ),
-                Text('Servicios', style: TextStyle( color: Colors.black, fontSize: 18.0, fontWeight: FontWeight.w800 ),),
-                 SizedBox( height: 10.0 ),
-                new Container(height: 1,  color: Colors.black,
-                        margin: const EdgeInsets.only(left: 10.0, right: 10.0),),
+              
+
+               
+                _titles(),
+              
                 _botonesRedondeados(context)
               ],
             ),
@@ -81,6 +71,30 @@ class Service extends StatelessWidget {
       )
     );
   }
+
+
+  Widget  _titles(){
+
+    return Container(
+      
+      
+      padding: new EdgeInsets.all(15.0),
+      child: Column(
+         children: <Widget>[
+
+            SizedBox(height: 30.0),
+            Align(alignment: Alignment.centerLeft,child: Text('Hola!', style: TextStyle( color: Colors.black, fontSize: 35.0,fontWeight:FontWeight.w300 )),),
+            SizedBox(height: 5.0),
+            Align(alignment: Alignment.centerLeft,child: Text('Anderson', style: TextStyle( color: Colors.black, fontSize: 35.0 , fontWeight: FontWeight.bold ),),),
+            SizedBox( height: 50.0 ),
+            Text('Servicios', style: TextStyle( color: Colors.black, fontSize: 30.0, fontWeight: FontWeight.w800 ),),
+              SizedBox( height: 10.0 ),
+            new Container(height: 1,  color: Colors.black,
+                    margin: const EdgeInsets.only(left: 10.0, right: 10.0),),
+         ]
+      )
+    );
+    }
 
   Widget _bottomNavigationBar(BuildContext context) {
 
@@ -138,49 +152,76 @@ class Service extends StatelessWidget {
         
         TableRow(
           children: [
-                        _crearBotonRedondeado( Colors.black,'assets/images/barber.png', '  Corte de Cabello',context,'order'),
-                        _crearBotonRedondeado( Colors.black, 'assets/images/barber.png', 'Depilacion',context,null),
-                      ]
-                    ),
-                    TableRow(
-                      children: [
-                        _crearBotonRedondeado( Colors.black, 'assets/images/piel.png', 'mascarillas',context,null),
-                        _crearBotonRedondeado( Colors.black, 'assets/images/piel.png', 'bbe',context,null),
-                      ]
-                    ),
-                   
-                  ],
-                );
-            
-              }
+            _crearBotonRedondeado( Colors.black,'assets/images/barb.jpg', '  Corte de Cabello',context,'order',1.0),
+            _crearBotonRedondeado( Colors.black, 'assets/images/barba2.jpg', 'corte solo Barba',context,null,0.5),
+          ]
+            ),
+        TableRow(
+          children: [
+            _crearBotonRedondeado( Colors.black, 'assets/images/piel.png', 'mascarillas',context,null,0.5),
+            _crearBotonRedondeado( Colors.black, 'assets/images/convenios.jpg', 'Aliados',context,null,0.5),
+          ]
+        ),
+      ],
+    );
+  }
             
             
-    Widget _crearBotonRedondeado( Color color, String ruta, String texto,BuildContext context,String page) {
+    Widget _crearBotonRedondeado( Color color, String ruta, String texto,BuildContext context,String page,double opacidad) {
 
                   return Padding(
       padding: EdgeInsets.all(15.0),
-        child: GestureDetector(
-          onTap: () => Navigator.pushNamed(context, page),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(30.0),
-            child: BackdropFilter(filter: ImageFilter.blur( sigmaX: 10.0, sigmaY: 10.0 ),
-              child: Container(
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      child:Image.asset(ruta)
-                      ),
-                      Text( texto , style: TextStyle( color: color,fontSize: 15, fontWeight: FontWeight.bold)),
+      child:Opacity(
+       opacity: opacidad,
 
-                  ]
+        
+
+        child: GestureDetector(
+          onTap:() {if (page == null) {
+             showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    content: new Text("Servicio proximamente"),
+                    actions: <Widget>[
+                      new FlatButton(
+                        child: new Text("Cerrar"),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  );
+                }
+              );
+              } else {
+                Navigator.pushNamed(context, page);
+                }
+                },
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(30.0),
+                  child: Container(
+                    height: 200.0,
+                    width: 200.0,
+                    child: Column(
+                      children: <Widget>[
+                      Container(
+                        
+                          height: 180.0,
+                          child:Image.asset(ruta)
+                      ),
+                      Text( texto , style: TextStyle( color: color,fontSize: 15, fontWeight: FontWeight.bold)
+                      ),
+      
+                      ]
+                  ),
                 ),
-              ),
-            ),
-          ),
-        ),
-    );
+             ),
+           ),
+      )
+     );
  
-  }
+    }
 }
 
 class FunctionalButton extends StatefulWidget {

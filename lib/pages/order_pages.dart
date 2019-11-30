@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+
+
 class Order extends StatefulWidget {
   Order({Key key, this.title}) : super(key: key);
 
@@ -13,6 +15,8 @@ class Order extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<Order> {
+
+  bool _visible = true;
   _MyHomePageState();
 
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
@@ -95,8 +99,14 @@ class _MyHomePageState extends State<Order> {
                     GoButton(
                       title: "Pedir",
                       
-                      onPressed: () {},
+                      onPressed: () {
+                      //   setState(() {
+                      //   _visible = !_visible;
+                      // });
+                      },
                     ),
+                  //  _findbarber(),
+                    
                    
                   ],
           ),
@@ -151,7 +161,27 @@ class _MyHomePageState extends State<Order> {
   }
 
 
+  Widget _findbarber(){
 
+    return Container(
+    
+        child: AnimatedOpacity(
+          // If the widget is visible, animate to 0.0 (invisible).
+          // If the widget is hidden, animate to 1.0 (fully visible).
+          opacity: _visible ? 1.0 : 0.0,
+          duration: Duration(seconds: 10),
+          // The green box must be a child of the AnimatedOpacity widget.
+          child: Container(
+            width: 200.0,
+            height: 200.0,
+            color: Colors.green,
+          ),
+        ),
+     );
+
+
+
+  }
 
   Widget _buildGoogleMap(BuildContext context) {
     return Container(
@@ -232,14 +262,20 @@ class _ProfileWidgetState extends State<ProfileWidget> {
           ],
         ),
         child: ClipOval(
-          child: Image.asset(
-            "assets/images/profile.png",
-            width: 60,
+          child: FadeInImage.assetNetwork(
+            fadeInCurve: Curves.bounceIn,
+            fadeInDuration: Duration(seconds: 1),
+            placeholder: 'assets/images/loaded.png',
+            image: 'https://icmi.or.id/assets/img/profile/profile.png',
+             width: 60,
             height: 60,
-            fit: BoxFit.cover,
+            fit: BoxFit.cover
+          ),
+        
+            
+      
           ),
         ),
-      ),
     );
   }
 }
