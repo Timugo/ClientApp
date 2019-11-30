@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:timugo_client_app/pages/Skeleton.dart';
 import 'package:timugo_client_app/pages/login_pages.dart';
 import 'package:timugo_client_app/pages/notifications.dart';
 import 'package:timugo_client_app/pages/order_pages.dart';
@@ -17,13 +18,15 @@ class MyApp extends StatelessWidget {
     return Provider(
       child:MaterialApp(
         debugShowCheckedModeBanner: false,
-        initialRoute: 'login',
+        initialRoute: 'services',
         routes: {
           'login':(BuildContext context ) => Login(),
           'register':(BuildContext context ) => Register(),
           'services':(BuildContext context ) => Service(),
           'order': (BuildContext context ) => Order(),
-          'notificaciones': (BuildContext context ) => NotificationsPage()
+          'notificaciones': (BuildContext context ) => NotificationsPage(),
+          'skeleton': (BuildContext context ) => Skeleton()
+
         },
         title: 'Material App',
         theme: ThemeData(
