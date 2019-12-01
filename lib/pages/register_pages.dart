@@ -227,7 +227,7 @@ class _TestFormState extends State<TestForm> {
                    context,
                   
                    MaterialPageRoute(
-                 builder: (context) => Service(model: this.model)));
+                 builder: (context) => Service()));
                  //    builder: (context) => Login()));
 
 

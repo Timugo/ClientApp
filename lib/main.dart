@@ -7,6 +7,7 @@ import 'package:timugo_client_app/pages/notifications.dart';
 import 'package:timugo_client_app/pages/order_pages.dart';
 import 'package:timugo_client_app/pages/register_pages.dart';
 import 'package:timugo_client_app/pages/services_pages.dart';
+import 'package:timugo_client_app/pages/socket_pages.dart';
 import 'package:timugo_client_app/providers/providers.dart';
 
  
@@ -18,14 +19,15 @@ class MyApp extends StatelessWidget {
     return Provider(
       child:MaterialApp(
         debugShowCheckedModeBanner: false,
-        initialRoute: 'services',
+        initialRoute: 'login',
         routes: {
           'login':(BuildContext context ) => Login(),
           'register':(BuildContext context ) => Register(),
           'services':(BuildContext context ) => Service(),
           'order': (BuildContext context ) => Order(),
           'notificaciones': (BuildContext context ) => NotificationsPage(),
-          'skeleton': (BuildContext context ) => Skeleton()
+        // 'socket'  :  (BuildContext context ) => Socket(),
+//'skeleton': (BuildContext context ) => Skeleton()
 
         },
         title: 'Material App',

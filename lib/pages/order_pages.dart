@@ -2,6 +2,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:socket_io/socket_io.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 
 
@@ -369,4 +371,17 @@ class _GoButtonState extends State<GoButton> {
       ],
     );
   }
+}
+
+
+main(){
+
+   IO.Socket socket = IO.io('http://167.172.216.181:3000');
+    socket.on('connect', (_) {
+     print('connect');
+    // socket.emit('msg', 'test');
+    });
+    socket.on('event', (data) => print(data));
+    socket.on('disconnect', (_) => print('disconnect'));
+    socket.on('fromServer', (_) => print(_));
 }
