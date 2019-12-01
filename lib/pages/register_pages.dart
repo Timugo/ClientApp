@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:timugo_client_app/models/dataClient_models.dart';
 import 'package:timugo_client_app/providers/register_provider.dart';
+import 'package:timugo_client_app/providers/sqlite_providers.dart';
 import 'package:validators/validators.dart' as validator;
 import 'model.dart';
 import 'services_pages.dart';
@@ -219,10 +221,18 @@ class _TestFormState extends State<TestForm> {
             if (_formKey.currentState.validate()) {
               _formKey.currentState.save();
               var res= registeProvider.createUser(model);
-              res.then((response){
+              res.then((response) async {
                 if (response['response'] == 2){
-
-
+                  await ClientDB.db.addClient(new DataClient(
+                    id: response['content']['user']['id'],
+                    name: response['content']['user']['name'],
+                    lastName: response['content']['user']['lastName'],
+                    address: response['content']['user']['address'],
+                    email: response['content']['user']['email'],
+                    birthdate: response['content']['user']['birthdate'],
+                    phone: response['content']['user']['phone'],
+                    token:response['content']['user']['token']
+                  ));
                    Navigator.push(
                    context,
                   

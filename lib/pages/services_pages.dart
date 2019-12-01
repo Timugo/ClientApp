@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:timugo_client_app/models/dataClient_models.dart';
 import 'package:timugo_client_app/pages/menu_widget.dart';
+import 'package:timugo_client_app/providers/sqlite_providers.dart';
 
-
-//Widget
-import 'model.dart';
 class Service extends StatelessWidget {
-  Model model;
-
-  Service({this.model});
 
   @override
     Widget build(BuildContext context) {
@@ -19,27 +15,27 @@ class Service extends StatelessWidget {
       ),
 
       drawer: MenuWidget(),
-      body: Stack(
-        children: <Widget>[
-           _profile(context),
-          SingleChildScrollView(
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                
-                
-
+      body:FutureBuilder<List<DataClient>>(
+        future: ClientDB.db.getClient(),
+        builder: (BuildContext context, AsyncSnapshot<List<DataClient>> snapshot) {
+          if(snapshot.hasData) {
+            DataClient item = snapshot.data[0];
+            return Stack (
               children: <Widget>[
-              
-
-               
-                _titles(),
-              
-                _botonesRedondeados(context)
+                _profile(context),
+                SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      _titles(item),                
+                      _botonesRedondeados(context)
+                    ],
+                  ),
+                )
               ],
-            ),
-          )
-
-        ],
+            );
+          }
+        }
       ),
       bottomNavigationBar: _bottomNavigationBar(context)
     );
@@ -72,8 +68,7 @@ class Service extends StatelessWidget {
     );
   }
 
-
-  Widget  _titles(){
+  Widget  _titles(DataClient item){
 
     return Container(
       
@@ -83,9 +78,9 @@ class Service extends StatelessWidget {
          children: <Widget>[
 
             SizedBox(height: 30.0),
-            Align(alignment: Alignment.centerLeft,child: Text('Hola!', style: TextStyle( color: Colors.black, fontSize: 35.0,fontWeight:FontWeight.w300 )),),
+            Align(alignment: Alignment.centerLeft,child: Text('Hola!', style: TextStyle( color: Colors.black, fontSize: 40.0,fontWeight:FontWeight.w300 )),),
             SizedBox(height: 5.0),
-            Align(alignment: Alignment.centerLeft,child: Text('Anderson', style: TextStyle( color: Colors.black, fontSize: 35.0 , fontWeight: FontWeight.bold ),),),
+            Align(alignment: Alignment.centerLeft,child: Text(item.name, style: TextStyle( color: Colors.black, fontSize: 55.0 , fontWeight: FontWeight.bold ),),),
             SizedBox( height: 50.0 ),
             Text('Servicios', style: TextStyle( color: Colors.black, fontSize: 30.0, fontWeight: FontWeight.w800 ),),
               SizedBox( height: 10.0 ),

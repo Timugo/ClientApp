@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:timugo_client_app/models/dataClient_models.dart';
 import 'package:timugo_client_app/pages/services_pages.dart';
 import 'package:timugo_client_app/providers/login_providers.dart';
 import 'package:timugo_client_app/providers/providers.dart';
+import 'package:timugo_client_app/providers/sqlite_providers.dart';
 
 class  Login extends StatelessWidget {
   @override
@@ -175,8 +177,18 @@ _login(LoginBloc bloc, BuildContext context) {
 
   final loginProvider = new LoginProvider();
   final response = loginProvider.login(bloc.email, bloc.password);
-  response.then((res){
+  response.then((res) async {
     if(res['response'] == 2){
+      await ClientDB.db.addClient(new DataClient(
+        id: res['content']['user']['id'],
+        name: res['content']['user']['name'],
+        lastName: res['content']['user']['lastName'],
+        address: res['content']['user']['address'],
+        email: res['content']['user']['email'],
+        birthdate: res['content']['user']['birthdate'],
+        phone: res['content']['user']['phone'],
+        token:res['content']['user']['token']
+      ));
       Navigator.push(context,MaterialPageRoute(builder: (context) => Service()));
     } else {
       showDialog(
