@@ -4,9 +4,6 @@ import 'package:timugo_client_app/pages/menu_widget.dart';
 
 //Widget
 import 'model.dart';
-
-
-
 class Service extends StatelessWidget {
   Model model;
 
