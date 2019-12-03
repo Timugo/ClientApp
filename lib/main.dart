@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:timugo_client_app/pages/location_pages.dart';
 import 'package:timugo_client_app/pages/login_pages.dart';
 import 'package:timugo_client_app/pages/notifications.dart';
 import 'package:timugo_client_app/pages/order_pages.dart';
@@ -26,6 +27,9 @@ class MyApp extends StatelessWidget {
           'order': (BuildContext context ) => Order(),
           'notificaciones': (BuildContext context ) => NotificationsPage(),
           'socket'  :  (BuildContext context ) => Socket(),
+          'location'  :  (BuildContext context ) => Location(),
+
+
 //'skeleton': (BuildContext context ) => Skeleton()
 
         },

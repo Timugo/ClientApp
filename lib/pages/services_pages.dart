@@ -148,7 +148,7 @@ class Service extends StatelessWidget {
         TableRow(
           children: [
             _crearBotonRedondeado( Colors.black,'assets/images/barb.jpg', '  Corte de Cabello',context,'order',1.0),
-            _crearBotonRedondeado( Colors.black, 'assets/images/barba2.jpg', 'corte solo Barba',context,'skeleton',0.5),
+            _crearBotonRedondeado( Colors.black, 'assets/images/barba2.jpg', 'corte solo Barba',context,null,0.5),
           ]
             ),
         TableRow(

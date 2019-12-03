@@ -16,7 +16,7 @@ class Order extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<Order> {
-
+  
   bool _visible = true;
   _MyHomePageState();
 
@@ -77,9 +77,10 @@ class _MyHomePageState extends State<Order> {
 
   @override
   void initState() {
-    //_mapController.mar();
+    //_mapController.mar();s
     super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -100,21 +101,10 @@ class _MyHomePageState extends State<Order> {
                     GoButton(
                       title: "Pedir",
                       
-                     onPressed: () {
+                     onPressed: () => Navigator.pushNamed(context, 'location'),),
 
-                //         Navigator.push(
-                //    context,
-                  
-                //    MaterialPageRoute(
-                //  builder: (context) => Socket()));
-                      //   setState(() {
-                      //   _visible = !_visible;
-                      // });
-                      },
-                    ),
-                    
-                  //   . _findbarber(),
-                    
+                     
+  
                    
                   ],
           ),

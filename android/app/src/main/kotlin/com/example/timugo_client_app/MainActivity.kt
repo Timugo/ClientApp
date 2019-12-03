@@ -1,4 +1,4 @@
-package com.example.timugo_client_app
+package com.timugo.timugo_client_app
 
 import android.os.Bundle
 
