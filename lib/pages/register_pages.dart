@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:timugo_client_app/models/dataClient_models.dart';
 import 'package:timugo_client_app/providers/register_provider.dart';
+import 'package:timugo_client_app/providers/sqlite_providers.dart';
 import 'package:validators/validators.dart' as validator;
 import 'model.dart';
 import 'services_pages.dart';
@@ -26,17 +28,11 @@ class  Register extends StatelessWidget {
           children: <Widget>[
             Container(
              child: _fondoApp(),
-
-              
             ),
             Center(
-            
-            child:Container(
-
-              
-             child:TestForm(),
-
-            )
+              child:Container(
+                child:TestForm(),
+                )
             )
 
           ],
@@ -68,6 +64,10 @@ class _TestFormState extends State<TestForm> {
       child: SingleChildScrollView(
       child: Column(
         children: <Widget>[
+          Text('Registrate', textAlign: TextAlign.left,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 40)
+                    ),
           Container(
             alignment: Alignment.topCenter,
             child: Row(
@@ -245,15 +245,23 @@ class _TestFormState extends State<TestForm> {
             if (_formKey.currentState.validate()) {
               _formKey.currentState.save();
               var res= registeProvider.createUser(model);
-              res.then((response){
+              res.then((response) async {
                 if (response['response'] == 2){
-
-
+                  await ClientDB.db.addClient(new DataClient(
+                    id: response['content']['user']['id'],
+                    name: response['content']['user']['name'],
+                    lastName: response['content']['user']['lastName'],
+                    address: response['content']['user']['address'],
+                    email: response['content']['user']['email'],
+                    birthdate: response['content']['user']['birthdate'],
+                    phone: response['content']['user']['phone'],
+                    token:response['content']['user']['token']
+                  ));
                    Navigator.push(
                    context,
                   
                    MaterialPageRoute(
-                 builder: (context) => Service(model: this.model)));
+                 builder: (context) => Service()));
                  //    builder: (context) => Login()));
 
 

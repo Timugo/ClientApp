@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:timugo_client_app/models/dataClient_models.dart';
 import 'package:timugo_client_app/pages/services_pages.dart';
 import 'package:timugo_client_app/providers/login_providers.dart';
 import 'package:timugo_client_app/providers/providers.dart';
+import 'package:timugo_client_app/providers/sqlite_providers.dart';
 
 class  Login extends StatelessWidget {
   @override
@@ -17,7 +19,7 @@ class  Login extends StatelessWidget {
               image: AssetImage('assets/images/imag.jpg'),
               fit: BoxFit.fitWidth,
               alignment: Alignment.topCenter,
-              colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.8), BlendMode.dstATop)
+            //  colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.8), BlendMode.dstATop)
             )
           ),
         ),
@@ -94,9 +96,9 @@ Widget _crearEmail(LoginBloc bloc) {
             // counterText: snapshot.data,
             errorText: snapshot.error,
              enabledBorder: const OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.white, width: 0.0),
-                     borderRadius: const BorderRadius.all(
-                        const Radius.circular(30.0),
+                borderSide: const BorderSide(color: Colors.white, width: 0.0),
+                borderRadius: const BorderRadius.all(
+                  const Radius.circular(30.0),
                       ),),
                     border: new OutlineInputBorder(
                     borderRadius: const BorderRadius.all(
@@ -116,10 +118,8 @@ Widget _crearPassword(LoginBloc bloc) {
   return StreamBuilder(
     stream: bloc.passwordStream,
     builder: (BuildContext context, AsyncSnapshot snapshot){
-      
       return Container(
         padding: EdgeInsets.symmetric(horizontal: 40.0),
-
         child: TextFormField(
           obscureText: true,
           decoration: InputDecoration(
@@ -127,19 +127,19 @@ Widget _crearPassword(LoginBloc bloc) {
             labelText: 'Contraseña',
             // counterText: snapshot.data,
             errorText: snapshot.error,
-
-             enabledBorder: const OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.white, width: 0.0),
-                     borderRadius: const BorderRadius.all(
-                        const Radius.circular(30.0),
-                      ),),
-                    border: new OutlineInputBorder(
-                    borderRadius: const BorderRadius.all(
-                        const Radius.circular(30.0),
-                      ),
-              )
-          ),
-          onChanged: ( value ) => bloc.changePassword(value),
+            enabledBorder: const OutlineInputBorder(
+                borderSide: const BorderSide(color: Colors.white, width: 0.0),
+                borderRadius: const BorderRadius.all(
+                const Radius.circular(30.0),
+                ),
+            ),
+            border: new OutlineInputBorder(
+              borderRadius: const BorderRadius.all(
+                const Radius.circular(30.0),
+              ),
+            )
+        ),
+        onChanged: ( value ) => bloc.changePassword(value),
         ),
       );
     },
@@ -153,7 +153,7 @@ Widget _crearBoton(LoginBloc bloc){
     builder: (BuildContext context, AsyncSnapshot snapshot){
       return RaisedButton(
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 150.0, vertical: 20.0),
+          padding: EdgeInsets.symmetric(horizontal: 90.0, vertical: 20.0),
           child: Text('Ingresar'),
         ),
         shape: RoundedRectangleBorder(
@@ -165,8 +165,7 @@ Widget _crearBoton(LoginBloc bloc){
         onPressed: snapshot.hasData ? () => _login(bloc, context) : null,
       );
     },
-  );
-  
+  ); 
 }
 
 _login(LoginBloc bloc, BuildContext context) {
@@ -178,15 +177,19 @@ _login(LoginBloc bloc, BuildContext context) {
 
   final loginProvider = new LoginProvider();
   final response = loginProvider.login(bloc.email, bloc.password);
-  response.then((res){
+  response.then((res) async {
     if(res['response'] == 2){
-      Navigator.push(
-        context,
-      
-        MaterialPageRoute(
-      //  builder: (context) => Service(model: this.model)));
-          builder: (context) => Service()));
-      // Navigator.pushNamed(context, 'services');
+      await ClientDB.db.addClient(new DataClient(
+        id: res['content']['user']['id'],
+        name: res['content']['user']['name'],
+        lastName: res['content']['user']['lastName'],
+        address: res['content']['user']['address'],
+        email: res['content']['user']['email'],
+        birthdate: res['content']['user']['birthdate'],
+        phone: res['content']['user']['phone'],
+        token:res['content']['user']['token']
+      ));
+      Navigator.push(context,MaterialPageRoute(builder: (context) => Service()));
     } else {
       showDialog(
         context: context,
@@ -207,42 +210,4 @@ _login(LoginBloc bloc, BuildContext context) {
       );
     }
   });
-
 }
-
-// Widget _crearFondo(BuildContext context){
-
-//   final size = MediaQuery.of(context).size;
-
-//   final fondoMorado = Container(
-//     height: size.height * 0.4, //40% de la pantalla
-//     width: double.infinity, //Ancho de la pantalla
-//     decoration: BoxDecoration(
-//       gradient: LinearGradient(
-//         colors: <Color> [
-//           Color.fromRGBO(63, 63, 156, 1.0),
-//           Color.fromRGBO(90, 70, 178, 1.0)
-//         ]
-//       )
-//     ),
-//   );
-
-//   return Stack(
-//     children: <Widget>[
-//       fondoMorado,
-
-//       Container(
-//         padding: EdgeInsets.only(top:50.0),
-//         child: Column(
-//           children: <Widget>[
-//             Icon(Icons.person_pin_circle, color: Colors.white, size: 100.0),
-//             SizedBox(height: 10.0, width: double.infinity),
-//             Text('TimuGO', style: TextStyle(color: Colors.white, fontSize: 25.0))
-
-//           ],
-//         )
-//       )
-//     ],
-//   );
-
-// }

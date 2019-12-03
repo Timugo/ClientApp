@@ -4,7 +4,7 @@ import 'package:timugo_client_app/pages/model.dart';
 
 class RegisterProvider{
 
-  final    String url = 'http://167.99.99.86:3000/addUser';
+  final    String url = 'http://167.99.99.86/addUser';
   
 
    Future <Map<String,dynamic>>  createUser(model) async{

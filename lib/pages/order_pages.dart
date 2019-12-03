@@ -2,6 +2,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:timugo_client_app/pages/socket_pages.dart';
+
+
 
 class Order extends StatefulWidget {
   Order({Key key, this.title}) : super(key: key);
@@ -13,6 +16,8 @@ class Order extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<Order> {
+  
+  bool _visible = true;
   _MyHomePageState();
 
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
@@ -72,9 +77,10 @@ class _MyHomePageState extends State<Order> {
 
   @override
   void initState() {
-    //_mapController.mar();
+    //_mapController.mar();s
     super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -95,8 +101,10 @@ class _MyHomePageState extends State<Order> {
                     GoButton(
                       title: "Pedir",
                       
-                      onPressed: () {},
-                    ),
+                     onPressed: () => Navigator.pushNamed(context, 'location'),),
+
+                     
+  
                    
                   ],
           ),
@@ -131,14 +139,14 @@ class _MyHomePageState extends State<Order> {
                     FunctionalButton(
                       icon: Icons.arrow_left,
                       title: "",
-                      onPressed: () {},
+                      onPressed: () => Navigator.pushNamed(context, 'services'),
                     ),
                     PriceWidget(
-                      price: "0.00",
+                      price: "15.000",
                       onPressed: () {},
                     ),
                     ProfileWidget(
-                      onPressed: () => Navigator.pushNamed(context, 'notifications'),),
+                      onPressed: () => Navigator.pushNamed(context, 'notificaciones'),),
                   ],
                 ),
               ),
@@ -151,7 +159,27 @@ class _MyHomePageState extends State<Order> {
   }
 
 
+  Widget _findbarber(){
 
+    return Container(
+    
+        child: AnimatedOpacity(
+          // If the widget is visible, animate to 0.0 (invisible).
+          // If the widget is hidden, animate to 1.0 (fully visible).
+          opacity: _visible ? 1.0 : 0.0,
+          duration: Duration(seconds: 10),
+          // The green box must be a child of the AnimatedOpacity widget.
+          child: Container(
+            width: 200.0,
+            height: 200.0,
+            color: Colors.green,
+          ),
+        ),
+     );
+
+
+
+  }
 
   Widget _buildGoogleMap(BuildContext context) {
     return Container(
@@ -170,7 +198,7 @@ class _MyHomePageState extends State<Order> {
 }
 =======
 }
-}
+
 
 class FunctionalButton extends StatefulWidget {
   final String title;
@@ -235,14 +263,20 @@ class _ProfileWidgetState extends State<ProfileWidget> {
           ],
         ),
         child: ClipOval(
-          child: Image.asset(
-            "assets/images/profile.png",
-            width: 60,
+          child: FadeInImage.assetNetwork(
+            fadeInCurve: Curves.bounceIn,
+            fadeInDuration: Duration(seconds: 1),
+            placeholder: 'assets/images/loaded.png',
+            image: 'https://icmi.or.id/assets/img/profile/profile.png',
+             width: 60,
             height: 60,
-            fit: BoxFit.cover,
+            fit: BoxFit.cover
+          ),
+        
+            
+      
           ),
         ),
-      ),
     );
   }
 }
@@ -311,20 +345,17 @@ class _GoButtonState extends State<GoButton> {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Container(
-          decoration: BoxDecoration(
-              border: Border.all(color: Colors.blue, width: 10),
-              shape: BoxShape.circle),
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.white, width: 2),
-              shape: BoxShape.circle,
-            ),
+        
             child: RawMaterialButton(
               onPressed: widget.onPressed,
               splashColor: Colors.black,
-              fillColor: Colors.blue,
+              fillColor: Colors.greenAccent,
               elevation: 15.0,
-              shape: CircleBorder(),
+              shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(7.0)),
+              
+            
+            
               child: Padding(
                   padding: EdgeInsets.all(20.0),
                   child: Text(widget.title,
@@ -332,9 +363,10 @@ class _GoButtonState extends State<GoButton> {
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 28))),
+                          
             ),
           ),
-        ),
+        
       ],
     );
   }

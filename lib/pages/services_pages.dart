@@ -1,63 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:timugo_client_app/models/dataClient_models.dart';
 import 'package:timugo_client_app/pages/menu_widget.dart';
-import 'model.dart';
-import 'dart:math';
-import 'dart:ui';
-
-
-
-// Text('Hola '+model.firstName+'!', style: TextStyle(fontSize: 35)),
+import 'package:timugo_client_app/providers/sqlite_providers.dart';
 
 class Service extends StatelessWidget {
-  Model model;
-
-  Service({this.model});
 
   @override
- 
-     Widget build(BuildContext context) {
+    Widget build(BuildContext context) {
     return Scaffold(
        appBar: AppBar(
-        title: Text('Preferencias de Usuario'),
-      ),
-      drawer: MenuWidget(),
-      body: Stack(
-        children: <Widget>[
-           _profile(context),
-          SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                _titulos(),
-                _botonesRedondeados(context)
-              ],
-            ),
-          )
 
-        ],
+      iconTheme: new IconThemeData(color: Colors.black),
+        backgroundColor: Colors.white,
+      ),
+
+      drawer: MenuWidget(),
+      body:FutureBuilder<List<DataClient>>(
+        future: ClientDB.db.getClient(),
+        builder: (BuildContext context, AsyncSnapshot<List<DataClient>> snapshot) {
+          if(snapshot.hasData) {
+            DataClient item = snapshot.data[0];
+            return Stack (
+              children: <Widget>[
+                _profile(context),
+                SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      _titles(item),                
+                      _botonesRedondeados(context)
+                    ],
+                  ),
+                )
+              ],
+            );
+          }
+        }
       ),
       bottomNavigationBar: _bottomNavigationBar(context)
     );
   }
 
 
-  Widget _titulos() {
-
-    return SafeArea(
-      child: Container(
-        padding: EdgeInsets.all(80.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            // Text('Hola '+model.firstName+'!', style: TextStyle( color: Colors.white, fontSize: 35.0, fontWeight: FontWeight.bold )),
-            Text('Hola!', style: TextStyle( color: Colors.black, fontSize: 35.0, fontWeight: FontWeight.bold )),
-            SizedBox( height: 10.0 ),
-            Text('Disfruta lo mejor  de Timugo.', style: TextStyle( color: Colors.black, fontSize: 15.0 )),
-          ],
-        ),
-      ),
-    );
-
-  }
 
   Widget _profile(BuildContext context){
 
@@ -74,18 +58,6 @@ class Service extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    FunctionalButton(
-                      icon: Icons.arrow_left,
-                      title: "",
-                      onPressed: () {},
-                    ),
-                    PriceWidget(
-                      price: "0.00",
-                      onPressed: () {},
-                    ),
-                    ProfileWidget(onPressed: () => Navigator.pushNamed(context, '/notifications'),),
-                  ],
                 ),
               ),
             ),
@@ -96,33 +68,74 @@ class Service extends StatelessWidget {
     );
   }
 
+  Widget  _titles(DataClient item){
+
+    return Container(
+      
+      
+      padding: new EdgeInsets.all(15.0),
+      child: Column(
+         children: <Widget>[
+
+            SizedBox(height: 30.0),
+            Align(alignment: Alignment.centerLeft,child: Text('Hola!', style: TextStyle( color: Colors.black, fontSize: 40.0,fontWeight:FontWeight.w300 )),),
+            SizedBox(height: 5.0),
+            Align(alignment: Alignment.centerLeft,child: Text(item.name, style: TextStyle( color: Colors.black, fontSize: 55.0 , fontWeight: FontWeight.bold ),),),
+            SizedBox( height: 50.0 ),
+            Text('Servicios', style: TextStyle( color: Colors.black, fontSize: 30.0, fontWeight: FontWeight.w800 ),),
+              SizedBox( height: 10.0 ),
+            new Container(height: 1,  color: Colors.black,
+                    margin: const EdgeInsets.only(left: 10.0, right: 10.0),),
+         ]
+      )
+    );
+    }
+
   Widget _bottomNavigationBar(BuildContext context) {
 
     return Theme(
       data: Theme.of(context).copyWith(
-        canvasColor: Color.fromRGBO(55, 57, 84, 1.0),
-        primaryColor: Colors.pinkAccent,
+        canvasColor: Color.fromRGBO(255, 255, 255, 1.0),
+        primaryColor: Colors.blueAccent,
         textTheme: Theme.of(context).textTheme
-          .copyWith( caption: TextStyle( color: Color.fromRGBO(116, 117, 152, 1.0) ) )
+          .copyWith( caption: TextStyle( color: Color.fromRGBO(3, 3, 3, 1) ) )
       ),
       child: BottomNavigationBar(
         
         items: [
           BottomNavigationBarItem(
-            icon: Icon( Icons.calendar_today, size: 30.0 ),
+            icon: Icon( Icons.shopping_basket, size: 30.0 ),
+            title: Container(),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon( Icons.headset_mic, size: 30.0 ),
             title: Container()
           ),
           BottomNavigationBarItem(
-            icon: Icon( Icons.bubble_chart, size: 30.0 ),
-            title: Container()
-          ),
-          BottomNavigationBarItem(
-            icon: Icon( Icons.supervised_user_circle, size: 30.0 ),
+            icon: Icon( Icons.notifications, size: 30.0 ),
             title: Container()
           ),
         ],
+
+        onTap: (index) {
+          
+            
+            switch (index) {
+              case 0:
+               Navigator.pushNamed(context, 'services');
+               break;
+              case 1:
+                Navigator.pushNamed(context, 'services');
+                break;
+              case 2:
+                Navigator.pushNamed(context, 'services');
+                break;
+            }
+          }
       ),
-    );
+        
+      );
+    
 
   }
 
@@ -134,73 +147,76 @@ class Service extends StatelessWidget {
         
         TableRow(
           children: [
-                        _crearBotonRedondeado( Colors.black,'assets/images/barber.png', '  Corte de Cabello',context,'order'),
-                        _crearBotonRedondeado( Colors.black, 'assets/images/arthur-humeau-Twd3yaqA2NM-unsplash.jpg', 'Depilacion',context,null),
-                      ]
-                    ),
-                    TableRow(
-                      children: [
-                        _crearBotonRedondeado( Colors.black, 'assets/images/piel.png', 'mascarillas',context,null),
-                        _crearBotonRedondeado( Colors.black, 'assets/images/piel.png', 'bbe',context,null),
-                      ]
-                    ),
-                   
-                  ],
-                );
-            
-              }
+            _crearBotonRedondeado( Colors.black,'assets/images/barb.jpg', '  Corte de Cabello',context,'order',1.0),
+            _crearBotonRedondeado( Colors.black, 'assets/images/barba2.jpg', 'corte solo Barba',context,null,0.5),
+          ]
+            ),
+        TableRow(
+          children: [
+            _crearBotonRedondeado( Colors.black, 'assets/images/piel.png', 'mascarillas',context,null,0.5),
+            _crearBotonRedondeado( Colors.black, 'assets/images/convenios.jpg', 'Aliados',context,null,0.5),
+          ]
+        ),
+      ],
+    );
+  }
             
             
-    Widget _crearBotonRedondeado( Color color, String ruta, String texto,BuildContext context,String page) {
+    Widget _crearBotonRedondeado( Color color, String ruta, String texto,BuildContext context,String page,double opacidad) {
 
                   return Padding(
       padding: EdgeInsets.all(15.0),
-        child: GestureDetector(
-          onTap: () => Navigator.pushNamed(context, page),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20.0),
-            child: BackdropFilter(
-              filter: ImageFilter.blur( sigmaX: 10.0, sigmaY: 10.0 ),
-              child: Container(
-                height: 180.0,
-                decoration: BoxDecoration(
-                  color: Color.fromRGBO(62, 66, 107, 0.7),
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    SizedBox( height: 5.0 ),
-                    Center(
-                    child:new Container(
+      child:Opacity(
+       opacity: opacidad,
 
-                             
-                             
-                             
-                    child:
-                      new CircleAvatar(
-                        backgroundImage: AssetImage(ruta),
-                          radius: 75.0,
-                        
-                            child: new Container(
-                              padding: const EdgeInsets.all(0.0),
-                                child: new Text(texto),
-                          ),
+        
+
+        child: GestureDetector(
+          onTap:() {if (page == null) {
+             showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    content: new Text("Servicio proximamente"),
+                    actions: <Widget>[
+                      new FlatButton(
+                        child: new Text("Cerrar"),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
                       ),
-                           
-                         
+                    ],
+                  );
+                }
+              );
+              } else {
+                Navigator.pushNamed(context, page);
+                }
+                },
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(30.0),
+                  child: Container(
+                    height: 200.0,
+                    width: 200.0,
+                    child: Column(
+                      children: <Widget>[
+                      Container(
                         
-                           ),
-                    ),
-                  ],
+                          height: 180.0,
+                          child:Image.asset(ruta)
+                      ),
+                      Text( texto , style: TextStyle( color: color,fontSize: 15, fontWeight: FontWeight.bold)
+                      ),
+      
+                      ]
+                  ),
                 ),
-              ),
-            ),
-          ),
-        ),
-    );
+             ),
+           ),
+      )
+     );
  
-  }
+    }
 }
 
 class FunctionalButton extends StatefulWidget {
@@ -371,8 +387,6 @@ class _GoButtonState extends State<GoButton> {
     );
   }
 }
-
-
 
 
 

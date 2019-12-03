@@ -15,33 +15,22 @@ class MenuWidget extends StatelessWidget {
             child: Container(),
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/images/barber.png'),
+                image: AssetImage('assets/images/baner.jpg'),
                 fit: BoxFit.cover
               )
             ),
           ),
 
-          ListTile(
-            leading: Icon( Icons.pages, color: Colors.blue ),
-            title: Text('Home'),
-        //    onTap: ()=> Navigator.pushReplacementNamed(context, HomePage.routeName ) ,
-          ),
-
-          ListTile(
-            leading: Icon( Icons.party_mode, color: Colors.blue ),
-            title: Text('Party Mode'),
-            onTap: (){ },
-          ),
 
           ListTile(
             leading: Icon( Icons.people, color: Colors.blue ),
-            title: Text('People'),
-            onTap: (){ },
+            title: Text('Datos del perfil'),
+            onTap: () => Navigator.pushNamed(context,null),
           ),
 
           ListTile(
             leading: Icon( Icons.settings, color: Colors.blue ),
-            title: Text('Settings'),
+            title: Text('Contactanos'),
             onTap: (){
               // Navigator.pop(context);
              // Navigator.pushReplacementNamed(context, SettingsPage.routeName  );
