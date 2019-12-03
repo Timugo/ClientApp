@@ -78,7 +78,11 @@ class _TestFormState extends State<TestForm> {
                   width: halfMediaWidth,
                   child: MyTextFormField(
                     text: Icon(Icons.people),
+<<<<<<< HEAD
+                    hintText: 'First Name',
+=======
                     hintText: 'Nombre',
+>>>>>>> b8614098e69ba7b26c0f8b3fb396d7c9401880d0
                     
                     validator: (String value) {
                       if (value.isEmpty) {
@@ -113,7 +117,11 @@ class _TestFormState extends State<TestForm> {
           MyTextFormField(
           
 
+<<<<<<< HEAD
+            hintText: 'Email',
+=======
             hintText: 'Correo',
+>>>>>>> b8614098e69ba7b26c0f8b3fb396d7c9401880d0
             isEmail: true,
             text: Icon(Icons.email),
             validator: (String value) {
@@ -129,7 +137,11 @@ class _TestFormState extends State<TestForm> {
            MyTextFormField(
             text: Icon(Icons.person_pin_circle),
 
+<<<<<<< HEAD
+            hintText: 'Adresss',
+=======
             hintText: 'Direccion',
+>>>>>>> b8614098e69ba7b26c0f8b3fb396d7c9401880d0
             validator: (String value) {
               if ( value.length < 10){
                 return 'Digita direccion valida';
@@ -142,7 +154,11 @@ class _TestFormState extends State<TestForm> {
             ),
           MyTextFormField(
             text: Icon(Icons.phone_android),
+<<<<<<< HEAD
+            hintText: 'Phone',
+=======
             hintText: 'Celular',
+>>>>>>> b8614098e69ba7b26c0f8b3fb396d7c9401880d0
             validator: (String value) {
               if ( value.length < 10){
                 return 'Digita un numero valido';
@@ -155,7 +171,11 @@ class _TestFormState extends State<TestForm> {
           ),
            MyTextFormField(
             text: Icon(Icons.cake),
+<<<<<<< HEAD
+            hintText: 'birth',
+=======
             hintText: 'Cumpleaños',
+>>>>>>> b8614098e69ba7b26c0f8b3fb396d7c9401880d0
             validator: (String value) {
               if ( value.isEmpty ){
                 return 'Por favor digita una fecha valida';
@@ -167,7 +187,11 @@ class _TestFormState extends State<TestForm> {
             },
           ),
           MyTextFormField(
+<<<<<<< HEAD
+            hintText: 'Password',
+=======
             hintText: 'contraseña',
+>>>>>>> b8614098e69ba7b26c0f8b3fb396d7c9401880d0
             text: Icon(Icons.vpn_key),
             isPassword: true,
             validator: (String value) {

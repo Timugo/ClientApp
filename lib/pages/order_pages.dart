@@ -194,6 +194,9 @@ class _MyHomePageState extends State<Order> {
       ),
     );
   }
+<<<<<<< HEAD
+}
+=======
 }
 
 
@@ -368,3 +371,4 @@ class _GoButtonState extends State<GoButton> {
     );
   }
 }
+>>>>>>> b8614098e69ba7b26c0f8b3fb396d7c9401880d0

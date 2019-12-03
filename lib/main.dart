@@ -24,7 +24,9 @@ class MyApp extends StatelessWidget {
           'login':(BuildContext context ) => Login(),
           'register':(BuildContext context ) => Register(),
           'services':(BuildContext context ) => Service(),
+
           'order': (BuildContext context ) => Order(),
+
           'notificaciones': (BuildContext context ) => NotificationsPage(),
           'socket'  :  (BuildContext context ) => Socket(),
           'location'  :  (BuildContext context ) => Location(),
