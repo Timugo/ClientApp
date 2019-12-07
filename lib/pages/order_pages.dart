@@ -3,20 +3,21 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:timugo_client_app/pages/socket_pages.dart';
-
-
+import 'package:geolocator/geolocator.dart';
+import 'dart:math' show Random;
 
 class Order extends StatefulWidget {
   Order({Key key, this.title}) : super(key: key);
 
   final String title;
-
+  
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<Order> {
-  
+  final Map<String, Marker> _markers = {};
+
   bool _visible = true;
   _MyHomePageState();
 
@@ -71,9 +72,11 @@ class _MyHomePageState extends State<Order> {
   //GoogleMapController _mapController;
 
   static final CameraPosition _cameraPosition = CameraPosition(
-    target: LatLng(3.432621,-76.5061634),
+    target: LatLng(3.452621,-76.5061634),
     zoom: 17.0,
   );
+    var rnd = new Random(1).nextInt(10-1);
+
 
   @override
   void initState() {
@@ -84,6 +87,7 @@ class _MyHomePageState extends State<Order> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       bottomNavigationBar: Container(
         height: 300,
@@ -94,14 +98,17 @@ class _MyHomePageState extends State<Order> {
                 color: Colors.grey, blurRadius: 11, offset: Offset(3.0, 4.0))
           ],
         ),
-         child: Row(
+         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                  
+                    Text('Hay actualmente'+rnd.toString()+'Barberos en tu sector'),
                     GoButton(
                       title: "Pedir",
                       
-                     onPressed: () => Navigator.pushNamed(context, 'location'),),
+                    
+              onPressed: _getLocation,
+
+                     ),
 
                      
   
@@ -126,7 +133,10 @@ class _MyHomePageState extends State<Order> {
               _controller.complete(controller);
               //_initCameraPosition();
             },
+            markers: _markers.values.toSet(),
+
           ),
+          
           Positioned(
             child: Align(
               alignment: Alignment.topCenter,
@@ -187,14 +197,36 @@ class _MyHomePageState extends State<Order> {
       width: MediaQuery.of(context).size.width,
       child: GoogleMap(
         mapType: MapType.normal,
-        initialCameraPosition:  CameraPosition(target: LatLng(40.712776, -74.005974), zoom: 12),
+        initialCameraPosition:  CameraPosition(target: LatLng(50.712776, -74.005974), zoom: 12),
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
         },
+         
+         
+        
       ),
     );
   }
+    void _getLocation() async {
+    var currentLocation = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+
+    setState(() {
+      _markers.clear();
+      final marker = Marker(
+          markerId: MarkerId("curr_loc"),
+          position: LatLng(currentLocation.latitude, currentLocation.longitude),
+          infoWindow: InfoWindow(title: 'Mi Ubicacion'),
+      );
+      _markers["Current Location"] = marker;
+    });
+  }
+
+
+
+   
 }
+
 
 
 class FunctionalButton extends StatefulWidget {
@@ -346,7 +378,7 @@ class _GoButtonState extends State<GoButton> {
             child: RawMaterialButton(
               onPressed: widget.onPressed,
               splashColor: Colors.black,
-              fillColor: Colors.greenAccent,
+              fillColor: Color.fromRGBO(5,112, 219,1.0),
               elevation: 15.0,
               shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(7.0)),
@@ -367,4 +399,8 @@ class _GoButtonState extends State<GoButton> {
       ],
     );
   }
+
+
+  
 }
+

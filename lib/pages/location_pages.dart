@@ -42,6 +42,7 @@ class _HomePageState extends State<Location> {
         .then((Position position) {
       setState(() {
         _currentPosition = position;
+        
       });
     }).catchError((e) {
       print(e);

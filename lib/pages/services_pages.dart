@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:timugo_client_app/models/dataClient_models.dart';
 import 'package:timugo_client_app/pages/menu_widget.dart';
 import 'package:timugo_client_app/providers/sqlite_providers.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 class Service extends StatelessWidget {
 
   @override
@@ -125,10 +125,25 @@ class Service extends StatelessWidget {
                Navigator.pushNamed(context, 'services');
                break;
               case 1:
-                Navigator.pushNamed(context, 'services');
+                _launchURL();
                 break;
               case 2:
-                Navigator.pushNamed(context, 'services');
+                showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    content: new Text("Servicio proximamente"),
+                    actions: <Widget>[
+                      new FlatButton(
+                        child: new Text("Cerrar"),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  );
+                }
+              );
                 break;
             }
           }
@@ -148,12 +163,12 @@ class Service extends StatelessWidget {
         TableRow(
           children: [
             _crearBotonRedondeado( Colors.black,'assets/images/barb.jpg', '  Corte de Cabello',context,'order',1.0),
-            _crearBotonRedondeado( Colors.black, 'assets/images/barba2.jpg', 'corte solo Barba',context,null,0.5),
+            _crearBotonRedondeado( Colors.black, 'assets/images/barba2.jpg', 'Corte solo Barba',context,null,0.5),
           ]
             ),
         TableRow(
           children: [
-            _crearBotonRedondeado( Colors.black, 'assets/images/piel.png', 'mascarillas',context,null,0.5),
+            _crearBotonRedondeado( Colors.black, 'assets/images/piel.png', 'Mascarillas',context,null,0.5),
             _crearBotonRedondeado( Colors.black, 'assets/images/convenios.jpg', 'Aliados',context,null,0.5),
           ]
         ),
@@ -388,7 +403,14 @@ class _GoButtonState extends State<GoButton> {
   }
 }
 
-
+_launchURL() async {
+  const url = 'https://wa.me/573106838163?text=Hola%20soy%20Nombre%20Necesito%20asistencia%20con%20Timugo';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
 
 
 
