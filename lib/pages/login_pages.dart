@@ -40,9 +40,6 @@ Widget _loginForm(BuildContext context) {
   return SingleChildScrollView(
     child: Column(
       children: <Widget>[
-
-       
-
          Container(
           width: MediaQuery.of(context).size.width,
           margin: EdgeInsets.only(top: 270),
@@ -51,10 +48,9 @@ Widget _loginForm(BuildContext context) {
             color: Colors.white,
           ),
           
-            
-                
           child: Column(
             children: <Widget>[
+              SizedBox(height: 10.0),
               Text('Ingreso', textAlign: TextAlign.left,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30)
@@ -63,21 +59,83 @@ Widget _loginForm(BuildContext context) {
               _crearEmail( bloc ),
               SizedBox(height: 30.0),
               _crearPassword( bloc ),
-              SizedBox(height: 90.0),
-              _crearBoton( bloc )
+              SizedBox(height: 30.0),
+              _crearBoton( bloc ),
+              SizedBox(height: 10.0),
+              _crearRegistro( context ),
+              SizedBox(height: 10.0),
+              _crearAyudaWpp( bloc )
             ],
           ),
-        ),
-        GestureDetector(
-          child: Text('¿No tiene cuenta?, Registrese Aquí', style: TextStyle(decoration: TextDecoration.underline),),
-          onTap: (){
-            Navigator.pushNamed(context, 'register');
-          },
         ),
         SizedBox(height: 80.0,)
       ],
     ),
   );
+}
+
+Widget _crearAyudaWpp(LoginBloc bloc){
+
+  return StreamBuilder(
+    stream: bloc.phoneStream,
+    builder: (BuildContext context, AsyncSnapshot snapshot){
+      return GestureDetector(
+        onTap: (){
+          return showDialog(context: context, builder: (context){
+            return AlertDialog(
+              title: Text(
+                "Primero dejanos tu número de celular",
+                textAlign: TextAlign.center,
+              ),
+              content: TextField(
+                keyboardType: TextInputType.phone,
+                decoration: InputDecoration(
+                  icon: Icon( Icons.phone, color: Colors.blueAccent),
+                  hintText: 'Ingresa tu celular',
+                  labelText: 'Celular',
+                  // counterText: snapshot.data
+                  errorText: snapshot.error
+                ),
+                onChanged: bloc.changePhone,
+              ),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('Obtener ayuda por WhatsApp'),
+                  onPressed: (){
+                    // print('Email: ${ bl }');
+                    // Navigator.of(context).pop();
+                  },
+                ),
+              ],    
+            );
+          });
+        },
+        child: Container(
+          child: Text('¿Tienes problemas?, Presiona aquí para ayudarte', style: TextStyle(decoration: TextDecoration.underline),),
+        ),
+      );  
+
+    },
+  );
+
+
+}
+
+
+Widget _crearRegistro(BuildContext context){
+
+  return GestureDetector(
+    onTap: (){
+      Navigator.pushNamed(context, 'register');
+    },
+    child: Container(
+      child: Text(
+        '¿No tiene cuenta?, Registrese Aquí',
+        style: TextStyle(decoration: TextDecoration.underline)
+      ),
+    ),
+  );  
+
 }
 
 Widget _crearEmail(LoginBloc bloc) {
