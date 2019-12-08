@@ -1,3 +1,4 @@
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:timugo_client_app/models/dataClient_models.dart';
 import 'package:timugo_client_app/pages/services_pages.dart';
@@ -10,7 +11,7 @@ class  Login extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       
-      body:Stack(
+      body: Stack(
         children: <Widget>[
            Container(
       
@@ -23,9 +24,35 @@ class  Login extends StatelessWidget {
             )
           ),
         ),
-        //  _crearFondo(context),
-          _loginForm(context),
-        ],
+        Container( 
+          child: StreamBuilder(
+             stream: Connectivity().onConnectivityChanged,
+            builder: (BuildContext ctxt,
+                AsyncSnapshot<ConnectivityResult> snapShot) {
+              if (!snapShot.hasData) return CircularProgressIndicator();
+              var result = snapShot.data;
+              switch (result) {
+                case ConnectivityResult.none:
+                  return Center(child: Text("No hay conexión a Internet!"));
+                case ConnectivityResult.mobile:
+                 return Center(
+                    child: _loginForm(context)
+                  );
+                case ConnectivityResult.wifi:
+                  return Center(
+                    child: _loginForm(context)
+                  );
+                default:
+                  return Center(child: Text("No hay conexión a Internet!"));
+              }
+            }
+
+
+          )
+        )
+          
+        ]
+                
       ),
       
     );
