@@ -404,7 +404,20 @@ class _GoButtonState extends State<GoButton> {
 }
 
 _launchURL() async {
-  const url = 'https://wa.me/573106838163?text=Hola%20soy%20Nombre%20Necesito%20asistencia%20con%20Timugo';
+
+  var url = 'https://wa.me/573146727146?text=Hola%20soy%20Nombre%20Necesito%20asistencia%20con%20Timuga';
+
+  // FutureBuilder<List<DataClient>>(
+  //       future: ClientDB.db.getClient(),
+  //       builder: (BuildContext context, AsyncSnapshot<List<DataClient>> snapshot) {
+  //         if(snapshot.hasData) {
+  //           DataClient item = snapshot.data[0];
+  //           url = 'https://wa.me/573106838163?text=Hola%20soy%20Nombre%20Necesito%20asistencia%20con%20Timugo' + item.name;
+  //           print('Nombre: ${ item.name }');
+  //         }
+  //       }
+  // );          
+
   if (await canLaunch(url)) {
     await launch(url);
   } else {

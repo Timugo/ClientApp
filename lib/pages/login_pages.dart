@@ -5,6 +5,7 @@ import 'package:timugo_client_app/pages/services_pages.dart';
 import 'package:timugo_client_app/providers/login_providers.dart';
 import 'package:timugo_client_app/providers/providers.dart';
 import 'package:timugo_client_app/providers/sqlite_providers.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class  Login extends StatelessWidget {
   @override
@@ -101,53 +102,120 @@ Widget _loginForm(BuildContext context) {
   );
 }
 
+Widget _crearNombreWpp(LoginBloc bloc){
+  return StreamBuilder(
+    stream: bloc.nameStream,
+    builder: (BuildContext context, AsyncSnapshot snapshot){
+      return Container(
+        // padding: EdgeInsets.symmetric(horizontal: 40.0),
+        child: TextFormField(
+          keyboardType: TextInputType.text,
+          decoration: InputDecoration(
+            icon: Icon( Icons.people, color: Colors.blueAccent),
+            hintText: 'Ingresa tu nombre',
+            labelText: 'Nombre',
+            enabledBorder: const OutlineInputBorder(
+              borderSide: const BorderSide(color: Colors.white, width: 0.0),
+              borderRadius: const BorderRadius.all(
+                const Radius.circular(30.0),
+                    ),),
+                  border: new OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(
+                      const Radius.circular(30.0),
+                    ),
+            )
+          ),
+          onChanged: bloc.changeName,
+        )
+      );
+    },
+  );
+}
+
+Widget _crearPhoneWpp(LoginBloc bloc){
+  return StreamBuilder(
+    stream: bloc.nameStream,
+    builder: (BuildContext context, AsyncSnapshot snapshot){
+      return Container(
+        // padding: EdgeInsets.symmetric(horizontal: 40.0),
+        child: TextFormField(
+          keyboardType: TextInputType.phone,
+          decoration: InputDecoration(
+            icon: Icon( Icons.phone, color: Colors.blueAccent),
+            hintText: 'Ingresa tu celular',
+            labelText: 'Celular',
+            // counterText: snapshot.data
+            errorText: snapshot.error,
+            enabledBorder: const OutlineInputBorder(
+              borderSide: const BorderSide(color: Colors.white, width: 0.0),
+              borderRadius: const BorderRadius.all(
+                const Radius.circular(30.0),
+                    ),),
+                  border: new OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(
+                      const Radius.circular(30.0),
+                    ),
+            )
+          ),
+          onChanged: bloc.changePhone,
+        )
+      );
+    },
+  );
+}
+
 Widget _crearAyudaWpp(LoginBloc bloc){
 
   return StreamBuilder(
     stream: bloc.phoneStream,
     builder: (BuildContext context, AsyncSnapshot snapshot){
-      return GestureDetector(
-        onTap: (){
-          return showDialog(context: context, builder: (context){
-            return AlertDialog(
-              title: Text(
-                "Primero dejanos tu número de celular",
-                textAlign: TextAlign.center,
-              ),
-              content: TextField(
-                keyboardType: TextInputType.phone,
-                decoration: InputDecoration(
-                  icon: Icon( Icons.phone, color: Colors.blueAccent),
-                  hintText: 'Ingresa tu celular',
-                  labelText: 'Celular',
-                  // counterText: snapshot.data
-                  errorText: snapshot.error
+      return Container(
+        child: GestureDetector(
+          onTap: (){
+            return showDialog(context: context, builder: (context){
+              return AlertDialog(
+                title: Text(
+                  "Primero dejanos tu nombre y el número de celular",
+                  textAlign: TextAlign.center,
                 ),
-                onChanged: bloc.changePhone,
-              ),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text('Obtener ayuda por WhatsApp'),
-                  onPressed: (){
-                    // print('Email: ${ bl }');
-                    // Navigator.of(context).pop();
-                  },
+                content: Column(
+                  children: <Widget>[
+                    _crearNombreWpp(bloc),
+                    SizedBox(height: 10.0),
+                    _crearPhoneWpp(bloc)
+                  ],
                 ),
-              ],    
-            );
-          });
-        },
-        child: Container(
-          child: Text('¿Tienes problemas?, Presiona aquí para ayudarte', style: TextStyle(decoration: TextDecoration.underline),),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text('Obtener ayuda por WhatsApp'),
+                    onPressed: (){
+                      // print('Phone: ${ bloc.phone }');
+                      _launchURL(bloc.phone, bloc.name);
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],    
+              );
+            });
+          },
+          child: Container(
+            child: Text('¿Tienes problemas?, Presiona aquí para ayudarte', style: TextStyle(decoration: TextDecoration.underline),),
+          ),
         ),
-      );  
-
+      );
     },
   );
-
-
 }
 
+_launchURL(String phone, String name) async {
+
+  var url = 'https://wa.me/573188758481?text=Hola%20mi%20nombre%20es%20' + name + '%20y%20necesito%20ayuda,%20no%20puedo%20iniciar%20sesión%20en%20Timugo.%20Mi%20número%20es%20' + phone;
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
 
 Widget _crearRegistro(BuildContext context){
 
