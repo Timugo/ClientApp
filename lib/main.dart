@@ -1,61 +1,70 @@
 
-
-import 'dart:async';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:timugo_client_app/pages/location_pages.dart';
+import 'package:timugo_client_app/pages/birt.dart';
+import 'package:timugo_client_app/pages/feedBack_pages.dart';
 import 'package:timugo_client_app/pages/login_pages.dart';
 import 'package:timugo_client_app/pages/notifications.dart';
 import 'package:timugo_client_app/pages/order_pages.dart';
+import 'package:timugo_client_app/pages/recent_transaction_pages.dart';
 import 'package:timugo_client_app/pages/register_pages.dart';
 import 'package:timugo_client_app/pages/services_pages.dart';
-import 'package:timugo_client_app/pages/socket_pages.dart';
 import 'package:timugo_client_app/providers/providers.dart';
-import 'package:connectivity/connectivity.dart';
+import 'package:timugo_client_app/providers/sqlite_providers.dart';
+import 'models/dataClient_models.dart';
 
- 
 void main() => runApp(MyApp());
  
 class MyApp extends StatelessWidget {
-  @override
+ @override
   Widget build(BuildContext context) {
-    return Provider(
-      
-      
+    return FutureBuilder<List<DataClient>>(
+      future: ClientDB.db.getClient(),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if(snapshot.data[0] !=  null) {
+            print('entre');
+            return Provider(
+              child:MaterialApp(
+                debugShowCheckedModeBanner: false,
+                initialRoute: 'services',
+                routes: route,
+                title: 'Material App',
+                theme: ThemeData(
+                    primaryColor: Colors.deepPurple
+                ),
+              )
+            );
                       
-                    child:MaterialApp(
-                      debugShowCheckedModeBanner: false,
-                      initialRoute: 'login',
-                      routes: {
+          }
+           if(snapshot.data[0] ==  null ) {
+              return Provider(
+                child:MaterialApp(
+                  debugShowCheckedModeBanner: false,
+                  initialRoute: 'login',
+                  routes: route,
+                  title: 'Material App',
+                  theme: ThemeData(
+                  primaryColor: Colors.deepPurple
+                  ),
+                )
+              );
+           }
+      }
+    );
+  }
+  var  route={
+        'login':(BuildContext context ) => Login(),
+        'register':(BuildContext context ) => Register(),
+        'services':(BuildContext context ) => Service(),
+        'order': (BuildContext context ) => Order(),
+        'notificaciones': (BuildContext context ) => NotificationsPage(),
+        'feed'  :  (BuildContext context ) => FeedBack(),
+        'transaction'  :  (BuildContext context ) => RecentTransactionsPage(),
+        'cumple'  :  (BuildContext context ) => Birt(),
+        };
 
-                        'login':(BuildContext context ) => Login(),
-                        'register':(BuildContext context ) => Register(),
-                        'services':(BuildContext context ) => Service(),
-
-                        'order': (BuildContext context ) => Order(),
-
-                        'notificaciones': (BuildContext context ) => NotificationsPage(),
-                        'socket'  :  (BuildContext context ) => Socket(),
-                        'location'  :  (BuildContext context ) => Location(),
+  
 
 
-              //'skeleton': (BuildContext context ) => Skeleton()
-
-                      },
-                      title: 'Material App',
-                      theme: ThemeData(
-                        primaryColor: Colors.deepPurple
-                      ),
-      
-                     )
-                  );
-               
-            }
-            
-
-      
-      
     
   
 }

@@ -2,13 +2,16 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:timugo_client_app/pages/socket_pages.dart';
 import 'package:geolocator/geolocator.dart';
 import 'dart:math' show Random;
+import 'package:timugo_client_app/models/dataClient_models.dart';
+import 'package:timugo_client_app/providers/register_provider.dart';
+import 'package:timugo_client_app/providers/sqlite_providers.dart';
+
+import 'model_order.dart';
 
 class Order extends StatefulWidget {
   Order({Key key, this.title}) : super(key: key);
-
   final String title;
   
   @override
@@ -17,66 +20,22 @@ class Order extends StatefulWidget {
 
 class _MyHomePageState extends State<Order> {
   final Map<String, Marker> _markers = {};
-
+  final  ordeProvider = OrderProvider();
+  OrderModel order = OrderModel();
   bool _visible = true;
   _MyHomePageState();
-
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
   Completer<GoogleMapController> _controller = Completer();
   Map<PolylineId, Polyline> polylines = <PolylineId, Polyline>{};
   int _polylineIdCounter = 1;
   PolylineId selectedPolyline;
 
-  // Values when toggling polyline color
-  int colorsIndex = 0;
-  List<Color> colors = <Color>[
-    Colors.purple,
-    Colors.red,
-    Colors.green,
-    Colors.pink,
-  ];
-
-  // Values when toggling polyline width
-  int widthsIndex = 0;
-  List<int> widths = <int>[10, 20, 5];
-
-  int jointTypesIndex = 0;
-  List<JointType> jointTypes = <JointType>[
-    JointType.mitered,
-    JointType.bevel,
-    JointType.round
-  ];
-
-  // Values when toggling polyline end cap type
-  int endCapsIndex = 0;
-  List<Cap> endCaps = <Cap>[Cap.buttCap, Cap.squareCap, Cap.roundCap];
-
-  // Values when toggling polyline start cap type
-  int startCapsIndex = 0;
-  List<Cap> startCaps = <Cap>[Cap.buttCap, Cap.squareCap, Cap.roundCap];
-
-  // Values when toggling polyline pattern
-  int patternsIndex = 0;
-  List<List<PatternItem>> patterns = <List<PatternItem>>[
-    <PatternItem>[],
-    <PatternItem>[
-      PatternItem.dash(30.0),
-      PatternItem.gap(20.0),
-      PatternItem.dot,
-      PatternItem.gap(20.0)
-    ],
-    <PatternItem>[PatternItem.dash(30.0), PatternItem.gap(20.0)],
-    <PatternItem>[PatternItem.dot, PatternItem.gap(10.0)],
-  ];
-
-  //GoogleMapController _mapController;
-
   static final CameraPosition _cameraPosition = CameraPosition(
-    target: LatLng(3.452621,-76.5061634),
+    target: LatLng(3.4372201,-76.5224991),
     zoom: 17.0,
   );
-    var rnd = new Random(1).nextInt(10-1);
-
+  var rnd = new Random(1).nextInt(10-1);
+  var state = true;
 
   @override
   void initState() {
@@ -89,8 +48,9 @@ class _MyHomePageState extends State<Order> {
   Widget build(BuildContext context) {
     
     return Scaffold(
+      
       bottomNavigationBar: Container(
-        height: 300,
+        height: 200,
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
@@ -98,23 +58,84 @@ class _MyHomePageState extends State<Order> {
                 color: Colors.grey, blurRadius: 11, offset: Offset(3.0, 4.0))
           ],
         ),
+        
          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text('Hay actualmente'+rnd.toString()+'Barberos en tu sector'),
+
+                  Container(
+                    height: 0,
+                    width: 0,
+                  child:FutureBuilder<List<DataClient>>(
+                  future: ClientDB.db.getClient(),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  Text('');
+                    if(snapshot.hasData) {
+                     DataClient item = snapshot.data[0];
+                     order.idClient=item.id;
+                     order.address=item.address;
+                     order.typeService=1;
+                     print(order);
+                    }
+                    Text('');
+                    }
+                  
+                    ),
+                  ),
+                    Text('Hay actualmente'+' '+rnd.toString()+' '+'barberos en tu sector ...',style: TextStyle( color: Colors.black, fontSize: 15.0, fontWeight: FontWeight.w800),),
+                     SizedBox(height: 20.0),
                     GoButton(
                       title: "Pedir",
-                      
+                      onPressed:() 
+                       {if (state = false){
+                        return null;
+
+                       }else{
+                      {_getLocation();
+                        Timer.run((){
+                        state = false;
+                        showDialog(
+                        
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            content: new Text("Su servicio fue tomado con exito"),
+                            actions: <Widget>[
+                              new FlatButton(
+                                child: new Text("Cerrar"),
+                                onPressed: () {
+                                   var res= ordeProvider.createOrder(order);
+                                    res.then((response) async {
+                                      print(res);
+                                      if (response['response'] == 2){
+                                
+                                       Navigator.pushNamed(context, 'transaction');
+                                      //    builder: (context) => Login()));
+
+
+                                      }
+
+                                    });
+                                  
+                                },
+                              ),
+                            ],
+                          );
+                        }
+                       );
+                     });
+
                     
-              onPressed: _getLocation,
 
-                     ),
+                      }
+                      }
 
-                     
-  
-                   
-                  ],
-          ),
+                      
+                       }
+                    )
+                  ]
+
+         ),
       ),
       resizeToAvoidBottomInset: false,
       key: _scaffoldKey,
@@ -168,43 +189,17 @@ class _MyHomePageState extends State<Order> {
     );
   }
 
-
-  Widget _findbarber(){
-
-    return Container(
-    
-        child: AnimatedOpacity(
-          // If the widget is visible, animate to 0.0 (invisible).
-          // If the widget is hidden, animate to 1.0 (fully visible).
-          opacity: _visible ? 1.0 : 0.0,
-          duration: Duration(seconds: 10),
-          // The green box must be a child of the AnimatedOpacity widget.
-          child: Container(
-            width: 200.0,
-            height: 200.0,
-            color: Colors.green,
-          ),
-        ),
-     );
-
-
-
-  }
-
   Widget _buildGoogleMap(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       child: GoogleMap(
         mapType: MapType.normal,
-        initialCameraPosition:  CameraPosition(target: LatLng(50.712776, -74.005974), zoom: 12),
+        initialCameraPosition:  CameraPosition(target: LatLng(3.712776, -76.505974), zoom: 12),
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
         },
-         
-         
-        
-      ),
+        ),
     );
   }
     void _getLocation() async {
@@ -219,7 +214,15 @@ class _MyHomePageState extends State<Order> {
           infoWindow: InfoWindow(title: 'Mi Ubicacion'),
       );
       _markers["Current Location"] = marker;
+      _gotoLocation(currentLocation.latitude, currentLocation.longitude);
+
     });
+  }
+
+   Future<void> _gotoLocation(double lat,double long) async {
+    final GoogleMapController controller = await _controller.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(lat, long), zoom: 15,tilt: 50.0,
+      bearing: 45.0,)));
   }
 
 
@@ -291,20 +294,14 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                 color: Colors.grey, blurRadius: 11, offset: Offset(3.0, 4.0))
           ],
         ),
-        child: ClipOval(
-          child: FadeInImage.assetNetwork(
-            fadeInCurve: Curves.bounceIn,
-            fadeInDuration: Duration(seconds: 1),
-            placeholder: 'assets/images/loaded.png',
-            image: 'https://icmi.or.id/assets/img/profile/profile.png',
-             width: 60,
+       child: ClipOval(
+          child: Image.asset(
+            "assets/images/profile.png",
+            width: 60,
             height: 60,
-            fit: BoxFit.cover
+            fit: BoxFit.cover,
           ),
-        
-            
-      
-          ),
+        ),
         ),
     );
   }
@@ -376,6 +373,7 @@ class _GoButtonState extends State<GoButton> {
         Container(
         
             child: RawMaterialButton(
+              
               onPressed: widget.onPressed,
               splashColor: Colors.black,
               fillColor: Color.fromRGBO(5,112, 219,1.0),

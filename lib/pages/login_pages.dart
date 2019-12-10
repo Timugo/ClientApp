@@ -17,7 +17,7 @@ class  Login extends StatelessWidget {
       
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/images/imag.jpg'),
+              image: AssetImage('assets/images/timugo.png'),
               fit: BoxFit.fitWidth,
               alignment: Alignment.topCenter,
             //  colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.8), BlendMode.dstATop)

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:timugo_client_app/models/dataClient_models.dart';
 import 'package:timugo_client_app/providers/register_provider.dart';
 import 'package:timugo_client_app/providers/sqlite_providers.dart';
@@ -14,7 +15,14 @@ class  Register extends StatelessWidget {
 
 
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
+      localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+    ],
+    supportedLocales: [ // English
+          const Locale('es', 'ES'), // Spanish
+    ],
+     
 
       title: appTitle
       
@@ -51,6 +59,7 @@ class TestForm extends StatefulWidget {
 }
 
 class _TestFormState extends State<TestForm> {
+  DateTime _dateTime;
   final _formKey = GlobalKey<FormState>();
   final  registeProvider = RegisterProvider();
   Model model = Model();
@@ -155,15 +164,27 @@ class _TestFormState extends State<TestForm> {
           ),
            MyTextFormField(
             text: Icon(Icons.cake),
-            hintText: 'Cumpleaños',
-            validator: (String value) {
-              if ( value.isEmpty ){
-                return 'Por favor digita una fecha valida';
-              }
-              return null;
+            hintText: (_dateTime == null ? 'Fecha de Nacimiento' : _dateTime.toString()),
+            onTap:(){
+               showDatePicker(
+                  context: context,
+                  initialDate: _dateTime == null ? DateTime.now() : _dateTime,
+                  firstDate: DateTime(1900),
+                  lastDate: DateTime(2021),
+                  locale : const Locale("es","ES"),
+                  
+                ).then((date) {
+                  setState(() {
+                    _dateTime = date;
+                  });
+                });
+                
+
+            
+
             },
             onSaved: (String value) {
-              model.birth = DateTime.parse(value);
+              model.birth = _dateTime;
             },
           ),
           MyTextFormField(
@@ -190,8 +211,7 @@ class _TestFormState extends State<TestForm> {
               if (value.length < 7) {
                 return 'La contraseña de tener minimo 7 caracteres';
               } else if (model.password != null && value != model.password) {
-                print(value);
-                print(model.password);
+              
                 return 'La contraseñas no coinciden';
               }
 
@@ -252,6 +272,38 @@ class _TestFormState extends State<TestForm> {
 
               
    }
+    Widget _birt(BuildContext context){
+   return Scaffold(
+    
+         body:Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+       //     Text(_dateTime == null ? 'Nothing has been picked yet' : _dateTime.toString()),
+            RaisedButton(
+              child: Text('Pick a date'),
+              onPressed: () {
+                showDatePicker(
+                  context: context,
+                  initialDate: _dateTime == null ? DateTime.now() : _dateTime,
+                  firstDate: DateTime(2001),
+                  lastDate: DateTime(2021)
+                ).then((date) {
+                  setState(() {
+                    _dateTime = date;
+                  });
+                });
+              },
+            )
+          ],
+        ),
+      
+    );
+
+
+
+
+
+}
      
 }
 
@@ -284,6 +336,7 @@ class MyTextFormField extends StatelessWidget {
   final String hintText;
   final Function validator;
   final Function onSaved;
+  final Function onTap;
   final bool isPassword;
   final bool isEmail;
 
@@ -292,6 +345,7 @@ class MyTextFormField extends StatelessWidget {
     this.hintText,
     this.validator,
     this.onSaved,
+    this.onTap,
     this.isPassword = false,
     this.isEmail = false,
   });
@@ -325,6 +379,7 @@ class MyTextFormField extends StatelessWidget {
         obscureText: isPassword ? true : false,
         validator: validator,
         onSaved: onSaved,
+        onTap: onTap,
         keyboardType: isEmail ? TextInputType.emailAddress : TextInputType.text,
       ),
     );

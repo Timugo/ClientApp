@@ -18,16 +18,18 @@ environment:
 
 dependencies:
   transparent_image: ^1.0.0
+  flutter_localizations:
+    sdk: flutter
   
   flutter:
     sdk: flutter
 
   shimmer: ^1.0.1
   
-  adhara_socket_io: ^0.4.1
   socket_io_client: ^0.9.7+1
   socket_io: ^0.9.0+2
-  intl: ^0.16.0
+  intl: ^0.15.8
+  
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   url_launcher: ^5.2.7
@@ -42,7 +44,7 @@ dependencies:
   sqflite: ^1.1.7+3
   path_provider: ^1.4.5
   connectivity: ^0.4.6
-  
+  flutter_rating: ^0.0.2
   
 
 

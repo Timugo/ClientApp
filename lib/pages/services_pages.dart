@@ -1,23 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:timugo_client_app/models/dataClient_models.dart';
 import 'package:timugo_client_app/pages/menu_widget.dart';
+import 'package:timugo_client_app/providers/register_provider.dart';
 import 'package:timugo_client_app/providers/sqlite_providers.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+
+
+
+//Class Service 
 class Service extends StatelessWidget {
 
+  final  serviceProvider = ServicesProvider();
   @override
     Widget build(BuildContext context) {
     return Scaffold(
        appBar: AppBar(
 
-      iconTheme: new IconThemeData(color: Colors.black),
+      iconTheme: new IconThemeData(color: Colors.blue),
         backgroundColor: Colors.white,
       ),
 
       drawer: MenuWidget(),
       body:FutureBuilder<List<DataClient>>(
+      
         future: ClientDB.db.getClient(),
-        builder: (BuildContext context, AsyncSnapshot<List<DataClient>> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          Text('');
           if(snapshot.hasData) {
             DataClient item = snapshot.data[0];
             return Stack (
@@ -27,8 +36,8 @@ class Service extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      _titles(item),                
-                      _botonesRedondeados(context)
+                      _titles(item),    // titles of welcome to app              
+                      _botonesRedondeados(context)  // row of celds  , services
                     ],
                   ),
                 )
@@ -37,17 +46,14 @@ class Service extends StatelessWidget {
           }
         }
       ),
-      bottomNavigationBar: _bottomNavigationBar(context)
+      bottomNavigationBar: _bottomNavigationBar(context)  // Botton of Navigation  
     );
   }
 
-
-
+  // spaces and padding to tittles
   Widget _profile(BuildContext context){
 
     return Scaffold(
-
-
       body: Stack(
         children: <Widget>[
           Positioned(
@@ -67,12 +73,10 @@ class Service extends StatelessWidget {
       )
     );
   }
+  // Welcome to the app and name of user
 
   Widget  _titles(DataClient item){
-
     return Container(
-      
-      
       padding: new EdgeInsets.all(15.0),
       child: Column(
          children: <Widget>[
@@ -80,19 +84,18 @@ class Service extends StatelessWidget {
             SizedBox(height: 30.0),
             Align(alignment: Alignment.centerLeft,child: Text('Hola!', style: TextStyle( color: Colors.black, fontSize: 40.0,fontWeight:FontWeight.w300 )),),
             SizedBox(height: 5.0),
-            Align(alignment: Alignment.centerLeft,child: Text(item.name, style: TextStyle( color: Colors.black, fontSize: 55.0 , fontWeight: FontWeight.bold ),),),
+            Align(alignment: Alignment.centerLeft,child: Text(item.name[0].toUpperCase()+item.name.substring(1), style: TextStyle( color: Colors.black, fontSize: 55.0 , fontWeight: FontWeight.bold ),),),
             SizedBox( height: 50.0 ),
             Text('Servicios', style: TextStyle( color: Colors.black, fontSize: 30.0, fontWeight: FontWeight.w800 ),),
               SizedBox( height: 10.0 ),
-            new Container(height: 1,  color: Colors.black,
+            new Container(height: 1,  color: Colors.blue,
                     margin: const EdgeInsets.only(left: 10.0, right: 10.0),),
          ]
       )
     );
     }
-
+  // widget that contain  3 icons   for navigartion  app
   Widget _bottomNavigationBar(BuildContext context) {
-
     return Theme(
       data: Theme.of(context).copyWith(
         canvasColor: Color.fromRGBO(255, 255, 255, 1.0),
@@ -104,7 +107,7 @@ class Service extends StatelessWidget {
         
         items: [
           BottomNavigationBarItem(
-            icon: Icon( Icons.shopping_basket, size: 30.0 ),
+            icon: Icon( Icons.add_shopping_cart, size: 30.0 ),
             title: Container(),
           ),
           BottomNavigationBarItem(
@@ -118,9 +121,7 @@ class Service extends StatelessWidget {
         ],
 
         onTap: (index) {
-          
-            
-            switch (index) {
+          switch (index) {
               case 0:
                Navigator.pushNamed(context, 'services');
                break;
@@ -128,53 +129,46 @@ class Service extends StatelessWidget {
                 _launchURL();
                 break;
               case 2:
-                showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    content: new Text("Servicio proximamente"),
-                    actions: <Widget>[
-                      new FlatButton(
-                        child: new Text("Cerrar"),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
-                  );
-                }
-              );
+                Navigator.pushNamed(context, 'transaction');
                 break;
             }
           }
       ),
-        
       );
     
 
   }
 
-
+  // widget that  do  the services buttons
   Widget _botonesRedondeados(BuildContext context) {
+
+
+  
+     
+     
 
     return Table(
       children: [
         
         TableRow(
           children: [
-            _crearBotonRedondeado( Colors.black,'assets/images/barb.jpg', '  Corte de Cabello',context,'order',1.0),
-            _crearBotonRedondeado( Colors.black, 'assets/images/barba2.jpg', 'Corte solo Barba',context,null,0.5),
+            _crearBotonRedondeado( Colors.black,'assets/images/services/hairCut.jpg', 'Corte de cabello',context,'order',1.0),
+            _crearBotonRedondeado( Colors.black, 'assets/images/services/beard.jpg', 'Corte solo Barba',context,null,0.5),
           ]
             ),
         TableRow(
           children: [
-            _crearBotonRedondeado( Colors.black, 'assets/images/piel.png', 'Mascarillas',context,null,0.5),
-            _crearBotonRedondeado( Colors.black, 'assets/images/convenios.jpg', 'Aliados',context,null,0.5),
+            _crearBotonRedondeado( Colors.black, 'assets/images/services/mask.png', 'Mascarillas',context,null,0.5),
+            _crearBotonRedondeado( Colors.black, 'assets/images/services/alliances.jpg', 'Aliados',context,null,0.5),
           ]
         ),
-      ],
+      ]
     );
+    
   }
+     
+  
+                
             
             
     Widget _crearBotonRedondeado( Color color, String ruta, String texto,BuildContext context,String page,double opacidad) {
@@ -218,7 +212,7 @@ class Service extends StatelessWidget {
                       Container(
                         
                           height: 180.0,
-                          child:Image.asset(ruta)
+                          child:Image.network('http://167.172.216.181:3000/'+ruta)
                       ),
                       Text( texto , style: TextStyle( color: color,fontSize: 15, fontWeight: FontWeight.bold)
                       ),
@@ -232,175 +226,6 @@ class Service extends StatelessWidget {
      );
  
     }
-}
-
-class FunctionalButton extends StatefulWidget {
-  final String title;
-  final IconData icon;
-  final Function() onPressed;
-
-  const FunctionalButton({Key key, this.title, this.icon, this.onPressed})
-      : super(key: key);
-
-  @override
-  _FunctionalButtonState createState() => _FunctionalButtonState();
-}
-
-class _FunctionalButtonState extends State<FunctionalButton> {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        RawMaterialButton(
-          onPressed: widget.onPressed,
-          splashColor: Colors.black,
-          fillColor: Colors.white,
-          elevation: 15.0,
-          shape: CircleBorder(),
-          child: Padding(
-              padding: EdgeInsets.all(14.0),
-              child: Icon(
-                widget.icon,
-                size: 30.0,
-                color: Colors.black,
-              )),
-        ),
-      ],
-    );
-  }
-}
-
-class ProfileWidget extends StatefulWidget {
-  final Function() onPressed;
-
-  const ProfileWidget({Key key, this.onPressed}) : super(key: key);
-
-  @override
-  _ProfileWidgetState createState() => _ProfileWidgetState();
-}
-
-class _ProfileWidgetState extends State<ProfileWidget> {
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: widget.onPressed,
-          child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.white, width: 4),
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-                color: Colors.grey, blurRadius: 11, offset: Offset(3.0, 4.0))
-          ],
-        ),
-        child: ClipOval(
-          child: Image.asset(
-            "assets/images/piel.png",
-            width: 60,
-            height: 60,
-            fit: BoxFit.cover,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class PriceWidget extends StatefulWidget {
-  final String price;
-  final Function() onPressed;
-
-  const PriceWidget({Key key, this.price, this.onPressed}) : super(key: key);
-
-  @override
-  _PriceWidgetState createState() => _PriceWidgetState();
-}
-
-class _PriceWidgetState extends State<PriceWidget> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 120,
-      height: 60,
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.white, width: 4),
-        color: Colors.black,
-        borderRadius: BorderRadius.all(Radius.circular(50.0)),
-        boxShadow: [
-          BoxShadow(
-              color: Colors.grey, blurRadius: 11, offset: Offset(3.0, 4.0))
-        ],
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text("\$",
-              style: TextStyle(
-                  color: Colors.green,
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold)),
-          Text(widget.price,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold)),
-        ],
-      ),
-    );
-  }
-}
-
-class GoButton extends StatefulWidget {
-  final String title;
-  final Function() onPressed;
-
-  const GoButton({Key key, this.title, this.onPressed}) : super(key: key);
-
-  @override
-  _GoButtonState createState() => _GoButtonState();
-}
-
-
-class _GoButtonState extends State<GoButton> {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Container(
-          decoration: BoxDecoration(
-              border: Border.all(color: Colors.blue, width: 10),
-              shape: BoxShape.circle),
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.white, width: 2),
-              shape: BoxShape.circle,
-            ),
-            child: RawMaterialButton(
-              onPressed: widget.onPressed,
-              splashColor: Colors.black,
-              fillColor: Colors.blue,
-              elevation: 15.0,
-              shape: CircleBorder(),
-              child: Padding(
-                  padding: EdgeInsets.all(20.0),
-                  child: Text(widget.title,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 28))),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
 }
 
 _launchURL() async {
