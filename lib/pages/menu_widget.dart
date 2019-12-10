@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:timugo_client_app/providers/sqlite_providers.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
@@ -59,12 +60,21 @@ class MenuWidget extends StatelessWidget {
 
 }
 
+Future getClients() async {
+  
+  var list = ClientDB.db.getClient();
+  list.then((res) async {
+    print(res[0].name);
+    var url = 'https://wa.me/573106838163?text=Hola%20soy%20' + res[0].name + '%20identificado%20con%20el%20código%20' + res[0].id.toString() + '%20y%20necesito%20ayuda%20con%20Timugo.%20Gracias';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    } 
+  });
+}
+
 _launchURL() async {
-  const url = 'https://wa.me/573106838163?text=Hola%20soy%20Nombre%20Necesito%20asistencia%20con%20Timugo';
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
-  }
+  getClients();           
 }
 

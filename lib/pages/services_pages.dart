@@ -4,7 +4,6 @@ import 'package:timugo_client_app/pages/menu_widget.dart';
 import 'package:timugo_client_app/providers/sqlite_providers.dart';
 import 'package:url_launcher/url_launcher.dart';
 class Service extends StatelessWidget {
-
   @override
     Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +16,7 @@ class Service extends StatelessWidget {
       drawer: MenuWidget(),
       body:FutureBuilder<List<DataClient>>(
         future: ClientDB.db.getClient(),
-        builder: (BuildContext context, AsyncSnapshot<List<DataClient>> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
           if(snapshot.hasData) {
             DataClient item = snapshot.data[0];
             return Stack (
@@ -363,8 +362,6 @@ class GoButton extends StatefulWidget {
   @override
   _GoButtonState createState() => _GoButtonState();
 }
-
-
 class _GoButtonState extends State<GoButton> {
   @override
   Widget build(BuildContext context) {
@@ -403,43 +400,20 @@ class _GoButtonState extends State<GoButton> {
   }
 }
 
-_launchURL() async {
-
-  var url = 'https://wa.me/573146727146?text=Hola%20soy%20Nombre%20Necesito%20asistencia%20con%20Timuga';
-
-  // FutureBuilder<List<DataClient>>(
-  //       future: ClientDB.db.getClient(),
-  //       builder: (BuildContext context, AsyncSnapshot<List<DataClient>> snapshot) {
-  //         if(snapshot.hasData) {
-  //           DataClient item = snapshot.data[0];
-  //           url = 'https://wa.me/573106838163?text=Hola%20soy%20Nombre%20Necesito%20asistencia%20con%20Timugo' + item.name;
-  //           print('Nombre: ${ item.name }');
-  //         }
-  //       }
-  // );          
-
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
-  }
+Future getClients() async {
+  
+  var list = ClientDB.db.getClient();
+  list.then((res) async {
+    print(res[0].name);
+    var url = 'https://wa.me/573106838163?text=Hola%20soy%20' + res[0].name + '%20identificado%20con%20el%20código%20' + res[0].id.toString() + '%20y%20necesito%20ayuda%20con%20Timugo.%20Gracias';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    } 
+  });
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    
-     
-           
-       
-  
+_launchURL() async {
+  getClients();           
+}

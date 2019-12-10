@@ -20,38 +20,36 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Provider(
-      
-      
+    return Provider(    
                       
-                    child:MaterialApp(
-                      debugShowCheckedModeBanner: false,
-                      initialRoute: 'login',
-                      routes: {
+      child:MaterialApp(
+        debugShowCheckedModeBanner: false,
+        initialRoute: 'login',
+        routes: {
 
-                        'login':(BuildContext context ) => Login(),
-                        'register':(BuildContext context ) => Register(),
-                        'services':(BuildContext context ) => Service(),
+          'login':(BuildContext context ) => Login(),
+          'register':(BuildContext context ) => Register(),
+          'services':(BuildContext context ) => Service(),
 
-                        'order': (BuildContext context ) => Order(),
+          'order': (BuildContext context ) => Order(),
 
-                        'notificaciones': (BuildContext context ) => NotificationsPage(),
-                        'socket'  :  (BuildContext context ) => Socket(),
-                        'location'  :  (BuildContext context ) => Location(),
+          'notificaciones': (BuildContext context ) => NotificationsPage(),
+          'socket'  :  (BuildContext context ) => Socket(),
+          'location'  :  (BuildContext context ) => Location(),
 
 
-              //'skeleton': (BuildContext context ) => Skeleton()
+//'skeleton': (BuildContext context ) => Skeleton()
 
-                      },
-                      title: 'Material App',
-                      theme: ThemeData(
-                        primaryColor: Colors.deepPurple
-                      ),
-      
-                     )
-                  );
-               
-            }
+        },
+        title: 'Material App',
+        theme: ThemeData(
+          primaryColor: Colors.deepPurple
+        ),
+
+        )
+    );
+  
+}
             
 
       
