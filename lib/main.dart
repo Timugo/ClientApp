@@ -20,22 +20,14 @@ class MyApp extends StatelessWidget {
     return FutureBuilder<List<DataClient>>(
       future: ClientDB.db.getClient(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if(snapshot.data[0] !=  null) {
-            print('entre');
-            return Provider(
-              child:MaterialApp(
-                debugShowCheckedModeBanner: false,
-                initialRoute: 'services',
-                routes: route,
-                title: 'Material App',
-                theme: ThemeData(
-                    primaryColor: Colors.deepPurple
-                ),
-              )
-            );
-                      
-          }
-           if(snapshot.data[0] ==  null ) {
+           
+            
+          
+           if((snapshot.hasData) ) {
+
+            
+
+             
               return Provider(
                 child:MaterialApp(
                   debugShowCheckedModeBanner: false,
@@ -48,6 +40,12 @@ class MyApp extends StatelessWidget {
                 )
               );
            }
+
+           return Container(
+
+             width: 0,
+             height: 0,
+           );
       }
     );
   }

@@ -26,7 +26,6 @@ class Service extends StatelessWidget {
       
         future: ClientDB.db.getClient(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          Text('');
           if(snapshot.hasData) {
             DataClient item = snapshot.data[0];
             return Stack (

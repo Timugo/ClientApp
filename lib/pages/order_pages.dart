@@ -69,7 +69,7 @@ class _MyHomePageState extends State<Order> {
                   child:FutureBuilder<List<DataClient>>(
                   future: ClientDB.db.getClient(),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  Text('');
+                  
                     if(snapshot.hasData) {
                      DataClient item = snapshot.data[0];
                      order.idClient=item.id;
@@ -77,7 +77,7 @@ class _MyHomePageState extends State<Order> {
                      order.typeService=1;
                      print(order);
                     }
-                    Text('');
+                   
                     }
                   
                     ),
@@ -106,14 +106,11 @@ class _MyHomePageState extends State<Order> {
                                 onPressed: () {
                                    var res= ordeProvider.createOrder(order);
                                     res.then((response) async {
-                                      print(res);
+                            
                                       if (response['response'] == 2){
                                 
                                        Navigator.pushNamed(context, 'transaction');
-                                      //    builder: (context) => Login()));
-
-
-                                      }
+                                    }
 
                                     });
                                   

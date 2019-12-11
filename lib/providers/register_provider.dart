@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http ;
 import 'package:timugo_client_app/pages/ServicesModel.dart';
 import 'package:timugo_client_app/pages/model.dart';
+import 'package:timugo_client_app/pages/model_feed.dart';
 import 'package:timugo_client_app/pages/model_order.dart';
 
 class RegisterProvider{
@@ -67,6 +68,31 @@ class ServicesProvider{
     });
     return productos;
   
+
+    
+
+  
+   }
+
+
+
+
+  
+}
+
+class FeedProvider{
+ final    String url = 'http://167.172.216.181:3000/finishOrder';
+  
+
+   Future <Map<String,dynamic>>  finishOrder(feed) async{
+     
+      Map<String, String> headers = {"Content-Type": "application/json"};
+      String json = feedModelToJson(feed);
+  // make POST request
+      http.Response response = await http.post(url, headers: headers, body: json);
+      final decodeData = jsonDecode(response.body);
+
+   return decodeData;
 
     
 
