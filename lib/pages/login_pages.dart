@@ -342,7 +342,8 @@ _login(LoginBloc bloc, BuildContext context) {
         phone: res['content']['user']['phone'],
         token:res['content']['user']['token']
       ));
-      Navigator.push(context,MaterialPageRoute(builder: (context) => Service()));
+      Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Service()));
+      // Navigator.push(context,MaterialPageRoute(builder: (context) => Service()));
     } else {
       showDialog(
         context: context,
