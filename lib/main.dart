@@ -20,8 +20,8 @@ class MyApp extends StatelessWidget {
     return FutureBuilder<List<DataClient>>(
       future: ClientDB.db.getClient(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if(snapshot.data[0] !=  null) {
-            print('entre');
+          if(snapshot.data != null) {
+            print(snapshot.data);
             return Provider(
               child:MaterialApp(
                 debugShowCheckedModeBanner: false,
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
             );
                       
           }
-           if(snapshot.data[0] ==  null ) {
+          if(snapshot.data == null ){
               return Provider(
                 child:MaterialApp(
                   debugShowCheckedModeBanner: false,
