@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="timugo_client_app"
+        android:label="Timugo"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
@@ -34,7 +34,7 @@
             </intent-filter>
         </activity>
          <meta-data android:name="com.google.android.geo.API_KEY"
-                android:value="AIzaSyD5cHi2knDNFCAo5glKxjohMuwlnFa4CQY"/>/>
+                android:value="AIzaSyD5cHi2knDNFCAo5glKxjohMuwlnFa4CQY"/>
         
     </application>
 </manifest>

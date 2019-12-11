@@ -1,5 +1,5 @@
 name: timugo_client_app
-description: A new Flutter project.
+description: Timugo is a new app that bring barbers on demand 
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -11,7 +11,7 @@ description: A new Flutter project.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
+version: 0.2.0+2
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -25,6 +25,7 @@ dependencies:
     sdk: flutter
 
   shimmer: ^1.0.1
+  
   
   socket_io_client: ^0.9.7+1
   socket_io: ^0.9.0+2
@@ -47,12 +48,17 @@ dependencies:
   flutter_rating: ^0.0.2
   
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  flutter_launcher_icons: "^0.7.3"
 
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/ic_my_new_icon.png"
+  adaptative_icon_background: "assets/icon/ic_my_new_icon.png"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

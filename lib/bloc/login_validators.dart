@@ -32,6 +32,14 @@ class Validators {
     }
   );
 
+  final validarPhone = StreamTransformer<String, String>.fromHandlers(
+    handleData: ( phone, sink ){
 
-
+      if(phone.length == 10){
+        sink.add( phone );
+      }else{
+        sink.addError('Debe tener 10 caracteres');
+      }
+    }
+  );
 }
