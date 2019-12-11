@@ -44,8 +44,7 @@ class ClientDB {
     final db = await database;
     var response = await db.query("Client");
     List<DataClient> list = response.map((c) => DataClient.fromMap(c)).toList();
-    return list;
-    
+    return list;  
   }
 
   //Se agrega un cliente a la base de datos
