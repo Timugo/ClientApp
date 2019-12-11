@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:timugo_client_app/models/dataOrder_models.dart';
+import 'package:timugo_client_app/providers/recent_transaction_providers.dart';
+
+import '../providers/sqlite_providers.dart';
 
 class RecentTransactionsPage extends StatelessWidget {
   @override
@@ -17,28 +21,25 @@ class _RecentTransactionsViewState extends State<RecentTransactionsView> {
   void initState() {
     super.initState();
   }
-
+  DataOrder dataorder = DataOrder();
   @override
   Widget build(BuildContext context) {
+    // print("nombre" + dataorder.name);
+    // print("response" + dataorder.response.toString());
+    _getCurrentOrder();
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
           leading: Padding(
-                padding: EdgeInsets.only(left: 12),
-                child:IconButton(
-               icon: Icon(Icons.arrow_back),
-               
-              onPressed: () {
-                Navigator.pushNamed(context, 'services');
-              },
-              color: Colors.blue,
-              
-        
-                )
-             
-            
+              padding: EdgeInsets.only(left: 12),
+              child:IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.pushNamed(context, 'services');
+                },
+                color: Colors.blue,        
+              )
             )
-          
         ),
         body: ListView(
           children: <Widget>[
@@ -47,9 +48,7 @@ class _RecentTransactionsViewState extends State<RecentTransactionsView> {
               child: Center(
                 child: Column(
                   children: <Widget>[
-                    SizedBox(
-                      height: 40,
-                    ),
+                    SizedBox(height: 40,),
                     Text(
                       "Tu pedido",
                       style: TextStyle(
@@ -57,11 +56,9 @@ class _RecentTransactionsViewState extends State<RecentTransactionsView> {
                         color: Colors.grey,
                       ),
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
+                    SizedBox(height: 10,),
                     Text(
-                      "\$15.000",
+                      (dataorder.response == 1 ? '\$0.00':'\$15.000'),
                       style: TextStyle(
                         fontSize: 34,
                       ),
@@ -70,26 +67,25 @@ class _RecentTransactionsViewState extends State<RecentTransactionsView> {
                       height: 40,
                     ),
                     GestureDetector(
-                      onTap: () {
-
-                         Navigator.pushNamed(context, 'feed');
+                      onTap: dataorder.response == 1 ? null : () {
+                        Navigator.pushNamed(context, 'feed');
                       },
                       child: Container(
-                          width: double.infinity,
-                          height: 60,
-                          margin: EdgeInsets.only(bottom: 10),
-                          alignment: FractionalOffset.center,
-                          decoration: BoxDecoration(
-                            color: Colors.blue,
-                            borderRadius:
-                                BorderRadius.all(const Radius.circular(4.0)),
-                          ),
+                        width: double.infinity,
+                        height: 60,
+                        margin: EdgeInsets.only(bottom: 10),
+                        alignment: FractionalOffset.center,
+                        decoration: BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius:
+                            BorderRadius.all(const Radius.circular(4.0)),
+                        ),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                              
-                              Text('  Finalizar',
+                              Text('Finalizar',
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 24)),
                             ],
@@ -123,14 +119,14 @@ class _RecentTransactionsViewState extends State<RecentTransactionsView> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text("Jeisson", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),
+                      Text(dataorder.name, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),
                     ],
                   ),
                   SizedBox(height: 10,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text("dic 09, 10:13 PM", style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),),
+                      Text("20 - 40 minutos", style: TextStyle(fontSize: 17, fontWeight: FontWeight.normal),),
                     ],
                   ),
                   Row(
@@ -153,4 +149,32 @@ class _RecentTransactionsViewState extends State<RecentTransactionsView> {
           ],
         ));
   }
+  Future getClients() async {
+
+    var list = ClientDB.db.getClient();
+    list.then((res) async {
+      print("ID");
+      print(res[0].id);
+      final recentTransactionProvider = new RecentTransactionProvider();
+      final response = recentTransactionProvider.getCurrentOrder(res[0].id);
+      response.then((res) async {
+        if(res['response'] == 2){
+          dataorder.name = res['content']['order']['nameBarber'];
+          if(res['content']['order']['urlImgBarber'] != null){
+            dataorder.url = res['content']['order']['urlImgBarber'];
+          }
+          print(res);
+        }else{
+          dataorder.response = 1;
+        }
+      });    
+      
+    });
+  }
+
+  _getCurrentOrder() {
+    getClients();
+  }
 }
+
+

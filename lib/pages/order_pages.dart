@@ -9,6 +9,7 @@ import 'package:timugo_client_app/providers/register_provider.dart';
 import 'package:timugo_client_app/providers/sqlite_providers.dart';
 
 import 'model_order.dart';
+import 'recent_transaction_pages.dart';
 
 class Order extends StatefulWidget {
   Order({Key key, this.title}) : super(key: key);
@@ -43,12 +44,10 @@ class _MyHomePageState extends State<Order> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     
-    return Scaffold(
-      
+    return Scaffold(      
       bottomNavigationBar: Container(
         height: 200,
         decoration: BoxDecoration(
@@ -69,7 +68,7 @@ class _MyHomePageState extends State<Order> {
                   child:FutureBuilder<List<DataClient>>(
                   future: ClientDB.db.getClient(),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  Text('');
+                  
                     if(snapshot.hasData) {
                      DataClient item = snapshot.data[0];
                      order.idClient=item.id;
@@ -77,14 +76,14 @@ class _MyHomePageState extends State<Order> {
                      order.typeService=1;
                      print(order);
                     }
-                    Text('');
+                   
                     }
                   
                     ),
                   ),
-                    Text('Hay actualmente'+' '+rnd.toString()+' '+'barberos en tu sector ...',style: TextStyle( color: Colors.black, fontSize: 15.0, fontWeight: FontWeight.w800),),
-                     SizedBox(height: 20.0),
-                    GoButton(
+                  Text('Hay actualmente'+' '+rnd.toString()+' '+'barberos en tu sector ...',style: TextStyle( color: Colors.black, fontSize: 15.0, fontWeight: FontWeight.w800),),
+                  SizedBox(height: 20.0),
+                  GoButton(
                       title: "Pedir",
                       onPressed:() 
                        {if (state = false){
@@ -106,17 +105,13 @@ class _MyHomePageState extends State<Order> {
                                 onPressed: () {
                                    var res= ordeProvider.createOrder(order);
                                     res.then((response) async {
-                                      print(res);
+                            
                                       if (response['response'] == 2){
-                                
-                                       Navigator.pushNamed(context, 'transaction');
+                                        Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => RecentTransactionsPage()));                                
+              
                                       //    builder: (context) => Login()));
-
-
                                       }
-
                                     });
-                                  
                                 },
                               ),
                             ],
@@ -397,8 +392,4 @@ class _GoButtonState extends State<GoButton> {
       ],
     );
   }
-
-
-  
 }
-

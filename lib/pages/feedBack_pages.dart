@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
+import 'package:timugo_client_app/providers/register_provider.dart';
+
+import 'model_feed.dart';
 
 
 
@@ -9,6 +12,9 @@ class FeedBack extends StatefulWidget {
 }
 
 class _TestState extends State<FeedBack> {
+  TextEditingController feedController = new TextEditingController();
+  final  feedOrder =FeedProvider();
+  FeedModel feed = FeedModel();
   double rating = 0;
   int starCount = 5;
 
@@ -17,6 +23,7 @@ class _TestState extends State<FeedBack> {
     return Scaffold(
     
       body:Column(
+        
       
         children: <Widget>[
          
@@ -38,6 +45,7 @@ class _TestState extends State<FeedBack> {
               onRatingChanged: (rating) => setState(
                     () {
                       this.rating = rating;
+                      feed.stars = rating.toInt();
                     },
                   ),
             ),
@@ -53,16 +61,23 @@ class _TestState extends State<FeedBack> {
                   
                   ),
                     child: TextField(
+                      controller: feedController,
                       decoration: InputDecoration(
                         hintText: "Dejanos tu comentario",
+                        
                       
                     border: new OutlineInputBorder(
                        borderSide: const BorderSide(color: Colors.blue),
                        borderRadius: const BorderRadius.all(
                         const Radius.circular(30.0),
+                      
                       ),
-              )
+                      
+              ),
+        
                       ),
+
+                      
                       maxLines: 8,
                     ),
                   ),
@@ -82,11 +97,29 @@ class _TestState extends State<FeedBack> {
         color: Colors.red,
         textColor: Colors.white,
         onPressed: (){
-          Navigator.pushNamed(context, 'services');
+          print('la');
+          feed.comment=feedController.text;
+          feed.idOrder=1;
+            var res= feedOrder. finishOrder(feed);
+                  res.then((response) async {
+          
+                    if (response['response'] == 2){
+              
+                    Navigator.pushNamed(context, 'services');
+                    //    builder: (context) => Login()));
 
 
+                    }
+                  });
         },
-      )
+        
+            )
+          
+
+
+
+  
+      
           )
           
         ],
