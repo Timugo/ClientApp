@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "290183294176",
+    "firebase_url": "https://eddymusicapp.firebaseio.com",
+    "project_id": "eddymusicapp",
+    "storage_bucket": "eddymusicapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:290183294176:android:312be7552ff6b521",
+        "android_client_info": {
+          "package_name": "tk.eddymusic.eddymusicapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "290183294176-u65sj43g5rdjv959npjjbirsbl5d0fms.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCobbcWT6OYFqCfpfioVqs37c9-DNW0Y_M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "290183294176-u65sj43g5rdjv959npjjbirsbl5d0fms.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

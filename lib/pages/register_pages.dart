@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:timugo_client_app/models/dataClient_models.dart';
 import 'package:timugo_client_app/providers/register_provider.dart';
 import 'package:timugo_client_app/providers/sqlite_providers.dart';
@@ -10,9 +9,9 @@ import 'services_pages.dart';
 class  Register extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-  
-    
-      return Scaffold(
+
+    return Scaffold(
+      
         body: Stack(
           children: <Widget>[
             Container(child: _fondoApp(),
@@ -145,6 +144,7 @@ class _TestFormState extends State<TestForm> {
             hintText: (_dateTime == null ? 'Fecha de Nacimiento' : _dateTime.toString()),
             onTap:(){
                showDatePicker(
+                  
                   context: context,
                   initialDate: _dateTime == null ? DateTime.now() : _dateTime,
                   firstDate: DateTime(1900),

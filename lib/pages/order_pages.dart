@@ -172,7 +172,8 @@ class _MyHomePageState extends State<Order> {
                       onPressed: () {},
                     ),
                     ProfileWidget(
-                      onPressed: () => Navigator.pushNamed(context, 'notificaciones'),),
+                  //    onPressed: () => Navigator.pushNamed(context, 'notificaciones'),),
+                    ),
                   ],
                 ),
               ),
