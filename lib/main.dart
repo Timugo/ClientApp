@@ -1,6 +1,7 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:timugo_client_app/pages/birt.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:timugo_client_app/pages/feedBack_pages.dart';
 import 'package:timugo_client_app/pages/login_pages.dart';
 import 'package:timugo_client_app/pages/notifications.dart';
@@ -17,6 +18,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Provider(
     child: MaterialApp(
+       localizationsDelegates: [
+      // ... app-specific localization delegate[s] here
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      DefaultCupertinoLocalizations.delegate,
+    ],
+    supportedLocales: [
+      const Locale('en', 'US'), // English
+      const Locale('es', 'ES'), // German
+      // ... other locales the app supports
+    ], 
           debugShowCheckedModeBanner: false,
           initialRoute: 'login',
           routes: {
