@@ -57,6 +57,7 @@ class _RecentTransactionsViewState extends State<RecentTransactionsView> {
                       ),
                     ),
                     SizedBox(height: 10,),
+                  
                     Text(
                       (dataorder.response == 1 ? '\$0.00':'\$15.000'),
                       style: TextStyle(

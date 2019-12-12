@@ -5,9 +5,9 @@ class DataOrder {
   int response;
 
   DataOrder({
-    this.name : "Sin asignar",
+    this.name:'',
     this.url,
-    this.response : 1
+    this.response
   });
 
 }

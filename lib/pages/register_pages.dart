@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:timugo_client_app/models/dataClient_models.dart';
 import 'package:timugo_client_app/providers/register_provider.dart';
 import 'package:timugo_client_app/providers/sqlite_providers.dart';
@@ -7,35 +6,16 @@ import 'package:validators/validators.dart' as validator;
 import 'model.dart';
 import 'services_pages.dart';
 
-
 class  Register extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-   final appTitle = 'REGISTRATE';
 
-
-    return MaterialApp(
-      localizationsDelegates: [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-    ],
-    supportedLocales: [ // English
-          const Locale('es', 'ES'), // Spanish
-    ],
-     
-
-      title: appTitle
+    return Scaffold(
       
-      ,
-      home: Scaffold(
-        
-        
-      
-        
         body: Stack(
           children: <Widget>[
-            Container(
-             child: _fondoApp(),
+            Container(child: _fondoApp(),
+            
             ),
             Center(
               child:Container(
@@ -44,12 +24,9 @@ class  Register extends StatelessWidget {
             )
 
           ],
-          
-
-       
         )
-      ),
-    );
+      );
+    
   }
 }
 
@@ -167,6 +144,7 @@ class _TestFormState extends State<TestForm> {
             hintText: (_dateTime == null ? 'Fecha de Nacimiento' : _dateTime.toString()),
             onTap:(){
                showDatePicker(
+                  
                   context: context,
                   initialDate: _dateTime == null ? DateTime.now() : _dateTime,
                   firstDate: DateTime(1900),
@@ -272,38 +250,7 @@ class _TestFormState extends State<TestForm> {
 
               
    }
-    Widget _birt(BuildContext context){
-   return Scaffold(
-    
-         body:Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-       //     Text(_dateTime == null ? 'Nothing has been picked yet' : _dateTime.toString()),
-            RaisedButton(
-              child: Text('Pick a date'),
-              onPressed: () {
-                showDatePicker(
-                  context: context,
-                  initialDate: _dateTime == null ? DateTime.now() : _dateTime,
-                  firstDate: DateTime(2001),
-                  lastDate: DateTime(2021)
-                ).then((date) {
-                  setState(() {
-                    _dateTime = date;
-                  });
-                });
-              },
-            )
-          ],
-        ),
-      
-    );
-
-
-
-
-
-}
+   
      
 }
 
