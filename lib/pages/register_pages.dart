@@ -7,35 +7,16 @@ import 'package:validators/validators.dart' as validator;
 import 'model.dart';
 import 'services_pages.dart';
 
-
 class  Register extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-   final appTitle = 'REGISTRATE';
-
-
-    return MaterialApp(
-      localizationsDelegates: [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-    ],
-    supportedLocales: [ // English
-          const Locale('es', 'ES'), // Spanish
-    ],
-     
-
-      title: appTitle
-      
-      ,
-      home: Scaffold(
-        
-        
-      
-        
+  
+    
+      return Scaffold(
         body: Stack(
           children: <Widget>[
-            Container(
-             child: _fondoApp(),
+            Container(child: _fondoApp(),
+            
             ),
             Center(
               child:Container(
@@ -44,12 +25,9 @@ class  Register extends StatelessWidget {
             )
 
           ],
-          
-
-       
         )
-      ),
-    );
+      );
+    
   }
 }
 
@@ -272,38 +250,7 @@ class _TestFormState extends State<TestForm> {
 
               
    }
-    Widget _birt(BuildContext context){
-   return Scaffold(
-    
-         body:Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-       //     Text(_dateTime == null ? 'Nothing has been picked yet' : _dateTime.toString()),
-            RaisedButton(
-              child: Text('Pick a date'),
-              onPressed: () {
-                showDatePicker(
-                  context: context,
-                  initialDate: _dateTime == null ? DateTime.now() : _dateTime,
-                  firstDate: DateTime(2001),
-                  lastDate: DateTime(2021)
-                ).then((date) {
-                  setState(() {
-                    _dateTime = date;
-                  });
-                });
-              },
-            )
-          ],
-        ),
-      
-    );
-
-
-
-
-
-}
+   
      
 }
 

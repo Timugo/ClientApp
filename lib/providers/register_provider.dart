@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:http/http.dart' as http ;
 import 'package:timugo_client_app/pages/ServicesModel.dart';
 import 'package:timugo_client_app/pages/model.dart';
@@ -21,8 +22,7 @@ class RegisterProvider{
   
    return decodeData;
    }
-   
-   
+
 
 }
 class OrderProvider{
