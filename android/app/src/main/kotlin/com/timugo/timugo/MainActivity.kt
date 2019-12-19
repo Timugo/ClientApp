@@ -1,4 +1,4 @@
-package com.example.timugo
+package com.timugo.timugo
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
