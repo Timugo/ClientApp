@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 import 'package:timugo/src/models/user_model.dart';
+import 'package:timugo/src/pages/registerData_page.dart';
 import 'package:timugo/src/providers/user.dart';
 import 'package:timugo/src/services/number_provider.dart';
 
@@ -67,7 +68,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   @override
   
   Widget build(BuildContext context) {
-    final  codeProvider = CodeProvider();
+   // final  codeProvider = CodeProvider();
     final  verificateProvider =VerificateProvider();
     final   userInfo    = Provider.of<UserInfo>(context);
  
@@ -163,7 +164,10 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                           style: TextStyle(
                               color: Color(0xFF91D3B3),
                               fontWeight: FontWeight.bold,
-                              fontSize: 16))
+                              fontSize: 16),
+                              
+                              )
+
                     ]),
               ),
               SizedBox(
@@ -195,7 +199,16 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                             res.then((response) async {
                               print(response['response']);
                               if (response['response'] == 2){
-                                print('Aqui debe ir la logica para pasar a una vista o la otra');
+                                if (response['content'] ['code']== 1){
+                                   Navigator.push(
+                                      context,
+                                      
+                                      MaterialPageRoute(
+                                    builder: (context) => RegisterData()));
+
+                                }else{
+                                  print('hola');
+                                }
                               }
                             });
               //     print('lo recibio');

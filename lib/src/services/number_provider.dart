@@ -84,3 +84,31 @@ class VerificateProvider{
 
 }
 }
+
+
+class SendDataProvider{
+
+  final    String url = 'http://167.172.216.181:3000/editInfoUser';
+   
+
+   Future <Map<String,dynamic>>  sendData( int phone,String  name,String email ) async{
+       Map<String, String> headers = {"Content-Type": "application/json"};
+       var data = {
+         "phone":phone,
+          "name": name,
+          "email": email
+        };
+    final encodedData = json.encode(data);
+
+  // make POST request
+      http.Response response = await http.put(url, headers: headers, body: encodedData);
+      final decodeData = jsonDecode(response.body);
+      
+  
+   return decodeData;
+
+
+
+
+   }
+}
