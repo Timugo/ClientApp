@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "1032259778773",
-    "firebase_url": "https://timugo-client-app.firebaseio.com",
-    "project_id": "timugo-client-app",
-    "storage_bucket": "timugo-client-app.appspot.com"
+    "project_number": "918854402198",
+    "firebase_url": "https://timugoclientapp.firebaseio.com",
+    "project_id": "timugoclientapp",
+    "storage_bucket": "timugoclientapp.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1032259778773:android:73213f573236f2da264a5c",
+        "mobilesdk_app_id": "1:918854402198:android:ac803a3867851910a9c2b7",
         "android_client_info": {
           "package_name": "com.timugo.timugo"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1032259778773-l3ki29erigohch6ql9cirqt70cqbuphs.apps.googleusercontent.com",
+          "client_id": "918854402198-b2gf2drkebcdj4qrtsnh4i409imi92oh.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDi4agv_vPXvINen2cOj1EsPk7BZtBcj1M"
+          "current_key": "AIzaSyDsPifARDpIqrgAS8TBQtyI7baFlXh3Lu4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1032259778773-l3ki29erigohch6ql9cirqt70cqbuphs.apps.googleusercontent.com",
+              "client_id": "918854402198-b2gf2drkebcdj4qrtsnh4i409imi92oh.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
