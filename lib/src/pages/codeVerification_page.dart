@@ -195,8 +195,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                             res.then((response) async {
                               print(response['response']);
                               if (response['response'] == 2){
-                                print('Aqui debe ir la logica para pasar a una vista o la otra
-                                ');
+                                print('Aqui debe ir la logica para pasar a una vista o la otra');
                               }
                             });
               //     print('lo recibio');
