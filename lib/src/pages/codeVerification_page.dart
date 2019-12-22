@@ -5,6 +5,8 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 import 'package:timugo/src/models/user_model.dart';
 import 'package:timugo/src/pages/registerData_page.dart';
+import 'package:timugo/src/pages/services_pages.dart';
+import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'package:timugo/src/providers/user.dart';
 import 'package:timugo/src/services/number_provider.dart';
 
@@ -71,8 +73,8 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
    // final  codeProvider = CodeProvider();
     final  verificateProvider =VerificateProvider();
     final   userInfo    = Provider.of<UserInfo>(context);
- 
-   
+    final prefs = new PreferenciasUsuario();
+
 
     
     return Scaffold(
@@ -207,7 +209,14 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                                     builder: (context) => RegisterData()));
 
                                 }else{
-                                  print('hola');
+                                  prefs.token=userInfo.phone.toString();
+
+                                   Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Services()
+                                    )
+                                  );
                                 }
                               }
                             });
