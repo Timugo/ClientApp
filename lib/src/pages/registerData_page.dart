@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:timugo/src/models/user_model.dart';
+import 'package:timugo/src/pages/services_pages.dart';
 import 'package:timugo/src/pages/webview_page.dart';
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'package:timugo/src/providers/user.dart';
@@ -195,7 +196,7 @@ Widget _numberLogin(BuildContext context){
                                       context,
                                       
                                       MaterialPageRoute(
-                                    builder: (context) => RegisterData()));
+                                    builder: (context) => Services()));
                  
                 }else{
 
