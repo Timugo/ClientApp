@@ -184,9 +184,6 @@ Widget _numberLogin(BuildContext context){
               
    }
 }
-
-
-
 class MyTextFormField extends StatelessWidget {
   final Icon text;
   final String hintText;
