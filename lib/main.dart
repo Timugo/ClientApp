@@ -7,7 +7,6 @@ import 'package:timugo/src/pages/registerData_page.dart';
 import 'package:timugo/src/pages/services_pages.dart';
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'package:timugo/src/providers/user.dart';
-import 'package:upgrader/upgrader.dart';
 
 
  
@@ -31,6 +30,7 @@ class MyApp extends StatelessWidget {
       
       ],
       child: MaterialApp(
+        
        
         debugShowCheckedModeBanner: false,
         initialRoute:_rute(),
@@ -44,6 +44,7 @@ class MyApp extends StatelessWidget {
 
         
         },
+       
       )
     );
       

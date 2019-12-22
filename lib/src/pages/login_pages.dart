@@ -4,14 +4,12 @@ import 'package:provider/provider.dart';
 import 'package:timugo/src/models/user_model.dart';
 import 'package:timugo/src/providers/user.dart';
 import 'package:timugo/src/services/number_provider.dart';
-
+import 'package:country_code_picker/country_code_picker.dart';
 import 'codeVerification_page.dart';
  
 
  
 class LoginPage extends StatefulWidget {
-
- 
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -20,29 +18,14 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final  registeProvider = NumberProvider();
- 
- 
+  bool monVal = false;
   Model model = Model();
   
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
-      
       body:Stack(
         children: <Widget>[
-           Container(
-      
-          // decoration: BoxDecoration(
-          //   image: DecorationImage(
-          // //    image: AssetImage('assets/images/timugo.png'),
-          //     fit: BoxFit.fitWidth,
-          //     alignment: Alignment.topCenter,
-          //   //  colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.8), BlendMode.dstATop)
-          //   )
-          // ),
-        ),
-        //  _crearFondo(context),
           _loginForm(context),
         ],
       ),
@@ -50,130 +33,129 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-Widget _loginForm(BuildContext context) {
+  Widget _loginForm(BuildContext context) {
 
- // final size = MediaQuery.of(context).size;
-
-  return SingleChildScrollView(
-    child: Column(
-      children: <Widget>[
-
-       
-
-         Container(
-          width: MediaQuery.of(context).size.width,
-          margin: EdgeInsets.only(top: 270),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: Colors.white,
-          ),
-          
-            
-                
-          child: Column(
-            children: <Widget>[
-              Text('Ingreso', textAlign: TextAlign.left,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30)
-                    ),
-              SizedBox(height: 60.0),
-              _numberLogin( context ),
-              SizedBox(height: 30.0),
-          
+  final size = MediaQuery.of(context).size;
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            margin: EdgeInsets.only(top: size.height*0.02),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: Colors.white,
+            ),
+            child: Column(
+              children: <Widget>[
+                SizedBox(height:size.height*0.05),
+                Text('Ingresa a Timugo con tu número celular', textAlign: TextAlign.left,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontSize: 20)
+                      ),
+                SizedBox(height:size.height*0.02),
+                _numberLogin( context ),
             ],
+            ),
           ),
-        ),
-        GestureDetector(
-          child: Text('Acepto de manera expresa e informada los Términos & Condiciones y la Política de Tratamiento de Datos Personales de Timugo S.A.S', style: TextStyle(decoration: TextDecoration.underline),),
-          onTap: (){
-         ///  Navigator.pushNamed(context, 'register');
-          },
-        ),
-        SizedBox(height: 80.0,)
-      ],
-    ),
-  );
-}
+        ],
+      ),
+    );
+  }
 
-Widget _numberLogin(BuildContext context){
-   final userInfo   = Provider.of<UserInfo>(context);
+  Widget _numberLogin(BuildContext context){
+    final size = MediaQuery.of(context).size;
+    final userInfo   = Provider.of<UserInfo>(context);
     return Form(
-      
-
-     
-        key: _formKey,
-        child: Column(
+          key: _formKey,
+          child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-
-              MyTextFormField(
-                inputFormatters: <TextInputFormatter>[
-        WhitelistingTextInputFormatter.digitsOnly],
-                
-            text: Icon(Icons.phone_android),
-            hintText: 'Celular',
-            validator: (String value) {
-              if ( value.length < 10){
-                return 'Digita un numero valido';
-              }
-              return null;
-            },
-            onSaved: (String value) {
-              print('entre');
-                      model.phone = int.parse(value);
-                      userInfo.phone = model.phone;
-                    },
-           
-           
-          ),
-            RaisedButton(
-          
-            color: Colors.blueAccent,
-            onPressed: _subimit,
-            child: Text(
-              'Sign Up',
-              style: TextStyle(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                new Container(
+                  child:new Flexible(
+                    child:CountryCodePicker(
+                      onChanged: print,
+                      initialSelection: 'CO',
+                      favorite: ['+57','CO'],
+                      showCountryOnly: false,
+                      showOnlyCountryWhenClosed: false,
+                      alignLeft: false,
+                    ),
+                  )
+                ),
+                new Container(
+                  child:new Flexible(
+                    child:MyTextFormField(
+                      inputFormatters: <TextInputFormatter>[WhitelistingTextInputFormatter.digitsOnly],
+                      hintText: 'Celular',
+                      validator: (String value) {
+                        if ( value.length < 10){
+                          return 'Digita un numero valido';
+                        }
+                        return null;
+                      },
+                      onSaved: (String value) {
+                        model.phone = int.parse(value);
+                        userInfo.phone = model.phone;
+                      },
+                    )
+                  ),
+                )
+              ]
+            ),
+            RaisedButton(                                   
+              elevation: 5.0,
+              shape: new RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(30.0),
+                side: BorderSide(color: Colors.green)
+              ),
+              color: Colors.green.shade300,
+              padding: EdgeInsets.fromLTRB(size.width*0.2, 20.0, size.width*0.2, 20.0),
+              onPressed: monVal == false ? null:   _subimit ,
+              child: Text(
+                'Recibir código  por SMS',textAlign: TextAlign.center,
+                style: TextStyle(
                 color: Colors.white,
-                
+                ),
               ),
             ),
-          )
-
-
-
-
+            CheckboxListTile(
+              controlAffinity: ListTileControlAffinity.leading,
+              title: Text('Acepto recibir el código de verificación por SMS.',style: TextStyle(fontSize: 13)),
+              value: monVal,
+              onChanged: (bool value) {
+                setState(() {
+                  monVal = value;
+                });
+              },
+            )
           ]
         )
-      
     );
-
-
-
-
-}
+  }
 
    void _subimit(){
      print(model.phone);
             if (_formKey.currentState.validate()) {
               _formKey.currentState.save();
               var res= registeProvider.sendNumber(model);
-             
-
               res.then((response) async {
-                if (response['response'] == 2){
-                  print('lo recibio');
-                  print( response['content']);
-                  Navigator.push(
-                   context,
-                  
-                   MaterialPageRoute(
-                 builder: (context) => Code(model: this.model)));
+               if (response['response'] == 2){
+                 Navigator.push(
+                   context,MaterialPageRoute(
+                   builder: (context) => Code(model: this.model))
+                );
 
-                }else{
+               }else{
 
-                  print( response['content']);
-                }
+                 print( response['content']);
+               }
 
-              });
+             });
               
 
               

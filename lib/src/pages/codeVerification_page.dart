@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 import 'package:timugo/src/models/user_model.dart';
+import 'package:timugo/src/pages/login_pages.dart';
 import 'package:timugo/src/pages/registerData_page.dart';
+import 'package:timugo/src/pages/services_pages.dart';
 import 'package:timugo/src/providers/user.dart';
 import 'package:timugo/src/services/number_provider.dart';
 
@@ -16,12 +18,16 @@ class Code extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return Scaffold(
+      
+       body:Stack(
+        children: <Widget>[
+         
+          PinCodeVerificationScreen(model.phone.toString()), 
+        ],
       ),
-      home: PinCodeVerificationScreen(model.phone.toString()), // a random number, please don't call xD
+    
+     // a random number, please don't call xD
     );
   }
 }
@@ -71,7 +77,8 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
    // final  codeProvider = CodeProvider();
     final  verificateProvider =VerificateProvider();
     final   userInfo    = Provider.of<UserInfo>(context);
- 
+    final size = MediaQuery.of(context).size;
+    var stam =size.width*0.1; 
    
 
     
@@ -82,39 +89,58 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
         onTap: () {
           FocusScope.of(context).requestFocus(new FocusNode());
         },
+        
         child: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: ListView(
             children: <Widget>[
-              SizedBox(height: 30),
-              // Image.asset(
-              //   'assets/verify.png',
-              //   height: MediaQuery.of(context).size.height / 3,
-              //   fit: BoxFit.fitHeight,
-              // ),
-              SizedBox(height: 8),
+               SizedBox(height: 20),
+                Container(
+                 alignment: Alignment.bottomLeft,
+
+                child:FlatButton(
+                onPressed: ()  {
+                  Navigator.push(
+                   context,
+                  
+                   MaterialPageRoute(
+                 builder: (context) => LoginPage()));
+
+                },
+                
+
+                child: Column(
+                  children: <Widget>[
+                    Icon(Icons.arrow_back),
+                    
+                    
+                  ],
+                ),
+              ),
+                ),
+            SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Text(
-                  'Codigo de verificacion',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                  'Código de verificación ',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
                   textAlign: TextAlign.center,
                 ),
               ),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
+                     EdgeInsets.symmetric(horizontal: size.width*0.05, vertical: 8),
                 child: RichText(
                   text: TextSpan(
-                      text: "Digite el codigo enviado ",
+                      text: "Introduce tu código enviado  al: +57 ",
                       children: [
                         TextSpan(
                             text: widget.phoneNumber,
                             style: TextStyle(
-                                color: Colors.black,
+                                color: Color(0xFF91D3B3),
                                 fontWeight: FontWeight.bold,
-                                fontSize: 15)),
+                                fontSize: 17)),
                       ],
                       style: TextStyle(color: Colors.black54, fontSize: 15)),
                   textAlign: TextAlign.center,
@@ -124,16 +150,17 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                 height: 20,
               ),
               Padding(
+                
                   padding:
-                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 30),
+                       EdgeInsets.symmetric(vertical: 8.0, horizontal: stam),
                   child: PinCodeTextField(
                     length: 6,
                     obsecureText: false,
                     animationType: AnimationType.fade,
-                    shape: PinCodeFieldShape.underline,
+                    shape: PinCodeFieldShape.box,
                     animationDuration: Duration(milliseconds: 300),
-                    borderRadius: BorderRadius.circular(5),
-                    fieldHeight: 50,
+                    borderRadius: BorderRadius.circular(10),
+                    fieldHeight: 40,
                     fieldWidth: 40,
                     onChanged: (value) {
                       setState(() {
@@ -142,20 +169,18 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                     },
                   )),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                padding: EdgeInsets.symmetric(horizontal: size.width*0.1),
                 // error showing widget
                 child: Text(
-                  hasError ? "*Por favor chinga tu madre" : "",
+                  hasError ? "*Por favor llena todos los campos" : "",
                   style: TextStyle(color: Colors.red.shade300, fontSize: 15),
                 ),
               ),
-              SizedBox(
-                height: 20,
-              ),
+            SizedBox(height: 5,),
               RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
-                    text: "No recibio el codigo? ",
+                    text: "No recibió el código? ",
                     style: TextStyle(color: Colors.black54, fontSize: 15),
                     children: [
                       TextSpan(
@@ -171,7 +196,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                     ]),
               ),
               SizedBox(
-                height: 14,
+                height: 10,
               ),
               Container(
                 margin:
@@ -189,11 +214,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                         setState(() {
 
                           hasError = false;
-                          // scaffoldKey.currentState.showSnackBar(SnackBar(
-                          //   content: Text("Aye!!"),
-                          //   duration: Duration(seconds: 2),
-                          // ));
-                          var res= verificateProvider.verificateCode(userInfo.phone.toString(),currentText);
+                           var res= verificateProvider.verificateCode(userInfo.phone.toString(),currentText);
              
 
                             res.then((response) async {
@@ -207,11 +228,16 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                                     builder: (context) => RegisterData()));
 
                                 }else{
-                                  print('hola');
+                                   Navigator.push(
+                                      context,
+                                      
+                                      MaterialPageRoute(
+                                    builder: (context) => Services()));
+                                 
                                 }
                               }
-                            });
-              //     print('lo recibio');
+                           });
+                  print('lo recibio');
                         });
 
 
@@ -229,7 +255,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                 ),
                 decoration: BoxDecoration(
                     color: Colors.green.shade300,
-                    borderRadius: BorderRadius.circular(5),
+                    borderRadius: BorderRadius.circular(30),
                     boxShadow: [
                       BoxShadow(
                           color: Colors.green.shade200,
