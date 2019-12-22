@@ -6,6 +6,7 @@ import 'package:timugo/src/pages/login_pages.dart';
 import 'package:timugo/src/pages/registerData_page.dart';
 import 'package:timugo/src/pages/services_pages.dart';
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
+import 'package:timugo/src/providers/push_notifications_provider.dart';
 import 'package:timugo/src/providers/user.dart';
 
 
@@ -18,7 +19,26 @@ void main() async{
  runApp(MyApp());
 }
  
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  @override
+  void initState() {
+    
+    super.initState();
+
+    final pushProvider = PushNotificationProvider(); 
+    pushProvider.initNotifications();
+
+    pushProvider.messages.listen((argument){
+      print("Argumento");
+      print(argument);
+    });
+  }
   @override
   Widget build(BuildContext context) {
     
@@ -40,8 +60,6 @@ class MyApp extends StatelessWidget {
           'code':(context)=> Code(),
           'registerData':(context)=> RegisterData(),
           'services':(context)=> Services()
-
-
         
         },
        
