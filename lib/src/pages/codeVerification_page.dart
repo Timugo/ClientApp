@@ -7,6 +7,9 @@ import 'package:timugo/src/models/user_model.dart';
 import 'package:timugo/src/pages/login_pages.dart';
 import 'package:timugo/src/pages/registerData_page.dart';
 import 'package:timugo/src/pages/services_pages.dart';
+
+import 'package:timugo/src/preferencesUser/preferencesUser.dart';
+
 import 'package:timugo/src/providers/user.dart';
 import 'package:timugo/src/services/number_provider.dart';
 
@@ -80,6 +83,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
     final size = MediaQuery.of(context).size;
     var stam =size.width*0.1; 
    
+
 
     
     return Scaffold(
@@ -228,12 +232,14 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                                     builder: (context) => RegisterData()));
 
                                 }else{
+
                                    Navigator.push(
                                       context,
                                       
                                       MaterialPageRoute(
                                     builder: (context) => Services()));
                                  
+
                                 }
                               }
                            });
