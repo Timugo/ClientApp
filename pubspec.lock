@@ -164,21 +164,12 @@ packages:
     source: hosted
     version: "2.3.0+3"
   platform:
-
     dependency: transitive
     description:
       name: platform
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.1"
-  plugin_platform_interface:
-
-    dependency: transitive
-    description:
-      name: plugin_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.1"
   provider:
     dependency: "direct main"
     description:
