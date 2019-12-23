@@ -40,7 +40,7 @@ class PushNotificationProvider {
         print('======= oN Resume ======');
         print(info);
         
-        final noti = info['data']['number'];;
+        final noti = info['data']['number'];
         print(noti);
       }
     );

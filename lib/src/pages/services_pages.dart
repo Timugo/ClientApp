@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:timugo/src/widgets/cardsServices.dart';
+import 'package:timugo/src/widgets/cardsBarbers.dart';
+
 import 'package:timugo/src/widgets/circularBackground.dart';
 
 import 'package:timugo/src/widgets/customAppbar.dart';
@@ -24,6 +26,8 @@ class Services extends StatelessWidget {
                   CustomAppBar(),
                   _Header(),
                   CardsServices(),
+                  _HeaderBarbers(),
+                  CardsBarbers(),
 
                 ],
               ) ,
@@ -46,10 +50,35 @@ class  _Header extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start ,
         children: <Widget>[
-          SizedBox(height: 45.0,),
+          SizedBox(height: 20.0,),
           Text('Servicios',style:TextStyle(fontWeight:FontWeight.bold,fontSize:30.0)),
           Text('Que quieres pedir hoy?',style:TextStyle(fontWeight:FontWeight.w100,fontSize:18.0))
 
+        ],
+      ),
+    );
+  }
+}
+class  _HeaderBarbers extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 25.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start ,
+        children: <Widget>[
+          SizedBox(height: 20.0,),
+          Text('Barberos',style:TextStyle(fontWeight:FontWeight.bold,fontSize:25.0)),
+          Row(
+            children: <Widget>[
+              Icon(FontAwesomeIcons.fire,color: Colors.red,),
+              SizedBox(width: 15.0,),
+              Text('Nuestros Barberos mas Top',style:TextStyle(fontWeight:FontWeight.w100,fontSize:18.0)),
+              SizedBox(width: 15.0,),
+              Icon(FontAwesomeIcons.fire,color: Colors.red,)
+            ],
+          ),
         ],
       ),
     );

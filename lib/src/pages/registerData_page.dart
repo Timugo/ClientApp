@@ -3,10 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:timugo/src/models/user_model.dart';
 import 'package:timugo/src/pages/services_pages.dart';
+
+import 'package:timugo/src/pages/webview_page.dart';
+
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'package:timugo/src/providers/user.dart';
 import 'package:timugo/src/services/number_provider.dart';
 import 'package:validators/validators.dart' as validator;
+
 
  
 
@@ -22,6 +26,7 @@ class RegisterData extends StatefulWidget {
 class _LoginPageState extends State<RegisterData> {
   final _formKey = GlobalKey<FormState>();
   final  sendDataProvider = SendDataProvider();
+   bool monVal = false;
  
  
   Model model = Model();
@@ -33,18 +38,6 @@ class _LoginPageState extends State<RegisterData> {
       
       body:Stack(
         children: <Widget>[
-           Container(
-      
-          // decoration: BoxDecoration(
-          //   image: DecorationImage(
-          // //    image: AssetImage('assets/images/timugo.png'),
-          //     fit: BoxFit.fitWidth,
-          //     alignment: Alignment.topCenter,
-          //   //  colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.8), BlendMode.dstATop)
-          //   )
-          // ),
-        ),
-        //  _crearFondo(context),
           _loginForm(context),
         ],
       ),
@@ -54,44 +47,33 @@ class _LoginPageState extends State<RegisterData> {
 
 Widget _loginForm(BuildContext context) {
 
- // final size = MediaQuery.of(context).size;
+ final size = MediaQuery.of(context).size;
 
   return SingleChildScrollView(
     child: Column(
       children: <Widget>[
 
        
-
-         Container(
-          width: MediaQuery.of(context).size.width,
-          margin: EdgeInsets.only(top: 270),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: Colors.white,
-          ),
-          
-            
-                
-          child: Column(
-            children: <Widget>[
-              Text('datos', textAlign: TextAlign.left,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30)
-                    ),
-              SizedBox(height: 60.0),
-              _numberLogin( context ),
-              SizedBox(height: 30.0),
-          
-            ],
-          ),
-        ),
-        GestureDetector(
-          child: Text('Acepto de manera expresa e informada los Términos & Condiciones y la Política de Tratamiento de Datos Personales de Timugo S.A.S', style: TextStyle(decoration: TextDecoration.underline),),
-          onTap: (){
-         ///  Navigator.pushNamed(context, 'register');
-          },
-        ),
-        SizedBox(height: 80.0,)
+           SizedBox(height: size.height*0.1),
+          Container(),
+              SizedBox(height: 10),
+              // Image.asset(
+              //   'assets/verify.png',
+              //   height: MediaQuery.of(context).size.height / 3,
+              //   fit: BoxFit.fitHeight,
+              // ),
+              SizedBox(height: 8),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Text(
+                  'Datos Personales',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              _numberLogin( context )
+        
+      
       ],
     ),
   );
@@ -99,14 +81,18 @@ Widget _loginForm(BuildContext context) {
 
 Widget _numberLogin(BuildContext context){
    final userInfo   = Provider.of<UserInfo>(context);
+    final size = MediaQuery.of(context).size;
     return Form(
       
 
      
         key: _formKey,
         child: Column(
+           mainAxisSize: MainAxisSize.min,
+           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-
+            
+              
               MyTextFormField(
                
                 
@@ -143,18 +129,43 @@ Widget _numberLogin(BuildContext context){
               userInfo.email =model.email;
             },
           ),
-            RaisedButton(
+             RaisedButton(
           
-            color: Colors.blueAccent,
-            onPressed: _subimit,
+            elevation: 5.0,
+          shape: new RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(30.0),
+            side: BorderSide(color: Colors.green)),
+         color: Colors.green.shade300,
+          
+          padding: EdgeInsets.fromLTRB(size.width*0.35, 20.0, size.width*0.35, 20.0),
+            onPressed: monVal == false ? null:  _subimit,
             child: Text(
-              'Sign Up',
+              'Entrar',textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.white,
                 
               ),
             ),
-          )
+          ),
+          CheckboxListTile(
+                controlAffinity: ListTileControlAffinity.leading,
+                title: InkWell(
+                  child: new Text('Acepto terminos y condiciones',style: TextStyle(fontSize: 13,color: Colors.black)),
+                                  onTap: ()  {  Navigator.push(
+                   context,
+                  
+                   MaterialPageRoute(
+                 builder: (context) => MyWebView()));
+                  }
+              ),
+                value: monVal,
+                onChanged: (bool value) {
+                  setState(() {
+                    monVal = value;
+                    
+                  });
+                },
+              )
 
 
 
@@ -184,13 +195,11 @@ Widget _numberLogin(BuildContext context){
                   print( response['content']);
                   prefs.token=userInfo.phone.toString();
                    Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Services()
-                    )
-                  );
 
-
+                                      context,
+                                      
+                                      MaterialPageRoute(
+                                    builder: (context) => Services()));
 
                  
                 }else{
@@ -232,8 +241,10 @@ class MyTextFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+        final size = MediaQuery.of(context).size;
+
     return Padding(
-      padding: EdgeInsets.all(8.0),
+      padding: EdgeInsets.only(left:size.width*0.1,right: size.width*0.1,bottom:10,top: size.width*0.05),
       
       child: TextFormField(
 
