@@ -8,7 +8,7 @@ import 'package:timugo/src/pages/services_pages.dart';
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'package:timugo/src/providers/push_notifications_provider.dart';
 import 'package:timugo/src/providers/user.dart';
-import 'package:upgrader/upgrader.dart';
+
 
 
  
