@@ -8,8 +8,17 @@ class CardsServices extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 460,
-      child: _Card(),
+      height: 330,
+      child: PageView(
+        controller: PageController(viewportFraction: 0.67),
+        children: <Widget>[
+          _Card(),
+          _Card(),
+          _Card(),
+          _Card(),
+          
+        ],
+      ),
     );
   }
 }
@@ -20,9 +29,20 @@ class _Card extends StatelessWidget {
     return Container(
       child: Stack(
         children: <Widget>[
-          _FirstDescription(),
-          SizedBox(),
-          _DescriptionCard(),
+          Row(
+            children: <Widget>[
+              _FirstDescription(),
+              SizedBox(width: 10.0),
+              _DescriptionCard(),
+            ],
+          ),
+
+          Positioned(
+            top: 35,
+            left: 10,
+            child: Image.network('https://shorebeautyschool.edu/wp-content/uploads/2018/05/Barber-Beard-Slider-5-2.png',width: 210,)
+          )
+
         ],
       ),
     );
@@ -37,6 +57,7 @@ class _FirstDescription extends StatelessWidget {
       child: RotatedBox(
         quarterTurns: 3,
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Icon(FontAwesomeIcons.cut,size: 15,),
             SizedBox(width: 10.0,),
