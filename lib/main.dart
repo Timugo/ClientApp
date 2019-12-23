@@ -11,6 +11,8 @@ import 'package:timugo/src/providers/user.dart';
 
 
 
+
+
  
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,6 +53,7 @@ class _MyAppState extends State<MyApp> {
       
       ],
       child: MaterialApp(
+        
        
         debugShowCheckedModeBanner: false,
         initialRoute:_rute(),
@@ -62,6 +65,7 @@ class _MyAppState extends State<MyApp> {
           'services':(context)=> Services()
         
         },
+       
       )
     );
       
