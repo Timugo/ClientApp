@@ -134,9 +134,7 @@ class _DescriptionCard extends StatelessWidget {
                     decoration:BoxDecoration(
                       color: Colors.red,
                       borderRadius: BorderRadius.only(topLeft: Radius.circular(15))
-
                     ) ,
-                    
                   ),
                 ],
               )

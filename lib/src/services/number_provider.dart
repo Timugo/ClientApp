@@ -23,38 +23,20 @@ class NumberProvider{
       
   
    return decodeData;
-
-
-   
+  }
 }
-
-
-
-
-}
-
-
 
 
 class CodeProvider{
 
   final    String url = 'http://167.172.216.181:3000/sendCode';
-   
-
    Future <Map<String,dynamic>>  sendCode(String  phone) async{
       var _urlcode = url+'?phone='+phone;
-   
-    
   // make POST request
       http.Response response = await http.get(_urlcode);
       final decodeData = jsonDecode(response.body);
-      
-  
-   return decodeData;
-
-
-   
-}
+   return decodeData; 
+  }
 }
 
 class VerificateProvider{
@@ -76,13 +58,7 @@ class VerificateProvider{
       
   
    return decodeData;
-
-
-
-
-
-
-}
+  }
 }
 
 
@@ -106,9 +82,5 @@ class SendDataProvider{
       
   
    return decodeData;
-
-
-
-
-   }
+  }
 }
