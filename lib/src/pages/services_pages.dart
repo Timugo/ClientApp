@@ -23,7 +23,7 @@ class Services extends StatelessWidget {
               child:Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  CustomAppBar(),
+                  //CustomAppBar(),
                   _Header(),
                   CardsServices(),
                   _HeaderBarbers(),
