@@ -10,6 +10,9 @@ import 'package:timugo/src/providers/push_notifications_provider.dart';
 import 'package:timugo/src/providers/user.dart';
 
 
+
+
+
  
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -80,7 +83,7 @@ class _MyAppState extends State<MyApp> {
       
     }else{
 
-      return 'login';
+      return 'services';
     }
 
 
