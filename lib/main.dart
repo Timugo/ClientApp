@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:timugo/src/pages/codeVerification_page.dart';
+import 'package:timugo/src/pages/home.dart';
 import 'package:timugo/src/pages/login_pages.dart';
 import 'package:timugo/src/pages/registerData_page.dart';
 import 'package:timugo/src/pages/services_pages.dart';
@@ -62,7 +63,8 @@ class _MyAppState extends State<MyApp> {
           'login':(context)=> LoginPage(),
           'code':(context)=> Code(),
           'registerData':(context)=> RegisterData(),
-          'services':(context)=> Services()
+          'services':(context)=> MyHomePage(),
+          //'home':(context)=>MyHomePage(),
         
         },
        
@@ -77,7 +79,7 @@ class _MyAppState extends State<MyApp> {
    _rute<String> () {
     final prefs = new PreferenciasUsuario();
     print(prefs.token);
-    if (prefs.token!= '') {
+    if (prefs.token!='') {
       var ruta='services';
       return ruta;
       
