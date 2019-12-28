@@ -24,6 +24,7 @@ class Services extends StatelessWidget {
               child:Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+
                     
                   CustomAppBar(),
                   Container(
@@ -36,6 +37,7 @@ class Services extends StatelessWidget {
                       
                     ),
                   ),  
+
                   _Header(),
                   SizedBox(height: 20,),
                   CardsServices(),
