@@ -1,20 +1,17 @@
+//flutter dependencies
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
-import 'package:timugo/src/models/user_model.dart';
-import 'package:timugo/src/pages/services_page.dart';
-
-import 'package:timugo/src/pages/webview_page.dart';
-
+//user dependencies
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'package:timugo/src/providers/user.dart';
 import 'package:timugo/src/services/number_provider.dart';
-import 'package:validators/validators.dart' as validator;
+import 'package:validators/validators.dart' as validator; 
+import 'package:provider/provider.dart';
+import 'package:timugo/src/models/user_model.dart';
+//pages 
+import 'package:timugo/src/pages/services_page.dart';
+import 'package:timugo/src/pages/webview_page.dart';
 
-
- 
-
- 
 class RegisterData extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
