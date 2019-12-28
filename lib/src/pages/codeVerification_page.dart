@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:timugo/src/models/user_model.dart';
 import 'package:timugo/src/pages/login_pages.dart';
 import 'package:timugo/src/pages/registerData_page.dart';
-import 'package:timugo/src/pages/services_pages.dart';
+import 'package:timugo/src/pages/services_page.dart';
 
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 
