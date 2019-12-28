@@ -5,6 +5,7 @@ class UserInfo with ChangeNotifier {
   int _phone = 0;
   String _name='';
   String _email ='';
+  List<String> _directions=['Direccion']; 
 
 
   get phone {
@@ -15,6 +16,9 @@ class UserInfo with ChangeNotifier {
   }
   get email {
     return _email;
+  }
+   get directions {
+    return _directions;
   }
 
   set phone( int nombre ) {
@@ -28,6 +32,15 @@ class UserInfo with ChangeNotifier {
   set email( String nombre ) {
     this._email = nombre;
     notifyListeners();
+  }
+  
+  set directions( List nombre ) {
+    if (nombre != null) {
+      this._directions= nombre;
+    notifyListeners();
+      
+    }
+    
   }
 
 }

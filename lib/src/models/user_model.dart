@@ -2,11 +2,13 @@
 
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
+
 Model registerModelFromJson(String str) => Model.fromJson(json.decode(str));
 
 String registerModelToJson(Model data) => json.encode(data.toJson());
 
-class Model {
+class Model with ChangeNotifier{
     
     int phone;
     String name;

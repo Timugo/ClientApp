@@ -77,7 +77,32 @@ class Services extends StatelessWidget {
         });
   }
   
+  Column _buildBottomNavigationMenu(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        ListTile(
+          leading: Icon(Icons.ac_unit),
+          title: Text('Cooling'),
+          onTap: () => _selectItem('Cooling',context),
+        ),
+        ListTile(
+          leading: Icon(Icons.accessibility_new),
+          title: Text('People'),
+          onTap: () => _selectItem('People',context),
+        ),
+        ListTile(
+          leading: Icon(Icons.assessment),
+          title: Text('Stats'),
+          onTap: () => _selectItem('Stats',context),
+        ),
+      ],
+    );
+  }
 
+  void _selectItem(String name,BuildContext context) {
+    Navigator.pop(context);
+ 
+  }
 
 
 
