@@ -7,9 +7,9 @@ class CardsBarbers extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 330,
+      height: 230,
       child: PageView(
-        controller: PageController(viewportFraction: 0.67),
+        controller: PageController(viewportFraction: 0.48),
         children: <Widget>[
           _Card(),
           _Card(),
