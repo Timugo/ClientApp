@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:timugo/src/widgets/addDirections.dart';
 
 class CustomAppBar extends StatelessWidget {
 
@@ -13,6 +14,13 @@ class CustomAppBar extends StatelessWidget {
                         SizedBox(width: 15.0,),
                         IconButton(icon:Icon(FontAwesomeIcons.userCircle,size: 25.0,color: Colors.black),onPressed: (){},), 
                         Spacer(),
+                        FlatButton.icon(
+                     
+                          label: Text('Dirección Actual',),
+                          icon: Icon(Icons.arrow_drop_down),
+                          onPressed: () => _onButtonPressed(context),
+                          
+                        ),
                         Stack(
                           children: <Widget>[
                           IconButton(icon:Icon(FontAwesomeIcons.headset,color: Colors.black,),onPressed: (){},),
@@ -38,4 +46,26 @@ class CustomAppBar extends StatelessWidget {
     );
   }
 }
+
+void _onButtonPressed(BuildContext context) {
+     final size = MediaQuery.of(context).size.height;
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+            color: Color(0xFF737373),
+            height: size*0.75,
+            child: Container(
+              child: AddDireccions(),
+              decoration: BoxDecoration(
+                color: Theme.of(context).canvasColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: const Radius.circular(10),
+                  topRight: const Radius.circular(10),
+                ),
+              ),
+            ),
+          );
+        });
+  }
 
