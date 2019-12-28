@@ -8,6 +8,7 @@ import 'package:timugo/src/pages/services_pages.dart';
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'package:timugo/src/providers/push_notifications_provider.dart';
 import 'package:timugo/src/providers/user.dart';
+import 'package:timugo/src/services/number_provider.dart';
 
 
 
@@ -50,6 +51,8 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider( builder: (context) => UserInfo() ),
+        ChangeNotifierProvider( builder: (context) => ServicesProvider() ),
+
       
       ],
       child: MaterialApp(
@@ -63,6 +66,7 @@ class _MyAppState extends State<MyApp> {
           'code':(context)=> Code(),
           'registerData':(context)=> RegisterData(),
           'services':(context)=> Services()
+          
         
         },
        
@@ -83,7 +87,7 @@ class _MyAppState extends State<MyApp> {
       
     }else{
 
-      return 'login';
+      return 'services';
     }
 
 
