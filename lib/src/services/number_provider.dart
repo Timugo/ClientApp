@@ -1,6 +1,8 @@
 
 
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:timugo/src/models/services_model.dart';
 
 import 'dart:convert';
 
@@ -80,7 +82,41 @@ class SendDataProvider{
       http.Response response = await http.put(url, headers: headers, body: encodedData);
       final decodeData = jsonDecode(response.body);
       
-  
+
    return decodeData;
   }
+}
+
+
+class ServicesProvider  extends ChangeNotifier{
+
+   final    String url = 'http://167.99.99.86/getServices';
+   List<ServicesModel> _productos = new List();
+
+   ServicesProvider(){
+
+     getServices();
+
+
+   }
+   List<ServicesModel> get productos => _productos;
+  
+
+    Future<List<ServicesModel>>  getServices() async{
+    http.Response response = await http.get(url);
+    final decodeData = json.decode(response.body) ;
+    var list = decodeData['content'] as List;
+  
+     _productos =list.map((i)=>ServicesModel.fromJson(i)).toList();
+
+
+    
+    
+    return productos;
+  
+
+    
+
+  
+   }
 }

@@ -1,29 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:timugo/src/models/services_model.dart';
+import 'package:timugo/src/services/number_provider.dart';
 
 class CardsServices extends StatelessWidget {
   const CardsServices({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final products =Provider.of<ServicesProvider>(context);
     return Container(
       width: double.infinity,
       height: 330,
       child: PageView(
         controller: PageController(viewportFraction: 0.67),
-        children: <Widget>[
-          _Card(),
-          _Card(),
-          _Card(),
-          _Card(),
+        children:products.productos.map((prod)=> _Card(prod)).toList()
+          // _Card(),
+          // _Card(),
+          // _Card(),
+          // _Card(),
           
-        ],
+          
+        
       ),
     );
   }
 }
 
 class _Card extends StatelessWidget {
+ final  ServicesModel prod;
+  _Card(this.prod);
+   final url ='http://167.99.99.86/';
+   
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,16 +40,19 @@ class _Card extends StatelessWidget {
         children: <Widget>[
           Row(
             children: <Widget>[
-              _FirstDescription(),
+           //   _FirstDescription(prod),
               SizedBox(width: 10.0),
-              _DescriptionCard(),
+              _DescriptionCard(prod),
             ],
           ),
-
+         
           Positioned(
+            
+           
+           
             top: 35,
             left: 10,
-            child: Image.network('https://shorebeautyschool.edu/wp-content/uploads/2018/05/Barber-Beard-Slider-5-2.png',width: 210,)
+            child: Image.network(url+prod.urlImg,width: 210,)
           )
 
         ],
@@ -49,35 +61,42 @@ class _Card extends StatelessWidget {
   }
 }
 
-class _FirstDescription extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(10.0),
-      child: RotatedBox(
-        quarterTurns: 3,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Icon(FontAwesomeIcons.cut,size: 15,),
-            SizedBox(width: 10.0,),
-            Text("Incluye perfilado de cejas",style: TextStyle(fontSize: 12.0),),
+// class _FirstDescription extends StatelessWidget {
+//    final ServicesModel prod;
+//    _FirstDescription (this.prod);
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: EdgeInsets.all(10.0),
+//       child: RotatedBox(
+//         quarterTurns: 3,
+//         child: Row(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: <Widget>[
+//             Icon(FontAwesomeIcons.cut,size: 15,),
+//             SizedBox(width: 10.0,),
+//             Text('${prod.price}-Incluye perfilado de cejas',style: TextStyle(fontSize: 12.0),),
             
-            SizedBox(width:30.0),
+//             SizedBox(width:30.0),
              
-            Icon(FontAwesomeIcons.smileBeam,size: 15,),
-            SizedBox(width: 10.0,),
-            Text("Clasico",style: TextStyle(fontSize: 12.0),),
+//             Icon(FontAwesomeIcons.smileBeam,size: 15,),
+//             SizedBox(width: 10.0,),
+//             Text("Clasico",style: TextStyle(fontSize: 12.0),),
             
             
-          ],
-        ),
-      ),
-    );
-  }
-}
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 class _DescriptionCard extends StatelessWidget {
+  final ServicesModel prod;
+ 
+  _DescriptionCard (this.prod);
+
+ 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -102,7 +121,7 @@ class _DescriptionCard extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
-                    Text('Urban Style',style: TextStyle(color: Colors.white24,fontSize: 30,fontWeight: FontWeight.bold)),
+                    //Text('Urban Style',style: TextStyle(color: Colors.white24,fontSize: 30,fontWeight: FontWeight.bold)),
 
                   ],
                 ),
@@ -112,9 +131,10 @@ class _DescriptionCard extends StatelessWidget {
                 padding: EdgeInsets.all(10.0),
                 child: Row(
                   children: <Widget>[
-                    Text('Corte de Cabello',style: TextStyle(color: Colors.white,fontSize: 14,fontWeight: FontWeight.bold)),
+                    Text('${prod.name}',style: TextStyle(color: Colors.white,fontSize: 14,fontWeight: FontWeight.bold)),
                     Spacer(),
-                    Icon(FontAwesomeIcons.heart,color: Colors.white)
+                    Icon(FontAwesomeIcons.heart,color: Colors.white),
+                     
                   ],
                 ),
               ),
@@ -123,7 +143,7 @@ class _DescriptionCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   Container(
-                    child: Text('\$ 15.000',style: TextStyle(color:Colors.white,fontWeight: FontWeight.bold),),
+                    child: Text('\$'+'${prod.price}',style: TextStyle(color:Colors.white,fontWeight: FontWeight.bold),),
                     width: 80,
                   ),
                   Container(
