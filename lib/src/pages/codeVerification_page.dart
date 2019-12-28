@@ -81,6 +81,8 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
     final  verificateProvider =VerificateProvider();
     final   userInfo    = Provider.of<UserInfo>(context);
     final size = MediaQuery.of(context).size;
+    final prefs = new PreferenciasUsuario();
+
     var stam =size.width*0.1; 
    
 
@@ -176,7 +178,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                 padding: EdgeInsets.symmetric(horizontal: size.width*0.1),
                 // error showing widget
                 child: Text(
-                  hasError ? "*Por favor llena todos los campos" : "",
+                  hasError ? "*Codigó invalido" : "",
                   style: TextStyle(color: Colors.red.shade300, fontSize: 15),
                 ),
               ),
@@ -184,7 +186,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
               RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
-                    text: "No recibió el código? ",
+                    text: "¿No recibió el código? ",
                     style: TextStyle(color: Colors.black54, fontSize: 15),
                     children: [
                       TextSpan(
@@ -216,43 +218,29 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                         });
                       } else {
                         setState(() {
-
-                          hasError = false;
+                           hasError = false;
                            var res= verificateProvider.verificateCode(userInfo.phone.toString(),currentText);
-             
-
                             res.then((response) async {
-                              print(response['response']);
                               if (response['response'] == 2){
                                 if (response['content'] ['code']== 1){
                                    Navigator.push(
                                       context,
-                                      
-                                      MaterialPageRoute(
-                                    builder: (context) => RegisterData()));
-
+                                      MaterialPageRoute(builder: (context) => RegisterData()));
                                 }else{
-
-                                   Navigator.push(
-                                      context,
-                                      
-                                      MaterialPageRoute(
-                                    builder: (context) => Services()));
-                                 
-
+                                  prefs.token=userInfo.phone.toString();
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => Services()));
                                 }
                               }
                            });
-                  print('lo recibio');
                         });
-
-
                       }
                     },
                     child: Center(
                         child: Text(
-                      "VERIFICAR".toUpperCase(),
-                      style: TextStyle(
+                        "VERIFICAR".toUpperCase(),
+                        style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,
                           fontWeight: FontWeight.bold),

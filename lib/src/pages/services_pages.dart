@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:timugo/src/widgets/addDirections.dart';
 import 'package:timugo/src/widgets/cardsServices.dart';
 import 'package:timugo/src/widgets/cardsBarbers.dart';
 
@@ -23,8 +24,22 @@ class Services extends StatelessWidget {
               child:Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  //CustomAppBar(),
+
+                    
+                  CustomAppBar(),
+                  Container(
+                    alignment: Alignment.center,
+                    child:FlatButton.icon(
+                     
+                      label: Text('Dirección Actual',),
+                       icon: Icon(Icons.arrow_drop_down),
+                      onPressed: () => _onButtonPressed(context),
+                      
+                    ),
+                  ),  
+
                   _Header(),
+                  SizedBox(height: 20,),
                   CardsServices(),
                   _HeaderBarbers(),
                   CardsBarbers(),
@@ -39,7 +54,44 @@ class Services extends StatelessWidget {
     ); 
     
   }
+  
+  void _onButtonPressed(BuildContext context) {
+     final size = MediaQuery.of(context).size.height;
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+            color: Color(0xFF737373),
+            height: size*0.75,
+            child: Container(
+              child: AddDireccions(),
+              decoration: BoxDecoration(
+                color: Theme.of(context).canvasColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: const Radius.circular(10),
+                  topRight: const Radius.circular(10),
+                ),
+              ),
+            ),
+          );
+        });
+  }
+  
+
+
+
+
+
+
+
 }
+
+
+  
+
+  
+
+
 
 class  _Header extends StatelessWidget {
 
@@ -119,3 +171,4 @@ class BuyButton extends StatelessWidget {
     );
   }
 }
+

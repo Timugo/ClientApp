@@ -1,6 +1,8 @@
 
 
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:timugo/src/models/services_model.dart';
 
 import 'dart:convert';
 
@@ -23,38 +25,20 @@ class NumberProvider{
       
   
    return decodeData;
-
-
-   
+  }
 }
-
-
-
-
-}
-
-
 
 
 class CodeProvider{
 
   final    String url = 'http://167.172.216.181:3000/sendCode';
-   
-
    Future <Map<String,dynamic>>  sendCode(String  phone) async{
       var _urlcode = url+'?phone='+phone;
-   
-    
   // make POST request
       http.Response response = await http.get(_urlcode);
       final decodeData = jsonDecode(response.body);
-      
-  
-   return decodeData;
-
-
-   
-}
+   return decodeData; 
+  }
 }
 
 class VerificateProvider{
@@ -76,13 +60,7 @@ class VerificateProvider{
       
   
    return decodeData;
-
-
-
-
-
-
-}
+  }
 }
 
 
@@ -104,11 +82,41 @@ class SendDataProvider{
       http.Response response = await http.put(url, headers: headers, body: encodedData);
       final decodeData = jsonDecode(response.body);
       
-  
+
    return decodeData;
+  }
+}
 
 
+class ServicesProvider  extends ChangeNotifier{
+
+   final    String url = 'http://167.99.99.86/getServices';
+   List<ServicesModel> _productos = new List();
+
+   ServicesProvider(){
+
+     getServices();
 
 
+   }
+   List<ServicesModel> get productos => _productos;
+  
+
+    Future<List<ServicesModel>>  getServices() async{
+    http.Response response = await http.get(url);
+    final decodeData = json.decode(response.body) ;
+    var list = decodeData['content'] as List;
+  
+     _productos =list.map((i)=>ServicesModel.fromJson(i)).toList();
+
+
+    
+    
+    return productos;
+  
+
+    
+
+  
    }
 }
