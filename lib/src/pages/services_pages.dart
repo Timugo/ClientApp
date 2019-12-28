@@ -1,12 +1,12 @@
+//Flutter dependencies
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+//Pages
 import 'package:timugo/src/widgets/addDirections.dart';
 import 'package:timugo/src/widgets/cardsServices.dart';
 import 'package:timugo/src/widgets/cardsBarbers.dart';
-
 import 'package:timugo/src/widgets/circularBackground.dart';
-
-import 'package:timugo/src/widgets/customAppbar.dart';
  
 
  
@@ -48,7 +48,7 @@ class Services extends StatelessWidget {
               ) ,
             ),
           ),
-          BuyButton()
+          //BuyButton()
         ],
       )
     ); 
