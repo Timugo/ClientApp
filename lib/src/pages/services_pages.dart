@@ -26,7 +26,7 @@ class Services extends StatelessWidget {
                 children: <Widget>[
 
                     
-                  CustomAppBar(),
+                  //CustomAppBar(),
                   Container(
                     alignment: Alignment.center,
                     child:FlatButton.icon(
