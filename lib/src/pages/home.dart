@@ -1,12 +1,13 @@
+//FLutter dependencies
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+//pages 
+import 'package:timugo/src/pages/registerData_page.dart';
+import 'package:timugo/src/pages/services_pages.dart';
 import 'package:hidden_drawer_menu/hidden_drawer/hidden_drawer_menu.dart';
 import 'package:hidden_drawer_menu/menu/item_hidden_menu.dart';
 import 'package:hidden_drawer_menu/hidden_drawer/screen_hidden_drawer.dart';
-import 'package:timugo/src/pages/login_pages.dart';
-import 'package:timugo/src/pages/registerData_page.dart';
-import 'package:timugo/src/pages/services_pages.dart';
-import 'package:timugo/src/pages/webview_page.dart';
 
 
 class MyHomePage extends StatefulWidget {
