@@ -26,19 +26,7 @@ class Services extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
 
-                    
                   CustomAppBar(),
-                  Container(
-                    alignment: Alignment.center,
-                    child:FlatButton.icon(
-                     
-                      label: Text('Dirección Actual',),
-                       icon: Icon(Icons.arrow_drop_down),
-                      onPressed: () => _onButtonPressed(context),
-                      
-                    ),
-                  ),  
-
                   _Header(),
                   SizedBox(height: 20,),
                   CardsServices(),
