@@ -20,6 +20,7 @@ class UserInfo with ChangeNotifier {
    get directions {
     return _directions;
   }
+  
 
   set phone( int nombre ) {
     this._phone = nombre;

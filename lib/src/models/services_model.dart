@@ -4,13 +4,12 @@
 
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 
 ServicesModel servicesModelFromJson(String str) => ServicesModel.fromJson(json.decode(str));
 
 String servicesModelToJson(ServicesModel data) => json.encode(data.toJson());
 
-class ServicesModel with ChangeNotifier {
+class ServicesModel {
     int id;
     String name;
     String price;
