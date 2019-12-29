@@ -91,7 +91,7 @@ class SendDataProvider{
 
 class ServicesProvider  extends ChangeNotifier{
 
-   final    String url = 'http://167.99.99.86/getServices';
+   final    String url = 'http://167.172.216.181:3000/getServices';
    List<ServicesModel> _productos = new List();
 
     Future<List<ServicesModel>>  getServices() async{

@@ -39,7 +39,7 @@ class _Card extends StatelessWidget {
   
  final  ServicesModel prod;
   _Card(this.prod);
-   final url ='http://167.99.99.86/';
+   final url ='http://167.172.216.181:3000/';
   
   @override
   Widget build(BuildContext context) {
