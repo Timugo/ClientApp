@@ -4,7 +4,6 @@
 
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 
 ServicesModel servicesModelFromJson(String str) => ServicesModel.fromJson(json.decode(str));
 

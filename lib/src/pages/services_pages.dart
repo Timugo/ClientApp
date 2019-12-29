@@ -1,12 +1,12 @@
-//Flutter dependencies
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-//Pages
+import 'package:timugo/src/services/number_provider.dart';
+import 'package:timugo/src/widgets/addDirections.dart';
 import 'package:timugo/src/widgets/cardsServices.dart';
 import 'package:timugo/src/widgets/cardsBarbers.dart';
+
 import 'package:timugo/src/widgets/circularBackground.dart';
-import 'package:timugo/src/widgets/customAppbar.dart';
+
  
 
  
@@ -19,7 +19,8 @@ class Services extends StatefulWidget {
 class _ServicesState extends State<Services> {
   @override
   Widget build(BuildContext context) {
-   
+    final servicesProvider = ServicesProvider();
+    servicesProvider.getServices();
     return Scaffold(
       body:Stack(
         children: <Widget>[
@@ -32,7 +33,19 @@ class _ServicesState extends State<Services> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
 
-                  CustomAppBar(),
+                    
+                  //CustomAppBar(),
+                  Container(
+                    alignment: Alignment.center,
+                    child:FlatButton.icon(
+                     
+                      label: Text('Dirección Actual',),
+                       icon: Icon(Icons.arrow_drop_down),
+                      onPressed: () => _onButtonPressed(context),
+                      
+                    ),
+                  ),  
+
                   _Header(),
                   SizedBox(height: 20,),
                   CardsServices(),
@@ -43,13 +56,40 @@ class _ServicesState extends State<Services> {
               ) ,
             ),
           ),
-          //BuyButton()
+          BuyButton()
         ],
       )
     ); 
     
   }
+
+  void _onButtonPressed(BuildContext context) {
+     final size = MediaQuery.of(context).size.height;
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+            color: Color(0xFF737373),
+            height: size*0.75,
+            child: Container(
+              child: AddDireccions(),
+              decoration: BoxDecoration(
+                color: Theme.of(context).canvasColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: const Radius.circular(10),
+                  topRight: const Radius.circular(10),
+                ),
+              ),
+            ),
+          );
+        });
+  }
 }
+
+
+  
+
+  
 
 
 

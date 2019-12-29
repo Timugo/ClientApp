@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:timugo/src/models/barbers_model.dart';
 import 'package:timugo/src/models/services_model.dart';
 
 import 'dart:convert';
@@ -111,3 +112,25 @@ class ServicesProvider  extends ChangeNotifier{
    }
     
 }
+class BarbersProvider  extends ChangeNotifier{
+
+   final    String url = 'http://167.172.216.181:3000/getBarbersTop';
+   List<BarbersModel> _productos = new List();
+
+    Future<List<BarbersModel>>  getBarbers() async{
+    http.Response response = await http.get(url);
+    final decodeData = json.decode(response.body) ;
+    var list = decodeData['content'] as List;
+  
+   _productos =list.map((i)=>BarbersModel.fromJson(i)).toList();
+    print(_productos);
+    return _productos;
+  
+
+    
+
+  
+   }
+    
+}
+
