@@ -57,8 +57,8 @@ class _Card extends StatelessWidget {
          
           Positioned(
             top: 5,
-            left: -20,
-            child: Image.network(url+prod.urlImg,width: 210,)
+            left: 60,
+            child: Image.network(url+prod.urlImg,width: 115,)
             
             //child: Image.network(url+prod.urlImg,width: 210,)
           )
