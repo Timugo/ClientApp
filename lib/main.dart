@@ -8,7 +8,7 @@ import 'package:timugo/src/providers/user.dart';
 import 'package:timugo/src/services/number_provider.dart';
 //pages 
 import 'package:timugo/src/pages/codeVerification_page.dart';
-import 'package:timugo/src/pages/login_pages.dart';
+import 'package:timugo/src/pages/login_page.dart';
 import 'package:timugo/src/pages/registerData_page.dart';
 import 'package:timugo/src/pages/services_page.dart';
 
