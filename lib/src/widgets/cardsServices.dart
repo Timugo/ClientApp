@@ -58,7 +58,7 @@ class _Card extends StatelessWidget {
           Positioned(
             top: 5,
             left: -20,
-            child: Image.network("https://shorebeautyschool.edu/wp-content/uploads/2018/05/Barber-Beard-Slider-5-2.png",width: 210,)
+            child: Image.network(url+prod.urlImg,width: 210,)
             
             //child: Image.network(url+prod.urlImg,width: 210,)
           )
