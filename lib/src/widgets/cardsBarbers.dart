@@ -16,7 +16,7 @@ class CardsBarbers extends StatelessWidget {
           final productos = snapshot.data;
           return Container(
             width: size.width,
-            height: 330,
+            height: 240,
             child: PageView.builder(
               controller: PageController(viewportFraction: 0.5),
               pageSnapping: false,

@@ -19,7 +19,7 @@ class CardsServices extends StatelessWidget {
           final productos = snapshot.data;
           return Container(
             width: size.width,
-            height: 330,
+            height: 290,
             child: PageView.builder(
               controller: PageController(viewportFraction: 0.7),
               pageSnapping: false,
