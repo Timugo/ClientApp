@@ -1,13 +1,12 @@
+//Flutter dependencies
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
-import 'package:timugo/src/services/number_provider.dart';
+
+//Pages
 import 'package:timugo/src/widgets/addDirections.dart';
 import 'package:timugo/src/widgets/cardsServices.dart';
 import 'package:timugo/src/widgets/cardsBarbers.dart';
-
 import 'package:timugo/src/widgets/circularBackground.dart';
-
 import 'package:timugo/src/widgets/customAppbar.dart';
  
 
@@ -21,9 +20,7 @@ class Services extends StatefulWidget {
 class _ServicesState extends State<Services> {
   @override
   Widget build(BuildContext context) {
-    final products =Provider.of<ServicesProvider>(context);
-    final servicesProvider = ServicesProvider();
-    servicesProvider.getServices();
+   
     return Scaffold(
       body:Stack(
         children: <Widget>[
@@ -36,19 +33,7 @@ class _ServicesState extends State<Services> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
 
-                    
-                  //CustomAppBar(),
-                  Container(
-                    alignment: Alignment.center,
-                    child:FlatButton.icon(
-                     
-                      label: Text('Dirección Actual',),
-                       icon: Icon(Icons.arrow_drop_down),
-                      onPressed: () => _onButtonPressed(context),
-                      
-                    ),
-                  ),  
-
+                  CustomAppBar(),
                   _Header(),
                   SizedBox(height: 20,),
                   CardsServices(),
@@ -59,7 +44,7 @@ class _ServicesState extends State<Services> {
               ) ,
             ),
           ),
-          BuyButton()
+          //BuyButton()
         ],
       )
     ); 

@@ -49,19 +49,18 @@ class _Card extends StatelessWidget {
         children: <Widget>[
           Row(
             children: <Widget>[
-           //   _FirstDescription(prod),
+           //   _FirstDescription(prod),//lateral bar with description
               SizedBox(width: 10.0),
               _DescriptionCard(prod),
             ],
           ),
          
           Positioned(
+            top: 5,
+            left: -20,
+            child: Image.network("https://shorebeautyschool.edu/wp-content/uploads/2018/05/Barber-Beard-Slider-5-2.png",width: 210,)
             
-           
-           
-            top: 35,
-            left: 10,
-            child: Image.network('https://shorebeautyschool.edu/wp-content/uploads/2018/05/Barber-Beard-Slider-5-2.png',width: 210,)
+            //child: Image.network(url+prod.urlImg,width: 210,)
           )
 
         ],
@@ -118,7 +117,7 @@ class _DescriptionCard extends StatelessWidget {
         child: Container(
           width:size.width * 0.50 ,
           height: 270.0,
-          color : Color(0xff0B3FA2),
+          color : Color(0xff000000),
           child: Column(
 
             children: <Widget>[
@@ -130,7 +129,7 @@ class _DescriptionCard extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
-                    //Text('Urban Style',style: TextStyle(color: Colors.white24,fontSize: 30,fontWeight: FontWeight.bold)),
+                    Text('Style',style: TextStyle(color: Colors.white24,fontSize: 30,fontWeight: FontWeight.bold)),
 
                   ],
                 ),
@@ -153,7 +152,7 @@ class _DescriptionCard extends StatelessWidget {
                 children: <Widget>[
                   Container(
                     child: Text('\$'+'${prod.price}',style: TextStyle(color:Colors.white,fontWeight: FontWeight.bold),),
-                    width: 80,
+                    width: 60,
                   ),
                   Container(
                     child: Center(
@@ -162,7 +161,7 @@ class _DescriptionCard extends StatelessWidget {
                     width: 100.0,
                     height: 35,
                     decoration:BoxDecoration(
-                      color: Colors.red,
+                      color:Colors.red,
                       borderRadius: BorderRadius.only(topLeft: Radius.circular(15))
 
                     ) ,

@@ -1,14 +1,7 @@
-
-
-
-
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:timugo/src/providers/user.dart';
-
-
 
 class AddDireccions extends StatefulWidget {
   
@@ -17,16 +10,10 @@ class AddDireccions extends StatefulWidget {
     return new DeleteItemInListViewPopupMenuState();
   }
 }
-
 class DeleteItemInListViewPopupMenuState
-    extends State<AddDireccions> {
-       
-      
+    extends State<AddDireccions> {     
       TextEditingController cityController = new TextEditingController();
       TextEditingController directionController = new TextEditingController();
-
-
-
   @override
   Widget build(BuildContext context) {
      final userInfo   = Provider.of<UserInfo>(context);
