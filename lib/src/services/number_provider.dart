@@ -93,30 +93,21 @@ class ServicesProvider  extends ChangeNotifier{
    final    String url = 'http://167.99.99.86/getServices';
    List<ServicesModel> _productos = new List();
 
-   ServicesProvider(){
-
-     getServices();
-
-
-   }
-   List<ServicesModel> get productos => _productos;
-  
-
     Future<List<ServicesModel>>  getServices() async{
     http.Response response = await http.get(url);
     final decodeData = json.decode(response.body) ;
     var list = decodeData['content'] as List;
   
-     _productos =list.map((i)=>ServicesModel.fromJson(i)).toList();
-
+   _productos =list.map((i)=>ServicesModel.fromJson(i)).toList();
 
     
-    
-    return productos;
+    print(_productos);
+    return _productos;
   
 
     
 
   
    }
+    
 }

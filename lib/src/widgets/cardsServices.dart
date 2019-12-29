@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:timugo/src/models/services_model.dart';
 import 'package:timugo/src/services/number_provider.dart';
 
@@ -9,26 +8,42 @@ class CardsServices extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final products =Provider.of<ServicesProvider>(context);
-    return Container(
-      width: double.infinity,
-      height: 300,
-      child: PageView(
-        controller: PageController(viewportFraction: 0.67),
-        children:products.productos.map((prod)=> _Card(prod)).toList()
-      ),
-      
+    
+    final size = MediaQuery.of(context).size;
+    final servicesProvider = ServicesProvider();
+
+    return FutureBuilder(
+      future: servicesProvider.getServices(),
+      builder: (BuildContext context, AsyncSnapshot<List<ServicesModel>> snapshot) {  
+        if ( snapshot.hasData ) {
+          final productos = snapshot.data;
+          return Container(
+            width: size.width,
+            height: 330,
+            child: PageView.builder(
+              controller: PageController(viewportFraction: 0.7),
+              pageSnapping: false,
+              itemCount: productos.length,
+              itemBuilder: (context, i) => _Card( productos[i] ), 
+            ),
+          );
+        }else{
+          return Center( child: CircularProgressIndicator());
+        }
+       }
     );
-  }
+}
 }
 
 class _Card extends StatelessWidget {
-  final  ServicesModel prod;
+  
+ final  ServicesModel prod;
   _Card(this.prod);
-  final url ='http://167.99.99.86/';
-
+   final url ='http://167.99.99.86/';
+  
   @override
   Widget build(BuildContext context) {
+    print('estoy acacss'+prod.urlImg);
     return Container(
       child: Stack(
         children: <Widget>[

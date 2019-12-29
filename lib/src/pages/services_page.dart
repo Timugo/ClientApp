@@ -11,9 +11,16 @@ import 'package:timugo/src/widgets/customAppbar.dart';
  
 
  
-class Services extends StatelessWidget {
+class Services extends StatefulWidget {
+ 
+  @override
+  _ServicesState createState() => _ServicesState();
+}
+
+class _ServicesState extends State<Services> {
   @override
   Widget build(BuildContext context) {
+   
     return Scaffold(
       body:Stack(
         children: <Widget>[
@@ -43,7 +50,7 @@ class Services extends StatelessWidget {
     ); 
     
   }
-  
+
   void _onButtonPressed(BuildContext context) {
      final size = MediaQuery.of(context).size.height;
     showModalBottomSheet(
@@ -65,39 +72,6 @@ class Services extends StatelessWidget {
           );
         });
   }
-  
-  Column _buildBottomNavigationMenu(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        ListTile(
-          leading: Icon(Icons.ac_unit),
-          title: Text('Cooling'),
-          onTap: () => _selectItem('Cooling',context),
-        ),
-        ListTile(
-          leading: Icon(Icons.accessibility_new),
-          title: Text('People'),
-          onTap: () => _selectItem('People',context),
-        ),
-        ListTile(
-          leading: Icon(Icons.assessment),
-          title: Text('Stats'),
-          onTap: () => _selectItem('Stats',context),
-        ),
-      ],
-    );
-  }
-
-  void _selectItem(String name,BuildContext context) {
-    Navigator.pop(context);
- 
-  }
-
-
-
-
-
-
 }
 
 
