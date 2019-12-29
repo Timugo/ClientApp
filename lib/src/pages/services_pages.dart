@@ -37,7 +37,7 @@ class _ServicesState extends State<Services> {
                 children: <Widget>[
 
                     
-                  CustomAppBar(),
+                  //CustomAppBar(),
                   Container(
                     alignment: Alignment.center,
                     child:FlatButton.icon(
