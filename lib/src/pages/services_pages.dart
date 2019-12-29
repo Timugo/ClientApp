@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:timugo/src/services/number_provider.dart';
 import 'package:timugo/src/widgets/addDirections.dart';
 import 'package:timugo/src/widgets/cardsServices.dart';
 import 'package:timugo/src/widgets/cardsBarbers.dart';
@@ -10,9 +12,18 @@ import 'package:timugo/src/widgets/customAppbar.dart';
  
 
  
-class Services extends StatelessWidget {
+class Services extends StatefulWidget {
+ 
+  @override
+  _ServicesState createState() => _ServicesState();
+}
+
+class _ServicesState extends State<Services> {
   @override
   Widget build(BuildContext context) {
+    final products =Provider.of<ServicesProvider>(context);
+    final servicesProvider = ServicesProvider();
+    servicesProvider.getServices();
     return Scaffold(
       body:Stack(
         children: <Widget>[
@@ -54,7 +65,7 @@ class Services extends StatelessWidget {
     ); 
     
   }
-  
+
   void _onButtonPressed(BuildContext context) {
      final size = MediaQuery.of(context).size.height;
     showModalBottomSheet(
@@ -76,39 +87,6 @@ class Services extends StatelessWidget {
           );
         });
   }
-  
-  Column _buildBottomNavigationMenu(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        ListTile(
-          leading: Icon(Icons.ac_unit),
-          title: Text('Cooling'),
-          onTap: () => _selectItem('Cooling',context),
-        ),
-        ListTile(
-          leading: Icon(Icons.accessibility_new),
-          title: Text('People'),
-          onTap: () => _selectItem('People',context),
-        ),
-        ListTile(
-          leading: Icon(Icons.assessment),
-          title: Text('Stats'),
-          onTap: () => _selectItem('Stats',context),
-        ),
-      ],
-    );
-  }
-
-  void _selectItem(String name,BuildContext context) {
-    Navigator.pop(context);
- 
-  }
-
-
-
-
-
-
 }
 
 

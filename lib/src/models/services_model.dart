@@ -10,7 +10,7 @@ ServicesModel servicesModelFromJson(String str) => ServicesModel.fromJson(json.d
 
 String servicesModelToJson(ServicesModel data) => json.encode(data.toJson());
 
-class ServicesModel with ChangeNotifier {
+class ServicesModel {
     int id;
     String name;
     String price;
