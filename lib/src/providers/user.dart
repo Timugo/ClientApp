@@ -6,7 +6,8 @@ class UserInfo with ChangeNotifier {
   String _name='';
   String _email ='';
   List<String> _directions=['Direccion']; 
-
+  String _urlImg;
+  String _price;
 
   get phone {
     return _phone;
@@ -21,6 +22,12 @@ class UserInfo with ChangeNotifier {
     return _directions;
   }
   
+  get urlImg {
+    return _urlImg;
+  }
+  get price {
+    return _price;
+  }
 
   set phone( int nombre ) {
     this._phone = nombre;
@@ -43,5 +50,15 @@ class UserInfo with ChangeNotifier {
     }
     
   }
+
+  set urlImg( String nombre ) {
+    this._urlImg = nombre;
+    notifyListeners();
+  }
+  set price( String nombre ) {
+    this._price = nombre;
+    notifyListeners();
+  }
+
 
 }

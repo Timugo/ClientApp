@@ -1,6 +1,7 @@
 //Flutter dependencies
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:timugo/src/pages/checkin_page.dart';
 //User dependencies
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'package:timugo/src/providers/push_notifications_provider.dart';
@@ -55,6 +56,7 @@ class _MyAppState extends State<MyApp> {
           'code':(context)=> Code(),
           'registerData':(context)=> RegisterData(),
           'services':(context)=> Services(),
+          'checkin':(context)=> Checkin(),
         },
        
       )
@@ -65,10 +67,10 @@ class _MyAppState extends State<MyApp> {
     final prefs = new PreferenciasUsuario();
     print(prefs.token);
     if (prefs.token!='') {
-      var ruta='services';
+      var ruta='login';
       return ruta;
     }else{
-      return 'login';
+      return 'services';
     }
 
 

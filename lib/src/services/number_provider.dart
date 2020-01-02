@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:timugo/src/models/aditional_model.dart';
 import 'package:timugo/src/models/barbers_model.dart';
 import 'package:timugo/src/models/services_model.dart';
 
@@ -100,9 +101,6 @@ class ServicesProvider  extends ChangeNotifier{
     var list = decodeData['content'] as List;
   
    _productos =list.map((i)=>ServicesModel.fromJson(i)).toList();
-
-    
-    print(_productos);
     return _productos;
   
 
@@ -123,6 +121,29 @@ class BarbersProvider  extends ChangeNotifier{
     var list = decodeData['content'] as List;
   
    _productos =list.map((i)=>BarbersModel.fromJson(i)).toList();
+    print(_productos);
+    return _productos;
+  
+
+    
+
+  
+   }
+    
+}
+
+class AditionalProvider  extends ChangeNotifier{
+
+   final    String url = 'http://167.172.216.181:3000/getAditionalServices';
+   List<AditionalModel> _productos = new List();
+
+    Future<List<AditionalModel>>  getAditional(String id) async{
+    var _urlcode = url+'?service='+id;
+    http.Response response = await http.get(_urlcode);
+    final decodeData = json.decode(response.body) ;
+    var list = decodeData['content'] as List;
+  
+   _productos =list.map((i)=>AditionalModel.fromJson(i)).toList();
     print(_productos);
     return _productos;
   

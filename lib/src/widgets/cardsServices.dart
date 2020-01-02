@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:timugo/src/models/services_model.dart';
+import 'package:timugo/src/pages/checkin_page.dart';
+import 'package:timugo/src/providers/user.dart';
 import 'package:timugo/src/services/number_provider.dart';
 
 class CardsServices extends StatelessWidget {
@@ -32,7 +35,7 @@ class CardsServices extends StatelessWidget {
         }
        }
     );
-}
+  }
 }
 
 class _Card extends StatelessWidget {
@@ -43,7 +46,9 @@ class _Card extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    print('estoy acacss'+prod.urlImg);
+    final userInfo   = Provider.of<UserInfo>(context);
+    userInfo.urlImg = prod.urlImg;
+
     return Container(
       child: Stack(
         children: <Widget>[
@@ -58,7 +63,7 @@ class _Card extends StatelessWidget {
           Positioned(
             top: 5,
             left: -20,
-            child: Image.network(url+prod.urlImg,width: 210,)
+            child: Image.network(url+prod.urlImg,width: 250,height: 200),
             
             //child: Image.network(url+prod.urlImg,width: 210,)
           )
@@ -68,36 +73,6 @@ class _Card extends StatelessWidget {
     );
   }
 }
-
-// class _FirstDescription extends StatelessWidget {
-//    final ServicesModel prod;
-//    _FirstDescription (this.prod);
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: EdgeInsets.all(10.0),
-//       child: RotatedBox(
-//         quarterTurns: 3,
-//         child: Row(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: <Widget>[
-//             Icon(FontAwesomeIcons.cut,size: 15,),
-//             SizedBox(width: 10.0,),
-//             Text('${prod.price}-Incluye perfilado de cejas',style: TextStyle(fontSize: 12.0),),
-            
-//             SizedBox(width:30.0),
-             
-//             Icon(FontAwesomeIcons.smileBeam,size: 15,),
-//             SizedBox(width: 10.0,),
-//             Text("Clasico",style: TextStyle(fontSize: 12.0),),
-            
-            
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
 
 class _DescriptionCard extends StatelessWidget {
   final ServicesModel prod;
@@ -142,11 +117,9 @@ class _DescriptionCard extends StatelessWidget {
                     Text('${prod.name}',style: TextStyle(color: Colors.white,fontSize: 14,fontWeight: FontWeight.bold)),
                     Spacer(),
                     Icon(FontAwesomeIcons.heart,color: Colors.white),
-                     
                   ],
                 ),
               ),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
@@ -155,13 +128,21 @@ class _DescriptionCard extends StatelessWidget {
                     width: 60,
                   ),
                   Container(
-                    child: Center(
-                      child: Text('Solicitar',style: TextStyle(color: Colors.white)),
-                    ),
+                  
+                      child:RaisedButton(
+                        color: Colors.red,
+                      child:Text('Solicitar',style: TextStyle(color: Colors.white)),
+                      onPressed: (){
+                   Navigator.push(
+                   context,MaterialPageRoute(
+                   builder: (context) => Checkin()));
+                      }
+                    
+                      ),
+                  
                     width: 100.0,
                     height: 35,
                     decoration:BoxDecoration(
-                      color:Colors.red,
                       borderRadius: BorderRadius.only(topLeft: Radius.circular(15))
 
                     ) ,
