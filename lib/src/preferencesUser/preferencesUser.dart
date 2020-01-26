@@ -36,6 +36,20 @@ class PreferenciasUsuario {
   set token( String value ) {
     _prefs.setString('token', value);
   }
+   get tokenPhone {
+    return _prefs.getString('tokenPhone') ?? '';
+  }
+
+  set tokenPhone( String value ) {
+    _prefs.setString('tokenPhone', value);
+  }
+  get name {
+    return _prefs.getString('name') ?? '';
+  }
+
+  set name( String value ) {
+    _prefs.setString('name', value);
+  }
   
 
   // GET y SET de la última página

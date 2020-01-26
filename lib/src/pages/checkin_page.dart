@@ -119,6 +119,7 @@ class _CheckinState extends State<Checkin> {
               color: Colors.green.shade400,
               padding: EdgeInsets.fromLTRB(size.width*0.1, 20.0, size.width*0.1, 20.0),
               onPressed:(){
+                userInfo.price=total.toString();
 
                      Navigator.push(
                    context,MaterialPageRoute(
@@ -154,6 +155,7 @@ class _CheckinState extends State<Checkin> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               new Row(
+
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                  

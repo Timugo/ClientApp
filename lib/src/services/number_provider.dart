@@ -9,6 +9,7 @@ import 'package:timugo/src/models/services_model.dart';
 import 'dart:convert';
 
 import 'package:timugo/src/models/user_model.dart';
+import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 
 
 
@@ -154,4 +155,65 @@ class AditionalProvider  extends ChangeNotifier{
    }
     
 }
+class TokenProvider{
+
+  final    String url = 'http://167.172.216.181:3000/addPhoneTokenUser';
+   
+
+   Future <Map<String,dynamic>> sendToken(String  phone,String token) async{
+       Map<String, String> headers = {"Content-Type": "application/json"};
+       var data = {
+      "phone": phone,
+      "phoneToken": token
+    };
+    final encodedData = json.encode(data);
+
+  // make POST request
+      http.Response response = await http.put(url, headers: headers, body: encodedData);
+      final decodeData = jsonDecode(response.body);
+      
+  
+   return decodeData;
+  }
+}
+
+class DirectionProvider{
+
+  final    String url = 'http://167.172.216.181:3000/addAddressUser';
+   
+
+   Future <Map<String,dynamic>> sendDirection(int phone,String  city,String address) async{
+       Map<String, String> headers = {"Content-Type": "application/json"};
+       var data = {
+        "phone":phone,
+        "city": city,
+        "address": address
+      };
+    final encodedData = json.encode(data);
+
+  // make POST request
+      http.Response response = await http.put(url, headers: headers, body: encodedData);
+      final decodeData = jsonDecode(response.body);
+      
+  
+   return decodeData;
+  }
+}
+
+class UserProvider{
+
+  final    String url = 'http://167.172.216.181:3000/getUser';
+ final prefs =  PreferenciasUsuario();
+   Future<Map<String,dynamic>>  getName(String  phone) async{
+      var _urlcode = url+'?phone='+phone;
+  // make POST request
+      http.Response response = await http.get(_urlcode);
+      final decodeData = jsonDecode(response.body);
+      
+      prefs.name=decodeData['content']['name'];
+      
+   return decodeData; 
+  }
+}
+
 
