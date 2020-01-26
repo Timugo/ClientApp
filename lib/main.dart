@@ -57,6 +57,8 @@ class _MyAppState extends State<MyApp> {
           'registerData':(context)=> RegisterData(),
           'services':(context)=> Services(),
           'checkin':(context)=> Checkin(),
+          
+
         },
        
       )
@@ -67,10 +69,10 @@ class _MyAppState extends State<MyApp> {
     final prefs = new PreferenciasUsuario();
     print(prefs.token);
     if (prefs.token!='') {
-      var ruta='login';
+      var ruta='services';
       return ruta;
     }else{
-      return 'services';
+      return 'login';
     }
 
 

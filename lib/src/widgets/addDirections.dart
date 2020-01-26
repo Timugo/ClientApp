@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'package:timugo/src/providers/user.dart';
+import 'package:timugo/src/services/number_provider.dart';
 
 class AddDireccions extends StatefulWidget {
   
@@ -17,6 +19,7 @@ class DeleteItemInListViewPopupMenuState
   @override
   Widget build(BuildContext context) {
      final userInfo   = Provider.of<UserInfo>(context);
+    
       print(userInfo.directions);
       List<String> _datas=userInfo.directions ;
 
@@ -89,7 +92,10 @@ class DeleteItemInListViewPopupMenuState
 
 
   void _subimit(BuildContext context){
-   final userInfo   = Provider.of<UserInfo>(context);  
+   final userInfo   = Provider.of<UserInfo>(context);
+   final sendDirection = DirectionProvider();
+   final prefs = new PreferenciasUsuario();
+    var _value;  
     List<String> _datas= userInfo.directions;
 
   
@@ -99,19 +105,34 @@ class DeleteItemInListViewPopupMenuState
         title: "Añade Dirección",
         content: Column(
           children: <Widget>[
-            TextField(
-              decoration: InputDecoration(
-                icon: Icon(Icons.location_city),
-                labelText: 'Ciudad',
-                
-              ),
-              controller: cityController,
+           
+             DropdownButton<String>(
+              items: [
+                DropdownMenuItem<String>(
+                  child: Text('Cali'),
+                  value: 'Cali',
+                ),
+                DropdownMenuItem<String>(
+                  child: Text('Palmira'),
+                  value: 'Palmira',
+                ),
+                DropdownMenuItem<String>(
+                  child: Text('Jamundi'),
+                  value: 'Jamundi',
+                ),
+              ],
+              onChanged: (String value) {
+                setState(() {
+                  _value = value;
+                });
+          },
+             
               
 
 
             ),
             TextField(
-
+              
               
               decoration: InputDecoration(
                 icon: Icon(Icons.directions),
@@ -126,10 +147,19 @@ class DeleteItemInListViewPopupMenuState
             onPressed: () {
             
               
-              _datas.add(cityController.text+directionController.text);
+              _datas.add(_value+' '+directionController.text);
               userInfo.directions= _datas;
-              Navigator.pop(context);
-              },
+              
+              var res= sendDirection.sendDirection(int.parse(prefs.token),_value,directionController.text);
+               res.then((response) async {
+                 print(response);
+                if (response['response'] == 2){
+                  
+                  Navigator.pop(context);
+                }
+               });
+            },
+            
             child: Text(
               "Añadir",
               style: TextStyle(color: Colors.white, fontSize: 20),
