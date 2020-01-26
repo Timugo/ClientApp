@@ -18,7 +18,7 @@ class CardsBarbers extends StatelessWidget {
             width: size.width,
             height: 240,
             child: PageView.builder(
-              controller: PageController(viewportFraction: 0.5),
+              controller: PageController(viewportFraction: size.width>size.height ? 0.25 : 0.38),
               pageSnapping: false,
               itemCount: productos.length,
               itemBuilder: (context, i) => _Card( productos[i] ), 
@@ -48,7 +48,7 @@ class _Card extends StatelessWidget {
           ),
           Positioned(
             top: 35,
-            left: 10,
+            left: 0,
             child:Column(
               children:<Widget>[
                 CircleAvatar(

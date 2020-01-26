@@ -21,6 +21,7 @@ class CustomAppBar extends StatelessWidget {
                           onPressed: () => _onButtonPressed(context),
                           
                         ),
+                        Spacer(),
                         Stack(
                           children: <Widget>[
                           IconButton(icon:Icon(FontAwesomeIcons.headset,color: Colors.black,),onPressed: (){},),
