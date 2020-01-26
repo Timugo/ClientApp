@@ -34,7 +34,7 @@ class _ServicesState extends State<Services> {
 
                   CustomAppBar(),
                   _Header(),
-                  SizedBox(height: 20,),
+                  SizedBox(height: 25,),
                   CardsServices(),
                   _HeaderBarbers(),
                   CardsBarbers(),
@@ -64,7 +64,7 @@ class  _Header extends StatelessWidget {
         children: <Widget>[
           SizedBox(height: 20.0,),
           Text('Servicios',style:TextStyle(fontWeight:FontWeight.bold,fontSize:30.0)),
-          Text('Que quieres pedir hoy?',style:TextStyle(fontWeight:FontWeight.w100,fontSize:18.0))
+          Text('¿Que quieres pedir hoy?',style:TextStyle(fontWeight:FontWeight.w100,fontSize:18.0))
 
         ],
       ),
@@ -80,13 +80,13 @@ class  _HeaderBarbers extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start ,
         children: <Widget>[
-          SizedBox(height: 20.0,),
+          SizedBox(height: 40.0,),
           Text('Barberos',style:TextStyle(fontWeight:FontWeight.bold,fontSize:25.0)),
           Row(
             children: <Widget>[
               Icon(FontAwesomeIcons.fire,color: Colors.red,),
               SizedBox(width: 15.0,),
-              Text('Nuestros Barberos mas Top',style:TextStyle(fontWeight:FontWeight.w100,fontSize:18.0)),
+              Text('Nuestros Barberos más Top',style:TextStyle(fontWeight:FontWeight.w100,fontSize:18.0)),
               SizedBox(width: 15.0,),
               Icon(FontAwesomeIcons.fire,color: Colors.red,)
             ],
