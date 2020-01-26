@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:timugo/src/providers/user.dart';
 import 'package:timugo/src/widgets/addDirections.dart';
 
-import 'checkin_page.dart';
 
 
 
@@ -21,26 +22,24 @@ class _CheckoutState extends State<Checkout> {
    @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+     final userInfo   = Provider.of<UserInfo>(context);
 
      return Scaffold(
+       appBar: AppBar(
+         elevation: 0,
+         leading: new IconButton(
+               icon: new Icon(Icons.arrow_back, color: Colors.black,size: 35,),
+               onPressed: () => Navigator.of(context).pop(),
+              ),
+        backgroundColor: Colors.white10,
+       ),
    
      
       body:Stack( 
         
     
         children:<Widget>[
-          Container(
-            padding: EdgeInsets.only(top:40),
-
-            child:IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: (){
-                Navigator.push(context,MaterialPageRoute(
-                   builder: (context) => Checkin()));
-              },
-
-            )
-          ),
+        
            ListView(
             children:<Widget>[
                 Container(
@@ -88,7 +87,7 @@ class _CheckoutState extends State<Checkout> {
                 ListTile(
                    contentPadding:EdgeInsets.only(left: 0),
                   title: Text('Costo del servicio :'),
-                  trailing: Text('15.000'),
+                  trailing: Text(userInfo.price),
                 ),
                
                 ListTile(
@@ -101,7 +100,7 @@ class _CheckoutState extends State<Checkout> {
                   contentPadding:EdgeInsets.only(left: 0),
                   title:Text('Total a cobrar',style:TextStyle(fontWeight: FontWeight.bold,fontSize: 22)) ,
                   subtitle: Text('Con efectivo'),
-                  trailing: Text('0'),
+                  trailing: Text(userInfo.price),
                 ),
                 
 
@@ -121,10 +120,10 @@ class _CheckoutState extends State<Checkout> {
                 side: BorderSide(color: Colors.green)
               ),
               color: Colors.green.shade500,
-              padding: EdgeInsets.fromLTRB(size.width*0.2, 20.0, size.width*0.2, 20.0),
-              onPressed: (){} ,
-              child: Text(
-                'Enviar pedido',textAlign: TextAlign.center,
+              padding: EdgeInsets.fromLTRB(size.width*0.3, 20.0, size.width*0.3, 20.0),
+              onPressed: userInfo.price == '0' ? null: (){} ,
+              child: Text( 
+                'Enviar pedido'+' '+"\$"+userInfo.price,textAlign: TextAlign.center,
                 style: TextStyle(
                 color: Colors.white,
                 ),
