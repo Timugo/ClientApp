@@ -10,7 +10,7 @@ String barbersModelToJson(BarbersModel data) => json.encode(data.toJson());
 
 class BarbersModel {
     int id;
-    int stairs;
+    double stairs;
     String urlImg;
     String name;
     String email;
@@ -31,7 +31,7 @@ class BarbersModel {
 
     factory BarbersModel.fromJson(Map<String, dynamic> json) => BarbersModel(
         id: json["id"],
-        stairs: json["stairs"],
+        stairs:json["stairs"]*1.0,
         urlImg: json["urlImg"],
         name: json["name"],
         email: json["email"],

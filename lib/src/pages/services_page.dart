@@ -1,12 +1,16 @@
 //Flutter dependencies
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:timugo/src/pages/menu_widget.dart';
+import 'package:timugo/src/preferencesUser/preferencesUser.dart';
+import 'package:timugo/src/services/number_provider.dart';
+import 'package:timugo/src/widgets/addDirections.dart';
 
 //Pages
 import 'package:timugo/src/widgets/cardsServices.dart';
 import 'package:timugo/src/widgets/cardsBarbers.dart';
 import 'package:timugo/src/widgets/circularBackground.dart';
-import 'package:timugo/src/widgets/customAppbar.dart';
+
  
 
  
@@ -17,10 +21,60 @@ class Services extends StatefulWidget {
 }
 
 class _ServicesState extends State<Services> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
+     final  userName = UserProvider();
+     final prefs = new PreferenciasUsuario();
+      
+     userName.getName(prefs.token);
+     
    
     return Scaffold(
+      key: _scaffoldKey,
+      appBar: AppBar(
+        backgroundColor: Colors.white10,
+        elevation: 0,
+         leading: new IconButton(
+                icon:Icon(FontAwesomeIcons.userCircle,size: 25.0,color: Colors.black),
+                onPressed: () => _scaffoldKey.currentState.openDrawer()),
+       actions: <Widget>[
+                        SizedBox(width: 15.0,),
+                        Spacer(),
+                        FlatButton.icon(
+                          label: Text('Dirección Actual',),
+                          icon: Icon(Icons.arrow_drop_down),
+                          onPressed: () => _onButtonPressed(context),
+                        ),
+                        Stack(
+                          children: <Widget>[
+                          IconButton(icon:Icon(FontAwesomeIcons.headset,color: Colors.black,),onPressed: (){},),
+                          Container(
+                            child: Center(child: Text('1',style: TextStyle(color: Colors.white ),)),
+                            width: 20.0,
+                            height: 20.0,
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(20.0)
+                            ),
+                          )
+                          ],
+                        ),
+                        Icon(FontAwesomeIcons.ellipsisV,size: 15.0,color: Colors.black), 
+                        IconButton(icon:Icon(FontAwesomeIcons.ticketAlt,size: 15.0,color: Colors.black),onPressed: (){
+                          
+                        },), 
+                        SizedBox(width: 8.0,)
+
+
+        ],
+      
+    ),
+     drawer: MenuWidget(),
+  
+
+
+      
       body:Stack(
         children: <Widget>[
           
@@ -32,7 +86,7 @@ class _ServicesState extends State<Services> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
 
-                  CustomAppBar(),
+                
                   _Header(),
                   SizedBox(height: 20,),
                   CardsServices(),
@@ -45,10 +99,36 @@ class _ServicesState extends State<Services> {
           ),
           //BuyButton()
         ],
-      )
+      ),
+     
     ); 
-    
+
   }
+    
+void _onButtonPressed(BuildContext context) {
+     final size = MediaQuery.of(context).size.height;
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+            color: Color(0xFF737373),
+            height: size*0.75,
+            child: Container(
+              child: AddDireccions(),
+              decoration: BoxDecoration(
+                color: Theme.of(context).canvasColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
+                ),
+              ),
+            ),
+          );
+        });
+  }
+
+    
+  
 }
 
 
