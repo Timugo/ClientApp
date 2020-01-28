@@ -15,7 +15,7 @@ import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 
 class NumberProvider{
 
-  final    String url = 'http://167.172.216.181:3000/loginUser';
+  final    String url = 'https://www.timugo.tk/loginUser';
   
 
    Future <Map<String,dynamic>>  sendNumber(model) async{
@@ -34,7 +34,7 @@ class NumberProvider{
 
 class CodeProvider{
 
-  final    String url = 'http://167.172.216.181:3000/sendCode';
+  final    String url = 'https://www.timugo.tk/sendCode';
    Future <Map<String,dynamic>>  sendCode(String  phone) async{
       var _urlcode = url+'?phone='+phone;
   // make POST request
@@ -46,7 +46,7 @@ class CodeProvider{
 
 class VerificateProvider{
 
-  final    String url = 'http://167.172.216.181:3000/verificationCode';
+  final    String url = 'https://www.timugo.tk/verificationCode';
    
 
    Future <Map<String,dynamic>>  verificateCode(String  phone,String code) async{
@@ -69,7 +69,7 @@ class VerificateProvider{
 
 class SendDataProvider{
 
-  final    String url = 'http://167.172.216.181:3000/editInfoUser';
+  final    String url = 'https://www.timugo.tk/editInfoUser';
    
 
    Future <Map<String,dynamic>>  sendData( int phone,String  name,String email ) async{
@@ -93,7 +93,7 @@ class SendDataProvider{
 
 class ServicesProvider  extends ChangeNotifier{
 
-   final    String url = 'http://167.172.216.181:3000/getServices';
+   final    String url = 'https://www.timugo.tk/getServices';
    List<ServicesModel> _productos = new List();
 
     Future<List<ServicesModel>>  getServices() async{
@@ -113,7 +113,7 @@ class ServicesProvider  extends ChangeNotifier{
 }
 class BarbersProvider  extends ChangeNotifier{
 
-   final    String url = 'http://167.172.216.181:3000/getBarbersTop';
+   final    String url = 'https://www.timugo.tk/getBarbersTop';
    List<BarbersModel> _productos = new List();
 
     Future<List<BarbersModel>>  getBarbers() async{
@@ -135,7 +135,7 @@ class BarbersProvider  extends ChangeNotifier{
 
 class AditionalProvider  extends ChangeNotifier{
 
-   final    String url = 'http://167.172.216.181:3000/getAditionalServices';
+   final    String url = 'https://www.timugo.tk/getAditionalServices';
    List<AditionalModel> _productos = new List();
 
     Future<List<AditionalModel>>  getAditional(String id) async{
@@ -157,7 +157,7 @@ class AditionalProvider  extends ChangeNotifier{
 }
 class TokenProvider{
 
-  final    String url = 'http://167.172.216.181:3000/addPhoneTokenUser';
+  final    String url = 'https://www.timugo.tk/addPhoneTokenUser';
    
 
    Future <Map<String,dynamic>> sendToken(String  phone,String token) async{
@@ -179,7 +179,7 @@ class TokenProvider{
 
 class DirectionProvider{
 
-  final    String url = 'http://167.172.216.181:3000/addAddressUser';
+  final    String url = 'https://www.timugo.tk/addAddressUser';
    
 
    Future <Map<String,dynamic>> sendDirection(int phone,String  city,String address) async{
@@ -201,19 +201,22 @@ class DirectionProvider{
 }
 
 class UserProvider{
-
-  final    String url = 'http://167.172.216.181:3000/getUser';
- final prefs =  PreferenciasUsuario();
-   Future<Map<String,dynamic>>  getName(String  phone) async{
-      var _urlcode = url+'?phone='+phone;
-  // make POST request
-      http.Response response = await http.get(_urlcode);
-      final decodeData = jsonDecode(response.body);
-      
-      prefs.name=decodeData['content']['name'];
-      
-   return decodeData; 
+  final    String url = 'https://www.timugo.tk/getUser';
+  final prefs =  PreferenciasUsuario();
+  
+    Future<Map<String,dynamic>>  getName(String  phone) async{
+        var _urlcode = url+'?phone='+phone;
+    // make POST request
+        http.Response response = await http.get(_urlcode);
+        final decodeData = jsonDecode(response.body);
+       // final userInfo   = Provider.of<UserInfo>();
+        
+        prefs.name=decodeData['content']['name'];
+        prefs.pts=decodeData['content']['points'].toString();
+      //  userInfo.pts=decodeData['content']['points'];
+        print(decodeData);
+    return decodeData; 
+    }
   }
-}
 
 
