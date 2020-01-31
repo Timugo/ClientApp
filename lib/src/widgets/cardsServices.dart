@@ -135,9 +135,8 @@ class _DescriptionCard extends StatelessWidget {
                       onPressed: (){
                    Navigator.push(
                    context,MaterialPageRoute(
-                   builder: (context) => Checkin()));
+                   builder: (context) => Checkin(model:prod)));
                       }
-                    
                       ),
                   
                     width: 100.0,

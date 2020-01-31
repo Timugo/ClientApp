@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:timugo/src/pages/point_pages.dart';
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 
 class MenuWidget extends StatelessWidget {
@@ -41,10 +42,15 @@ class MenuWidget extends StatelessWidget {
                 lineWidth: 10.0,
                 percent: 0.8,
                 header: new Text("Bronce",style: TextStyle(fontWeight:  FontWeight.bold)),
-                center: new Icon(
-                  FontAwesomeIcons.gem,
-                  size: 30.0,
+                center: new IconButton(
+                  icon:Icon(FontAwesomeIcons.gem),
+                  iconSize: 30.0,
                   color: Colors.blue,
+                  onPressed: (){
+                    Navigator.push(
+                   context,MaterialPageRoute(
+                   builder: (context) => PointWidget()));
+                  },
                 ),
                 backgroundColor: Colors.white,
                 progressColor: Colors.blue,
