@@ -8,6 +8,7 @@ class UserInfo with ChangeNotifier {
   List<String> _directions=['Direccion']; 
   String _urlImg;
   String _price;
+  int _pts;
 
   get phone {
     return _phone;
@@ -28,7 +29,13 @@ class UserInfo with ChangeNotifier {
   get price {
     return _price;
   }
-
+  get pts{
+    return _pts;
+  }
+  set pts(int nombre){
+     this._pts = nombre;
+    notifyListeners();
+  }
   set phone( int nombre ) {
     this._phone = nombre;
     notifyListeners();

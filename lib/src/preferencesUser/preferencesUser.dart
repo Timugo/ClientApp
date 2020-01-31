@@ -29,6 +29,14 @@ class PreferenciasUsuario {
   }
 
   // GET y SET del token
+  get order {
+    return _prefs.getString('order') ?? '';
+  }
+
+  set order( String value ) {
+    _prefs.setString('order', value);
+  }
+
   get token {
     return _prefs.getString('token') ?? '';
   }
@@ -38,6 +46,12 @@ class PreferenciasUsuario {
   }
    get tokenPhone {
     return _prefs.getString('tokenPhone') ?? '';
+  }
+  set pts( String value ) {
+    _prefs.setString('pts', value);
+  }
+  get pts{
+    return _prefs.getString('pts') ?? '';
   }
 
   set tokenPhone( String value ) {
@@ -59,6 +73,14 @@ class PreferenciasUsuario {
 
   set ultimaPagina( String value ) {
     _prefs.setString('ultimaPagina', value);
+  }
+
+  
+  set id( String value ) {
+    _prefs.setString('id', value);
+  }
+  get id {
+    return _prefs.getString('id') ?? '';
   }
 
 }
