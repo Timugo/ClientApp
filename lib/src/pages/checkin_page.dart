@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:timugo/src/models/aditional_model.dart';
+import 'package:timugo/src/models/order_model.dart';
+import 'package:timugo/src/models/services_model.dart';
 import 'package:timugo/src/providers/user.dart';
 import 'package:timugo/src/services/number_provider.dart';
 import 'package:timugo/src/widgets/appbar.dart';
@@ -8,21 +10,48 @@ import 'package:timugo/src/widgets/appbar.dart';
 import 'checkout_page.dart';
 
 class Checkin extends StatefulWidget {
-  
+  final ServicesModel model;
+  Checkin({this.model});
   
   @override
   _CheckinState createState() 
-  {return new  _CheckinState();} 
+  {return new  _CheckinState(model:model);} 
 }
 
 class _CheckinState extends State<Checkin> {
-  
-  
+  final ServicesModel model;
+   final List orderFinal = [];
+   final List tem=[];
+    final order = OrderModel();
+  _CheckinState({this.model});
     
 
     int number = 1;
     int total = 0;
     int count =0;
+    
+  void addServiceToarray(){
+
+    
+    
+    
+    if(tem.contains(model.name)){
+      for(var i in orderFinal){
+        if(i["nameService"]== model.name){
+          i["quantity"]=number;
+        }
+
+      }
+    }else{
+    tem.add(model.name);
+    order.id=model.id;
+    order.nameService=model.name;
+    order.typeService="Service";
+    order.price=model.price;
+    order.quantity = number;
+    orderFinal.add(order.toJson());
+    }
+  }
 
    void removeOrder(tot,key) {
     setState(() {
@@ -62,9 +91,11 @@ class _CheckinState extends State<Checkin> {
   }
   @override
   Widget build(BuildContext context) {
- final size = MediaQuery.of(context).size;
-  final url ='http://167.172.216.181:3000/';
+  final size = MediaQuery.of(context).size;
+  final url ='https://timugo.tk/';
   final userInfo   = Provider.of<UserInfo>(context);
+  final price = int.parse(model.price);
+ 
   
  
  return Scaffold(
@@ -78,13 +109,10 @@ class _CheckinState extends State<Checkin> {
           Positioned(
 
             top: 70,height: 250,
-            child: Image.network(url+userInfo.urlImg,width: 210, )
+            child: Image.network(url+model.urlImg,width: 210, )
             
             //child: Image.network(url+prod.urlImg,width: 210,)
           ),
-        
-      
-         
          Container(
             child:_crearListado(0),
          ),
@@ -120,13 +148,14 @@ class _CheckinState extends State<Checkin> {
               padding: EdgeInsets.fromLTRB(size.width*0.1, 20.0, size.width*0.1, 20.0),
               onPressed:(){
                 userInfo.price=total.toString();
-
+                      addServiceToarray();
+                      
                      Navigator.push(
                    context,MaterialPageRoute(
-                   builder: (context) => Checkout()));
+                   builder: (context) => Checkout(temp:orderFinal,price:price,priceA:total)));
               },// monVal == false ? null:   _subimit ,
               child: Text(
-                'Agregar'+' '+"\$"+total.toString(),textAlign: TextAlign.center,
+                'Agregar'+' '+"\$"+(total+price).toString(),textAlign: TextAlign.center,
                 style: TextStyle(
                 color: Colors.white,
                 ),
@@ -174,10 +203,8 @@ class _CheckinState extends State<Checkin> {
                     color: Colors.green,
                      onPressed:
                        addNumbers,
-                      
+                       
 
-                     
-            
                   ),
                 ],
               )
@@ -192,7 +219,7 @@ class _CheckinState extends State<Checkin> {
   Widget _crearListado(double numer) {
   final  aditionalProvider = AditionalProvider();
     
-     var serv = '1';
+    
     return Container(
       margin:  EdgeInsets.only(top: 300+numer),
       child:Stack(
@@ -213,7 +240,7 @@ class _CheckinState extends State<Checkin> {
           
        FutureBuilder(
      
-      future: aditionalProvider.getAditional(serv),
+      future: aditionalProvider.getAditional(model.id.toString()),
       builder: (BuildContext context, AsyncSnapshot<List<AditionalModel>> snapshot) {
         if ( snapshot.hasData ) {
 
@@ -235,16 +262,11 @@ class _CheckinState extends State<Checkin> {
     );
   }
 
-
-
   Widget _crearItem(BuildContext context, AditionalModel producto, Key key ) {
      //final size = MediaQuery.of(context).size;
-       final userInfo   = Provider.of<UserInfo>(context);
-     
-    
 
     return Container(
-       
+    
     child:Stack(
         key: key,
         children: <Widget>[
@@ -265,30 +287,40 @@ class _CheckinState extends State<Checkin> {
               ),
           ),
           Padding(
-            key: key,
+            
              padding: const EdgeInsets.only(left:10.0,top: 50),
             child: Row(
-              key: key,
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                    total != 0 ?IconButton(
+                    IconButton(
                       icon: Icon(Icons.remove),
                       color: Colors.green,
-                      onPressed:(){removeOrder(producto.price,UniqueKey());
-                      userInfo.price = total.toString();},
-                    ):Container(),
-                    Container(
+                      onPressed:(){
+                        
+                        removeOrder(producto.price,UniqueKey());
+                        
+                        deleteAditionalOrder(producto);
                       
+                      
+                      },
+                    ),
+                    Container(
+                     
                       padding: const EdgeInsets.only(
+                        
                         bottom: 2, right: 12, left: 12),
                       child: Text(''),
                     ),
                     IconButton(
+
+                      key:key,
                       icon: Icon(Icons.add,size: 24,),
                       color: Colors.green,
                       onPressed: (){
                         addOrder(producto.price);
+                        addAditionalOrder(producto);
+
                       },
                     )
                 ]
@@ -304,7 +336,55 @@ class _CheckinState extends State<Checkin> {
         ]
     )
     );
+   
+
+        
+      
+
+      
+
+    
   }
+   void addAditionalOrder(producto){
+      if (tem.contains(producto.name)){
+         for (var i in orderFinal) {
+          if (i["nameService"] == producto.name){
+            i["quantity"] +=1;
+
+          }
+        }
+
+      }
+      else{
+
+        tem.add(producto.name);
+        order.id=producto.id;
+        order.nameService=producto.name;
+        order.typeService="aditional";
+        order.price=producto.price;
+        order.quantity = 1;
+        orderFinal.add(order.toJson());
+      }
+     
+     
+   }
+
+   void deleteAditionalOrder(producto){
+    
+      for (var i in orderFinal) {
+        if (i["nameService"] == producto.name){
+          if (i["quantity"] == 1){
+            orderFinal.remove(i);
+            tem.remove(producto.id);
+
+          }else{
+            i["quantity"] -= 1;
+          }
+
+        }
+      }
+   }
+      
 }
  
 

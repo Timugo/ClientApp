@@ -1,28 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:timugo/src/providers/user.dart';
 import 'package:timugo/src/widgets/addDirections.dart';
+import 'package:timugo/src/services/number_provider.dart';
+import 'package:timugo/src/preferencesUser/preferencesUser.dart';
+
+import 'orderProcces_page.dart';
 
 
 
 
 
 class Checkout extends StatefulWidget {
+    final List temp;
+    final int price;
+    final int priceA;
+    
+  Checkout({this.temp,this.price,this.priceA});
   
   
   @override
   _CheckoutState createState() 
-  {return new  _CheckoutState();} 
+  {return new  _CheckoutState(temp:temp,priceA:priceA,price:price);} 
 }
 
 class _CheckoutState extends State<Checkout> {
+     final List temp;
+     final int price;
+     final int  priceA;
+  _CheckoutState({this.temp,this.price,this.priceA});
   
 
 
    @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-     final userInfo   = Provider.of<UserInfo>(context);
+    final createOrdeProvider = CreateOrderProvider();
+     print(price);
+     print(temp);
 
      return Scaffold(
        appBar: AppBar(
@@ -44,7 +57,7 @@ class _CheckoutState extends State<Checkout> {
             children:<Widget>[
                 Container(
          padding:EdgeInsets.only(left: 15,top: 80) ,
-        child:Text("Checkout",style: TextStyle(color: Colors.black,fontSize: 30,fontWeight: FontWeight.bold)),
+        child:Text("Resumen de Orden",style: TextStyle(color: Colors.black,fontSize: 30,fontWeight: FontWeight.bold)),
          ),
          Card(
            
@@ -87,20 +100,20 @@ class _CheckoutState extends State<Checkout> {
                 ListTile(
                    contentPadding:EdgeInsets.only(left: 0),
                   title: Text('Costo del servicio :'),
-                  trailing: Text(userInfo.price),
+                  trailing: Text(price.toString(),style:TextStyle(fontWeight: FontWeight.bold)),
                 ),
                
                 ListTile(
                   contentPadding:EdgeInsets.only(left: 0),
                   title:Text('Costos adiccionales :') ,
-                  trailing: Text('0'),
+                  trailing: Text(priceA.toString(),style:TextStyle(fontWeight: FontWeight.bold)),
                 ),
                 
                   ListTile(
                   contentPadding:EdgeInsets.only(left: 0),
                   title:Text('Total a cobrar',style:TextStyle(fontWeight: FontWeight.bold,fontSize: 22)) ,
                   subtitle: Text('Con efectivo'),
-                  trailing: Text(userInfo.price),
+                  trailing: Text(''),
                 ),
                 
 
@@ -121,9 +134,24 @@ class _CheckoutState extends State<Checkout> {
               ),
               color: Colors.green.shade500,
               padding: EdgeInsets.fromLTRB(size.width*0.3, 20.0, size.width*0.3, 20.0),
-              onPressed: userInfo.price == '0' ? null: (){} ,
+              onPressed: (){
+                   
+                  final prefs = new PreferenciasUsuario();  
+                  var res= createOrdeProvider.createOrder(int.parse(prefs.id),"hola","cali",temp);
+                  res.then((response) async {
+                    if (response['response'] == 2){
+                       Navigator.push(
+                                      context,  
+                                      MaterialPageRoute(
+                                        builder: (context) => OrderProcces()
+                                      )
+                                    );
+                    }
+                    });
+                        
+              } ,
               child: Text( 
-                'Enviar pedido'+' '+"\$"+userInfo.price,textAlign: TextAlign.center,
+                'Enviar pedido'+' '+"\$"+(price+priceA).toString(),textAlign: TextAlign.center,
                 style: TextStyle(
                 color: Colors.white,
                 ),
