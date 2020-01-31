@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:timugo/src/models/aditional_model.dart';
 import 'package:timugo/src/models/barbers_model.dart';
 import 'package:timugo/src/models/services_model.dart';
+import 'package:timugo/src/models/temporalOrder_model.dart';
 
 import 'dart:convert';
 
@@ -115,20 +116,15 @@ class BarbersProvider  extends ChangeNotifier{
 
    final    String url = 'https://www.timugo.tk/getBarbersTop';
    List<BarbersModel> _productos = new List();
-
+    
     Future<List<BarbersModel>>  getBarbers() async{
     http.Response response = await http.get(url);
-    final decodeData = json.decode(response.body) ;
+    final decodeData = json.decode(response.body);
     var list = decodeData['content'] as List;
   
    _productos =list.map((i)=>BarbersModel.fromJson(i)).toList();
-    print(_productos);
+   
     return _productos;
-  
-
-    
-
-  
    }
     
 }
@@ -145,7 +141,7 @@ class AditionalProvider  extends ChangeNotifier{
     var list = decodeData['content'] as List;
   
    _productos =list.map((i)=>AditionalModel.fromJson(i)).toList();
-    print(_productos);
+    
     return _productos;
   
 
@@ -190,7 +186,6 @@ class DirectionProvider{
         "address": address
       };
     final encodedData = json.encode(data);
-
   // make POST request
       http.Response response = await http.put(url, headers: headers, body: encodedData);
       final decodeData = jsonDecode(response.body);
@@ -213,10 +208,79 @@ class UserProvider{
         
         prefs.name=decodeData['content']['name'];
         prefs.pts=decodeData['content']['points'].toString();
+        prefs.id = decodeData['content']['id'].toString();
+        
       //  userInfo.pts=decodeData['content']['points'];
-        print(decodeData);
+       
     return decodeData; 
     }
   }
+
+ 
+class CreateOrderProvider{
+
+  final    String url = 'https://www.timugo.tk/createOrder';
+   final prefs =  PreferenciasUsuario();
+   
+
+   Future <Map<String,dynamic>>  createOrder(int  id,String address,String city,List services) async{
+       Map<String, String> headers = {"Content-Type": "application/json"};
+       var data = {
+          "idClient": id,
+          "address": address,
+          "city":city,
+          "services":json.encode(services)
+
+        };
+    final encodedData = json.encode(data);
+
+  // make POST request
+      http.Response response = await http.post(url, headers: headers, body: encodedData);
+      final decodeData = jsonDecode(response.body);
+      
+      prefs.order=(decodeData['content']['orderDB']['id']).toString();
+      
+      
+  
+   return decodeData;
+  }
+}
+
+class TemporalOrderProvider  extends ChangeNotifier{
+
+   final    String url = 'https://www.timugo.tk/getInfoTemporalOrder';
+    final prefs =  PreferenciasUsuario();
+    
+
+   List<TemporalServices> _services = new List();
+
+    Future<List<TemporalServices>>  getTemporalProvider() async{
+    var _urlcode = url+'?idOrder='+prefs.order;
+    http.Response response = await http.get(_urlcode);
+    final decodeData = json.decode(response.body) ;
+
+   
+    var list = decodeData['content']['order']['services'] as List;
+
+   _services =list.map((i)=>TemporalServices.fromJson(i)).toList();
+
+    return _services;
+
+   }
+  
+ Future <Map<String,dynamic>>  getBarberAsigned() async{
+    var _urlcode = url+'?idOrder='+prefs.order;
+    http.Response response = await http.get(_urlcode);
+    final decodeData = json.decode(response.body) ;
+
+   
+    
+
+    return decodeData;
+
+   }
+
+    
+}
 
 
