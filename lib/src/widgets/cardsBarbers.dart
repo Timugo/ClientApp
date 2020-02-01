@@ -18,7 +18,7 @@ class CardsBarbers extends StatelessWidget {
             width: size.width,
             height: 240,
             child: PageView.builder(
-              controller: PageController(viewportFraction: size.width>size.height ? 0.25 : 0.38),
+              controller: PageController(viewportFraction: size.width>size.height ? 0.25 : 0.50),
               pageSnapping: false,
               itemCount: productos.length,
               itemBuilder: (context, i) => _Card( productos[i] ), 

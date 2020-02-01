@@ -57,14 +57,14 @@ class _Card extends StatelessWidget {
           ),
          
           Positioned(
-            top: size.width>size.height ? size.height*0.0 : size.height*0.01,
-            bottom: size.width>size.height ? size.height*0.14 : size.height*0.08,
-            left: size.width>size.height ? size.width*0.05 : size.width*0.001,
+            top: size.width>size.height ? size.height*0.0 : size.height*0.0,
+            bottom: size.width>size.height ? size.height*0.14 : size.height*0.11,
+            left: size.width>size.height ? size.width*0.05 : size.width*0.09,
             //right:size.width>size.height ? size.width*0.05 : size.width*0.001,
             
             child: Image.network(url+prod.urlImg,
-                                width: size.width>size.height ? size.height*0.22 : size.height*0.30,
-                                height: size.width>size.height ? size.height*0.22 : size.height*0.30,
+                                width: size.width>size.height ? size.height*0.22 : size.height*0.15,
+                                height: size.width>size.height ? size.height*0.22 : size.height*0.15,
                                 )
           )
           
@@ -129,15 +129,15 @@ class _DescriptionCard extends StatelessWidget {
                 children: <Widget>[
                   Container(
                     child: Text('\$'+'${prod.price}',style: TextStyle(color:Colors.white,fontWeight: FontWeight.bold),),
-                    width: size.width>size.height ? size.width*0.1 : size.width*0.12,
+                    width: size.width>size.height ? size.width*0.1 : size.width*0.2,
                     //height: size.height*0.05,
                   ),
                   Container(
                     child: Center(
                       child: Text('Solicitar',style: TextStyle(color: Colors.white)),
                     ),
-                    width: size.width>size.height ? size.width*0.11 : size.width*0.15,
-                    height: 50,
+                    width: size.width>size.height ? size.width*0.11 : size.width*0.20,
+                    height: size.width>size.height ? 50 : 40,
                     decoration:BoxDecoration(
                       color:Colors.red,
                       borderRadius: BorderRadius.only(topLeft: Radius.circular(15))
