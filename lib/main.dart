@@ -2,8 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:timugo/src/pages/checkin_page.dart';
+import 'package:timugo/src/pages/orderProcces_page.dart';
 //User dependencies
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
+import 'package:timugo/src/providers/barber_provider.dart';
+import 'package:timugo/src/providers/counter_provider.dart';
 import 'package:timugo/src/providers/push_notifications_provider.dart';
 import 'package:timugo/src/providers/user.dart';
 import 'package:timugo/src/services/number_provider.dart';
@@ -33,6 +36,8 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     final pushProvider = PushNotificationProvider(); 
+    final  temporalOrderProvider = TemporalOrderProvider();
+    temporalOrderProvider.getBarberAsigned();
     pushProvider.initNotifications();
     pushProvider.messages.listen((argument){
       print("Argumento");
@@ -46,6 +51,8 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider( builder: (context) => UserInfo() ),
         ChangeNotifierProvider( builder: (context) => ServicesProvider() ),
+        ChangeNotifierProvider( builder: (context) => BarberAsigned() ),
+        ChangeNotifierProvider( builder: (context) => Counter() ),
       ],
       child: MaterialApp(
       
@@ -57,7 +64,7 @@ class _MyAppState extends State<MyApp> {
           'registerData':(context)=> RegisterData(),
           'services':(context)=> Services(),
           'checkin':(context)=> Checkin(),
-          
+          'orderProccess':(context)=> OrderProcces()
 
         },
        
@@ -70,6 +77,10 @@ class _MyAppState extends State<MyApp> {
     print(prefs.token);
     if (prefs.token!='') {
       var ruta='services';
+      if (prefs.order != '0'){
+        ruta='orderProccess';
+      }
+
       return ruta;
     }else{
       return 'login';

@@ -82,6 +82,12 @@ class PreferenciasUsuario {
   get id {
     return _prefs.getString('id') ?? '';
   }
+   set direccion( String value ) {
+    _prefs.setString('direccion', value);
+  }
+  get direccion {
+    return _prefs.getString('direccion') ?? '';
+  }
 
 }
 

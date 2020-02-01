@@ -258,11 +258,12 @@ class TemporalOrderProvider  extends ChangeNotifier{
     var _urlcode = url+'?idOrder='+prefs.order;
     http.Response response = await http.get(_urlcode);
     final decodeData = json.decode(response.body) ;
+    if(decodeData['response']== 2){
+          var list = decodeData['content']['order']['services'] as List;
 
-   
-    var list = decodeData['content']['order']['services'] as List;
-
-   _services =list.map((i)=>TemporalServices.fromJson(i)).toList();
+            _services =list.map((i)=>TemporalServices.fromJson(i)).toList();
+    }
+    
 
     return _services;
 
@@ -273,6 +274,11 @@ class TemporalOrderProvider  extends ChangeNotifier{
     http.Response response = await http.get(_urlcode);
     final decodeData = json.decode(response.body) ;
 
+    if (decodeData['response'] == 1){
+              prefs.order = '0';
+               
+     }
+
    
     
 
@@ -282,5 +288,50 @@ class TemporalOrderProvider  extends ChangeNotifier{
 
     
 }
+class FinishOrderProvider{
 
+  final    String url = 'https://www.timugo.tk/finishOrder';
+   final prefs =  PreferenciasUsuario();
+   
+
+   Future <Map<String,dynamic>>  finishOrder() async{
+       Map<String, String> headers = {"Content-Type": "application/json"};
+       var data = {
+          "idOrder": int.parse(prefs.order),
+          "comment": '',
+          "status":"Cancelled",
+         
+
+        };
+    final encodedData = json.encode(data);
+
+  // make POST request
+      http.Response response = await http.post(url, headers: headers, body: encodedData);
+      final decodeData = jsonDecode(response.body);
+
+   return decodeData;
+  }
+}
+
+class EditOrderProvider{
+
+  final    String url = 'https://www.timugo.tk/editOrder';
+  final prefs =  PreferenciasUsuario();
+
+   Future <Map<String,dynamic>> editOrderProvider(List services) async{
+       Map<String, String> headers = {"Content-Type": "application/json"};
+       var data = {
+      "idOrder": int.parse(prefs.order),
+      "services":json.encode(services)
+    };
+    final encodedData = json.encode(data);
+
+  // make POST request
+      http.Response response = await http.put(url, headers: headers, body: encodedData);
+      final decodeData = jsonDecode(response.body);
+      
+  
+   return decodeData;
+  }
+}
 
