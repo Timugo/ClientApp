@@ -34,7 +34,7 @@ class _CheckoutState extends State<Checkout> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final createOrdeProvider = CreateOrderProvider();
-     print(price);
+     print(priceA);
      print(temp);
 
      return Scaffold(
@@ -140,10 +140,11 @@ class _CheckoutState extends State<Checkout> {
                   var res= createOrdeProvider.createOrder(int.parse(prefs.id),"hola","cali",temp);
                   res.then((response) async {
                     if (response['response'] == 2){
+                      print(priceA+price);
                        Navigator.push(
                                       context,  
                                       MaterialPageRoute(
-                                        builder: (context) => OrderProcces()
+                                        builder: (context) => OrderProcces(total:(price+priceA))
                                       )
                                     );
                     }

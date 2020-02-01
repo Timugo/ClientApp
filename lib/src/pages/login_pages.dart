@@ -18,6 +18,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final  registeProvider = NumberProvider();
+  
   bool monVal = false;
   Model model = Model();
   

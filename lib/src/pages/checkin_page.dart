@@ -211,9 +211,6 @@ class _CheckinState extends State<Checkin> {
             ],
           ),
         );
-
-
-    
   }
 
   Widget _crearListado(double numer) {
@@ -267,7 +264,7 @@ class _CheckinState extends State<Checkin> {
 
     return Container(
     
-    child:Stack(
+      child:Stack(
         key: key,
         children: <Widget>[
          
@@ -301,7 +298,7 @@ class _CheckinState extends State<Checkin> {
                         removeOrder(producto.price,UniqueKey());
                         
                         deleteAditionalOrder(producto);
-                      
+                       
                       
                       },
                     ),
