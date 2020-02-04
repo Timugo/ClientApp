@@ -48,7 +48,7 @@ class PointWidget extends StatelessWidget {
               child: new LinearPercentIndicator(
                 width: size.width*0.8,
                 lineHeight:15,
-                percent: int.parse(prefs.pts)*1.0,
+                percent: 0.0,
                 center: Text(
                   prefs.pts+'pts',
                   style: new TextStyle(fontSize: 12.0),

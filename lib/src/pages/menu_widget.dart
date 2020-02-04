@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:timugo/src/pages/point_pages.dart';
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
-
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 class MenuWidget extends StatelessWidget {
 
   @override
@@ -47,9 +47,15 @@ class MenuWidget extends StatelessWidget {
                   iconSize: 30.0,
                   color: Colors.blue,
                   onPressed: (){
-                    Navigator.push(
-                   context,MaterialPageRoute(
-                   builder: (context) => PointWidget()));
+                    Fluttertoast.showToast(
+                      msg: "Proximamente obtendras beneficios con tus puntos",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIos: 1,
+                      backgroundColor: Colors.red,
+                      textColor: Colors.white,
+                      fontSize: 14.0
+                  );
                   },
                 ),
                 backgroundColor: Colors.white,
@@ -68,8 +74,7 @@ class MenuWidget extends StatelessWidget {
             leading:  Icon(FontAwesomeIcons.headset,color: Colors.black,),
             title: Text('Centro de ayuda '),
             onTap: (){
-              // Navigator.pop(context);
-             // Navigator.pushReplacementNamed(context, SettingsPage.routeName  );
+               FlutterOpenWhatsapp.sendSingleMessage("573162452663", "Hola mi nombre es "+prefs.name+' y necesito ayuda con Timugo');
             }
           ),
            ListTile(
@@ -85,6 +90,7 @@ class MenuWidget extends StatelessWidget {
       ),
     );
   }
+  
 
  
 }
