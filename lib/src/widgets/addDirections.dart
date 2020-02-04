@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:timugo/src/models/directions_model.dart';
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'package:timugo/src/providers/user.dart';
 import 'package:timugo/src/services/number_provider.dart';
@@ -16,18 +17,22 @@ class DeleteItemInListViewPopupMenuState
     extends State<AddDireccions> {     
       TextEditingController cityController = new TextEditingController();
       TextEditingController directionController = new TextEditingController();
-  @override
-  Widget build(BuildContext context) {
-     final userInfo   = Provider.of<UserInfo>(context);
+    final deleteDirectio = DeleteAddress();
+  _onSelected(dynamic val) {
+    deleteDirectio.deleteaddress(val);
     
-      print(userInfo.directions);
-      List<String> _datas=userInfo.directions ;
-
-
-      _onSelected(dynamic val) {
-        setState(() => _datas.removeWhere((data) => data == val));
+       
       }
 
+  @override
+  Widget build(BuildContext context) {
+    
+    
+      
+     
+
+
+      
     return Scaffold(
      
       body:Stack(
@@ -42,27 +47,7 @@ class DeleteItemInListViewPopupMenuState
      
        
        
-      ListView(
-        padding: EdgeInsets.only(top:80),
-        children: _datas
-            .map((data) => ListTile(
-                  title: Text(data),
-                  trailing: PopupMenuButton(
-                    onSelected: _onSelected,
-                    icon: Icon(Icons.more_vert),
-                    itemBuilder: (context) => [
-                          PopupMenuItem(
-                            value: data,
-                            child: Text("Eliminar"),
-                          ),
-                        ],
-                  ),
-                ))
-            .toList(),
-
-     
-       ),
-
+      _createItems(),
          Container(
         
          alignment: Alignment.bottomLeft,
@@ -89,10 +74,68 @@ class DeleteItemInListViewPopupMenuState
       )
     );
   }
+  Widget _createItems(){
+     final getdirections =GetAddresses();
+      final size = MediaQuery.of(context).size;
+     return FutureBuilder(
+      future:  getdirections.getAddresses(),
+      builder: (BuildContext context, AsyncSnapshot<List<Directions>> snapshot) {  
+        if ( snapshot.hasData ) {
+          final productos = snapshot.data;
+          return Container(
+            margin:  EdgeInsets.only(top: 60,bottom: 50),
+            child:ListView.builder(
+        
+            key: UniqueKey(),
+            itemCount: productos.length,
+            itemBuilder: (context, i) => _card(context, productos[i] ),
+            )
+          );
+
+        }else{
+          return Center( child: CircularProgressIndicator());
+        }
+       }
+    );
+
+
+  }
+  Widget _card(  context,Directions producto){
+      
+        return Stack(
+          children: <Widget>[
+          ListTile(
+          leading: Text(producto.city),
+          subtitle: Text(''),
+          title: Text(producto.address),
+          trailing: PopupMenuButton(
+            onSelected:_onSelected
+            ,
+            icon: Icon(Icons.more_vert),
+            itemBuilder: (context) => [
+                  PopupMenuItem(
+                    value: producto.address,
+                    child: Text("Eliminar"),
+                  ),
+                ],
+          ),
+                ),
+                 Container(
+            margin: const EdgeInsets.only(left: 20.0, right: 10.0,top: 70),
+            child: Divider(
+              color: Colors.black,
+              height: 1,
+            )),
+          ]
+        );
+
+
+  }
 
 
   void _subimit(BuildContext context){
    final userInfo   = Provider.of<UserInfo>(context);
+  
    final sendDirection = DirectionProvider();
    final prefs = new PreferenciasUsuario();
     var _value;  

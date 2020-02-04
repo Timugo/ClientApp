@@ -46,21 +46,23 @@ class _ServicesState extends State<Services> {
                           icon: Icon(Icons.arrow_drop_down),
                           onPressed: () => _onButtonPressed(context),
                         ),
+                        Spacer(),
                         Stack(
                           children: <Widget>[
-                          IconButton(icon:Icon(FontAwesomeIcons.headset,color: Colors.black,),onPressed: (){},),
+                          IconButton(icon:Icon(FontAwesomeIcons.bell,color: Colors.black,),onPressed: (){},),
                           Container(
-                            child: Center(child: Text('1',style: TextStyle(color: Colors.white ),)),
+                            child: Center(
+                              child: Text(prefs.order == '0' ? '':'1',style: TextStyle(color: Colors.white ),)),
                             width: 20.0,
                             height: 20.0,
                             decoration: BoxDecoration(
-                              color: Colors.red,
+                              color: prefs.order == '0' ? Colors.white :Colors.red,
                               borderRadius: BorderRadius.circular(20.0)
                             ),
                           )
                           ],
                         ),
-                        Icon(FontAwesomeIcons.ellipsisV,size: 15.0,color: Colors.black), 
+                        
                         IconButton(icon:Icon(FontAwesomeIcons.ticketAlt,size: 15.0,color: Colors.black),onPressed: (){
                           
                         },), 

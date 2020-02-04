@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:timugo/src/models/aditional_model.dart';
 import 'package:timugo/src/models/barbers_model.dart';
+import 'package:timugo/src/models/directions_model.dart';
 import 'package:timugo/src/models/services_model.dart';
 import 'package:timugo/src/models/temporalOrder_model.dart';
 
@@ -335,3 +336,48 @@ class EditOrderProvider{
   }
 }
 
+class GetAddresses{
+
+  final    String url = 'https://www.timugo.tk/getAddressesUser';
+  final prefs =  PreferenciasUsuario();
+  List<Directions> _services = new List();
+
+  Future <List<Directions>>  getAddresses() async{
+    var _urlcode = url+'?phone='+prefs.token;
+    http.Response response = await http.get(_urlcode);
+    final decodeData = json.decode(response.body) ;
+
+     var list = decodeData['content'] as List;
+  
+   _services =list.map((i)=>Directions.fromJson(i)).toList();
+    
+
+    return _services;
+
+   
+  }
+}
+
+
+class DeleteAddress{
+
+  final    String url = 'https://www.timugo.tk/deleteAddressUser';
+     final prefs =  PreferenciasUsuario();
+
+
+   Future <Map<String,dynamic>> deleteaddress(String address) async{
+       Map<String, String> headers = {"Content-Type": "application/json"};
+       var data = {
+      "phone":prefs.token ,
+      "address": address
+    };
+    final encodedData = json.encode(data);
+
+  // make POST request
+      http.Response response = await http.put(url, headers: headers, body: encodedData);
+      final decodeData = jsonDecode(response.body);
+      
+  
+   return decodeData;
+  }
+}
