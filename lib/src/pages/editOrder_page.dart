@@ -29,7 +29,7 @@ class _EditOrderState extends State<EditOrder> {
   int  total = 0;
   int count = 1;
   int add =1; // count to add services to list
-  _totalOrder();
+  
   void removeOrder(tot) {
     setState(() {
       if (total > 0 ) {
