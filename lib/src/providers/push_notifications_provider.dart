@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 
 
 class PushNotificationProvider {
@@ -9,6 +10,7 @@ class PushNotificationProvider {
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   final _messagesStreamController = StreamController<String>.broadcast();
+  final prefs = new PreferenciasUsuario();
   Stream<String>get messages => _messagesStreamController.stream;
 
   initNotifications(){
@@ -18,8 +20,9 @@ class PushNotificationProvider {
     _firebaseMessaging.getToken().then((token){
       print('Token');
       print(token);
-      //ewZR5RNreSw:APA91bEtSfbBcPBiNkALQxe_R498c4_aqJFav4M2Hqpvor9BQ7TyC6Wnmo6rIA_gZZIb2kmU-hooG2ZZLIhHOx1dgqNAjZDxHl87kpgKP3zO4Tv-g8sPlAZJkqAaXODTfT_hzDlxpesg 
-      // eCrrUlR6XYM:APA91bFJv9NjXCa0pwthhsPwq1aW2a9jpzQBkciZbHkmKFTcJogaarRvOv2B-5n8XN7gOvPFspPLaucoxWUvO264jqnvogDeVElc1bNTGDlzkTfcSufZgv3BNiVmtrF9muGCNVNKo6KM
+      prefs.tokenPhone=token.toString();
+
+      
     });
 
     _firebaseMessaging.configure(

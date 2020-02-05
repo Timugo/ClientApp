@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:timugo/src/models/services_model.dart';
+import 'package:timugo/src/pages/checkin_page.dart';
+import 'package:timugo/src/providers/user.dart';
 import 'package:timugo/src/services/number_provider.dart';
 
 class CardsServices extends StatelessWidget {
@@ -31,7 +35,7 @@ class CardsServices extends StatelessWidget {
         }
        }
     );
-}
+  }
 }
 
 class _Card extends StatelessWidget {
@@ -45,6 +49,9 @@ class _Card extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final size = MediaQuery.of(context).size;
+    final userInfo   = Provider.of<UserInfo>(context);
+    userInfo.urlImg = prod.urlImg;
+
     return Container(
       child: Stack(
         children: <Widget>[
@@ -73,7 +80,6 @@ class _Card extends StatelessWidget {
     );
   }
 }
-
 
 class _DescriptionCard extends StatelessWidget {
   final ServicesModel prod;
@@ -119,11 +125,9 @@ class _DescriptionCard extends StatelessWidget {
                     Text('${prod.name}',style: TextStyle(color: Colors.white,fontSize: 14,fontWeight: FontWeight.bold)),
                     Spacer(),
                     Icon(FontAwesomeIcons.heart,color: Colors.white),
-                     
                   ],
                 ),
               ),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
@@ -133,13 +137,33 @@ class _DescriptionCard extends StatelessWidget {
                     //height: size.height*0.05,
                   ),
                   Container(
-                    child: Center(
-                      child: Text('Solicitar',style: TextStyle(color: Colors.white)),
-                    ),
-                    width: size.width>size.height ? size.width*0.11 : size.width*0.20,
-                    height: size.width>size.height ? 50 : 40,
+                  
+                      child:RaisedButton(
+                        color: Colors.red,
+                      child:Text('Solicitar',style: TextStyle(color: Colors.white)),
+                      onPressed: (){
+                        final checkUserOrder =CheckUserOrder();
+                        var res = checkUserOrder.checkUserOrder();
+                         res.then((response) async {
+                       if (response['response'] == 1){
+                         
+                            Navigator.push(
+                            context,MaterialPageRoute(
+                            builder: (context) => Checkin(model:prod)));
+
+                       }else{
+                          _showMessa();
+                       }
+                         });
+                       
+
+                  
+                      }
+                      ),
+                  
+                    width: 100.0,
+                    height: 35,
                     decoration:BoxDecoration(
-                      color:Colors.red,
                       borderRadius: BorderRadius.only(topLeft: Radius.circular(15))
 
                     ) ,
@@ -152,5 +176,17 @@ class _DescriptionCard extends StatelessWidget {
         ),
       ),
     );  
+  }
+  _showMessa(){
+    Fluttertoast.showToast(
+      msg: "Aún tienes ordenes en curso!",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIos: 1,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 14.0
+    );
+
   }
 }

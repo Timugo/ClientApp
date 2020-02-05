@@ -1,8 +1,12 @@
 //Flutter dependencies
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:timugo/src/pages/checkin_page.dart';
+import 'package:timugo/src/pages/orderProcces_page.dart';
 //User dependencies
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
+import 'package:timugo/src/providers/barber_provider.dart';
+import 'package:timugo/src/providers/counter_provider.dart';
 import 'package:timugo/src/providers/push_notifications_provider.dart';
 import 'package:timugo/src/providers/user.dart';
 import 'package:timugo/src/services/number_provider.dart';
@@ -32,6 +36,11 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     final pushProvider = PushNotificationProvider(); 
+    final  temporalOrderProvider = TemporalOrderProvider();
+    final  userName = UserProvider();
+    final prefs = new PreferenciasUsuario();
+    userName.getName(prefs.token);
+    temporalOrderProvider.getBarberAsigned();
     pushProvider.initNotifications();
     pushProvider.messages.listen((argument){
       print("Argumento");
@@ -45,6 +54,8 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider( builder: (context) => UserInfo() ),
         ChangeNotifierProvider( builder: (context) => ServicesProvider() ),
+        ChangeNotifierProvider( builder: (context) => BarberAsigned() ),
+        ChangeNotifierProvider( builder: (context) => Counter() ),
       ],
       child: MaterialApp(
       
@@ -55,6 +66,10 @@ class _MyAppState extends State<MyApp> {
           'code':(context)=> Code(),
           'registerData':(context)=> RegisterData(),
           'services':(context)=> Services(),
+          'checkin':(context)=> Checkin(),
+          'orderProccess':(context)=> OrderProcces(),
+          // 'userInfo' : (context)=> User()
+
         },
        
       )
@@ -63,9 +78,15 @@ class _MyAppState extends State<MyApp> {
 
   _rute<String> () {
     final prefs = new PreferenciasUsuario();
+    final checkUserOrder =CheckUserOrder();
+    var res = checkUserOrder.checkUserOrder();
     print(prefs.token);
     if (prefs.token!='') {
       var ruta='services';
+      if (prefs.order != '0' ){
+        ruta='orderProccess';
+      }
+
       return ruta;
     }else{
       return 'login';

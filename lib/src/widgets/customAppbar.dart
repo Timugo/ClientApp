@@ -6,13 +6,13 @@ class CustomAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      color: Colors.transparent,
-      child: Row(
-        children: <Widget>[
+    return AppBar(
+       actions: <Widget>[
                         SizedBox(width: 15.0,),
-                        IconButton(icon:Icon(FontAwesomeIcons.userCircle,size: 25.0,color: Colors.black),onPressed: (){},), 
+                        
+                        IconButton(icon:Icon(FontAwesomeIcons.userCircle,size: 25.0,color: Colors.black),onPressed: () {
+                        Scaffold.of(context).openDrawer();}
+                       ), 
                         Spacer(),
                         FlatButton.icon(
                      
@@ -38,12 +38,14 @@ class CustomAppBar extends StatelessWidget {
                           ],
                         ),
                         Icon(FontAwesomeIcons.ellipsisV,size: 15.0,color: Colors.black), 
-                        IconButton(icon:Icon(FontAwesomeIcons.ticketAlt,size: 15.0,color: Colors.black),onPressed: (){},), 
+                        IconButton(icon:Icon(FontAwesomeIcons.ticketAlt,size: 15.0,color: Colors.black),onPressed: (){
+                          
+                        },), 
                         SizedBox(width: 8.0,)
 
 
         ],
-      ),
+      
     );
   }
 }
@@ -61,8 +63,8 @@ void _onButtonPressed(BuildContext context) {
               decoration: BoxDecoration(
                 color: Theme.of(context).canvasColor,
                 borderRadius: BorderRadius.only(
-                  topLeft: const Radius.circular(10),
-                  topRight: const Radius.circular(10),
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
                 ),
               ),
             ),
