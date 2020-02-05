@@ -1,130 +1,104 @@
 
+//packages
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+// models
 import 'package:timugo/src/models/order_model.dart';
 import 'package:timugo/src/models/temporalOrder_model.dart';
+//pages
 import 'package:timugo/src/pages/orderProcces_page.dart';
-import 'package:timugo/src/providers/counter_provider.dart';
 import 'package:timugo/src/services/number_provider.dart';
 
 
 
 class EditOrder extends StatefulWidget {
-   final int total;
-  EditOrder({this.total});
+  
   @override
   _EditOrderState createState() 
   {
-    return new  _EditOrderState(cant:total);} 
+    return new  _EditOrderState();} 
 }
 
 class _EditOrderState extends State<EditOrder> {
-  final int cant;
-  final List tem=[];
-  final order = OrderModel();
+
+  final order           = OrderModel();
+  final List tem        =[];
   final List orderFinal = [];
-  
-  _EditOrderState({this.cant});
-  int preTotal =0;
+  int precio =0;
+  int totaOrder =0;
   int  total = 0;
   int count = 1;
- 
-    void removeOrder(tot,key) {
+  int add =1; // count to add services to list
+  _totalOrder();
+  void removeOrder(tot) {
     setState(() {
       if (total > 0 ) {
         total -=tot;
+        if (total < 0){
+          total=0;
+        }
         count --;
       }
-      
     });
   }
   void addOrder(tot) {
     setState(() {
-      
-          total +=tot;
+      total +=tot;
       count ++;
-        
-      
-
-      
     });
   }
-  
 
-  
-  
-  
-   @override
-   
+  @override
   Widget build(BuildContext context) {
-    //final size = MediaQuery.of(context).size;
-    print(cant);
+    final size = MediaQuery.of(context).size;
+    _totalOrder();
+
      return Scaffold(
       body:Stack( 
         children:<Widget>[
-          
-          
-          
-           
           Container(
             alignment: Alignment.bottomCenter,
-            padding: EdgeInsets.only(bottom: 10),
+            padding: EdgeInsets.only(bottom: size.height*0.01),
             child:_buttonadd()
           ),
-         
           Container(
-            padding: EdgeInsets.only(top:10,bottom: 70),
+            padding: EdgeInsets.only(top:size.height*0.01,bottom: size.height*0.08),
             alignment: Alignment.bottomCenter,
             child:_createEdit()
           ),
-
-       
-
-          
-           
         ]
       )
     );
   }
  
-
-   Widget _buttonadd(){
-   final size = MediaQuery.of(context).size;
-  print(orderFinal);
+  Widget _buttonadd(){
+    
+    final size = MediaQuery.of(context).size;
+    print(orderFinal);
     return Container(
-    
-          
-             child: 
-                 
-                 RaisedButton(                                   
-                elevation: 5.0,
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(10.0),
-                  side: BorderSide(color: Colors.green)
+      child:RaisedButton(                                   
+        elevation: 5.0,
+        shape: new RoundedRectangleBorder(
+          borderRadius: new BorderRadius.circular(10.0),
+          side: BorderSide(color: Colors.green)
+        ),
+        color: Colors.green.shade400,
+        padding: EdgeInsets.fromLTRB(size.width*0.3,size.height*0.02, size.width*0.3, size.height*0.02),
+        onPressed:(){
+            _subimit(context);
+        },// monVal == false ? null:   _subimit ,
+        child: Text(
+          'Enviar Orden'+' '+"\$"+(total+totaOrder).toString(),textAlign: TextAlign.center,
+          style: TextStyle(
+          color: Colors.white,
                 ),
-                color: Colors.green.shade400,
-                padding: EdgeInsets.fromLTRB(size.width*0.3, 20.0, size.width*0.3, 20.0),
-                onPressed:(){
-                    _subimit(context);
-                },// monVal == false ? null:   _subimit ,
-                child: Text(
-                  'Enviar Orden'+' '+"\$"+(total+cant).toString(),textAlign: TextAlign.center,
-                  style: TextStyle(
-                  color: Colors.white,
-                        ),
-                )
-        
-              )
-          
-        );
-
-
-    
+        )
+      )
+    );
   }
   
  _subimit(context) {
-   final totalA   = Provider.of<Counter>(context);
+  
     Alert(
       context: context,
       title: "CONFIRMACIÓN",
@@ -140,15 +114,14 @@ class _EditOrderState extends State<EditOrder> {
               var res = editOrderProvider.editOrderProvider(orderFinal);
               res.then((response) async {
           if (response['response'] == 2){
-            totalA.tot=preTotal;
             Navigator.push(
-                  context,  
-                  MaterialPageRoute(
-                    builder: (context) => OrderProcces()
-                  )
-                );
+              context,  
+              MaterialPageRoute(
+                builder: (context) => OrderProcces()
+              )
+            );
           }
-              });
+          });
    
           },
           color: Colors.green,
@@ -165,15 +138,11 @@ class _EditOrderState extends State<EditOrder> {
     ).show();
   }
 
- 
-  
   Widget _createEdit() {
   final  temporalOrderProvider = TemporalOrderProvider();
-  
 
  // final size = MediaQuery.of(context).size;
 
-    
     return Stack(
       children: <Widget>[
         Container(
@@ -195,7 +164,7 @@ class _EditOrderState extends State<EditOrder> {
             key: UniqueKey(),
 
             itemCount: productos.length,
-            itemBuilder: (context, i) => _editItem(context, productos[i],Key(i.toString()) ),
+            itemBuilder: (context, i) => _editItem(context, productos[i],Key(i.toString()),productos.length,),
           );
 
         } else {
@@ -208,9 +177,13 @@ class _EditOrderState extends State<EditOrder> {
   }
   
 
-  Widget _editItem(BuildContext context, TemporalServices producto, Key key ) {
+  Widget _editItem(BuildContext context, TemporalServices producto, Key key ,int itemC) {
      //final size = MediaQuery.of(context).size;
-  
+   
+    if (add <= itemC){
+      
+      addUnique(producto);
+    }
      return Container(
        key: key,
       child:Stack(
@@ -243,8 +216,7 @@ class _EditOrderState extends State<EditOrder> {
                       icon: Icon(Icons.remove),
                       color: Colors.green,
                       onPressed:(){
-                        
-                         removeOrder(producto.price,UniqueKey());
+                        removeOrder(producto.price);
                          deleteAditionalOrder(producto);
                        
                         
@@ -290,21 +262,10 @@ class _EditOrderState extends State<EditOrder> {
          for (var i in orderFinal) {
           if (i["nameService"] == producto.nameService){
             i["quantity"] +=1;
-            preTotal += producto.price;
+            precio+= int.parse(i["price"]);
+           
           }
         }
-
-      }
-      else{
-
-        tem.add(producto.nameService);
-        order.id=producto.id;
-        order.nameService=producto.nameService;
-        order.typeService="aditional";
-        order.price=producto.price.toString();
-        order.quantity = producto.quantity+1;
-        orderFinal.add(order.toJson());
-        preTotal+=int.parse(order.price)*order.quantity;
       }
      
      
@@ -314,17 +275,42 @@ class _EditOrderState extends State<EditOrder> {
     
       for (var i in orderFinal) {
         if (i["nameService"] == producto.nameService){
-          if (i["quantity"] == 1){
-            orderFinal.remove(i);
-            tem.remove(producto.id);
-
-          }else{
+          if (i["quantity"] > producto.quantity){
             i["quantity"] -= 1;
+            precio-=int.parse(i["price"]);
+          }else{
+           
+            
           }
 
         }
       }
    }
+
+   void addUnique(producto){
+      tem.add(producto.nameService);
+      order.id=producto.id;
+      order.nameService=producto.nameService;
+      order.typeService="aditional";
+      order.price=producto.price.toString();
+      order.quantity = producto.quantity;
+      orderFinal.add(order.toJson());
+      add +=1;
+   }
+
+    _totalOrder(){
+     final  temporalOrderProvider = TemporalOrderProvider();
+     var res=temporalOrderProvider.getBarberAsigned();
+     res.then((response) async {
+        totaOrder=response['content']['order']['price'];
+        print(totaOrder);
+        }
+     );
+
+      return totaOrder;
+     }
+
+   
 
 
 }
