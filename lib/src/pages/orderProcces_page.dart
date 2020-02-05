@@ -7,7 +7,6 @@ import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 import 'package:provider/provider.dart';
 import 'package:timugo/src/services/number_provider.dart';
 import 'package:timugo/src/providers/barber_provider.dart';
-import 'package:timugo/src/providers/counter_provider.dart';
 //models
 import 'package:timugo/src/models/temporalOrder_model.dart';
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
@@ -311,7 +310,6 @@ class _ProccesState extends State<OrderProcces> {
   void _onButtonPressed(BuildContext context) {
 
      final size = MediaQuery.of(context).size.height;
-     final totalA   = Provider.of<Counter>(context);
      
     showModalBottomSheet(
       context: context,
