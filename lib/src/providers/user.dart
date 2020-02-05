@@ -5,10 +5,11 @@ class UserInfo with ChangeNotifier {
   int _phone = 0;
   String _name='';
   String _email ='';
-  List<String> _directions=['Direccion']; 
+  String _directions=''; 
   String _urlImg;
   String _price;
   int _pts;
+  String _city='Cali';
 
   get phone {
     return _phone;
@@ -21,6 +22,9 @@ class UserInfo with ChangeNotifier {
   }
    get directions {
     return _directions;
+  }
+  get city {
+    return _city;
   }
   
   get urlImg {
@@ -49,13 +53,11 @@ class UserInfo with ChangeNotifier {
     notifyListeners();
   }
   
-  set directions( List nombre ) {
-    if (nombre != null) {
+  set directions( String nombre ) {
+    
       this._directions= nombre;
     notifyListeners();
-      
-    }
-    
+
   }
 
   set urlImg( String nombre ) {
@@ -64,6 +66,10 @@ class UserInfo with ChangeNotifier {
   }
   set price( String nombre ) {
     this._price = nombre;
+    notifyListeners();
+  }
+  set city( String nombre ) {
+    this._city = nombre;
     notifyListeners();
   }
 

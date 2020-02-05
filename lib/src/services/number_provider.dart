@@ -210,7 +210,7 @@ class UserProvider{
         prefs.name=decodeData['content']['name'];
         prefs.pts=decodeData['content']['points'].toString();
         prefs.id = decodeData['content']['id'].toString();
-        
+        prefs.email = decodeData['content']['email'].toString();
       //  userInfo.pts=decodeData['content']['points'];
        
     return decodeData; 
@@ -379,5 +379,24 @@ class DeleteAddress{
       
   
    return decodeData;
+  }
+}
+
+class CheckUserOrder{
+
+  final    String url = 'https://www.timugo.tk/checkUserOrder';
+  final prefs =  PreferenciasUsuario();
+  var res = 'false';
+  Future <Map<String,dynamic>>  checkUserOrder() async{
+    var _urlcode = url+'?idUser='+prefs.id;
+    http.Response response = await http.get(_urlcode);
+    final decodeData = json.decode(response.body) ;
+
+    
+    
+    return decodeData;
+    
+
+   
   }
 }

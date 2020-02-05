@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:timugo/src/models/services_model.dart';
@@ -133,9 +134,22 @@ class _DescriptionCard extends StatelessWidget {
                         color: Colors.red,
                       child:Text('Solicitar',style: TextStyle(color: Colors.white)),
                       onPressed: (){
-                   Navigator.push(
-                   context,MaterialPageRoute(
-                   builder: (context) => Checkin(model:prod)));
+                        final checkUserOrder =CheckUserOrder();
+                        var res = checkUserOrder.checkUserOrder();
+                         res.then((response) async {
+                       if (response['response'] == 1){
+                         
+                            Navigator.push(
+                            context,MaterialPageRoute(
+                            builder: (context) => Checkin(model:prod)));
+
+                       }else{
+                          _showMessa();
+                       }
+                         });
+                       
+
+                  
                       }
                       ),
                   
@@ -154,5 +168,17 @@ class _DescriptionCard extends StatelessWidget {
         ),
       ),
     );  
+  }
+  _showMessa(){
+    Fluttertoast.showToast(
+      msg: "Aún tienes ordenes en curso!",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIos: 1,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 14.0
+    );
+
   }
 }

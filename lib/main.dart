@@ -37,6 +37,9 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     final pushProvider = PushNotificationProvider(); 
     final  temporalOrderProvider = TemporalOrderProvider();
+    final  userName = UserProvider();
+    final prefs = new PreferenciasUsuario();
+    userName.getName(prefs.token);
     temporalOrderProvider.getBarberAsigned();
     pushProvider.initNotifications();
     pushProvider.messages.listen((argument){
@@ -64,7 +67,8 @@ class _MyAppState extends State<MyApp> {
           'registerData':(context)=> RegisterData(),
           'services':(context)=> Services(),
           'checkin':(context)=> Checkin(),
-          'orderProccess':(context)=> OrderProcces()
+          'orderProccess':(context)=> OrderProcces(),
+          // 'userInfo' : (context)=> User()
 
         },
        
@@ -74,10 +78,12 @@ class _MyAppState extends State<MyApp> {
 
   _rute<String> () {
     final prefs = new PreferenciasUsuario();
+    final checkUserOrder =CheckUserOrder();
+    var res = checkUserOrder.checkUserOrder();
     print(prefs.token);
     if (prefs.token!='') {
       var ruta='services';
-      if (prefs.order != '0'){
+      if (prefs.order != '0' ){
         ruta='orderProccess';
       }
 
