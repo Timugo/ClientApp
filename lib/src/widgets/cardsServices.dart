@@ -70,9 +70,9 @@ class _Card extends StatelessWidget {
             //right:size.width>size.height ? size.width*0.05 : size.width*0.001,
             
             child: Image.network(url+prod.urlImg,
-                                width: size.width>size.height ? size.height*0.22 : size.height*0.15,
-                                height: size.width>size.height ? size.height*0.22 : size.height*0.15,
-                                )
+              width: size.width>size.height ? size.height*0.22 : size.height*0.15,
+              height: size.width>size.height ? size.height*0.22 : size.height*0.15,
+              )
           )
           
         ],

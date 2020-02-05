@@ -78,8 +78,8 @@ class _MyAppState extends State<MyApp> {
 
   _rute<String> () {
     final prefs = new PreferenciasUsuario();
-    final checkUserOrder =CheckUserOrder();
-    var res = checkUserOrder.checkUserOrder();
+   // final checkUserOrder =CheckUserOrder();
+    //var res = checkUserOrder.checkUserOrder();
     print(prefs.token);
     if (prefs.token!='') {
       var ruta='services';

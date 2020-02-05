@@ -1,7 +1,6 @@
 
 //packages
 import 'package:flutter/material.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 //models
 import 'package:timugo/src/models/directions_model.dart';
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
@@ -9,6 +8,7 @@ import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'package:provider/provider.dart';
 import 'package:timugo/src/providers/user.dart';
 import 'package:timugo/src/services/number_provider.dart';
+import 'package:timugo/src/widgets/formDirection.dart';
 
 class AddDireccions extends StatefulWidget {
   
@@ -19,25 +19,23 @@ class AddDireccions extends StatefulWidget {
 }
 class DeleteItemInListViewPopupMenuState extends State<AddDireccions> {
 
-  // controllers of form add address
-  TextEditingController cityController = new TextEditingController();
-  TextEditingController directionController = new TextEditingController();
+
   // finals
   final deleteDirectio = DeleteAddress();
   final prefs = new PreferenciasUsuario();
   final addressmodel =  Directions();
-  var _value = 'Cali';
+
+ 
+
+ 
+ 
+
   var principal ='';
-    
-    
-
-
-  void  _citySelected(String value){ // this function change de city selected in the form
-    
-    _value= value; 
+   _delete(String value){
+     deleteDirectio.deleteaddress(value);
   }
 
-  _addPrincipal(String value){  //this function add the principal address of user
+  void _addPrincipal(String value){  //this function add the principal address of user
     final userInfo   = Provider.of<UserInfo>(context);
     userInfo.directions = value;
     prefs.direccion = value;
@@ -65,7 +63,7 @@ class DeleteItemInListViewPopupMenuState extends State<AddDireccions> {
                 icon:Icon(Icons.add_location),
                 label:Text("Ingresa una dirección ",style: TextStyle(color: Colors.black38,fontSize: 20)),
                 onPressed: (){
-                  _subimit(context);
+                  _onButtonPressed(context);
                 },
               )
             )
@@ -110,69 +108,35 @@ class DeleteItemInListViewPopupMenuState extends State<AddDireccions> {
           deleteDirectio.deleteaddress(producto.address);
         },
         child: ListTile(
-          leading: Text(producto.city),
-          title: Text(producto.address),
-          trailing: PopupMenuButton(
-            onSelected:_addPrincipal ,  //  change the principal address of user
-            icon: Icon(Icons.more_vert),
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                value: (producto.address),
-                child: Text("Seleccionar"),
-              ),
-            ],
-          ),
+          title: Text(producto.city+' '+producto.address),
+          trailing:Icon(Icons.keyboard_arrow_left),
+        
+          onTap:()=> _addPrincipal(producto.address),
+      
         ),
      
       );
   }
   // show the  pop up where contains the form to add new address of user
-  void _subimit(BuildContext context){
-
-    final sendDirection = DirectionProvider();
-    final prefs = new PreferenciasUsuario();
-    var _currencies = ['Cali','Palmira','Jamundi'];  // list of  cities aprove
-    List<String> _datas= [];  // temporal list to add  data of form 
-    Alert(
+  void _onButtonPressed(BuildContext context) { // show de modal botton sheet tha open the  add Directions widget
+     final size = MediaQuery.of(context).size.height;
+    showModalBottomSheet(
         context: context,
-        title: "Añade Dirección",
-        content: Column(
-          children: <Widget>[
-            DropdownButton<String>(
-              items: _currencies.map((String dropDownStringItem){ // this function paint the cities as  dropDownStrings
-                  return DropdownMenuItem<String>(
-                    value: dropDownStringItem,
-                    child: Text(dropDownStringItem),
-                  );
-              }).toList(),
-              onChanged: (String value) {
-                _citySelected(value);
-              },
-              value: _value,
-            ),
-            TextField(
-              decoration: InputDecoration(
-                icon: Icon(Icons.directions),
-                labelText: 'Dirección',
+        builder: (context) {
+          return Container(
+            color: Color(0xFF737373),
+            height: size*0.75,
+            child: Container(
+              child: FormDirections(),
+              decoration: BoxDecoration(
+                color: Theme.of(context).canvasColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
+                ),
               ),
-              controller:directionController ,
             ),
-          ],
-        ),
-        buttons: [
-          DialogButton(
-            onPressed: () { // when  pressed  call service sen Direction and add address of user
-              _datas.add(_value+' '+directionController.text);
-              var res= sendDirection.sendDirection(int.parse(prefs.token),_value,directionController.text);
-              res.then((response) async {
-                 if (response['response'] == 2){
-                   Navigator.pop(context);
-                }
-              });
-            },
-            child: Text( "Añadir",style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
-          )
-        ]).show();
+          );
+        });
   }
 }
