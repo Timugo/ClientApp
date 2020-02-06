@@ -54,6 +54,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   
   bool hasError = false;
   String currentText = '';
+  final sendToken = TokenProvider();
   
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   
@@ -227,6 +228,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                                       context,
                                       MaterialPageRoute(builder: (context) => RegisterData()));
                                 }else{
+                                  sendToken.sendToken(userInfo.phone.toString(),prefs.tokenPhone);
                                   prefs.token=userInfo.phone.toString();
                                   Navigator.push(
                                     context,
