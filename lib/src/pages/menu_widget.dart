@@ -5,6 +5,7 @@ import 'package:timugo/src/pages/userInfo_pages.dart';
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 
 //MENU DRAWER CLASS 
@@ -73,9 +74,32 @@ class MenuWidget extends StatelessWidget {
                 FlutterOpenWhatsapp.sendSingleMessage("573162452663", "Hola mi nombre es "+prefs.name+' y necesito ayuda con Timugo');
             }
           ),
+           ListTile(
+            leading:  Icon(FontAwesomeIcons.comment,color: Colors.black,),
+            title: Text('Sugerencias'),
+            onTap: (){
+                FlutterOpenWhatsapp.sendSingleMessage("573162452663", "Hola, me gustaría que Timugo...");
+            }
+          ),
+           ListTile(
+            leading:  Icon(FontAwesomeIcons.comment,color: Colors.black,),
+            title: Text('Calificanos'),
+            onTap: (){
+            _launchURL();
+            }
+          ),
+          
         ],
       ),
     );
   }
+  _launchURL() async {
+  const url = 'https://play.google.com/store/apps/details?id=com.timugo.timugo_client_app';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
 
 }
