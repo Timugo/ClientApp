@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:timugo/src/pages/services_page.dart';
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'package:timugo/src/services/number_provider.dart';
 
@@ -81,14 +82,15 @@ class _FormDirectionsState extends State<FormDirections> {
               ),
               color: Colors.green.shade400,
               padding: EdgeInsets.fromLTRB(size.width*0.2, size.height*0.02, size.width*0.2,size.height*0.02),
-              onPressed: () { 
-                final getdirections =GetAddresses();// when  pressed  call service sen Direction and add address of user
+              onPressed: () { // when  pressed  call service sen Direction and add address of user
                 _datas.add(_value+' '+directionController.text);
                 var res= sendDirection.sendDirection(int.parse(prefs.token),_value,directionController.text);
                 res.then((response) async {
                   if (response['response'] == 2){
-                    getdirections.getAddresses();
                     Navigator.pop(context);
+                    Navigator.push(
+                      context,MaterialPageRoute(
+                      builder: (context) => Services()));
                   }
                 });
               },

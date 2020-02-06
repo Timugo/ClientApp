@@ -35,11 +35,11 @@ class DeleteItemInListViewPopupMenuState extends State<AddDireccions> {
      deleteDirectio.deleteaddress(value);
   }
 
-  void _addPrincipal(String value){  //this function add the principal address of user
+  void _addPrincipal(String value,String city){  //this function add the principal address of user
     final userInfo   = Provider.of<UserInfo>(context);
     userInfo.directions = value;
     prefs.direccion = value;
-    userInfo.city= value;
+    userInfo.city= city;
     print(prefs.direccion );
       
   }
@@ -111,7 +111,7 @@ class DeleteItemInListViewPopupMenuState extends State<AddDireccions> {
           title: Text(producto.city+' '+producto.address),
           trailing:Icon(Icons.keyboard_arrow_left),
         
-          onTap:()=> _addPrincipal(producto.address),
+          onTap:()=> _addPrincipal(producto.address,producto.city),
       
         ),
      
