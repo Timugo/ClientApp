@@ -43,7 +43,7 @@ class _Card extends StatelessWidget {
    
  final  ServicesModel prod;
   _Card(this.prod);
-   final url ='http://167.172.216.181:3000/';
+   final url ='https://timugo.tk/';
   
   @override
   Widget build(BuildContext context) {
@@ -97,7 +97,7 @@ class _DescriptionCard extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(30),
         child: Container(
-          width:size.width>size.height ? size.height*0.40 :size.height*0.25, ///////////////////////////////////////
+          width:size.width>size.height ? size.height*0.40 :size.height*0.28, ///////////////////////////////////////
           height: size.height,
           color : Color(0xff000000),
           child: Column(
@@ -133,7 +133,7 @@ class _DescriptionCard extends StatelessWidget {
                 children: <Widget>[
                   Container(
                     child: Text('\$'+'${prod.price}',style: TextStyle(color:Colors.white,fontWeight: FontWeight.bold),),
-                    width: size.width>size.height ? size.width*0.1 : size.width*0.2,
+                    width: size.width>size.height ? size.width*0.1 : size.width*0.14,
                     //height: size.height*0.05,
                   ),
                   Container(
@@ -154,10 +154,7 @@ class _DescriptionCard extends StatelessWidget {
                        }else{
                           _showMessa();
                        }
-                         });
-                       
-
-                  
+                         });                  
                       }
                       ),
                   
