@@ -207,7 +207,7 @@ class UserProvider{
         final decodeData = jsonDecode(response.body);
        // final userInfo   = Provider.of<UserInfo>();
         
-        prefs.name=decodeData['content']['name'];
+        prefs.name=decodeData['content']['name'].toString();
         prefs.pts=decodeData['content']['points'].toString();
         prefs.id = decodeData['content']['id'].toString();
         prefs.email = decodeData['content']['email'].toString();
