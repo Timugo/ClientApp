@@ -34,13 +34,18 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
+    //Config of push notification provider
     super.initState();
-    final pushProvider = PushNotificationProvider(); 
+    final pushProvider = PushNotificationProvider();
+    //temporal order to check if user has a current order 
     final  temporalOrderProvider = TemporalOrderProvider();
+    //check the user name 
     final  userName = UserProvider();
+    //checking the user data save in device
     final prefs = new PreferenciasUsuario();
     userName.getName(prefs.token);
     temporalOrderProvider.getBarberAsigned();
+    //initialize the push notification provider
     pushProvider.initNotifications();
     pushProvider.messages.listen((argument){
       print("Argumento");
