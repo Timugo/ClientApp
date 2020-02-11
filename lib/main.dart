@@ -1,14 +1,18 @@
 //Flutter dependencies
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:timugo/src/pages/checkin_page.dart';
+import 'package:timugo/src/pages/orderProcces_page.dart';
 //User dependencies
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
+import 'package:timugo/src/providers/barber_provider.dart';
+import 'package:timugo/src/providers/counter_provider.dart';
 import 'package:timugo/src/providers/push_notifications_provider.dart';
 import 'package:timugo/src/providers/user.dart';
 import 'package:timugo/src/services/number_provider.dart';
 //pages 
 import 'package:timugo/src/pages/codeVerification_page.dart';
-import 'package:timugo/src/pages/login_pages.dart';
+import 'package:timugo/src/pages/login_page.dart';
 import 'package:timugo/src/pages/registerData_page.dart';
 import 'package:timugo/src/pages/services_page.dart';
 
@@ -30,8 +34,18 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
+    //Config of push notification provider
     super.initState();
-    final pushProvider = PushNotificationProvider(); 
+    final pushProvider = PushNotificationProvider();
+    //temporal order to check if user has a current order 
+    final  temporalOrderProvider = TemporalOrderProvider();
+    //check the user name 
+    final  userName = UserProvider();
+    //checking the user data save in device
+    final prefs = new PreferenciasUsuario();
+    userName.getName(prefs.token);
+    temporalOrderProvider.getBarberAsigned();
+    //initialize the push notification provider
     pushProvider.initNotifications();
     pushProvider.messages.listen((argument){
       print("Argumento");
@@ -45,6 +59,8 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider( builder: (context) => UserInfo() ),
         ChangeNotifierProvider( builder: (context) => ServicesProvider() ),
+        ChangeNotifierProvider( builder: (context) => BarberAsigned() ),
+        ChangeNotifierProvider( builder: (context) => Counter() ),
       ],
       child: MaterialApp(
       
@@ -55,6 +71,10 @@ class _MyAppState extends State<MyApp> {
           'code':(context)=> Code(),
           'registerData':(context)=> RegisterData(),
           'services':(context)=> Services(),
+          'checkin':(context)=> Checkin(),
+          'orderProccess':(context)=> OrderProcces(),
+          // 'userInfo' : (context)=> User()
+
         },
        
       )
@@ -63,9 +83,15 @@ class _MyAppState extends State<MyApp> {
 
   _rute<String> () {
     final prefs = new PreferenciasUsuario();
+   // final checkUserOrder =CheckUserOrder();
+    //var res = checkUserOrder.checkUserOrder();
     print(prefs.token);
     if (prefs.token!='') {
       var ruta='services';
+      if (prefs.order != '0' ){
+        ruta='orderProccess';
+      }
+
       return ruta;
     }else{
       return 'login';

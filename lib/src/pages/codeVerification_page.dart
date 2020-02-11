@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 import 'package:timugo/src/models/user_model.dart';
-import 'package:timugo/src/pages/login_pages.dart';
+import 'package:timugo/src/pages/login_page.dart';
 import 'package:timugo/src/pages/registerData_page.dart';
 import 'package:timugo/src/pages/services_page.dart';
 
@@ -54,6 +54,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   
   bool hasError = false;
   String currentText = '';
+  final sendToken = TokenProvider();
   
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   
@@ -227,6 +228,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                                       context,
                                       MaterialPageRoute(builder: (context) => RegisterData()));
                                 }else{
+                                  sendToken.sendToken(userInfo.phone.toString(),prefs.tokenPhone);
                                   prefs.token=userInfo.phone.toString();
                                   Navigator.push(
                                     context,

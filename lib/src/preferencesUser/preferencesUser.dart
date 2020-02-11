@@ -29,12 +29,47 @@ class PreferenciasUsuario {
   }
 
   // GET y SET del token
+  get order {
+    return _prefs.getString('order') ?? '';
+  }
+
+  set order( String value ) {
+    _prefs.setString('order', value);
+  }
+
   get token {
     return _prefs.getString('token') ?? '';
   }
 
   set token( String value ) {
     _prefs.setString('token', value);
+  }
+   get tokenPhone {
+    return _prefs.getString('tokenPhone') ?? '';
+  }
+  set pts( String value ) {
+    _prefs.setString('pts', value);
+  }
+  get pts{
+    return _prefs.getString('pts') ?? '';
+  }
+
+  set tokenPhone( String value ) {
+    _prefs.setString('tokenPhone', value);
+  }
+  get name {
+    return _prefs.getString('name') ?? '';
+  }
+
+  set name( String value ) {
+    _prefs.setString('name', value);
+  }
+
+   set email( String value ) {
+    _prefs.setString('email', value);
+  }
+  get email{
+    return _prefs.getString('email') ?? '';
   }
   
 
@@ -45,6 +80,20 @@ class PreferenciasUsuario {
 
   set ultimaPagina( String value ) {
     _prefs.setString('ultimaPagina', value);
+  }
+
+  
+  set id( String value ) {
+    _prefs.setString('id', value);
+  }
+  get id {
+    return _prefs.getString('id') ?? '';
+  }
+   set direccion( String value ) {
+    _prefs.setString('direccion', value);
+  }
+  get direccion {
+    return _prefs.getString('direccion') ?? '';
   }
 
 }

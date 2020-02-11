@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 
 
 class PushNotificationProvider {
@@ -9,38 +10,59 @@ class PushNotificationProvider {
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   final _messagesStreamController = StreamController<String>.broadcast();
+  final prefs = new PreferenciasUsuario();
   Stream<String>get messages => _messagesStreamController.stream;
 
   initNotifications(){
-    
+    //getting permission to the user ios/android for send push notifications 
     _firebaseMessaging.requestNotificationPermissions();
-
+    //gettinh token from the phone token -> return future
     _firebaseMessaging.getToken().then((token){
-      print('Token');
+      print('=========FCM TOKEN ==========');
       print(token);
-      //ewZR5RNreSw:APA91bEtSfbBcPBiNkALQxe_R498c4_aqJFav4M2Hqpvor9BQ7TyC6Wnmo6rIA_gZZIb2kmU-hooG2ZZLIhHOx1dgqNAjZDxHl87kpgKP3zO4Tv-g8sPlAZJkqAaXODTfT_hzDlxpesg 
-      // eCrrUlR6XYM:APA91bFJv9NjXCa0pwthhsPwq1aW2a9jpzQBkciZbHkmKFTcJogaarRvOv2B-5n8XN7gOvPFspPLaucoxWUvO264jqnvogDeVElc1bNTGDlzkTfcSufZgv3BNiVmtrF9muGCNVNKo6KM
+      //save token in the prefs (local db in device)
+      prefs.tokenPhone=token.toString();
     });
 
+    //Configuring the different cases to recieve push notifications 
     _firebaseMessaging.configure(
-      onMessage: (info) async { //when the app is dead and the notification appears
-        print('======= oN MESSAGE ======');
+      onMessage: (info) async { 
+        //when the app is open 
+        print('======= ON MESSAGE ======');
         print(info);
         String argument = 'no-data';
+        //catching data from push notification body example
+        // {
+        //   "to":"dx8CdHAq7ExOu77tdJ0GRC:APA91bEHr6SvWosDqShhi0AXRwL6nUceamz2Mce78AghcyZSXqIfOt0u510Q-flagHnc6HLSm2iNtQSjGvp_S1UfpJ94YncP7KWnLi8_7mwCHLbwyvScbWRK3SR-gGMubidZQ8IJjZYA",
+        //   "notification":{
+        //     "title":"Putoooo",
+        //     "body":"Puto el que lo lea xD"
+        //   },
+        //   "data":{
+        //     "phone":"3188758481"
+        //   }
+          
+        // }
         if( Platform.isAndroid ){
           argument = info['data']['phone'] ?? 'no-data';
+        }else{
+          //platform ios
+          argument = info['phone'] ?? 'no-data-ios';
         }
+        
         _messagesStreamController.sink.add(argument);
       },
       onLaunch: (info) async { 
-        print('======= oN Launch ======');
+        //when the app is running in the background (still alive)
+        print('======= ON Launch ======');
         print(info);
       },
-      onResume: (info) async { //when the app is running in backgraound and the notification appears in drop menu
-        print('======= oN Resume ======');
+      onResume: (info) async { 
+        //when the app is dead in the foreground
+        print('======= ON Resume ======');
         print(info);
         
-        final noti = info['data']['number'];
+        String noti = info['data']['number'];
         print(noti);
       }
     );

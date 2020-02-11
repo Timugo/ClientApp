@@ -20,6 +20,7 @@ class RegisterData extends StatefulWidget {
 class _LoginPageState extends State<RegisterData> {
   final _formKey = GlobalKey<FormState>();
   final  sendDataProvider = SendDataProvider();
+  final sendToken = TokenProvider();
   bool monVal = false;
   Model model = Model();
 
@@ -121,7 +122,7 @@ class _LoginPageState extends State<RegisterData> {
             CheckboxListTile(
               controlAffinity: ListTileControlAffinity.leading,
               title: InkWell(
-              child: new Text('Acepto terminos y condiciones',style: TextStyle(fontSize: 13,color: Colors.black)),
+              child: new Text('Acepto terminos y condiciones',style: TextStyle(fontSize: 13,color: Colors.blue,decoration: TextDecoration.underline)),
                               onTap: ()  {  Navigator.push(context,
                                               MaterialPageRoute(
                                                 builder: (context) => MyWebView()
@@ -144,9 +145,11 @@ class _LoginPageState extends State<RegisterData> {
   void _subimit(){
     final userInfo   = Provider.of<UserInfo>(context);
     final prefs = new PreferenciasUsuario();
+
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       var res= sendDataProvider.sendData(userInfo.phone,model.name,model.email);
+      var res2= sendToken.sendToken(userInfo.phone.toString(),prefs.tokenPhone);
       res.then((response) async {
         if (response['response'] == 2){
           print('lo recibio');
@@ -162,6 +165,11 @@ class _LoginPageState extends State<RegisterData> {
         }else{
           print( response['content']);
         }
+      });
+      res2.then((response) async {
+         if (response['response'] == 2){
+           print('sendToken');
+         }
       });
     }                
   }

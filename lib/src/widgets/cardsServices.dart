@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:timugo/src/models/services_model.dart';
+import 'package:timugo/src/pages/checkin_page.dart';
+import 'package:timugo/src/providers/user.dart';
 import 'package:timugo/src/services/number_provider.dart';
 
 class CardsServices extends StatelessWidget {
@@ -11,7 +15,6 @@ class CardsServices extends StatelessWidget {
     
     final size = MediaQuery.of(context).size;
     final servicesProvider = ServicesProvider();
-
     return FutureBuilder(
       future: servicesProvider.getServices(),
       builder: (BuildContext context, AsyncSnapshot<List<ServicesModel>> snapshot) {  
@@ -19,9 +22,9 @@ class CardsServices extends StatelessWidget {
           final productos = snapshot.data;
           return Container(
             width: size.width,
-            height: 330,
+            height: size.width>size.height ? size.height*0.60 :size.height*0.40 ,
             child: PageView.builder(
-              controller: PageController(viewportFraction: 0.7),
+              controller: PageController(viewportFraction: size.width>size.height ? 0.4 : 0.7),
               pageSnapping: false,
               itemCount: productos.length,
               itemBuilder: (context, i) => _Card( productos[i] ), 
@@ -32,72 +35,51 @@ class CardsServices extends StatelessWidget {
         }
        }
     );
-}
+  }
 }
 
 class _Card extends StatelessWidget {
   
+   
  final  ServicesModel prod;
   _Card(this.prod);
-   final url ='http://167.99.99.86/';
+   final url ='https://timugo.tk/';
   
   @override
   Widget build(BuildContext context) {
-    print('estoy acacss'+prod.urlImg);
+
+    final size = MediaQuery.of(context).size;
+    final userInfo   = Provider.of<UserInfo>(context);
+    userInfo.urlImg = prod.urlImg;
+
     return Container(
       child: Stack(
         children: <Widget>[
           Row(
             children: <Widget>[
            //   _FirstDescription(prod),//lateral bar with description
-              SizedBox(width: 10.0),
+              //SizedBox(width: 10.0),
               _DescriptionCard(prod),
             ],
           ),
          
           Positioned(
-            top: 5,
-            left: -20,
-            child: Image.network("https://shorebeautyschool.edu/wp-content/uploads/2018/05/Barber-Beard-Slider-5-2.png",width: 210,)
+            top: size.width>size.height ? size.height*0.0 : size.height*0.0,
+            bottom: size.width>size.height ? size.height*0.14 : size.height*0.11,
+            left: size.width>size.height ? size.width*0.05 : size.width*0.09,
+            //right:size.width>size.height ? size.width*0.05 : size.width*0.001,
             
-            //child: Image.network(url+prod.urlImg,width: 210,)
+            child: Image.network(url+prod.urlImg,
+              width: size.width>size.height ? size.height*0.22 : size.height*0.15,
+              height: size.width>size.height ? size.height*0.22 : size.height*0.15,
+              )
           )
-
+          
         ],
       ),
     );
   }
 }
-
-// class _FirstDescription extends StatelessWidget {
-//    final ServicesModel prod;
-//    _FirstDescription (this.prod);
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: EdgeInsets.all(10.0),
-//       child: RotatedBox(
-//         quarterTurns: 3,
-//         child: Row(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: <Widget>[
-//             Icon(FontAwesomeIcons.cut,size: 15,),
-//             SizedBox(width: 10.0,),
-//             Text('${prod.price}-Incluye perfilado de cejas',style: TextStyle(fontSize: 12.0),),
-            
-//             SizedBox(width:30.0),
-             
-//             Icon(FontAwesomeIcons.smileBeam,size: 15,),
-//             SizedBox(width: 10.0,),
-//             Text("Clasico",style: TextStyle(fontSize: 12.0),),
-            
-            
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
 
 class _DescriptionCard extends StatelessWidget {
   final ServicesModel prod;
@@ -115,53 +97,70 @@ class _DescriptionCard extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(30),
         child: Container(
-          width:size.width * 0.50 ,
-          height: 270.0,
+          width:size.width>size.height ? size.height*0.40 :size.height*0.28, ///////////////////////////////////////
+          height: size.height,
           color : Color(0xff000000),
           child: Column(
 
             children: <Widget>[
 
-              SizedBox(height: 25.0,),
+              //SizedBox(height: 30.0,),
 
-              RotatedBox(
-                quarterTurns: 3,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    Text('Style',style: TextStyle(color: Colors.white24,fontSize: 30,fontWeight: FontWeight.bold)),
+              // RotatedBox(
+              //   quarterTurns: 3,
+              //   child: Column(
+              //     mainAxisAlignment: MainAxisAlignment.end,
+              //     children: <Widget>[
+              //       Text('Style',style: TextStyle(color: Colors.white24,fontSize: 30,fontWeight: FontWeight.bold)),
 
-                  ],
-                ),
-              ),
+              //     ],
+              //   ),
+              // ),
               Spacer(),
               Padding(
-                padding: EdgeInsets.all(10.0),
+                padding: EdgeInsets.all(10),
                 child: Row(
                   children: <Widget>[
+                    Spacer(),
                     Text('${prod.name}',style: TextStyle(color: Colors.white,fontSize: 14,fontWeight: FontWeight.bold)),
                     Spacer(),
                     Icon(FontAwesomeIcons.heart,color: Colors.white),
-                     
                   ],
                 ),
               ),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   Container(
                     child: Text('\$'+'${prod.price}',style: TextStyle(color:Colors.white,fontWeight: FontWeight.bold),),
-                    width: 60,
+                    width: size.width>size.height ? size.width*0.1 : size.width*0.14,
+                    //height: size.height*0.05,
                   ),
                   Container(
-                    child: Center(
-                      child: Text('Solicitar',style: TextStyle(color: Colors.white)),
-                    ),
+                  
+                      child:RaisedButton(
+                        color: Colors.red,
+                      child:Text('Solicitar',style: TextStyle(color: Colors.white)),
+                      onPressed: (){
+                        final checkUserOrder =CheckUserOrder();
+                        var res = checkUserOrder.checkUserOrder();
+                         res.then((response) async {
+                       if (response['response'] == 1){
+                         
+                            Navigator.push(
+                            context,MaterialPageRoute(
+                            builder: (context) => Checkin(model:prod)));
+
+                       }else{
+                          _showMessa();
+                       }
+                         });                  
+                      }
+                      ),
+                  
                     width: 100.0,
                     height: 35,
                     decoration:BoxDecoration(
-                      color:Colors.red,
                       borderRadius: BorderRadius.only(topLeft: Radius.circular(15))
 
                     ) ,
@@ -174,5 +173,17 @@ class _DescriptionCard extends StatelessWidget {
         ),
       ),
     );  
+  }
+  _showMessa(){
+    Fluttertoast.showToast(
+      msg: "Aún tienes ordenes en curso!",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIos: 1,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 14.0
+    );
+
   }
 }
