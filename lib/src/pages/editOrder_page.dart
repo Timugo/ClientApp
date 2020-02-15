@@ -2,6 +2,7 @@
 //packages
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:timugo/src/models/aditional_model.dart';
 // models
 import 'package:timugo/src/models/order_model.dart';
 import 'package:timugo/src/models/temporalOrder_model.dart';
@@ -29,7 +30,7 @@ class _EditOrderState extends State<EditOrder> {
   int  total = 0;
   int count = 1;
   int add =1; // count to add services to list
-  
+   List<int> individualCount = [0,0,0,0,0];
   void removeOrder(tot) {
     setState(() {
       if (total > 0 ) {
@@ -45,6 +46,24 @@ class _EditOrderState extends State<EditOrder> {
     setState(() {
       total +=tot;
       count ++;
+    });
+  }
+   void increment(int index,TemporalServices producto) {
+    setState(() {
+       
+      individualCount[index]++;
+      total += (producto.price);
+       
+    });
+
+  }
+
+  void decrement(int index,TemporalServices producto) {
+    setState(() {
+      if ( total >0 &&  individualCount[index]  > producto.quantity) {
+      individualCount[index]--;
+      total -= (producto.price);}
+
     });
   }
 
@@ -110,10 +129,12 @@ class _EditOrderState extends State<EditOrder> {
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           onPressed:(){
+            print(orderFinal);
              final editOrderProvider =   EditOrderProvider();
               var res = editOrderProvider.editOrderProvider(orderFinal);
               res.then((response) async {
           if (response['response'] == 2){
+
             Navigator.push(
               context,  
               MaterialPageRoute(
@@ -164,7 +185,16 @@ class _EditOrderState extends State<EditOrder> {
             key: UniqueKey(),
 
             itemCount: productos.length,
-            itemBuilder: (context, i) => _editItem(context, productos[i],Key(i.toString()),productos.length,),
+            itemBuilder: (context, i) => ListTileItem(
+                      producto: productos[i],
+                      count: individualCount[i],
+                      decrement: () => decrement(i,productos[i]),
+                      increment: () => increment(i,productos[i]),
+                      addAditional: () => addAditionalOrder(productos[i]),
+                      deleteAditional: () =>  deleteAditionalOrder(productos[i]),
+                      itemC: productos.length,
+                      add: add,
+                      addUnique: () => addUnique(productos[i]), ),
           );
 
         } else {
@@ -181,7 +211,7 @@ class _EditOrderState extends State<EditOrder> {
      //final size = MediaQuery.of(context).size;
    
     if (add <= itemC){
-      addUnique(producto);
+      addUnique;
     }
      return Container(
        key: key,
@@ -311,4 +341,86 @@ class _EditOrderState extends State<EditOrder> {
 
 }
 
+class ListTileItem extends StatelessWidget {
+  final TemporalServices producto;
+  final int count;
+  final int itemC;
+  final int add;
+  final Function decrement;
+  final Function increment;
+  final Function addAditional;
+  final Function deleteAditional;
+  final Function addUnique;
 
+  ListTileItem({this.producto, this.count, this.decrement, this.increment,this.addAditional,this.deleteAditional,this.itemC,this.add,this.addUnique});
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    if (add <= itemC){
+      addUnique();
+    }
+    return Container(
+       margin:  EdgeInsets.only(left: size.width*0.04, right:size.width*0.04,top: size.width*0.1),
+      child:Stack(
+        key: key,
+        children: <Widget>[
+          Container(
+            child: Row(
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    Text('${ producto.nameService }',style:TextStyle(fontWeight:FontWeight.w400,fontSize:18.0)),
+                    Text('+'+' '+"\$"+ '${ producto.price }',style:TextStyle(fontWeight:FontWeight.w300,fontSize:15.0)),
+                  ]
+                ),
+              ]
+            ),
+          ),
+          Padding(
+            padding:EdgeInsets.only(),
+            child:Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  IconButton(
+                    icon: Icon(Icons.remove),
+                    color: Colors.green,
+                    onPressed:(){
+                      decrement();
+                      deleteAditional();}
+                      
+                      
+                    
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(
+                      bottom: 2, right: 12, left: 12),
+                      child: Text('$count'),
+                  ),
+                  IconButton(
+                    key:key,
+                    icon: Icon(Icons.add,size: 24,),
+                    color: Colors.green,
+                    onPressed: (){
+                      increment();
+                      addAditional();
+                    }
+                      
+                    
+                  )
+                ]
+              )
+          ),
+          Container(
+            margin:  EdgeInsets.only(left:size.width*0.02, right: size.width*0.02,top: size.width*0.1),
+            child: Divider(
+              color: Colors.black,
+              height: 36,
+            )
+          ),
+        ]
+      )
+    );
+  }
+}
