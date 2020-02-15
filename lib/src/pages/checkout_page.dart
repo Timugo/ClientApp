@@ -52,7 +52,7 @@ class _CheckoutState extends State<Checkout> {
               ),
               Card(
                 child:ListTile(
-                  title: Text(prefs.direccion),
+                  title: Text(prefs.direccion == null?'Agrega una direccion':prefs.direccion),
                   trailing:IconButton(
                     icon: Icon(Icons.arrow_drop_down),
                     onPressed: () => _onButtonPressed(context),
@@ -124,7 +124,7 @@ class _CheckoutState extends State<Checkout> {
                     Navigator.push(
                       context,  
                         MaterialPageRoute(
-                          builder: (context) => OrderProcces(total:(price+priceA))
+                          builder: (context) => OrderProcces()
                         ));
                   }
                 });

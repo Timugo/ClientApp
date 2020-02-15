@@ -7,6 +7,7 @@ import 'package:timugo/src/pages/orderProcces_page.dart';
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'package:timugo/src/providers/barber_provider.dart';
 import 'package:timugo/src/providers/counter_provider.dart';
+import 'package:timugo/src/providers/order.dart';
 import 'package:timugo/src/providers/push_notifications_provider.dart';
 import 'package:timugo/src/providers/user.dart';
 import 'package:timugo/src/services/number_provider.dart';
@@ -61,6 +62,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider( builder: (context) => ServicesProvider() ),
         ChangeNotifierProvider( builder: (context) => BarberAsigned() ),
         ChangeNotifierProvider( builder: (context) => Counter() ),
+         ChangeNotifierProvider( builder: (context) => Orderinfo() ),
       ],
       child: MaterialApp(
       

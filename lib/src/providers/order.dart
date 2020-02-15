@@ -7,6 +7,7 @@ class Orderinfo with ChangeNotifier {
   int _count = 0;
   List _tem =['p'];
   List _orderFinal ;
+  bool _boo ;
 
   get number {
     return _number;   
@@ -22,6 +23,9 @@ class Orderinfo with ChangeNotifier {
   }
    get orderFinal {
     return _orderFinal;
+  }
+   get boo {
+    return _boo;   
   }
   
   set number(int nombre){
@@ -44,6 +48,9 @@ class Orderinfo with ChangeNotifier {
     this._orderFinal = nombre;
     notifyListeners();
   }
-
+  set boo( bool nombre ) {
+    this._boo = nombre;
+    notifyListeners();
+  }
 
 }
