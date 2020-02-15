@@ -181,16 +181,12 @@ class _EditOrderState extends State<EditOrder> {
      //final size = MediaQuery.of(context).size;
    
     if (add <= itemC){
-      
       addUnique(producto);
     }
      return Container(
        key: key,
       child:Stack(
-       
         children: <Widget>[
-         
-          
           Container(
              margin:  EdgeInsets.only(left: 20.0, right: 20.0,top: 50),
            

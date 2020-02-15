@@ -74,7 +74,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   }
 
   
-
+ 
   @override
   
   Widget build(BuildContext context) {
@@ -206,12 +206,11 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                 height: 10,
               ),
               Container(
-                margin:
-                    const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30),
+                margin: EdgeInsets.symmetric(vertical: 16.0, horizontal: 30),
                 child: ButtonTheme(
                   height: 50,
                   child: FlatButton(
-                    onPressed: () {
+                  onPressed: () {
                       // conditions for validating
                       if (currentText.length != 6 ) {
                         setState(() {
@@ -222,18 +221,20 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                            hasError = false;
                            var res= verificateProvider.verificateCode(userInfo.phone.toString(),currentText);
                             res.then((response) async {
-                              if (response['response'] == 2){
-                                if (response['content'] ['code']== 1){
+                              print(response['response']);
+                              if (response['response'] == 1){
+                                
                                    Navigator.push(
                                       context,
                                       MaterialPageRoute(builder: (context) => RegisterData()));
                                 }else{
-                                  sendToken.sendToken(userInfo.phone.toString(),prefs.tokenPhone);
                                   prefs.token=userInfo.phone.toString();
+                                  sendToken.sendToken(userInfo.phone.toString(),prefs.tokenPhone);
+                                  
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(builder: (context) => Services()));
-                                }
+                                
                               }
                            });
                         });

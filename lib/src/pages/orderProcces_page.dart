@@ -17,12 +17,12 @@ import 'editOrder_page.dart';
 
 
 class OrderProcces extends StatefulWidget {
-  final int total;
-  OrderProcces({this.total});
+  
+ 
   @override
   _ProccesState createState() 
   {
-    return new  _ProccesState(cant:total);} 
+    return new  _ProccesState();} 
 }
 
 class _ProccesState extends State<OrderProcces> {
@@ -121,7 +121,7 @@ class _ProccesState extends State<OrderProcces> {
           child:Row(
             children: <Widget>[
               CircleAvatar(
-                radius:75.0,
+                radius:size.height*0.08,
                 backgroundColor: Colors.white,
                 child: CircleAvatar(
                   backgroundImage:NetworkImage( barberAsigned.urlImg ==''? urlI:baseUrl+barberAsigned.urlImg ),
@@ -133,8 +133,9 @@ class _ProccesState extends State<OrderProcces> {
             ]
           )
         ),
+        SizedBox(height:10),
         Container(
-          padding: EdgeInsets.only(top:size.height*0.29),
+          padding: EdgeInsets.only(top:size.height*0.3),
           child:ListTile(
             title: Text(barberAsigned.phone,style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold)),
             leading: IconButton(

@@ -206,13 +206,13 @@ class UserProvider{
         http.Response response = await http.get(_urlcode);
         final decodeData = jsonDecode(response.body);
        // final userInfo   = Provider.of<UserInfo>();
-        
+        if (decodeData['response'] == 2){
         prefs.name=decodeData['content']['name'].toString();
         prefs.pts=decodeData['content']['points'].toString();
         prefs.id = decodeData['content']['id'].toString();
         prefs.email = decodeData['content']['email'].toString();
       //  userInfo.pts=decodeData['content']['points'];
-       
+        }
     return decodeData; 
     }
   }
@@ -391,6 +391,11 @@ class CheckUserOrder{
     var _urlcode = url+'?idUser='+prefs.id;
     http.Response response = await http.get(_urlcode);
     final decodeData = json.decode(response.body) ;
+   
+  if (decodeData['response'] == 2){
+    prefs.order=decodeData['content']['id'].toString();
+
+  }
 
     
     

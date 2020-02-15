@@ -149,7 +149,7 @@ class _LoginPageState extends State<RegisterData> {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       var res= sendDataProvider.sendData(userInfo.phone,model.name,model.email);
-      var res2= sendToken.sendToken(userInfo.phone.toString(),prefs.tokenPhone);
+      sendToken.sendToken(userInfo.phone.toString(),prefs.tokenPhone);
       res.then((response) async {
         if (response['response'] == 2){
           print('lo recibio');
@@ -165,11 +165,6 @@ class _LoginPageState extends State<RegisterData> {
         }else{
           print( response['content']);
         }
-      });
-      res2.then((response) async {
-         if (response['response'] == 2){
-           print('sendToken');
-         }
       });
     }                
   }

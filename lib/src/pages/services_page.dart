@@ -33,9 +33,10 @@ class _ServicesState extends State<Services> {
     final  prefs    = new PreferenciasUsuario();  
     final  userName = UserProvider();
     final  userInfo = Provider.of<UserInfo>(context);
-
+    final checkUserOrder =CheckUserOrder();
     userName.getName(prefs.token); // call to pref user that contains the data  save in the device
-
+    checkUserOrder.checkUserOrder();
+    var dir =prefs.direccion == '' ?'Elegir direccion':'';
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -48,7 +49,7 @@ class _ServicesState extends State<Services> {
           SizedBox(width: 15.0,),
           Spacer(),
           FlatButton.icon(   // show  actual address of user and open the page add directions
-            label: Text(userInfo.directions == '' ? ' Añadir Direccion':userInfo.directions,),
+            label: Text(userInfo.directions == '' ? prefs.direccion+dir:userInfo.directions,),
             icon: Icon(Icons.arrow_drop_down),
             onPressed: () => _onButtonPressed(context),
           ),
@@ -64,7 +65,7 @@ class _ServicesState extends State<Services> {
                   else{
                     Navigator.push(
                     context,MaterialPageRoute(
-                    builder: (context) =>OrderProcces(total:0)));
+                    builder: (context) =>OrderProcces()));
                   }
               },),
               Container(

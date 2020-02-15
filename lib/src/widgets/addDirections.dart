@@ -27,13 +27,11 @@ class DeleteItemInListViewPopupMenuState extends State<AddDireccions> {
 
  
 
- 
+  
  
 
   var principal ='';
-   _delete(String value){
-     deleteDirectio.deleteaddress(value);
-  }
+ 
 
   void _addPrincipal(String value,String city){  //this function add the principal address of user
     final userInfo   = Provider.of<UserInfo>(context);
