@@ -2,6 +2,7 @@
 //packages
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:timugo/src/providers/order.dart';
 // pages
 import 'package:timugo/src/widgets/appbar.dart';
 import 'checkout_page.dart';
@@ -35,6 +36,7 @@ class _CheckinState extends State<Checkin> {
   final List orderFinal = [];
   final List tem=[];
   final order = OrderModel();
+   List<int> individualCount = [0,0];
   
   int number = 1;
   int total = 0;
@@ -47,6 +49,7 @@ class _CheckinState extends State<Checkin> {
       for(var i in orderFinal){
         if(i["nameService"]== model.name){
           i["quantity"]=number;
+            print(orderFinal);
         }
       }
     }else{
@@ -57,6 +60,7 @@ class _CheckinState extends State<Checkin> {
       order.price=model.price;
       order.quantity = number;
       orderFinal.add(order.toJson());
+      print(orderFinal);
     }
   }
   // this function  decrease the  number of people that give the pricipal service
@@ -71,7 +75,7 @@ class _CheckinState extends State<Checkin> {
   // this function increase the  number of people that give the pricipal service
   void addOrder(tot) {
     setState(() {
-      if (  tot != null && count < number) {
+      if (   count < number) {
           total += int.parse(tot);
       count ++;
       }
@@ -92,6 +96,24 @@ class _CheckinState extends State<Checkin> {
     setState(() {
       number =number +1;
       
+    });
+  }
+   void increment(int index,AditionalModel producto) {
+    setState(() {
+       if (   individualCount[index] < number) {
+      individualCount[index]++;
+      total += int.parse(producto.price);
+       }
+    });
+
+  }
+
+  void decrement(int index,AditionalModel producto) {
+    setState(() {
+      if (   individualCount[index]  > 0) {
+      individualCount[index]--;
+      total -= int.parse(producto.price);}
+
     });
   }
   @override
@@ -192,6 +214,7 @@ class _CheckinState extends State<Checkin> {
   Widget _crearListado() {
     final  aditionalProvider = AditionalProvider();
     final size = MediaQuery.of(context).size;
+    final orderinfo   = Provider.of<Orderinfo>(context);
 
     return Container(
       margin:  EdgeInsets.only(top: size.height*0.35),
@@ -202,7 +225,7 @@ class _CheckinState extends State<Checkin> {
             color: Colors.grey[300],
             height: size.height*0.05,
             child:Center(
-                  child: new Text("Servicios Adicionales"+' '+number.toString(),textAlign: TextAlign.center,),
+                  child: new Text("Numero de personas"+' '+number.toString(),textAlign: TextAlign.center,),
             )
           ),
           Container(
@@ -216,7 +239,14 @@ class _CheckinState extends State<Checkin> {
                     key: UniqueKey(),
                     
                     itemCount: productos.length,
-                    itemBuilder: (context, i) => _crearItem(context, productos[i],Key(i.toString()) ),
+                    itemBuilder: (context, i) => ListTileItem(
+                      producto: productos[i],
+                      count: individualCount[i],
+                      decrement: () => decrement(i,productos[i]),
+                      increment: () => increment(i,productos[i]),
+                    
+                       addAditional: () => addAditionalOrder(productos[i]),
+                      deleteAditional: () =>  deleteAditionalOrder(productos[i]), ),
                   );
                 }else {
                   return Center( child: CircularProgressIndicator());
@@ -230,7 +260,7 @@ class _CheckinState extends State<Checkin> {
   }
 
   Widget _crearItem(BuildContext context, AditionalModel producto, Key key ) {
-     final size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
     return Container(
        margin:  EdgeInsets.only(left: size.width*0.04, right:size.width*0.04),
       child:Stack(
@@ -329,5 +359,112 @@ class _CheckinState extends State<Checkin> {
   }
       
 }
+class ListTileItem extends StatelessWidget {
+  final AditionalModel producto;
+  final int count;
+  final Function decrement;
+  final Function increment;
+  final Function addAditional;
+  final Function deleteAditional;
+
+  ListTileItem({this.producto, this.count, this.decrement, this.increment,this.addAditional,this.deleteAditional});
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    return Container(
+       margin:  EdgeInsets.only(left: size.width*0.04, right:size.width*0.04),
+      child:Stack(
+        key: key,
+        children: <Widget>[
+          Container(
+            child: Row(
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    Text('${ producto.name }',style:TextStyle(fontWeight:FontWeight.w400,fontSize:18.0)),
+                    Text('+'+' '+"\$"+ '${ producto.price }',style:TextStyle(fontWeight:FontWeight.w300,fontSize:15.0)),
+                  ]
+                ),
+              ]
+            ),
+          ),
+          Padding(
+            padding:EdgeInsets.only(),
+            child:Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  IconButton(
+                    icon: Icon(Icons.remove),
+                    color: Colors.green,
+                    onPressed:(){
+                      decrement();
+                      deleteAditional();}
+                      
+                      
+                    
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(
+                      bottom: 2, right: 12, left: 12),
+                      child: Text('$count'),
+                  ),
+                  IconButton(
+                    key:key,
+                    icon: Icon(Icons.add,size: 24,),
+                    color: Colors.green,
+                    onPressed: (){
+                      increment();
+                      addAditional();
+                    }
+                      
+                    
+                  )
+                ]
+              )
+          ),
+          Container(
+            margin:  EdgeInsets.only(left:size.width*0.02, right: size.width*0.02,top: size.width*0.1),
+            child: Divider(
+              color: Colors.black,
+              height: 36,
+            )
+          ),
+        ]
+      )
+    );
+  }
+}
+// class ListTileItem extends StatelessWidget {
+//   final AditionalModel producto;
+//   final int count;
+//   final Function decrement;
+//   final Function increment;
+
+//   ListTileItem({this.producto, this.count, this.decrement, this.increment});
+
+//   @override
+//   Widget build(BuildContext context) {
+    
+//    return Container(
+        
+//         child:Row(
+//           children: <Widget>[
+//             IconButton(
+//               icon: Icon(Icons.remove),
+//               onPressed: decrement,
+//             ),
+//             Text('$count'),
+//             IconButton(
+//               icon: Icon(Icons.add),
+//               onPressed: increment,
+//             )
+//           ],
+//         )
+//    );
+  
+//   }
+// }
  
 
