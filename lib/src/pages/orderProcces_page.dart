@@ -229,6 +229,11 @@ class _ProccesState extends State<OrderProcces> {
       desc: "Estás  seguro de cancelar tu Orden?",
       buttons: [
         DialogButton(
+          child: Text("CANCELAR",style: TextStyle(color: Colors.white, fontSize: 20),),
+          onPressed: () => Navigator.pop(context),
+          color:  Colors.red,
+        ),
+        DialogButton(
           child: Text("ACEPTAR",style: TextStyle(color: Colors.white, fontSize: 20),),
           onPressed:(){
             final finishOrder =  FinishOrderProvider();
@@ -246,11 +251,7 @@ class _ProccesState extends State<OrderProcces> {
         },
         color: Colors.green,
         ),
-        DialogButton(
-          child: Text("CANCELAR",style: TextStyle(color: Colors.white, fontSize: 20),),
-          onPressed: () => Navigator.pop(context),
-          color:  Colors.red,
-        )
+        
       ],
     ).show();
   }
@@ -293,7 +294,7 @@ class _ProccesState extends State<OrderProcces> {
                 ListTile(
                   title:Text('x'+' '+'${ producto.quantity }',style:TextStyle(fontWeight:FontWeight.w400,fontSize:18.0)) ,
                   leading:Text('${ producto.nameService }',style:TextStyle(fontWeight:FontWeight.w400,fontSize:18.0)),
-                  trailing:Text("\$"+'${ producto.price }',style:TextStyle(fontWeight:FontWeight.w300,fontSize:15.0)),
+                  trailing:Text("\$"+'${ producto.price*producto.quantity }',style:TextStyle(fontWeight:FontWeight.w300,fontSize:15.0)),
                 ),
                 Container(
                   margin: const EdgeInsets.only(),
@@ -332,10 +333,6 @@ class _ProccesState extends State<OrderProcces> {
       }
     );
   }
- 
-  
-
-
 }
 
 

@@ -40,6 +40,7 @@ class _MyAppState extends State<MyApp> {
     final pushProvider = PushNotificationProvider();
     //temporal order to check if user has a current order 
     final  temporalOrderProvider = TemporalOrderProvider();
+   
     //check the user name 
     final  userName = UserProvider();
     //checking the user data save in device
@@ -56,7 +57,9 @@ class _MyAppState extends State<MyApp> {
   
   @override
   Widget build(BuildContext context) {
+     final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
     return MultiProvider(
+      
       providers: [
         ChangeNotifierProvider( builder: (context) => UserInfo() ),
         ChangeNotifierProvider( builder: (context) => ServicesProvider() ),
@@ -68,7 +71,9 @@ class _MyAppState extends State<MyApp> {
       
         debugShowCheckedModeBanner: false,
         initialRoute:_rute(),
+        navigatorKey: navigatorKey,
         routes: {
+         
           'login':(context)=> LoginPage(),
           'code':(context)=> Code(),
           'registerData':(context)=> RegisterData(),
@@ -84,15 +89,27 @@ class _MyAppState extends State<MyApp> {
   }
 
   _rute<String> () {
+    var boo = true;
     final prefs = new PreferenciasUsuario();
-   // final checkUserOrder =CheckUserOrder();
-    //var res = checkUserOrder.checkUserOrder();
+    final checkUserOrder =CheckUserOrder();
+    var res = checkUserOrder.checkUserOrder();
+    
+
     print(prefs.token);
     if (prefs.token!='') {
       var ruta='services';
-      if (prefs.order != '0' ){
+      
+      res.then((response) async {
+      if (response['content']== 1){
+        ruta='services';
+        prefs.order=0.toString();
+      }
+      if (prefs.order != '0'   ){
         ruta='orderProccess';
       }
+
+    });
+     
 
       return ruta;
     }else{

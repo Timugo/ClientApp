@@ -99,10 +99,10 @@ class _CheckinState extends State<Checkin> {
   }
    void increment(int index,AditionalModel producto) {
     setState(() {
-       if (   individualCount[index] < number) {
+     
       individualCount[index]++;
       total += int.parse(producto.price);
-       }
+       
     });
 
   }
@@ -265,14 +265,17 @@ class _CheckinState extends State<Checkin> {
     if (tem.contains(producto.name)){ //verify that the article is already added to the list
       for (var i in orderFinal) {
         if (i["nameService"] == producto.name){
-          if( i["quantity"] < number){
+          
               i["quantity"] +=1;
-          }
+              print('agrego');
+              print(orderFinal);
+          
            // just add if it's on the list
         }
       }
     }
-    else{  //if not added create the item
+    else{
+      print('nuevo');  //if not added create the item
       tem.add(producto.name);
       order.id=producto.id;
       order.nameService=producto.name;
@@ -280,6 +283,8 @@ class _CheckinState extends State<Checkin> {
       order.price=producto.price;
       order.quantity = 1;
       orderFinal.add(order.toJson());
+      print(orderFinal);
+      print(tem);
     }
   }
   // this function delete the  items the order to list as  json 

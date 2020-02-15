@@ -2,13 +2,15 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 
 
 class PushNotificationProvider {
-
+  
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-
+  final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
   final _messagesStreamController = StreamController<String>.broadcast();
   final prefs = new PreferenciasUsuario();
   Stream<String>get messages => _messagesStreamController.stream;
@@ -30,6 +32,15 @@ class PushNotificationProvider {
         //when the app is open 
         print('======= ON MESSAGE ======');
         print(info);
+        _showMessa(info['notification']['body']);
+
+       
+
+        // if(info['notification']['title'] == 'El Barbero cancelo la orden :('){
+      
+        //        navigatorKey.currentState.pushNamed('checkin');
+
+        // }
         String argument = 'no-data';
         //catching data from push notification body example
         // {
@@ -45,6 +56,7 @@ class PushNotificationProvider {
         // }
         if( Platform.isAndroid ){
           argument = info['data']['phone'] ?? 'no-data';
+
         }else{
           //platform ios
           argument = info['phone'] ?? 'no-data-ios';
@@ -66,6 +78,22 @@ class PushNotificationProvider {
         print(noti);
       }
     );
+
+
+  }
+  _showMessa(  info){ // show the toast message in bell appbar
+    Fluttertoast.showToast(
+      msg:info,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.TOP,
+      timeInSecForIos: 1,
+      backgroundColor: Colors.blue,
+      textColor: Colors.white,
+      fontSize: 14.0
+    );
+
+  }
+  _goToPage(BuildContext context){
 
 
   }

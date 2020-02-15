@@ -1,6 +1,7 @@
 //flutter dependencies
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 //user dependencies
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'package:timugo/src/providers/user.dart';
@@ -149,26 +150,41 @@ class _LoginPageState extends State<RegisterData> {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       var res= sendDataProvider.sendData(userInfo.phone,model.name,model.email);
-      sendToken.sendToken(userInfo.phone.toString(),prefs.tokenPhone);
+      sendToken.sendToken(prefs.token,prefs.tokenPhone.toString());
+      
       res.then((response) async {
         if (response['response'] == 2){
           print('lo recibio');
           print( response['content']);
           prefs.token=userInfo.phone.toString();
           Navigator.push(
-                          context,  
-                          MaterialPageRoute(
-                            builder: (context) => Services()
-                          )
-                        );
+            context,  
+            MaterialPageRoute(
+              builder: (context) => Services()
+            )
+          );
 
         }else{
           print( response['content']);
+          _showMessa();
         }
       });
     }                
   }
+   _showMessa(){ // show the toast message in bell appbar
+    Fluttertoast.showToast(
+      msg: "El email tiene que ser único!",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIos: 1,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 14.0
+    );
+
+  }
 }
+
 class MyTextFormField extends StatelessWidget {
   final Icon text;
   final String hintText;

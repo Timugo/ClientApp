@@ -146,11 +146,12 @@ class _LoginPageState extends State<LoginPage> {
               var res= registeProvider.sendNumber(model);
               res.then((response) async {
                if (response['response'] == 2){
+                 print(model.phone);
                  Navigator.push(
-                   context,MaterialPageRoute(
+                   
+                   context,MaterialPageRoute( 
                    builder: (context) => Code(model: this.model))
                 );
-
                }else{
 
                  print( response['content']);

@@ -7,6 +7,7 @@ import 'package:timugo/src/widgets/addDirections.dart';
 import 'package:timugo/src/services/number_provider.dart';
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'orderProcces_page.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 //this class contains the user order summary
 class Checkout extends StatefulWidget {
@@ -52,7 +53,7 @@ class _CheckoutState extends State<Checkout> {
               ),
               Card(
                 child:ListTile(
-                  title: Text(prefs.direccion == null?'Agrega una direccion':prefs.direccion),
+                  title: Text(prefs.direccion == ''?'Elige una dirección':prefs.direccion),
                   trailing:IconButton(
                     icon: Icon(Icons.arrow_drop_down),
                     onPressed: () => _onButtonPressed(context),
@@ -119,6 +120,7 @@ class _CheckoutState extends State<Checkout> {
               padding: EdgeInsets.fromLTRB(size.width*0.3, size.height*0.020, size.width*0.3, size.height*0.020),
               onPressed: (){
                 var res= createOrdeProvider.createOrder(int.parse(prefs.id),prefs.direccion,userInfo.city,temp);
+               if( prefs.direccion != ''){
                 res.then((response) async {
                   if (response['response'] == 2){
                     Navigator.push(
@@ -128,6 +130,10 @@ class _CheckoutState extends State<Checkout> {
                         ));
                   }
                 });
+              }else{
+                _showMessa();
+              }
+              
               } ,
               child: Text('Enviar pedido'+' '+"\$"+(price+priceA).toString(),textAlign: TextAlign.center, style: TextStyle(color: Colors.white, ),
               ),
@@ -137,6 +143,18 @@ class _CheckoutState extends State<Checkout> {
       )
     );
   } 
+  _showMessa(){ // show the toast message in bell appbar
+    Fluttertoast.showToast(
+      msg: "Por favor  elige una direccion!",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIos: 1,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 14.0
+    );
+
+  }
 
   void _onButtonPressed(BuildContext context) {
     final size = MediaQuery.of(context).size.height;

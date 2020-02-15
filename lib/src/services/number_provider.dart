@@ -160,11 +160,11 @@ class TokenProvider{
    Future <Map<String,dynamic>> sendToken(String  phone,String token) async{
        Map<String, String> headers = {"Content-Type": "application/json"};
        var data = {
-      "phone": phone,
+      "phoneUser": phone,
       "phoneToken": token
     };
     final encodedData = json.encode(data);
-
+    
   // make POST request
       http.Response response = await http.put(url, headers: headers, body: encodedData);
       final decodeData = jsonDecode(response.body);
@@ -238,8 +238,11 @@ class CreateOrderProvider{
   // make POST request
       http.Response response = await http.post(url, headers: headers, body: encodedData);
       final decodeData = jsonDecode(response.body);
-      
-      prefs.order=(decodeData['content']['orderDB']['id']).toString();
+      if (decodeData['response']== 2){
+
+           prefs.order=(decodeData['content']['orderDB']['id']).toString();
+      }
+     
       
       
   

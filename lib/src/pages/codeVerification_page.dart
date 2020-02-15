@@ -72,7 +72,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   void dispose() {
     super.dispose();
   }
-
+ 
   
  
   @override
@@ -222,20 +222,27 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                            var res= verificateProvider.verificateCode(userInfo.phone.toString(),currentText);
                             res.then((response) async {
                               print(response['response']);
-                              if (response['response'] == 1){
-                                
+                              if (response['response'] == 2){
+                                if(response['content']['code'] == 1){
+                                  prefs.token=userInfo.phone.toString();
                                    Navigator.push(
                                       context,
                                       MaterialPageRoute(builder: (context) => RegisterData()));
-                                }else{
+                                }
+                                  else{
                                   prefs.token=userInfo.phone.toString();
-                                  sendToken.sendToken(userInfo.phone.toString(),prefs.tokenPhone);
+                                  sendToken.sendToken(userInfo.phone.toString(),prefs.tokenPhone.toString());
                                   
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(builder: (context) => Services()));
-                                
+                                }
+                              }else{
+                                  setState(() {
+                                  hasError = true;
+                                });
                               }
+                              
                            });
                         });
                       }

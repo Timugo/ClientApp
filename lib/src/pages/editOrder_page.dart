@@ -2,7 +2,6 @@
 //packages
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:timugo/src/models/aditional_model.dart';
 // models
 import 'package:timugo/src/models/order_model.dart';
 import 'package:timugo/src/models/temporalOrder_model.dart';
@@ -194,7 +193,7 @@ class _EditOrderState extends State<EditOrder> {
                       deleteAditional: () =>  deleteAditionalOrder(productos[i]),
                       itemC: productos.length,
                       add: add,
-                      addUnique: () => addUnique(productos[i]), ),
+                      addUnique: () => addUnique(productos[i],i), ),
           );
 
         } else {
@@ -207,81 +206,7 @@ class _EditOrderState extends State<EditOrder> {
   }
   
 
-  Widget _editItem(BuildContext context, TemporalServices producto, Key key ,int itemC) {
-     //final size = MediaQuery.of(context).size;
-   
-    if (add <= itemC){
-      addUnique;
-    }
-     return Container(
-       key: key,
-      child:Stack(
-        children: <Widget>[
-          Container(
-             margin:  EdgeInsets.only(left: 20.0, right: 20.0,top: 50),
-           
-              child: Row(
-                children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      Text('${ producto.nameService }',style:TextStyle(fontWeight:FontWeight.w400,fontSize:18.0)),
-                      Text('+'+' '+"\$"+ '${ producto.price }',style:TextStyle(fontWeight:FontWeight.w300,fontSize:15.0)),
-                    ]
-                  ),
-                ]
-              ),
-          ),
-          Padding(
-            
-             padding: const EdgeInsets.only(left:10.0,top: 50),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                    IconButton(
-                      icon: Icon(Icons.remove),
-                      color: Colors.green,
-                      onPressed:(){
-                        removeOrder(producto.price);
-                         deleteAditionalOrder(producto);
-                       
-                        
-                  //      deleteAditionalOrder(producto);
-                      
-                      
-                      },
-                    ),
-                    Container(
-                     
-                      padding: const EdgeInsets.only(
-                        
-                        bottom: 2, right: 12, left: 12),
-                      child: Text( '' ),
-                    ),
-                    IconButton(
-
-                      key: key,
-                      icon: Icon(Icons.add,size: 24,),
-                      color: Colors.green,
-                      onPressed: ()  {
-                        addOrder(producto.price);
-                        addAditionalOrder(producto);
-                      }
-                    )
-                ]
-            )
-          ),
-          Container(
-            margin: const EdgeInsets.only(left: 20.0, right: 10.0,top: 70),
-            child: Divider(
-              color: Colors.black,
-              height: 36,
-            )),
-          
-        ]
-    )
-    );
-  }
+ 
   
    void addAditionalOrder(producto){
       if (tem.contains(producto.nameService)){
@@ -313,7 +238,7 @@ class _EditOrderState extends State<EditOrder> {
       }
    }
 
-   void addUnique(producto){
+   void addUnique(producto,i){
       tem.add(producto.nameService);
       order.id=producto.id;
       order.nameService=producto.nameService;
@@ -322,6 +247,7 @@ class _EditOrderState extends State<EditOrder> {
       order.quantity = producto.quantity;
       orderFinal.add(order.toJson());
       add +=1;
+      individualCount[i]=producto.quantity;
    }
 
     _totalOrder(){
@@ -389,9 +315,6 @@ class ListTileItem extends StatelessWidget {
                     onPressed:(){
                       decrement();
                       deleteAditional();}
-                      
-                      
-                    
                   ),
                   Container(
                     padding: const EdgeInsets.only(
@@ -405,9 +328,7 @@ class ListTileItem extends StatelessWidget {
                     onPressed: (){
                       increment();
                       addAditional();
-                    }
-                      
-                    
+                    }  
                   )
                 ]
               )

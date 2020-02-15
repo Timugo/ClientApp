@@ -23,10 +23,10 @@ class MenuWidget extends StatelessWidget {
             child: Container(
               child: Column(
                 children: <Widget>[
-                  SizedBox(height: 30.0),
+                 
                   Align(alignment: Alignment.centerLeft,child: Text('Hola!', style: TextStyle( color: Colors.black, fontSize: 20.0,fontWeight:FontWeight.w300 )),),
                   SizedBox(height: 30.0),
-                  Align(alignment: Alignment.centerLeft,child: Text(prefs.name[0].toUpperCase() + prefs.name.substring(1), style: TextStyle( color: Colors.black, fontSize: 35.0 , fontWeight: FontWeight.bold ),),),
+                  Align(alignment: Alignment.centerLeft,child: Text(prefs.name[0].toUpperCase() + prefs.name.substring(1), style: TextStyle( color: Colors.black, fontSize: 30.0 , fontWeight: FontWeight.bold ),),),
                 ]
               )
             ),
@@ -82,7 +82,7 @@ class MenuWidget extends StatelessWidget {
             }
           ),
            ListTile(
-            leading:  Icon(FontAwesomeIcons.comment,color: Colors.black,),
+            leading:  Icon(FontAwesomeIcons.thumbsUp,color: Colors.black,),
             title: Text('Calificanos'),
             onTap: (){
             _launchURL();
