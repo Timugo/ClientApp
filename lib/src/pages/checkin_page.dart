@@ -2,7 +2,6 @@
 //packages
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:timugo/src/providers/order.dart';
 // pages
 import 'package:timugo/src/widgets/appbar.dart';
 import 'checkout_page.dart';
@@ -214,7 +213,7 @@ class _CheckinState extends State<Checkin> {
   Widget _crearListado() {
     final  aditionalProvider = AditionalProvider();
     final size = MediaQuery.of(context).size;
-    final orderinfo   = Provider.of<Orderinfo>(context);
+    
 
     return Container(
       margin:  EdgeInsets.only(top: size.height*0.35),
@@ -259,67 +258,7 @@ class _CheckinState extends State<Checkin> {
     );
   }
 
-  Widget _crearItem(BuildContext context, AditionalModel producto, Key key ) {
-    final size = MediaQuery.of(context).size;
-    return Container(
-       margin:  EdgeInsets.only(left: size.width*0.04, right:size.width*0.04),
-      child:Stack(
-        key: key,
-        children: <Widget>[
-          Container(
-            child: Row(
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Text('${ producto.name }',style:TextStyle(fontWeight:FontWeight.w400,fontSize:18.0)),
-                    Text('+'+' '+"\$"+ '${ producto.price }',style:TextStyle(fontWeight:FontWeight.w300,fontSize:15.0)),
-                  ]
-                ),
-              ]
-            ),
-          ),
-          Padding(
-            padding:EdgeInsets.only(),
-            child:Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.remove),
-                    color: Colors.green,
-                    onPressed:(){
-                      removeOrder(producto.price,UniqueKey());
-                      deleteAditionalOrder(producto);
-                    },
-                  ),
-                  Container(
-                    padding: const EdgeInsets.only(
-                      bottom: 2, right: 12, left: 12),
-                      child: Text(''),
-                  ),
-                  IconButton(
-                    key:key,
-                    icon: Icon(Icons.add,size: 24,),
-                    color: Colors.green,
-                    onPressed: (){
-                      addOrder(producto.price);
-                      addAditionalOrder(producto);
-                    },
-                  )
-                ]
-              )
-          ),
-          Container(
-            margin:  EdgeInsets.only(left:size.width*0.02, right: size.width*0.02,top: size.width*0.1),
-            child: Divider(
-              color: Colors.black,
-              height: 36,
-            )
-          ),
-        ]
-      )
-    );
-  }
+ 
   // this function add the  items the order to list as  json 
   void addAditionalOrder(producto){
 
@@ -436,35 +375,3 @@ class ListTileItem extends StatelessWidget {
     );
   }
 }
-// class ListTileItem extends StatelessWidget {
-//   final AditionalModel producto;
-//   final int count;
-//   final Function decrement;
-//   final Function increment;
-
-//   ListTileItem({this.producto, this.count, this.decrement, this.increment});
-
-//   @override
-//   Widget build(BuildContext context) {
-    
-//    return Container(
-        
-//         child:Row(
-//           children: <Widget>[
-//             IconButton(
-//               icon: Icon(Icons.remove),
-//               onPressed: decrement,
-//             ),
-//             Text('$count'),
-//             IconButton(
-//               icon: Icon(Icons.add),
-//               onPressed: increment,
-//             )
-//           ],
-//         )
-//    );
-  
-//   }
-// }
- 
-
