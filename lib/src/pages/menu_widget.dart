@@ -6,7 +6,7 @@ import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'dart:io' show Platform;
 
 //MENU DRAWER CLASS 
 class MenuWidget extends StatelessWidget {
@@ -94,12 +94,24 @@ class MenuWidget extends StatelessWidget {
     );
   }
   _launchURL() async {
-  const url = 'https://play.google.com/store/apps/details?id=com.timugo.timugo_client_app';
+    if (Platform.isAndroid) {
+  // Android-specific code
+   const url = 'https://play.google.com/store/apps/details?id=com.timugo.timugo_client_app';
   if (await canLaunch(url)) {
     await launch(url);
   } else {
     throw 'Could not launch $url';
   }
+}   else if (Platform.isIOS) {
+   const url = 'https://apps.apple.com/us/app/timugo/id1490734184?ls=1';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+   // iOS-specific code
+}
+ 
 }
 
 }

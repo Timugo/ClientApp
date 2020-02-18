@@ -89,7 +89,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   _rute<String> () {
-    var boo = true;
+ 
     final prefs = new PreferenciasUsuario();
     final checkUserOrder =CheckUserOrder();
     var res = checkUserOrder.checkUserOrder();
