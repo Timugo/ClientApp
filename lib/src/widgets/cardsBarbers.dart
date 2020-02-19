@@ -32,12 +32,12 @@ class CardsBarbers extends StatelessWidget {
         }
        }
     );
-  }
+  } 
 }
 
 class _Card extends StatelessWidget {
   final  BarbersModel prod;
-  final url ='https://timugo.tk';
+  final url ='https://timugo.tk/';
   _Card(this.prod);
   @override
   Widget build(BuildContext context) {
