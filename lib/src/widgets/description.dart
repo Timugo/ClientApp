@@ -7,7 +7,7 @@ import 'package:smooth_star_rating/smooth_star_rating.dart';
 class Description extends StatelessWidget {
     Description(this.prod);
     final BarbersModel prod;
-     final url ='http://167.172.216.181:3000/';
+     final url ='https://timugo.tk/';
      
      
   @override

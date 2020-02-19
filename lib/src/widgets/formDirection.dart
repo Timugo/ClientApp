@@ -14,7 +14,7 @@ class _FormDirectionsState extends State<FormDirections> {
   final sendDirection = DirectionProvider();
   final prefs = new PreferenciasUsuario();
   
-  var _currencies = ['Cali','Palmira','Jamundi'];  // list of  cities aprove
+  var _currencies = ['Cali'];  // list of  cities aprove
   List<String> _datas= []; 
    // temporal list to add  data of form 
   var _value = 'Cali';
