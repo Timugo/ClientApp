@@ -37,7 +37,7 @@ class CardsBarbers extends StatelessWidget {
 
 class _Card extends StatelessWidget {
   final  BarbersModel prod;
-  final url ='http://167.172.216.181:3000/';
+  final url ='https://timugo.tk';
   _Card(this.prod);
   @override
   Widget build(BuildContext context) {
