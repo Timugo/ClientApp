@@ -4,15 +4,18 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:timugo/src/pages/userInfo_pages.dart';
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:timugo/src/services/number_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io' show Platform;
 
 //MENU DRAWER CLASS 
 class MenuWidget extends StatelessWidget {
+  final TextEditingController feedController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    
     final prefs = new PreferenciasUsuario();
     // funcion that return the name and pts of user
     return Drawer(
@@ -70,16 +73,20 @@ class MenuWidget extends StatelessWidget {
           ListTile(
             leading:  Icon(FontAwesomeIcons.headset,color: Colors.black,),
             title: Text('Centro de ayuda '),
-            onTap: (){
-                FlutterOpenWhatsapp.sendSingleMessage("573162452663", "Hola mi nombre es "+prefs.name+' y necesito ayuda con Timugo');
-            }
+            onTap: ()async => await launch(
+         "https://wa.me/${573106838163}?text=Hola mi nombre es "+prefs.name+' y necesito ayuda con mi orden de Timugo')
+            //{
+             //   FlutterOpenWhatsapp.sendSingleMessage("573162452663", "Hola mi nombre es "+prefs.name+' y necesito ayuda con Timugo');
+           // }
           ),
            ListTile(
             leading:  Icon(FontAwesomeIcons.comment,color: Colors.black,),
             title: Text('Sugerencias'),
             onTap: (){
-                FlutterOpenWhatsapp.sendSingleMessage("573162452663", "Hola, me gustaría que Timugo...");
+              _sendCommet(context);
             }
+            //     FlutterOpenWhatsapp.sendSingleMessage("573162452663", "Hola, me gustaría que Timugo...");
+            // }
           ),
            ListTile(
             leading:  Icon(FontAwesomeIcons.thumbsUp,color: Colors.black,),
@@ -112,6 +119,61 @@ class MenuWidget extends StatelessWidget {
    // iOS-specific code
 }
  
+}
+
+_sendCommet(context){
+ Alert(
+        context: context,
+        title: "COMENTARIOS",
+        content: Column(
+          children: <Widget>[  
+            Container(
+            height: 200,
+            color: Color(0xffeeeeee),
+            padding: EdgeInsets.all(10.0),
+            child: new ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: 200.0,
+              ),
+              child: new Scrollbar(
+                child: new SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  reverse: true,
+                  child: SizedBox(
+                    height: 190.0,
+                    child: new TextField(
+                      controller: feedController,
+                      maxLines: 100,
+                      decoration: new InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Escribe tu comentario aquí',
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          ],
+        ),
+        buttons: [
+          DialogButton(
+            onPressed: (){  
+             final sendFeed =SendFeedBack();
+             var res = sendFeed.sendFeedBack(feedController.toString());
+             res.then((response) async {
+             if (response['response'] == 2){
+               Navigator.pop(context);
+              
+              }});
+            },
+            child: Text(
+              "Enviar",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          )
+        ]).show();
+
 }
 
 }
