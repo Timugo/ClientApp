@@ -160,7 +160,7 @@ _sendCommet(context){
           DialogButton(
             onPressed: (){  
              final sendFeed =SendFeedBack();
-             var res = sendFeed.sendFeedBack(feedController.toString());
+             var res = sendFeed.sendFeedBack(feedController.text);
              res.then((response) async {
              if (response['response'] == 2){
                Navigator.pop(context);
