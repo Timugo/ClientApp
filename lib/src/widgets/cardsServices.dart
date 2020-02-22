@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:timugo/src/models/services_model.dart';
 import 'package:timugo/src/pages/checkin_page.dart';
@@ -91,7 +90,21 @@ class _DescriptionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return Card(  
+    return new GestureDetector(
+      onTap: (){
+        final checkUserOrder =CheckUserOrder();
+        var res = checkUserOrder.checkUserOrder();
+        res.then((response) async {
+        if (response['response'] == 1){
+             Navigator.push(
+                context,MaterialPageRoute(
+                builder: (context) => Checkin(model:prod)));
+       }else{
+         _showMessa();
+       }
+        });
+      },   
+      child: Card(  
       elevation: 8,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
       child: ClipRRect(
@@ -103,19 +116,6 @@ class _DescriptionCard extends StatelessWidget {
           child: Column(
 
             children: <Widget>[
-
-              //SizedBox(height: 30.0,),
-
-              // RotatedBox(
-              //   quarterTurns: 3,
-              //   child: Column(
-              //     mainAxisAlignment: MainAxisAlignment.end,
-              //     children: <Widget>[
-              //       Text('Style',style: TextStyle(color: Colors.white24,fontSize: 30,fontWeight: FontWeight.bold)),
-
-              //     ],
-              //   ),
-              // ),
               Spacer(),
               Padding(
                 padding: EdgeInsets.all(10),
@@ -124,7 +124,7 @@ class _DescriptionCard extends StatelessWidget {
                     Spacer(),
                     Text('${prod.name}',style: TextStyle(color: Colors.white,fontSize: 14,fontWeight: FontWeight.bold)),
                     Spacer(),
-                    Icon(FontAwesomeIcons.heart,color: Colors.white),
+                  //  Icon(FontAwesomeIcons.heart,color: Colors.white),
                   ],
                 ),
               ),
@@ -171,6 +171,9 @@ class _DescriptionCard extends StatelessWidget {
             ],
           ),
         ),
+      
+        
+      ),
       ),
     );  
   }
