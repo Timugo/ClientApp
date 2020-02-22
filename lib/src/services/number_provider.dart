@@ -408,3 +408,27 @@ class CheckUserOrder{
    
   }
 }
+class SendFeedBack{
+
+  final    String url = 'https://www.timugo.tk/giveFeedback';
+   final prefs =  PreferenciasUsuario();
+   
+
+   Future <Map<String,dynamic>>  sendFeedBack(String comment) async{
+       Map<String, String> headers = {"Content-Type": "application/json"};
+       var data = {
+          "phoneUser": prefs.token,
+          "comment": comment,
+
+        };
+    final encodedData = json.encode(data);
+
+  // make POST request
+      http.Response response = await http.post(url, headers: headers, body: encodedData);
+      final decodeData = jsonDecode(response.body);
+      
+      
+  
+   return decodeData;
+  }
+}
