@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 //provuiders
 import 'package:provider/provider.dart';
 import 'package:timugo/src/services/number_provider.dart';
@@ -55,9 +54,10 @@ class _ProccesState extends State<OrderProcces> {
           padding:EdgeInsets.only(right: size.width*0.04),
           child:IconButton(
             icon:Icon(Icons.headset_mic,color: Colors.black,size: 35),
-            onPressed:(){
-               FlutterOpenWhatsapp.sendSingleMessage("573106838163", "Hola mi nombre es "+prefs.name+' y necesito ayuda con mi orden de Timugo');
-            }
+            onPressed:() async => await launch(
+         "https://wa.me/${573106838163}?text=Hola mi nombre es "+prefs.name+' y necesito ayuda con mi orden de Timugo')
+               //FlutterOpenWhatsapp.sendSingleMessage("573106838163", "Hola mi nombre es "+prefs.name+' y necesito ayuda con mi orden de Timugo');
+            
           )
           )
         ],

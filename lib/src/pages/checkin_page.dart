@@ -162,6 +162,7 @@ class _CheckinState extends State<Checkin> {
                       padding: EdgeInsets.fromLTRB(size.width*0.1, size.height*0.02, size.width*0.1,size.height*0.02),
                       onPressed:(){
                         userInfo.price=total.toString();
+                        
                         addServiceToarray();
                         Navigator.push(
                           context,MaterialPageRoute(

@@ -95,22 +95,24 @@ class _MyAppState extends State<MyApp> {
     var res = checkUserOrder.checkUserOrder();
     
 
-    print(prefs.token);
+    print(prefs.order);
     if (prefs.token!='') {
       var ruta='services';
-      
+      print('entre1');
       res.then((response) async {
-      if (response['content']== 1){
+      if (response['content']== 1 ){
         ruta='services';
+        print('servicio');
         prefs.order=0.toString();
       }
-      if (prefs.order != '0'   ){
+      else {
         ruta='orderProccess';
+         print('servicio1');
       }
 
     });
      
-
+    print(ruta);
       return ruta;
     }else{
       return 'login';
