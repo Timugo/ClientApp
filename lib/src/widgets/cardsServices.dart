@@ -133,7 +133,7 @@ class _DescriptionCard extends StatelessWidget {
                 children: <Widget>[
                   Container(
                     child: Text('\$'+'${prod.price}',style: TextStyle(color:Colors.white,fontWeight: FontWeight.bold),),
-                    width: size.width>size.height ? size.width*0.1 : size.width*0.14,
+                    width: size.width>size.height ? size.width*0.1 : size.width*0.17,
                     //height: size.height*0.05,
                   ),
                   Container(
