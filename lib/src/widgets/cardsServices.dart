@@ -51,7 +51,12 @@ class _Card extends StatelessWidget {
     final userInfo   = Provider.of<UserInfo>(context);
     userInfo.urlImg = prod.urlImg;
 
-    return Container(
+    return GestureDetector(
+      onTap: (){
+              _onTap(context);
+
+      },
+    child:Container(
       child: Stack(
         children: <Widget>[
           Row(
@@ -76,8 +81,39 @@ class _Card extends StatelessWidget {
           
         ],
       ),
+    )
     );
   }
+    _onTap(context){
+    final checkUserOrder =CheckUserOrder();
+    var res = checkUserOrder.checkUserOrder();
+      res.then((response) async {
+    if (response['response'] == 1){
+      
+        Navigator.push(
+        context,MaterialPageRoute(
+        builder: (context) => Checkin(model:prod)));
+
+    }else{
+      _showMessa();
+    }
+      });                  
+  }
+   _showMessa(){
+    Fluttertoast.showToast(
+      msg: "Aún tienes ordenes en curso!",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIos: 1,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 14.0
+    );
+
+  }
+
+
+
 }
 
 class _DescriptionCard extends StatelessWidget {
@@ -92,17 +128,7 @@ class _DescriptionCard extends StatelessWidget {
 
     return new GestureDetector(
       onTap: (){
-        final checkUserOrder =CheckUserOrder();
-        var res = checkUserOrder.checkUserOrder();
-        res.then((response) async {
-        if (response['response'] == 1){
-             Navigator.push(
-                context,MaterialPageRoute(
-                builder: (context) => Checkin(model:prod)));
-       }else{
-         _showMessa();
-       }
-        });
+         _onTap(context);
       },   
       child: Card(  
       elevation: 8,
@@ -142,20 +168,10 @@ class _DescriptionCard extends StatelessWidget {
                         color: Colors.red,
                       child:Text('Solicitar',style: TextStyle(color: Colors.white)),
                       onPressed: (){
-                        final checkUserOrder =CheckUserOrder();
-                        var res = checkUserOrder.checkUserOrder();
-                         res.then((response) async {
-                       if (response['response'] == 1){
-                         
-                            Navigator.push(
-                            context,MaterialPageRoute(
-                            builder: (context) => Checkin(model:prod)));
-
-                       }else{
-                          _showMessa();
-                       }
-                         });                  
+                   _onTap(context);
                       }
+
+                      
                       ),
                   
                     width: 100.0,
@@ -189,4 +205,22 @@ class _DescriptionCard extends StatelessWidget {
     );
 
   }
+  _onTap(context){
+    final checkUserOrder =CheckUserOrder();
+    var res = checkUserOrder.checkUserOrder();
+      res.then((response) async {
+    if (response['response'] == 1){
+      
+        Navigator.push(
+        context,MaterialPageRoute(
+        builder: (context) => Checkin(model:prod)));
+
+    }else{
+      _showMessa();
+    }
+      });                  
+  }
+
+
+  
 }

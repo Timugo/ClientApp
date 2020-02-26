@@ -163,8 +163,7 @@ _sendCommet(context){
              var res = sendFeed.sendFeedBack(feedController.text);
              res.then((response) async {
              if (response['response'] == 2){
-               Navigator.pop(context);
-              
+               Navigator.pop(context); 
               }});
             },
             child: Text(
