@@ -33,6 +33,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>(); 
   @override
   void initState() {
     //Config of push notification provider
@@ -49,15 +50,25 @@ class _MyAppState extends State<MyApp> {
     temporalOrderProvider.getBarberAsigned();
     //initialize the push notification provider
     pushProvider.initNotifications();
-    pushProvider.messages.listen((argument){
-      print("Argumento");
-      print(argument);
+    pushProvider.messages.listen((data){
+//print("Argumento");
+      print(data);
+      if (data == 'cancel'){
+      
+    navigatorKey.currentState.pushNamed('services');
+
+       }
+        if (data == 'taken'){
+      
+          navigatorKey.currentState.pushNamed('orderProccess');
+
+       }
     });
   }
   
   @override
   Widget build(BuildContext context) {
-     final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+     
     return MultiProvider(
       
       providers: [

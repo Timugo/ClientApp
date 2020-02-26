@@ -30,17 +30,13 @@ class PushNotificationProvider {
     _firebaseMessaging.configure(
       onMessage: (info) async { 
         //when the app is open 
-        print('======= ON MESSAGE ======');
-        print(info);
+       // print('======= ON MESSAGE ======');
+        //print(info);
         _showMessa(info['notification']['body']);
 
        
 
-        // if(info['notification']['title'] == 'El Barbero cancelo la orden :('){
-      
-        //        navigatorKey.currentState.pushNamed('checkin');
-
-        // }
+       
         String argument = 'no-data';
         //catching data from push notification body example
         // {
