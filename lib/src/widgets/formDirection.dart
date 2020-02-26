@@ -58,6 +58,7 @@ class _FormDirectionsState extends State<FormDirections> {
                 }).toList(),
                 onChanged: (String value) {
                   _citySelected(value);
+                  print(value);
                 },
                 value: _value,
               ),

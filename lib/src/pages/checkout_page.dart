@@ -53,7 +53,7 @@ class _CheckoutState extends State<Checkout> {
               ),
               Card(
                 child:ListTile(
-                  title: Text(prefs.direccion == ''?'Elige una dirección':prefs.direccion),
+                  title: Text(prefs.direccion == ''?'Elige una dirección':userInfo.directions),
                   trailing:IconButton(
                     icon: Icon(Icons.arrow_drop_down),
                     onPressed: () => _onButtonPressed(context),

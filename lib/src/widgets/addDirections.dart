@@ -25,16 +25,12 @@ class DeleteItemInListViewPopupMenuState extends State<AddDireccions> {
   final prefs = new PreferenciasUsuario();
   final addressmodel =  Directions();
 
- 
-
-  
- 
-
   var principal ='';
  
 
   void _addPrincipal(String value,String city){  //this function add the principal address of user
     final userInfo   = Provider.of<UserInfo>(context);
+    print('estpy selecionando');
     userInfo.directions = value;
     prefs.direccion = value;
     userInfo.city= city;
