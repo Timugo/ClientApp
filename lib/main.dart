@@ -51,18 +51,12 @@ class _MyAppState extends State<MyApp> {
     //initialize the push notification provider
     pushProvider.initNotifications();
     pushProvider.messages.listen((data){
-//print("Argumento");
       print(data);
       if (data == 'cancel'){
-      
-    navigatorKey.currentState.pushNamed('services');
-
-       }
-        if (data == 'taken'){
-      
-          navigatorKey.currentState.pushNamed('orderProccess');
-
-       }
+        navigatorKey.currentState.pushNamed('services');
+      }if (data == 'taken'){
+        navigatorKey.currentState.pushNamed('orderProccess');
+      }
     });
   }
   
