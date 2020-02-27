@@ -24,6 +24,7 @@ class PushNotificationProvider {
       print(token);
       //save token in the prefs (local db in device)
       prefs.tokenPhone=token.toString();
+      print(prefs.tokenPhone);
     });
 
     //Configuring the different cases to recieve push notifications 
