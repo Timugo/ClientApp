@@ -124,7 +124,7 @@ class _CheckoutState extends State<Checkout> {
                 res.then((response) async {
                   if (response['response'] == 2){
                     if (response['content']['code'] == 1){
-                         _showMessa( "Horario de servicio de 10 a.m - 8 p.m! ");
+                         _showMessa( response['content']);
 
                     }else{
                     Navigator.push(
