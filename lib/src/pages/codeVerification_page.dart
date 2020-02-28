@@ -224,8 +224,11 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                               print(response['response']);
                               if (response['response'] == 2){
                                 if(response['content']['code'] == 1){
+                                  
                                   prefs.token=userInfo.phone.toString();
-                                   Navigator.push(
+                                  sendToken.sendToken(userInfo.phone.toString(),prefs.tokenPhone.toString());
+                                  
+                                  Navigator.push(
                                       context,
                                       MaterialPageRoute(builder: (context) => RegisterData()));
                                 }
