@@ -346,9 +346,7 @@ class ListTileItem extends StatelessWidget {
                     onPressed:(){
                       decrement();
                       deleteAditional();}
-                      
-                      
-                    
+
                   ),
                   Container(
                     padding: const EdgeInsets.only(

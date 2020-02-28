@@ -9,7 +9,7 @@ import 'package:timugo/src/services/number_provider.dart';
 class CardsServices extends StatelessWidget {
   const CardsServices({Key key}) : super(key: key);
 
-  @override
+  @override 
   Widget build(BuildContext context) {
     
     final size = MediaQuery.of(context).size;
