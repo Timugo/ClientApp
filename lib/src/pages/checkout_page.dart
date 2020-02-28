@@ -124,7 +124,7 @@ class _CheckoutState extends State<Checkout> {
                 res.then((response) async {
                   if (response['response'] == 2){
                     if (response['content']['code'] == 1){
-                         _showMessa( response['content']);
+                         _showMessa2( response['content']);
 
                     }else{
                     Navigator.push(
@@ -154,7 +154,19 @@ class _CheckoutState extends State<Checkout> {
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
       timeInSecForIos: 1,
-      backgroundColor: Colors.red,
+      backgroundColor:Colors.red,
+      textColor: Colors.white,
+      fontSize: 14.0
+    );
+
+  }
+   _showMessa2(String msj){ // show the toast message in bell appbar
+    Fluttertoast.showToast(
+      msg:msj,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.TOP,
+      timeInSecForIos: 1,
+      backgroundColor:Colors.blue[200],
       textColor: Colors.white,
       fontSize: 14.0
     );
