@@ -63,7 +63,7 @@ class _CheckoutState extends State<Checkout> {
               Card(
                 child: ListTile(
                   title: Text('Tiempo Estimado',),
-                  trailing: Text('30 min',style:TextStyle(fontWeight: FontWeight.bold,fontSize: 20)),
+                  trailing: Text('30 -45 min',style:TextStyle(fontWeight: FontWeight.bold,fontSize: 20)),
                 ),
               ),
               Card(
@@ -87,20 +87,20 @@ class _CheckoutState extends State<Checkout> {
                     ListTile(
                       contentPadding:EdgeInsets.only(left: 0),
                       title: Text('Costo del servicio :'),
-                      trailing: Text(price.toString(),style:TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
+                      trailing: Text("\$"+price.toString(),style:TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
                     ),
                   
                     ListTile(
                       contentPadding:EdgeInsets.only(left: 0),
                       title:Text('Costos adiccionales :') ,
-                      trailing: Text(priceA.toString(),style:TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
+                      trailing: Text("\$"+priceA.toString(),style:TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
                     ),
                     
                       ListTile(
                       contentPadding:EdgeInsets.only(left: 0),
                       title:Text('Total a cobrar',style:TextStyle(fontWeight: FontWeight.bold,fontSize: 22)) ,
                       subtitle: Text('Con efectivo'),
-                      trailing: Text((price+priceA).toString(),style:TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
+                      trailing: Text("\$"+(price+priceA).toString(),style:TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
                     ),
                   ],
                 ),
