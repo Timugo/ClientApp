@@ -123,15 +123,20 @@ class _CheckoutState extends State<Checkout> {
                if( prefs.direccion != ''){
                 res.then((response) async {
                   if (response['response'] == 2){
+                    if (response['content']['code'] == 1){
+                         _showMessa( "Horario de servicio de 10 a.m - 8 p.m! ");
+
+                    }else{
                     Navigator.push(
                       context,  
                         MaterialPageRoute(
                           builder: (context) => OrderProcces()
                         ));
+                    }
                   }
                 });
               }else{
-                _showMessa();
+                _showMessa( "Por favor  elige una direccion!");
               }
               
               } ,
@@ -143,9 +148,9 @@ class _CheckoutState extends State<Checkout> {
       )
     );
   } 
-  _showMessa(){ // show the toast message in bell appbar
+  _showMessa(String msj){ // show the toast message in bell appbar
     Fluttertoast.showToast(
-      msg: "Por favor  elige una direccion!",
+      msg:msj,
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
       timeInSecForIos: 1,
