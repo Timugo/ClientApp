@@ -1,7 +1,11 @@
 //flutter dependencies
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:timugo/src/pages/publicity_page.dart';
 //user dependencies
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'package:timugo/src/providers/user.dart';
@@ -24,6 +28,7 @@ class _LoginPageState extends State<RegisterData> {
   final sendToken = TokenProvider();
   bool monVal = false;
   Model model = Model();
+   
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +119,7 @@ class _LoginPageState extends State<RegisterData> {
               side: BorderSide(color: Colors.green)),
               color: Colors.green.shade300,
               padding: EdgeInsets.fromLTRB(size.width*0.35, 20.0, size.width*0.35, 20.0),
-              onPressed: monVal == false ? null:  _subimit,
+              onPressed: monVal == false ? null:() {  _sendCommet(context);},
               child: Text(
                 'Entrar',textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.white),
@@ -124,12 +129,12 @@ class _LoginPageState extends State<RegisterData> {
               controlAffinity: ListTileControlAffinity.leading,
               title: InkWell(
               child: new Text('Acepto terminos y condiciones',style: TextStyle(fontSize: 13,color: Colors.blue,decoration: TextDecoration.underline)),
-                              onTap: ()  {  Navigator.push(context,
-                                              MaterialPageRoute(
-                                                builder: (context) => MyWebView()
-                                              )
-                                            );
-                                          }
+                onTap: ()  {  Navigator.push(context,
+                                MaterialPageRoute(
+                                  builder: (context) => MyWebView()
+                                )
+                              );
+                            }
               ),
               value: monVal,
               onChanged: (bool value) {
@@ -143,13 +148,15 @@ class _LoginPageState extends State<RegisterData> {
         )
     );
   }
-  void _subimit(){
+  
+  
+   _subimit(context){
     final userInfo   = Provider.of<UserInfo>(context);
     final prefs = new PreferenciasUsuario();
 
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      var res= sendDataProvider.sendData(userInfo.phone,model.name,model.email);
+      var res= sendDataProvider.sendData(userInfo.phone,model.name,model.email,userInfo.publi);
       sendToken.sendToken(prefs.token,prefs.tokenPhone.toString());
       
       res.then((response) async {
@@ -183,6 +190,26 @@ class _LoginPageState extends State<RegisterData> {
     );
 
   }
+  
+_sendCommet(context){
+ Alert(
+        context: context,
+        title: "Cómo nos conociste?",
+        content: Publicity(),
+        buttons: [
+          DialogButton(
+            onPressed: (){  
+            _subimit(context);
+            },
+            child: Text(
+              "Enviar",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          )
+        ]).show();
+
+}
+
 }
 
 class MyTextFormField extends StatelessWidget {
@@ -234,4 +261,6 @@ class MyTextFormField extends StatelessWidget {
     );
   }
 }
+
+
 

@@ -10,6 +10,7 @@ class UserInfo with ChangeNotifier {
   String _price;
   int _pts;
   String _city='Cali';
+  String _publi;
 
   get phone {
     return _phone;
@@ -35,6 +36,13 @@ class UserInfo with ChangeNotifier {
   }
   get pts{
     return _pts;
+  }
+  get publi {
+    return _publi;
+  }
+   set publi(String nombre){
+     this._publi = nombre;
+    notifyListeners();
   }
   set pts(int nombre){
      this._pts = nombre;
