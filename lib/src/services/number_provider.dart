@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:timugo/src/models/aditional_model.dart';
 import 'package:timugo/src/models/barbers_model.dart';
 import 'package:timugo/src/models/directions_model.dart';
+import 'package:timugo/src/models/publicity_model.dart';
 import 'package:timugo/src/models/services_model.dart';
 import 'package:timugo/src/models/temporalOrder_model.dart';
 
@@ -74,12 +75,13 @@ class SendDataProvider{
   final    String url = 'https://www.timugo.tk/editInfoUser';
    
 
-   Future <Map<String,dynamic>>  sendData( int phone,String  name,String email ) async{
+   Future <Map<String,dynamic>>  sendData( int phone,String  name,String email,String publi ) async{
        Map<String, String> headers = {"Content-Type": "application/json"};
        var data = {
          "phone":phone,
           "name": name,
-          "email": email
+          "email": email,
+          "publicityMethod":publi
         };
     final encodedData = json.encode(data);
 
@@ -430,5 +432,29 @@ class SendFeedBack{
       
   
    return decodeData;
+  }
+}
+
+class GetPublicity{
+
+  final    String url = 'https://www.timugo.tk/getPublicityMethods';
+  final prefs =  PreferenciasUsuario();
+  List<PublicityMethods> _services = new List();
+
+  Future <List<PublicityMethods>>  getpublicity() async{
+
+    http.Response response = await http.get(url);
+    final decodeData = json.decode(response.body) ;
+
+     var list = decodeData['content'] as List;
+     
+     
+  
+   _services =list.map((i)=>PublicityMethods.fromJson(i)).toList();
+    
+    
+    return _services;
+
+   
   }
 }
