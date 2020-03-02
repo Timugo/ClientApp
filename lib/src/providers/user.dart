@@ -10,7 +10,7 @@ class UserInfo with ChangeNotifier {
   String _price;
   int _pts;
   String _city='Cali';
-  String _publi;
+  String _publi ='null';
 
   get phone {
     return _phone;
