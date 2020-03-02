@@ -80,11 +80,7 @@ class _ServicesState extends State<Services> {
               )
             ],
           ),
-          IconButton(
-            icon:Icon(FontAwesomeIcons.ticketAlt,size: 15.0,color: Colors.black),
-            onPressed: (){},
-          ), 
-          SizedBox(width: 8.0,)
+      
         ],
       ),
      drawer: MenuWidget(), // open the menu Drawer page

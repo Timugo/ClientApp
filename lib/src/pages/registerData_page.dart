@@ -27,6 +27,7 @@ class _LoginPageState extends State<RegisterData> {
   final  sendDataProvider = SendDataProvider();
   final sendToken = TokenProvider();
   bool monVal = false;
+  int cont =0;
   Model model = Model();
    
 
@@ -94,6 +95,7 @@ class _LoginPageState extends State<RegisterData> {
                   print('entre');
                   model.name = (value);
                   userInfo.name = model.name;
+                   cont+=1;
                 },
           
               ),
@@ -110,6 +112,7 @@ class _LoginPageState extends State<RegisterData> {
               onSaved: (String value) {
                 model.email = value;
                 userInfo.email =model.email;
+                cont+=1;
               },
             ),
             RaisedButton(
@@ -119,7 +122,7 @@ class _LoginPageState extends State<RegisterData> {
               side: BorderSide(color: Colors.green)),
               color: Colors.green.shade300,
               padding: EdgeInsets.fromLTRB(size.width*0.35, 20.0, size.width*0.35, 20.0),
-              onPressed: monVal == false ? null:() {  _sendCommet(context);},
+              onPressed: monVal == false && cont < 2? null:() {  _sendCommet(context);},
               child: Text(
                 'Entrar',textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.white),
@@ -140,6 +143,8 @@ class _LoginPageState extends State<RegisterData> {
               onChanged: (bool value) {
                 setState(() {
                   monVal = value;
+                  cont+=1;
+                  print(cont);
                   
                 });
               },
@@ -190,20 +195,38 @@ class _LoginPageState extends State<RegisterData> {
     );
 
   }
+    _showMessa2(){ // show the toast message in bell appbar
+    Fluttertoast.showToast(
+      msg: "Por favor seleciona un  elemento*",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIos: 1,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 14.0
+    );
+
+  }
   
 _sendCommet(context){
+    final userInfo   = Provider.of<UserInfo>(context);
+    print(userInfo.publi);
  Alert(
         context: context,
         title: "Cómo nos conociste?",
         content: Publicity(),
         buttons: [
           DialogButton(
-            onPressed: (){  
-            _subimit(context);
+            onPressed:  (){
+              if (userInfo.publi == 'null'){
+                _showMessa2();
+
+              }
+            else{_subimit(context);}
             },
             child: Text(
               "Enviar",
-              style: TextStyle(color: Colors.white, fontSize: 20),
+              style: TextStyle(color:  Colors.white, fontSize: 20),
             ),
           )
         ]).show();
