@@ -20,6 +20,7 @@ dependencies:
   flutter:
     sdk: flutter
   validators: ^2.0.0+1
+  
   provider: ^2.0.1
   pin_code_fields: ^2.3.0+3
   shared_preferences:
