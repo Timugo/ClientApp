@@ -78,7 +78,8 @@ class _CheckoutState extends State<Checkout> {
                 ),
               ),
               SizedBox(height: size.height*0.05,),
-              Container(
+              Container( 
+                
                 padding:EdgeInsets.only(left: size.width*0.05,right: size.width*0.05,bottom: size.height*0.1 ) ,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -109,7 +110,7 @@ class _CheckoutState extends State<Checkout> {
           ),
           Container(
             alignment: Alignment.bottomCenter,
-            padding: EdgeInsets.only(bottom: size.height*0.01),
+            padding: EdgeInsets.only(bottom: size.height*0.04),
             child: RaisedButton(                                   
               elevation: 5.0,
               shape: new RoundedRectangleBorder(
