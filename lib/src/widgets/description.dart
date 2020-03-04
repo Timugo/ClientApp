@@ -59,12 +59,15 @@ class Description extends StatelessWidget {
             ),
             Container(
               padding: EdgeInsets.only(top: 180,left: 13),
+              child:SingleChildScrollView(
+                scrollDirection: Axis.vertical,
               child:ListTile(
                 title:Text('Bio', style: TextStyle(
                       fontSize: 30,fontWeight: FontWeight.bold
                     ),
                 ),
               subtitle: Text(prod.bio),
+              )
               )
             )
       

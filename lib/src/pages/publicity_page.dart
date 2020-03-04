@@ -74,7 +74,7 @@ class _PublicityState extends State<Publicity> {
       onChanged: (bool selected) {
     _onCategorySelected(selected,prod.name,index);
       userInfo.publi=prod.name;
-      print(selected);
+      print(userInfo.publi);
       }
 
        );
