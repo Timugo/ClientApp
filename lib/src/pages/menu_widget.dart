@@ -13,6 +13,7 @@ import 'dart:io' show Platform;
 class MenuWidget extends StatelessWidget {
   final TextEditingController feedController = new TextEditingController();
 
+
   @override
   Widget build(BuildContext context) {
     
@@ -73,12 +74,20 @@ class MenuWidget extends StatelessWidget {
           ListTile(
             leading:  Icon(FontAwesomeIcons.headset,color: Colors.black,),
             title: Text('Centro de ayuda '),
-            onTap: ()async => await launch(
-         "https://wa.me/${573106838163}?text=Hola mi nombre es "+prefs.name+' y necesito ayuda con mi orden de Timugo')
-            //{
-             //   FlutterOpenWhatsapp.sendSingleMessage("573162452663", "Hola mi nombre es "+prefs.name+' y necesito ayuda con Timugo');
-           // }
+            onTap: () async{
+              var whatsappUrl ="whatsapp://send?phone=${573106838163}?text=Hola mi nombre es "+prefs.name+" y necesito ayuda con mi orden de Timugo'";
+              await canLaunch(whatsappUrl)? launch(whatsappUrl):print("No se encontro el link o whatsapp no instalado");
+
+            }
+    //   await FlutterLaunch.launchWathsApp(phone: "573162452663", message:"Hola mi nombre es "+prefs.name+' y necesito ayuda con Timugo');
+    // }
+    //         ()async => await launch(
+    //     "https://wa.me/${573106838163}?text=Hola mi nombre es "+prefs.name+' y necesito ayuda con mi orden de Timugo')
+    //         {
+    //            FlutterOpenWhatsapp.sendSingleMessage("573162452663", "Hola mi nombre es "+prefs.name+' y necesito ayuda con Timugo');
+    //        }
           ),
+          
            ListTile(
             leading:  Icon(FontAwesomeIcons.comment,color: Colors.black,),
             title: Text('Sugerencias'),

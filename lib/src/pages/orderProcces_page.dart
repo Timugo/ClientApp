@@ -54,8 +54,11 @@ class _ProccesState extends State<OrderProcces> {
           padding:EdgeInsets.only(right: size.width*0.04),
           child:IconButton(
             icon:Icon(Icons.headset_mic,color: Colors.black,size: 35),
-            onPressed:() async => await launch(
-         "https://wa.me/${573106838163}?text=Hola mi nombre es "+prefs.name+' y necesito ayuda con mi orden de Timugo')
+            onPressed:()  async{
+              var whatsappUrl ="whatsapp://send?phone=${573106838163}?text=Hola mi nombre es "+prefs.name+" y necesito ayuda con mi orden de Timugo'";
+              await canLaunch(whatsappUrl)? launch(whatsappUrl):print("No se encontro el link o whatsapp no instalado");
+
+            }
                //FlutterOpenWhatsapp.sendSingleMessage("573106838163", "Hola mi nombre es "+prefs.name+' y necesito ayuda con mi orden de Timugo');
             
           )
