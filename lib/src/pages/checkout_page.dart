@@ -121,13 +121,18 @@ class _CheckoutState extends State<Checkout> {
               padding: EdgeInsets.fromLTRB(size.width*0.3, size.height*0.020, size.width*0.3, size.height*0.020),
               onPressed: (){
                 var res= createOrdeProvider.createOrder(int.parse(prefs.id),prefs.direccion,userInfo.city,temp);
+               //if the user have a direction  setted
                if( prefs.direccion != ''){
                 res.then((response) async {
+                  //if the response is 2 = correct
                   if (response['response'] == 2){
+                    //code ==1 its because the order cant be created for some reason
                     if (response['content']['code'] == 1){
-                         _showMessa2( response['content']);
+                        //diaplay the message with the reason
+                         _showMessa2( response['content']['message']);
 
                     }else{
+                    //if the order was created correctly
                     Navigator.push(
                       context,  
                         MaterialPageRoute(
