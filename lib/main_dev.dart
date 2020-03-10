@@ -5,7 +5,7 @@ import 'main.dart';
 void main() {
   var configuredApp = AppConfig(
     appTitle: "Flutter Dev Mode",
-    url: 'https://www.timugo.tk/',
+    url: 'http://167.172.216.181:3000/',
     child: MyApp(),
   );
   return runApp(configuredApp);
