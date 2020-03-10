@@ -1,5 +1,4 @@
 
-
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:timugo/src/models/aditional_model.dart';
@@ -13,12 +12,12 @@ import 'dart:convert';
 
 import 'package:timugo/src/models/user_model.dart';
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
+import 'package:timugo/globlas.dart' as globals;
 
-
-
+final String  urlBase = globals.url;
 class NumberProvider{
 
-  final    String url = 'https://www.timugo.tk/loginUser';
+  final    String url = 'urlBaseloginUser';
   
 
    Future <Map<String,dynamic>>  sendNumber(model) async{
@@ -37,7 +36,7 @@ class NumberProvider{
 
 class CodeProvider{
 
-  final    String url = 'https://www.timugo.tk/sendCode';
+  final    String url = 'urlBasesendCode';
    Future <Map<String,dynamic>>  sendCode(String  phone) async{
       var _urlcode = url+'?phone='+phone;
   // make POST request
@@ -49,7 +48,7 @@ class CodeProvider{
 
 class VerificateProvider{
 
-  final    String url = 'https://www.timugo.tk/verificationCode';
+  final    String url = 'urlBaseverificationCode';
    
 
    Future <Map<String,dynamic>>  verificateCode(String  phone,String code) async{
@@ -72,7 +71,7 @@ class VerificateProvider{
 
 class SendDataProvider{
 
-  final    String url = 'https://www.timugo.tk/editInfoUser';
+  final    String url = 'urlBaseeditInfoUser';
    
 
    Future <Map<String,dynamic>>  sendData( int phone,String  name,String email,String publi ) async{
@@ -97,7 +96,7 @@ class SendDataProvider{
 
 class ServicesProvider  extends ChangeNotifier{
 
-   final    String url = 'https://www.timugo.tk/getServices';
+   final    String url = 'urlBasegetServices';
    List<ServicesModel> _productos = new List();
 
     Future<List<ServicesModel>>  getServices() async{
@@ -117,7 +116,7 @@ class ServicesProvider  extends ChangeNotifier{
 }
 class BarbersProvider  extends ChangeNotifier{
 
-   final    String url = 'https://www.timugo.tk/getBarbersTop';
+   final    String url = 'urlBasegetBarbersTop';
    List<BarbersModel> _productos = new List();
     
     Future<List<BarbersModel>>  getBarbers() async{
@@ -134,7 +133,7 @@ class BarbersProvider  extends ChangeNotifier{
 
 class AditionalProvider  extends ChangeNotifier{
 
-   final    String url = 'https://www.timugo.tk/getAditionalServices';
+   final    String url = 'urlBasegetAditionalServices';
    List<AditionalModel> _productos = new List();
 
     Future<List<AditionalModel>>  getAditional(String id) async{
@@ -156,7 +155,7 @@ class AditionalProvider  extends ChangeNotifier{
 }
 class TokenProvider{
 
-  final    String url = 'https://www.timugo.tk/addPhoneTokenUser';
+  final    String url = 'urlBaseaddPhoneTokenUser';
    
 
    Future <Map<String,dynamic>> sendToken(String  phone,String token) async{
@@ -178,7 +177,7 @@ class TokenProvider{
 
 class DirectionProvider{
 
-  final    String url = 'https://www.timugo.tk/addAddressUser';
+  final    String url = 'urlBaseaddAddressUser';
    
 
    Future <Map<String,dynamic>> sendDirection(int phone,String  city,String address) async{
@@ -199,7 +198,7 @@ class DirectionProvider{
 }
 
 class UserProvider{
-  final    String url = 'https://www.timugo.tk/getUser';
+  final    String url = 'urlBasegetUser';
   final prefs =  PreferenciasUsuario();
   
     Future<Map<String,dynamic>>  getName(String  phone) async{
@@ -222,7 +221,7 @@ class UserProvider{
  
 class CreateOrderProvider{
 
-  final    String url = 'https://www.timugo.tk/createOrder';
+  final    String url = 'urlBasecreateOrder';
    final prefs =  PreferenciasUsuario();
    
 
@@ -254,7 +253,7 @@ class CreateOrderProvider{
 
 class TemporalOrderProvider  extends ChangeNotifier{
 
-   final    String url = 'https://www.timugo.tk/getInfoTemporalOrder';
+   final    String url = 'urlBasegetInfoTemporalOrder';
     final prefs =  PreferenciasUsuario();
     
 
@@ -296,7 +295,7 @@ class TemporalOrderProvider  extends ChangeNotifier{
 }
 class FinishOrderProvider{
 
-  final    String url = 'https://www.timugo.tk/finishOrder';
+  final    String url = 'urlBasefinishOrder';
    final prefs =  PreferenciasUsuario();
    
 
@@ -321,7 +320,7 @@ class FinishOrderProvider{
 
 class EditOrderProvider{
 
-  final    String url = 'https://www.timugo.tk/editOrder';
+  final    String url = 'urlBaseeditOrder';
   final prefs =  PreferenciasUsuario();
 
    Future <Map<String,dynamic>> editOrderProvider(List services) async{
@@ -343,7 +342,7 @@ class EditOrderProvider{
 
 class GetAddresses{
 
-  final    String url = 'https://www.timugo.tk/getAddressesUser';
+  final    String url = 'urlBasegetAddressesUser';
   final prefs =  PreferenciasUsuario();
   List<Directions> _services = new List();
 
@@ -366,7 +365,7 @@ class GetAddresses{
 
 class DeleteAddress{
 
-  final    String url = 'https://www.timugo.tk/deleteAddressUser';
+  final    String url = 'urlBasedeleteAddressUser';
      final prefs =  PreferenciasUsuario();
 
 
@@ -389,7 +388,7 @@ class DeleteAddress{
 
 class CheckUserOrder{
 
-  final    String url = 'https://www.timugo.tk/checkUserOrder';
+  final    String url = 'urlBasecheckUserOrder';
   final prefs =  PreferenciasUsuario();
   var res = 'false';
   Future <Map<String,dynamic>>  checkUserOrder() async{
@@ -412,7 +411,7 @@ class CheckUserOrder{
 }
 class SendFeedBack{
 
-  final    String url = 'https://www.timugo.tk/giveFeedback';
+  final    String url = 'urlBasegiveFeedback';
    final prefs =  PreferenciasUsuario();
    
 
@@ -437,7 +436,7 @@ class SendFeedBack{
 
 class GetPublicity{
 
-  final    String url = 'https://www.timugo.tk/getPublicityMethods';
+  final    String url = 'urlBasegetPublicityMethods';
   final prefs =  PreferenciasUsuario();
   List<PublicityMethods> _services = new List();
 
