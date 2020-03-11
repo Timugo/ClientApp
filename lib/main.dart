@@ -1,7 +1,6 @@
 //Flutter dependencies
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:timugo/resources/app_config.dart';
 import 'package:timugo/src/pages/checkin_page.dart';
 import 'package:timugo/src/pages/orderProcces_page.dart';
 import 'package:timugo/src/pages/publicity_page.dart';
@@ -18,7 +17,6 @@ import 'package:timugo/src/pages/codeVerification_page.dart';
 import 'package:timugo/src/pages/login_page.dart';
 import 'package:timugo/src/pages/registerData_page.dart';
 import 'package:timugo/src/pages/services_page.dart';
-import 'globlas.dart' as globals;
 
 
 void main() async{
@@ -45,7 +43,7 @@ class _MyAppState extends State<MyApp> {
     //temporal order to check if user has a current order 
     final  temporalOrderProvider = TemporalOrderProvider();
 
-    globals.url =   AppConfig.of(context).url;
+   
     //check the user name 
     final  userName = UserProvider();
     //checking the user data save in device
@@ -77,7 +75,6 @@ class _MyAppState extends State<MyApp> {
          ChangeNotifierProvider( builder: (context) => Orderinfo() ),
       ],
       child: MaterialApp(
-        title: AppConfig.of(context).appTitle,      
         debugShowCheckedModeBanner: false,
         initialRoute: _rute(),
         navigatorKey: navigatorKey,

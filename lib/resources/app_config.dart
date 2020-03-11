@@ -1,20 +1,20 @@
-import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
+// import 'package:flutter/material.dart';
+// import 'package:meta/meta.dart';
 
-class AppConfig extends InheritedWidget{
-  final String appTitle;
-  final String url;
-  final Widget child;
+// class AppConfig extends InheritedWidget{
+//   final String appTitle;
+//   final String url;
+//   final Widget child;
 
-  AppConfig({
-    @required this.child,
-    @required this.appTitle,
-    @required this.url});
+//   AppConfig({
+//     @required this.child,
+//     @required this.appTitle,
+//     @required this.url});
 
-  static AppConfig of(BuildContext context) {
-    return context.inheritFromWidgetOfExactType(AppConfig);
-  }
+//   static AppConfig of(BuildContext context) {
+//     return context.inheritFromWidgetOfExactType(AppConfig);
+//   }
 
-  @override
-  bool updateShouldNotify(InheritedWidget oldWidget) => false;
-}
+//   @override
+//   bool updateShouldNotify(InheritedWidget oldWidget) => false;
+// }

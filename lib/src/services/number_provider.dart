@@ -17,7 +17,7 @@ import 'package:timugo/globlas.dart' as globals;
 final String  urlBase = globals.url;
 class NumberProvider{
 
-  final    String url = 'urlBaseloginUser';
+  final    String url = urlBase+'loginUser';
   
 
    Future <Map<String,dynamic>>  sendNumber(model) async{
@@ -36,7 +36,7 @@ class NumberProvider{
 
 class CodeProvider{
 
-  final    String url = 'urlBasesendCode';
+  final    String url = urlBase+'sendCode';
    Future <Map<String,dynamic>>  sendCode(String  phone) async{
       var _urlcode = url+'?phone='+phone;
   // make POST request
@@ -48,7 +48,7 @@ class CodeProvider{
 
 class VerificateProvider{
 
-  final    String url = 'urlBaseverificationCode';
+  final    String url = urlBase+'verificationCode';
    
 
    Future <Map<String,dynamic>>  verificateCode(String  phone,String code) async{
@@ -71,7 +71,7 @@ class VerificateProvider{
 
 class SendDataProvider{
 
-  final    String url = 'urlBaseeditInfoUser';
+  final    String url = urlBase+'editInfoUser';
    
 
    Future <Map<String,dynamic>>  sendData( int phone,String  name,String email,String publi ) async{
@@ -96,7 +96,7 @@ class SendDataProvider{
 
 class ServicesProvider  extends ChangeNotifier{
 
-   final    String url = 'urlBasegetServices';
+   final    String url = urlBase+'getServices';
    List<ServicesModel> _productos = new List();
 
     Future<List<ServicesModel>>  getServices() async{
@@ -116,7 +116,7 @@ class ServicesProvider  extends ChangeNotifier{
 }
 class BarbersProvider  extends ChangeNotifier{
 
-   final    String url = 'urlBasegetBarbersTop';
+   final    String url = urlBase+'getBarbersTop';
    List<BarbersModel> _productos = new List();
     
     Future<List<BarbersModel>>  getBarbers() async{
@@ -133,7 +133,7 @@ class BarbersProvider  extends ChangeNotifier{
 
 class AditionalProvider  extends ChangeNotifier{
 
-   final    String url = 'urlBasegetAditionalServices';
+   final    String url = urlBase+'getAditionalServices';
    List<AditionalModel> _productos = new List();
 
     Future<List<AditionalModel>>  getAditional(String id) async{
@@ -155,7 +155,7 @@ class AditionalProvider  extends ChangeNotifier{
 }
 class TokenProvider{
 
-  final    String url = 'urlBaseaddPhoneTokenUser';
+  final    String url = 'urlBase+addPhoneTokenUser';
    
 
    Future <Map<String,dynamic>> sendToken(String  phone,String token) async{
@@ -177,7 +177,7 @@ class TokenProvider{
 
 class DirectionProvider{
 
-  final    String url = 'urlBaseaddAddressUser';
+  final    String url = urlBase+'addAddressUser';
    
 
    Future <Map<String,dynamic>> sendDirection(int phone,String  city,String address) async{
@@ -198,7 +198,7 @@ class DirectionProvider{
 }
 
 class UserProvider{
-  final    String url = 'urlBasegetUser';
+  final    String url = urlBase+'getUser';
   final prefs =  PreferenciasUsuario();
   
     Future<Map<String,dynamic>>  getName(String  phone) async{
@@ -221,7 +221,7 @@ class UserProvider{
  
 class CreateOrderProvider{
 
-  final    String url = 'urlBasecreateOrder';
+  final    String url = urlBase+'createOrder';
    final prefs =  PreferenciasUsuario();
    
 
@@ -253,7 +253,7 @@ class CreateOrderProvider{
 
 class TemporalOrderProvider  extends ChangeNotifier{
 
-   final    String url = 'urlBasegetInfoTemporalOrder';
+   final    String url = urlBase+'getInfoTemporalOrder';
     final prefs =  PreferenciasUsuario();
     
 
@@ -295,7 +295,7 @@ class TemporalOrderProvider  extends ChangeNotifier{
 }
 class FinishOrderProvider{
 
-  final    String url = 'urlBasefinishOrder';
+  final    String url = urlBase+'finishOrder';
    final prefs =  PreferenciasUsuario();
    
 
@@ -320,7 +320,7 @@ class FinishOrderProvider{
 
 class EditOrderProvider{
 
-  final    String url = 'urlBaseeditOrder';
+  final    String url = urlBase+'editOrder';
   final prefs =  PreferenciasUsuario();
 
    Future <Map<String,dynamic>> editOrderProvider(List services) async{
@@ -342,7 +342,7 @@ class EditOrderProvider{
 
 class GetAddresses{
 
-  final    String url = 'urlBasegetAddressesUser';
+  final    String url = urlBase+'getAddressesUser';
   final prefs =  PreferenciasUsuario();
   List<Directions> _services = new List();
 
@@ -365,7 +365,7 @@ class GetAddresses{
 
 class DeleteAddress{
 
-  final    String url = 'urlBasedeleteAddressUser';
+  final    String url = urlBase+'deleteAddressUser';
      final prefs =  PreferenciasUsuario();
 
 
@@ -388,7 +388,7 @@ class DeleteAddress{
 
 class CheckUserOrder{
 
-  final    String url = 'urlBasecheckUserOrder';
+  final    String url = urlBase+'checkUserOrder';
   final prefs =  PreferenciasUsuario();
   var res = 'false';
   Future <Map<String,dynamic>>  checkUserOrder() async{
@@ -411,7 +411,7 @@ class CheckUserOrder{
 }
 class SendFeedBack{
 
-  final    String url = 'urlBasegiveFeedback';
+  final    String url = urlBase+'giveFeedback';
    final prefs =  PreferenciasUsuario();
    
 
@@ -436,7 +436,7 @@ class SendFeedBack{
 
 class GetPublicity{
 
-  final    String url = 'urlBasegetPublicityMethods';
+  final    String url = urlBase+'getPublicityMethods';
   final prefs =  PreferenciasUsuario();
   List<PublicityMethods> _services = new List();
 
