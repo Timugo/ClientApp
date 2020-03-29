@@ -8,7 +8,8 @@ import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'package:provider/provider.dart';
 import 'package:timugo/src/providers/user.dart';
 import 'package:timugo/src/services/number_provider.dart';
-import 'package:timugo/src/widgets/formDirection.dart';
+//import 'package:timugo/src/widgets/formDirection.dart';
+import 'package:timugo/src/widgets/locations.dart';
 
 class AddDireccions extends StatefulWidget {
   
@@ -26,6 +27,43 @@ class DeleteItemInListViewPopupMenuState extends State<AddDireccions> {
   final addressmodel =  Directions();
 
   var principal ='';
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>(); // global key of scaffol
+  VoidCallback _showBottomSheetCallBack;
+  @override
+  void initState() {
+    super.initState();
+    _showBottomSheetCallBack = _onButtonPressed;
+  }
+   void _onButtonPressed() {
+     setState(() {
+       _showBottomSheetCallBack = null; 
+     }); // show de modal botton sheet tha open the  add Directions widget
+    
+    _scaffoldKey.currentState.showBottomSheet( (context) {
+          return Container(
+            color: Color(0xFF737373),
+           
+            child: Container(
+              child: NewTripLocationView(),
+              decoration: BoxDecoration(
+                color: Theme.of(context).canvasColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
+                ),
+              ),
+            ),
+          );
+        })
+        .closed
+        .whenComplete((){
+          if(mounted){
+            setState((){
+            _showBottomSheetCallBack = _onButtonPressed;
+            });
+          }
+        });
+  }
  
 
   void _addPrincipal(String value,String city){  //this function add the principal address of user
@@ -41,6 +79,8 @@ class DeleteItemInListViewPopupMenuState extends State<AddDireccions> {
   @override
   Widget build(BuildContext context) {
    return Scaffold(
+     key: _scaffoldKey,
+       resizeToAvoidBottomInset: true,
       body:Stack(
         children:<Widget>[
           Container(
@@ -57,7 +97,7 @@ class DeleteItemInListViewPopupMenuState extends State<AddDireccions> {
                 icon:Icon(Icons.add_location),
                 label:Text("Ingresa una dirección ",style: TextStyle(color: Colors.black38,fontSize: 20)),
                 onPressed: (){
-                  _onButtonPressed(context);
+                  _showBottomSheetCallBack();
                 },
               )
             )
@@ -112,25 +152,5 @@ class DeleteItemInListViewPopupMenuState extends State<AddDireccions> {
       );
   }
   // show the  pop up where contains the form to add new address of user
-  void _onButtonPressed(BuildContext context) { // show de modal botton sheet tha open the  add Directions widget
-     final size = MediaQuery.of(context).size.height;
-    showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return Container(
-            color: Color(0xFF737373),
-            height: size*0.75,
-            child: Container(
-              child: FormDirections(),
-              decoration: BoxDecoration(
-                color: Theme.of(context).canvasColor,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
-                ),
-              ),
-            ),
-          );
-        });
-  }
+  
 }

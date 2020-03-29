@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:timugo/src/pages/services_page.dart';
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'package:timugo/src/services/number_provider.dart';
+// import 'package:google_maps_flutter/google_maps_flutter.dart';
+// import 'package:google_maps_flutter/google_maps_flutter.dart';
+// import 'package:geolocator/geolocator.dart';
+
+
+
 
 class FormDirections extends StatefulWidget {
   @override
@@ -88,7 +95,11 @@ class _FormDirectionsState extends State<FormDirections> {
                 var res= sendDirection.sendDirection(int.parse(prefs.token),_value,directionController.text);
                 res.then((response) async {
                   if (response['response'] == 2){
-                    Navigator.pop(context);
+                     Navigator.push(
+                      context,  
+                        MaterialPageRoute(
+                          builder: (context) => Services()
+                        ));
                     
                   }
                 });
