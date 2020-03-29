@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:timugo/src/pages/checkin_page.dart';
 import 'package:timugo/src/pages/orderProcces_page.dart';
 import 'package:timugo/src/pages/publicity_page.dart';
+import 'package:timugo/src/pages/sockets.dart';
 //User dependencies
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'package:timugo/src/providers/barber_provider.dart';
@@ -76,7 +77,7 @@ class _MyAppState extends State<MyApp> {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        initialRoute: _rute(),
+        initialRoute:  _rute(),
         navigatorKey: navigatorKey,
         routes: {
          
@@ -86,7 +87,8 @@ class _MyAppState extends State<MyApp> {
           'services':(context)=> Services(),
           'checkin':(context)=> Checkin(),
           'orderProccess':(context)=> OrderProcces(),
-          'publicity' : (context)=> Publicity() 
+          'publicity' : (context)=> Publicity(),
+          'sockets' :(context)=> Sokects()
           // 'userInfo' : (context)=> User()
 
         },
