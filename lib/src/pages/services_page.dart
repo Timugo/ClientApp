@@ -26,6 +26,43 @@ class Services extends StatefulWidget {
 class _ServicesState extends State<Services> {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>(); // global key of scaffol
+  VoidCallback _showBottomSheetCallBack;
+  @override
+  void initState() {
+    super.initState();
+    _showBottomSheetCallBack = _onButtonPressed;
+  }
+   void _onButtonPressed() {
+     setState(() {
+       _showBottomSheetCallBack = null; 
+     }); // show de modal botton sheet tha open the  add Directions widget
+    
+    _scaffoldKey.currentState.showBottomSheet( (context) {
+          return Container(
+            color: Color(0xFF737373),
+           
+            child: Container(
+              child: AddDireccions(),
+              decoration: BoxDecoration(
+                color: Theme.of(context).canvasColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
+                ),
+              ),
+            ),
+          );
+        })
+        .closed
+        .whenComplete((){
+          if(mounted){
+            setState((){
+            _showBottomSheetCallBack = _onButtonPressed;
+            });
+          }
+        });
+  }
+
   @override
 
   Widget build(BuildContext context) {
@@ -38,6 +75,7 @@ class _ServicesState extends State<Services> {
     checkUserOrder.checkUserOrder();
     var dir =prefs.direccion == '' ?'Elegir direccion':'';
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       key: _scaffoldKey,
       appBar: AppBar(
         backgroundColor: Colors.white10,
@@ -51,7 +89,7 @@ class _ServicesState extends State<Services> {
           FlatButton.icon(   // show  actual address of user and open the page add directions
             label: Text(userInfo.directions == '' ? prefs.direccion+dir:userInfo.directions,),
             icon: Icon(Icons.arrow_drop_down),
-            onPressed: () => _onButtonPressed(context),
+            onPressed: () => _showBottomSheetCallBack(),
           ),
           Spacer(),
           Stack(
@@ -118,27 +156,7 @@ class _ServicesState extends State<Services> {
 
   }
     
-void _onButtonPressed(BuildContext context) { // show de modal botton sheet tha open the  add Directions widget
-     final size = MediaQuery.of(context).size.height;
-    showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return Container(
-            color: Color(0xFF737373),
-            height: size*0.75,
-            child: Container(
-              child: AddDireccions(),
-              decoration: BoxDecoration(
-                color: Theme.of(context).canvasColor,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
-                ),
-              ),
-            ),
-          );
-        });
-  }
+
 }
 
 

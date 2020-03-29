@@ -321,7 +321,7 @@ class _ProccesState extends State<OrderProcces> {
       builder: (context) {
         return Container(
           color: Color(0xFF737373),
-          height: size*0.75,
+          height: size*1,
           child: Container(
             child:EditOrder(),
             decoration: BoxDecoration(

@@ -155,7 +155,7 @@ class AditionalProvider  extends ChangeNotifier{
 }
 class TokenProvider{
 
-  final    String url = 'urlBase+addPhoneTokenUser';
+  final    String url = urlBase+'addPhoneTokenUser';
    
 
    Future <Map<String,dynamic>> sendToken(String  phone,String token) async{
@@ -457,3 +457,4 @@ class GetPublicity{
    
   }
 }
+
