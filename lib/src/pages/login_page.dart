@@ -92,6 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                   child:new Flexible(
                     child:MyTextFormField(
                       inputFormatters: <TextInputFormatter>[WhitelistingTextInputFormatter.digitsOnly],
+                      keyboardType: TextInputType.number,
                       hintText: 'Celular',
                       validator: (String value) {
                         if ( value.length < 10){
@@ -174,13 +175,15 @@ class MyTextFormField extends StatelessWidget {
   final Function validator;
    final Function onSaved;
    final List inputFormatters;
+   final TextInputType keyboardType;
 
   MyTextFormField({
     this.text,
     this.hintText,
     this.validator,
     this.onSaved,
-    this.inputFormatters
+    this.inputFormatters,
+    this.keyboardType
   });
 
   @override
@@ -212,6 +215,7 @@ class MyTextFormField extends StatelessWidget {
         validator: validator,
         onSaved: onSaved,
         inputFormatters: inputFormatters,
+        keyboardType:keyboardType
      
       ),
     );
@@ -221,4 +225,5 @@ class MyTextFormField extends StatelessWidget {
   }
   
 }
+
 

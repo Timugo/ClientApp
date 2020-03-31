@@ -158,7 +158,7 @@ class _LoginPageState extends State<RegisterData> {
    _subimit(context){
     final userInfo   = Provider.of<UserInfo>(context);
     final prefs = new PreferenciasUsuario();
-
+    
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       var res= sendDataProvider.sendData(userInfo.phone,model.name,model.email,userInfo.publi);

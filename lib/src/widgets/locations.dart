@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:timugo/src/models/place.dart';
 import 'package:dio/dio.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -19,16 +20,18 @@ class NewTripLocationView extends StatefulWidget {
 class _NewTripLocationViewState extends State<NewTripLocationView> {
   TextEditingController _searchController = new TextEditingController();
   Timer _throttle;
-
+Position _currentPosition;
   String _heading;
   List<Place> _placesList;
+  String _currentAddress;
+  
   final List<Place> _suggestedList = [
-    Place("New York", 320.00),
-    Place("Austin", 250.00),
-    Place("Boston", 290.00),
-    Place("Florence", 300.00),
-    Place("Washington D.C.", 190.00),
+    Place( "Cali",00),
+    
+    
   ];
+
+  
 
   @override
   void initState() {
@@ -59,6 +62,7 @@ class _NewTripLocationViewState extends State<NewTripLocationView> {
       });
       return;
     }
+    
 
     String baseURL = 'https://maps.googleapis.com/maps/api/place/autocomplete/json';
     String type = '(regions)';
@@ -82,13 +86,41 @@ class _NewTripLocationViewState extends State<NewTripLocationView> {
       _placesList = _displayResults;
     });
   }
+    _getCurrentLocation() {
+    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+
+    geolocator
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+        .then((Position position) {
+      setState(() {
+        _currentPosition = position;
+      });
+    }).catchError((e) {
+      print(e);
+    });
+  }
+  
+  _getAddressFromLatLng() async {
+    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+    try {
+      List<Placemark> p = await geolocator.placemarkFromCoordinates(
+          _currentPosition.latitude, _currentPosition.longitude);
+
+      Placemark place = p[0];
+
+      setState(() {
+        _currentAddress =
+            "${place.locality}, ${place.postalCode}, ${place.country}";
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+   //_getCurrentLocation();
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Create Trip - Location'),
-      ),
       body: Center(
         child: Column(
           children: <Widget>[
@@ -148,24 +180,12 @@ class _NewTripLocationViewState extends State<NewTripLocationView> {
                               ),
                             ],
                           ),
-                          Row(
-                            children: <Widget>[
-                              Text(
-                                  "Average Budget \$${_placesList[index].averageBudget.toStringAsFixed(2)}"),
-                            ],
-                          ),
+                          
                         ],
                       ),
                     ),
                   ),
-                  Column(
-                    children: <Widget>[
-                      Placeholder(
-                        fallbackHeight: 80,
-                        fallbackWidth: 80,
-                      ),
-                    ],
-                  )
+                 
                 ],
               ),
               onTap: () {
@@ -184,14 +204,3 @@ class _NewTripLocationViewState extends State<NewTripLocationView> {
     );
   }
 }
-
-//RaisedButton(
-//child: Text("Continue"),
-//onPressed: () {
-//trip.title = _titleController.text;
-//Navigator.push(
-//context,
-//MaterialPageRoute(builder: (context) => NewTripDateView(trip: trip)),
-//);
-//},
-//),

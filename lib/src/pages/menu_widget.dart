@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:timugo/src/pages/Payment.dart';
 import 'package:timugo/src/pages/userInfo_pages.dart';
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -17,8 +18,7 @@ class MenuWidget extends StatelessWidget {
 
 
   @override
-  Widget build(BuildContext context) {
-    
+   Widget build(BuildContext context) { 
     final prefs = new PreferenciasUsuario();
     // funcion that return the name and pts of user
     return Drawer(
@@ -62,51 +62,69 @@ class MenuWidget extends StatelessWidget {
             progressColor: Colors.blue,
           ),
           // content the perfil data and  go to page info user
-          ListTile(
-            leading: Icon(FontAwesomeIcons.user,color: Colors.black,),
-            title: Text('Datos del perfil',),
-            onTap:(){
-              Navigator.push(
-                context,MaterialPageRoute(
-                builder: (context) => UserInfoPage()));
-
-            }       
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all( color: Colors.grey[200])),
+            child:ListTile(
+              leading: Icon(FontAwesomeIcons.user,color: Colors.black,),
+              title: Text('Datos del perfil',),
+              onTap:(){
+                Navigator.push(
+                  context,MaterialPageRoute(
+                  builder: (context) => UserInfoPage()));
+              }       
+            ),
           ),
           //  redirect to whatsapp  with  a message that content the name.
-          ListTile(
-            leading:  Icon(FontAwesomeIcons.headset,color: Colors.black,),
-            title: Text('Centro de ayuda '),
-            onTap: () async{
-              var whatsappUrl ="whatsapp://send?phone=${573106838163}?text=Hola mi nombre es "+prefs.name+" y necesito ayuda con mi orden de Timugo'";
-              await canLaunch(whatsappUrl)? launch(whatsappUrl):print("No se encontro el link o whatsapp no instalado");
-
-            }
-    //   await FlutterLaunch.launchWathsApp(phone: "573162452663", message:"Hola mi nombre es "+prefs.name+' y necesito ayuda con Timugo');
-    // }
-    //         ()async => await launch(
-    //     "https://wa.me/${573106838163}?text=Hola mi nombre es "+prefs.name+' y necesito ayuda con mi orden de Timugo')
-    //         {
-    //            FlutterOpenWhatsapp.sendSingleMessage("573162452663", "Hola mi nombre es "+prefs.name+' y necesito ayuda con Timugo');
-    //        }
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all( color: Colors.grey[200])),
+            child:ListTile(
+              leading:  Icon(FontAwesomeIcons.headset,color: Colors.black,),
+              title: Text('Centro de ayuda '),
+              onTap: () async{
+                var whatsappUrl ="whatsapp://send?phone=${573106838163}?text=Hola mi nombre es "+prefs.name+" y necesito ayuda con mi orden de Timugo'";
+                await canLaunch(whatsappUrl)? launch(whatsappUrl):print("No se encontro el link o whatsapp no instalado");
+              }
+            ),
           ),
-          
-           ListTile(
-            leading:  Icon(FontAwesomeIcons.comment,color: Colors.black,),
-            title: Text('Sugerencias'),
-            onTap: (){
-              _sendCommet(context);
-            }
-            //     FlutterOpenWhatsapp.sendSingleMessage("573162452663", "Hola, me gustaría que Timugo...");
-            // }
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all( color: Colors.grey[200])),
+            child: ListTile(
+              leading:  Icon(FontAwesomeIcons.comment,color: Colors.black,),
+              title: Text('Sugerencias'),
+              onTap: (){
+                _sendCommet(context);
+              }
+              //     FlutterOpenWhatsapp.sendSingleMessage("573162452663", "Hola, me gustaría que Timugo...");
+              // }
+            )
           ),
-           ListTile(
-            leading:  Icon(FontAwesomeIcons.thumbsUp,color: Colors.black,),
-            title: Text('Calificanos'),
-            onTap: (){
-            _launchURL();
-            }
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all( color: Colors.grey[200])),
+            child: ListTile(
+              leading:  Icon(FontAwesomeIcons.thumbsUp,color: Colors.black,),
+              title: Text('Calificanos'),
+              onTap: (){
+              _launchURL();
+              }
+            ),
+           ),
+          Container(
+            decoration: BoxDecoration(
+             border: Border.all( color: Colors.grey[200])),
+            child:ListTile(
+              leading: Icon(FontAwesomeIcons.creditCard,color: Colors.black,),
+              title: Text('Métodos de pago',),
+              onTap:(){
+                Navigator.push(
+                  context,MaterialPageRoute(
+                  builder: (context) => Payment()));
+              }       
+            ),
           ),
-          
         ],
       ),
     );

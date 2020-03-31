@@ -39,12 +39,12 @@ class _ServicesState extends State<Services> {
     
     _scaffoldKey.currentState.showBottomSheet( (context) {
           return Container(
-            color: Color(0xFF737373),
-           
+            color: Colors.black,
             child: Container(
+            
               child: AddDireccions(),
               decoration: BoxDecoration(
-                color: Theme.of(context).canvasColor,
+                color: Colors.black,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(30),
                   topRight: Radius.circular(30),
