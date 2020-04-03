@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:timugo/src/pages/checkin_page.dart';
 import 'package:timugo/src/pages/orderProcces_page.dart';
 import 'package:timugo/src/pages/publicity_page.dart';
-import 'package:timugo/src/pages/sockets.dart';
+
 //User dependencies
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'package:timugo/src/providers/barber_provider.dart';
@@ -89,7 +89,6 @@ class _MyAppState extends State<MyApp> {
           'checkin':(context)=> Checkin(),
           'orderProccess':(context)=> OrderProcces(),
           'publicity' : (context)=> Publicity(),
-          'sockets' :(context)=> Sokects(),
           'FormDirections':(context)=> FormDirections(address: null)
           
           // 'userInfo' : (context)=> User()

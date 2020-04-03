@@ -45,7 +45,7 @@ dependencies:
   auto_size_text: ^2.0.2
   flutter_rating_bar: ^3.0.1+1
   web_socket_channel: ^1.1.0
-  adhara_socket_io: ^0.4.1
+  
   awesome_card: ^1.1.0
 
 
