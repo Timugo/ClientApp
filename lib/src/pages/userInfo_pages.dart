@@ -84,6 +84,9 @@ class _UserInfoState extends State<UserInfoPage> {
               color: Colors.green.shade500,
               padding: EdgeInsets.fromLTRB(size.width*0.3, size.height*0.020, size.width*0.3, size.height*0.020),
               onPressed: (){
+                 Navigator.push(
+                    context,MaterialPageRoute(
+                    builder: (context) =>Services()));
                
               } ,
               child: Text('Guardar',textAlign: TextAlign.center, style: TextStyle(color: Colors.white, ),
