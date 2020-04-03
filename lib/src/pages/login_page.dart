@@ -112,16 +112,26 @@ class _LoginPageState extends State<LoginPage> {
             RaisedButton(                                   
               elevation: 5.0,
               shape: new RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(30.0),
-                side: BorderSide(color: Colors.green)
+                    borderRadius: new BorderRadius.circular(20.0)
               ),
-              color: Colors.green.shade300,
-              padding: EdgeInsets.fromLTRB(size.width*0.2, 20.0, size.width*0.2, 20.0),
+              padding: EdgeInsets.all(0.0),
               onPressed: monVal == false ? null:   _subimit ,
-              child: Text(
-                'Recibir código  por SMS',textAlign: TextAlign.center,
-                style: TextStyle(
-                color: Colors.white,
+              child: Ink(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(colors: [Color(0xFF19AEFF), Color(0xFF139DF7),Color(0xFF0A83EE),Color(0xFF0570E5),Color(0xFF0064E0)],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
+                    borderRadius: BorderRadius.circular(20.0)
+                ),
+                child:Container(
+                  padding: EdgeInsets.fromLTRB(size.width*0.2, 20.0, size.width*0.2, 20.0),
+                  child:Text(
+                  'Recibir código  por SMS',textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                   ),
+                  )
                 ),
               ),
             ),
@@ -154,19 +164,10 @@ class _LoginPageState extends State<LoginPage> {
                    builder: (context) => Code(model: this.model))
                 );
                }else{
-
                  print( response['content']);
                }
-
              });
-              
-
-              
-            }
-              
-           
-
-              
+            } 
    }
 }
 class MyTextFormField extends StatelessWidget {

@@ -94,23 +94,40 @@ class _EditOrderState extends State<EditOrder> {
     final size = MediaQuery.of(context).size;
     print(orderFinal);
     return Container(
+        padding: EdgeInsets.only(bottom:30),
       child:RaisedButton(                                   
         elevation: 5.0,
         shape: new RoundedRectangleBorder(
-          borderRadius: new BorderRadius.circular(10.0),
-          side: BorderSide(color: Colors.green)
+          borderRadius: new BorderRadius.circular(20.0),
+          
         ),
         color: Colors.green.shade400,
-        padding: EdgeInsets.fromLTRB(size.width*0.3,size.height*0.02, size.width*0.3, size.height*0.02),
-        onPressed:(){
-            _subimit(context);
-        },// monVal == false ? null:   _subimit ,
-        child: Text(
-          'Enviar Orden'+' '+"\$"+(total+totaOrder).toString(),textAlign: TextAlign.center,
+         padding: EdgeInsets.all(0.0),
+//padding: EdgeInsets.fromLTRB(size.width*0.3,size.height*0.02, size.width*0.3, size.height*0.02),
+         child: Ink( 
+          decoration: BoxDecoration(
+              gradient: LinearGradient(colors: [Color(0xFF19AEFF), Color(0xFF139DF7),Color(0xFF0A83EE),Color(0xFF0570E5),Color(0xFF0064E0)],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ),
+              borderRadius: BorderRadius.circular(20.0)
+          ),
+          child: Container(
+            padding: EdgeInsets.fromLTRB(size.width*0.1, size.height*0.02, size.width*0.1,size.height*0.02),
+            
+            child: Text(
+          'Enviar Orden'+' '+"\$"+(total+totaOrder).toString(),
           style: TextStyle(
           color: Colors.white,
                 ),
         )
+          ),
+        ),
+
+        onPressed:(){
+            _subimit(context);
+        },// monVal == false ? null:   _subimit ,
+       
       )
     );
   }

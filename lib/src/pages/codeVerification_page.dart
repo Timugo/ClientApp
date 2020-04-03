@@ -184,7 +184,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                 ),
               ),
             SizedBox(height: 5,),
-              RichText(
+            RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
                     text: "¿No recibió el código? ",
@@ -202,6 +202,8 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
 
                     ]),
               ),
+          
+            
               SizedBox(
                 height: 10,
               ),
@@ -250,29 +252,34 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                         });
                       }
                     },
-                    child: Center(
-                        child: Text(
-                        "VERIFICAR".toUpperCase(),
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold),
-                    )),
+                     child: Ink(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(colors: [Color(0xFF19AEFF), Color(0xFF139DF7),Color(0xFF0A83EE),Color(0xFF0570E5),Color(0xFF0064E0)],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
+                    borderRadius: BorderRadius.circular(20.0)
+                ),
+                child:Container(
+                  padding: EdgeInsets.fromLTRB(size.width*0.2, 20.0, size.width*0.2, 20.0),
+                  child:Text(
+                  'Verificar ',textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18
+                   ),
+                  )
+                ),
+              ),
+                   
                   ),
                 ),
                 decoration: BoxDecoration(
-                    color: Colors.green.shade300,
+                    
                     borderRadius: BorderRadius.circular(30),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.green.shade200,
-                          offset: Offset(1, -2),
-                          blurRadius: 5),
-                      BoxShadow(
-                          color: Colors.green.shade200,
-                          offset: Offset(-1, 2),
-                          blurRadius: 5)
-                    ]),
+                    ),
+
+                    
               ),
             ],
           ),
@@ -280,4 +287,19 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
       ),
     );
   }
+  //  void _subimit(phoneNumber){
+  //    final  registeProvider = NumberProvider();
+      
+      
+  //       var res= registeProvider.sendNumber(phoneNumber);
+  //       res.then((response) async {
+  //         if (response['response'] == 2){
+            
+          
+  //         }else{
+  //           print( response['content']);
+  //         }
+  //       });
+      
+  //  }
 }

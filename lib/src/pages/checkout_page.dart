@@ -111,49 +111,59 @@ class _CheckoutState extends State<Checkout> {
           Container(
             alignment: Alignment.bottomCenter,
             padding: EdgeInsets.only(bottom: size.height*0.04),
-            child: RaisedButton(                                   
+            child:  RaisedButton(
               elevation: 5.0,
-              shape: new RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(10.0),
-                side: BorderSide(color: Colors.green)
-              ),
-              color: Colors.green.shade500,
-              padding: EdgeInsets.fromLTRB(size.width*0.3, size.height*0.020, size.width*0.3, size.height*0.020),
               onPressed: (){
-                var res= createOrdeProvider.createOrder(int.parse(prefs.id),prefs.direccion,userInfo.city,temp);
-               //if the user have a direction  setted
-               if( prefs.direccion != ''){
-                res.then((response) async {
-                  //if the response is 2 = correct
-                  if (response['response'] == 2){
-                    //code ==1 its because the order cant be created for some reason
-                    if (response['content']['code'] == 1){
-                        //diaplay the message with the reason
-                         _showMessa2( response['content']['message']);
-
-                    }else{
-                    //if the order was created correctly
-                    Navigator.push(
-                      context,  
-                        MaterialPageRoute(
-                          builder: (context) => OrderProcces()
-                        ));
+                  var res= createOrdeProvider.createOrder(int.parse(prefs.id),prefs.direccion,userInfo.city,temp);
+                  //if the user have a direction  setted
+                  if( prefs.direccion != ''){
+                  res.then((response) async {
+                    //if the response is 2 = correct
+                    if (response['response'] == 2){
+                      //code ==1 its because the order cant be created for some reason
+                      if (response['content']['code'] == 1){
+                          //diaplay the message with the reason
+                            _showMessa2( response['content']['message']);
+                      }else{
+                      //if the order was created correctly
+                      Navigator.push(
+                        context,  
+                          MaterialPageRoute(
+                            builder: (context) => OrderProcces()
+                          ));
+                      }
                     }
-                  }
-                });
-              }else{
-                _showMessa( "Por favor  elige una direccion!");
-              }
-              
-              } ,
-              child: Text('Enviar pedido'+' '+"\$"+(price+priceA).toString(),textAlign: TextAlign.center, style: TextStyle(color: Colors.white, ),
+                  });
+                }else{
+                  _showMessa( "Por favor  elige una direccion!");
+                }
+                
+                } ,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+              padding: EdgeInsets.all(0.0),
+              child: Ink( 
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(colors: [Color(0xFF19AEFF), Color(0xFF139DF7),Color(0xFF0A83EE),Color(0xFF0570E5),Color(0xFF0064E0)],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
+                    borderRadius: BorderRadius.circular(20.0)
+                ),
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(size.width*0.25, size.height*0.02, size.width*0.25,size.height*0.02),
+                  
+                   child: Text('Enviar pedido'+' '+"\$"+(price+priceA).toString(),textAlign: TextAlign.center, style: TextStyle(color: Colors.white, ),
+                ),
               ),
+                  ),
             ),
          )
         ]
       )
     );
   } 
+  
+   
   _showMessa(String msj){ // show the toast message in bell appbar
     Fluttertoast.showToast(
       msg:msj,

@@ -151,27 +151,42 @@ class _CheckinState extends State<Checkin> {
                 ),
                 SizedBox(width: size.width*0.07,),
                 Column(
-                  children: <Widget>[
-                    RaisedButton(                                   
-                      elevation: 5.0,
-                      shape: new RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(10.0),
-                        side: BorderSide(color: Colors.green)
-                      ),
-                      color: Colors.green.shade400,
-                      padding: EdgeInsets.fromLTRB(size.width*0.1, size.height*0.02, size.width*0.1,size.height*0.02),
-                      onPressed:(){
+                   children: <Widget>[
+                Container(
+                  child: RaisedButton(
+                    elevation: 5.0,
+                    onPressed:(){
                         userInfo.price=total.toString();
                         
                         addServiceToarray();
                         Navigator.push(
                           context,MaterialPageRoute(
                           builder: (context) => Checkout(temp:orderFinal,price:price*number,priceA:total)));
-                      },// monVal == false ? null:   _subimit ,
-                      child: Text('Agregar'+' '+"\$"+(total+price*(number)).toString(),textAlign: TextAlign.center,style: TextStyle(color: Colors.white,)),
+                      },
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+                    padding: EdgeInsets.all(0.0),
+                    child: Ink( 
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(colors: [Color(0xFF19AEFF), Color(0xFF139DF7),Color(0xFF0A83EE),Color(0xFF0570E5),Color(0xFF0064E0)],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          ),
+                          borderRadius: BorderRadius.circular(20.0)
+                      ),
+                      child: Container(
+                        padding: EdgeInsets.fromLTRB(size.width*0.1, size.height*0.02, size.width*0.1,size.height*0.02),
+                        alignment: Alignment.center,
+                        child:  Text('Agregar'+' '+"\$"+(total+price*(number)).toString(),textAlign: TextAlign.center,style: TextStyle(color: Colors.white,))
+                      ),
                     ),
-                  ],
+                  ),
+                ),
+                   ]
                 )
+
+               
+                  
+                // )
               ],
             ),
           ),
@@ -194,14 +209,14 @@ class _CheckinState extends State<Checkin> {
               new IconButton(
                 padding:  EdgeInsets.only(right: size.width*0.04),
                 icon: Icon(Icons.remove,size: 30,),
-                color: Colors.green,
+                color: Colors.black,
                 onPressed:subtractNumbers,
               ),
               Text(number.toString() ,style:TextStyle(fontWeight:FontWeight.w400,fontSize:30.0)),
               new IconButton(
                 padding: EdgeInsets.only(left: size.width*0.04),
                 icon: Icon(Icons.add,size: 30,),
-                color: Colors.green,
+                color: Colors.black,
                 onPressed: addNumbers,
               ),
             ],
@@ -317,13 +332,21 @@ class ListTileItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Container(
-       margin:  EdgeInsets.only(left: size.width*0.04, right:size.width*0.04),
+    return Card(
+      elevation: 4,
+       margin:  EdgeInsets.only(left: size.width*0.06, right:size.width*0.06,top: 15,bottom: 15),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+        ),
       child:Stack(
         key: key,
         children: <Widget>[
           Container(
+            
+            margin: EdgeInsets.only(top:15,left: 10,right: 10,bottom: 15),
+          
             child: Row(
+           
               children: <Widget>[
                 Column(
                   children: <Widget>[
@@ -340,9 +363,9 @@ class ListTileItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  IconButton(
+                 count == 0 ? Container() :IconButton(
                     icon: Icon(Icons.remove),
-                    color: Colors.green,
+                    color: Colors.black,
                     onPressed:(){
                       decrement();
                       deleteAditional();}
@@ -356,7 +379,7 @@ class ListTileItem extends StatelessWidget {
                   IconButton(
                     key:key,
                     icon: Icon(Icons.add,size: 24,),
-                    color: Colors.green,
+                    color: Color(0xFF0064E0),
                     onPressed: (){
                       increment();
                       addAditional();
@@ -367,13 +390,7 @@ class ListTileItem extends StatelessWidget {
                 ]
               )
           ),
-          Container(
-            margin:  EdgeInsets.only(left:size.width*0.02, right: size.width*0.02,top: size.width*0.1),
-            child: Divider(
-              color: Colors.black,
-              height: 36,
-            )
-          ),
+         
         ]
       )
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 
 class UserInfo with ChangeNotifier {
 
@@ -11,6 +12,7 @@ class UserInfo with ChangeNotifier {
   int _pts;
   String _city='Cali';
   String _publi ='null';
+  Position _loca;
 
   get phone {
     return _phone;
@@ -39,6 +41,13 @@ class UserInfo with ChangeNotifier {
   }
   get publi {
     return _publi;
+  }
+  get loca {
+    return _loca;
+  }
+    set loca(Position nombre){
+     this._loca = nombre;
+    notifyListeners();
   }
    set publi(String nombre){
      this._publi = nombre;

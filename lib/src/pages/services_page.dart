@@ -1,7 +1,9 @@
 //Flutter dependencies
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:timugo/src/pages/menu_widget.dart';
 import 'package:timugo/src/pages/orderProcces_page.dart';
@@ -27,10 +29,29 @@ class _ServicesState extends State<Services> {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>(); // global key of scaffol
   VoidCallback _showBottomSheetCallBack;
+  Position _currentPosition;
   @override
   void initState() {
     super.initState();
     _showBottomSheetCallBack = _onButtonPressed;
+  }
+   Future<Position>  _getCurrentLocation(context) async {
+      final  userInfo = Provider.of<UserInfo>(context);
+ Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+
+    // geolocator
+    //     .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+    //     .then((Position position) {
+     
+    // }).catchError((e) {
+    //   print(e);
+    // });
+     setState(() {
+        _currentPosition = position;
+        userInfo.loca =_currentPosition;
+     
+      });
+      return _currentPosition;
   }
    void _onButtonPressed() {
      setState(() {
@@ -42,7 +63,7 @@ class _ServicesState extends State<Services> {
             color: Colors.black,
             child: Container(
             
-              child: AddDireccions(),
+              child: AddDireccions(position: _currentPosition,),
               decoration: BoxDecoration(
                 color: Colors.black,
                 borderRadius: BorderRadius.only(
@@ -71,26 +92,38 @@ class _ServicesState extends State<Services> {
     final  userName = UserProvider();
     final  userInfo = Provider.of<UserInfo>(context);
     final checkUserOrder =CheckUserOrder();
+   _checkUserToken();
+    
     userName.getName(prefs.token); // call to pref user that contains the data  save in the device
     checkUserOrder.checkUserOrder();
     var dir =prefs.direccion == '' ?'Elegir direccion':'';
-    return Scaffold(
+    
+    return WillPopScope(
+      onWillPop: () async => false,
+    child: Scaffold(
       resizeToAvoidBottomInset: true,
       key: _scaffoldKey,
       appBar: AppBar(
         backgroundColor: Colors.white10,
         elevation: 0,
         leading: new IconButton(
-          icon:Icon(FontAwesomeIcons.userCircle,size: 25.0,color: Colors.black),
+          icon:Icon(FontAwesomeIcons.userCircle,size: 25.0,color: Colors.black,),
           onPressed: () => _scaffoldKey.currentState.openDrawer()), // This function Open Menu widget
         actions: <Widget>[
           SizedBox(width: 15.0,),
           Spacer(),
-          FlatButton.icon(   // show  actual address of user and open the page add directions
-            label: Text(userInfo.directions == '' ? prefs.direccion+dir:userInfo.directions,),
-            icon: Icon(Icons.arrow_drop_down),
-            onPressed: () => _showBottomSheetCallBack(),
-          ),
+          Flexible(
+            flex: 3,
+           child:Container(
+              child:ListTile(
+             // show  actual address of user and open the page add directions
+            title: Text(userInfo.directions == '' ? prefs.direccion+dir:userInfo.directions,overflow: TextOverflow.ellipsis),
+            leading: Icon(Icons.arrow_drop_down),
+            onTap: () {
+               _getCurrentLocation(context);
+             _showBottomSheetCallBack();},
+          )))
+          ,
           Spacer(),
           Stack(
             children: <Widget>[
@@ -141,7 +174,7 @@ class _ServicesState extends State<Services> {
           ),
         ],
       ),
-    ); 
+    )); 
   }
   _showMessa(){ // show the toast message in bell appbar
     Fluttertoast.showToast(
@@ -153,6 +186,25 @@ class _ServicesState extends State<Services> {
       textColor: Colors.white,
       fontSize: 14.0
     );
+
+  }
+  _checkUserToken(){
+     final prefs =  PreferenciasUsuario();
+    final checkTokenUser =CheckTokenUser();
+    final sendToken = TokenProvider();
+   
+
+
+    var res = checkTokenUser.checkTokenUser();
+     res.then((response) async {
+              if (response['response'] == 1){
+                 sendToken.sendToken(prefs.token.toString(),prefs.tokenPhone.toString());
+              }
+              else{
+                print(' token registrado');
+              }
+          });
+
 
   }
     

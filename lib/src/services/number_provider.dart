@@ -180,12 +180,15 @@ class DirectionProvider{
   final    String url = urlBase+'addAddressUser';
    
 
-   Future <Map<String,dynamic>> sendDirection(int phone,String  city,String address) async{
+   Future <Map<String,dynamic>> sendDirection(int phone,String  city,String address,double lat , double lng, String description) async{
        Map<String, String> headers = {"Content-Type": "application/json"};
        var data = {
         "phone":phone,
         "city": city,
-        "address": address
+        "address": address,
+        "lat": lat,
+        "lng":lng,
+        "description":description
       };
     final encodedData = json.encode(data);
   // make POST request
@@ -453,6 +456,43 @@ class GetPublicity{
     
     
     return _services;
+
+   
+  }
+}
+class SendFavorite{
+
+  final    String url = urlBase+'setFavoriteAddress';
+     final prefs =  PreferenciasUsuario();
+
+
+   Future <Map<String,dynamic>> seendFavorite(String address) async{
+       Map<String, String> headers = {"Content-Type": "application/json"};
+       var data = {
+      "phoneUser":int.parse(prefs.token) ,
+      "address": address
+    };
+    final encodedData = json.encode(data);
+
+  // make POST request
+      http.Response response = await http.put(url, headers: headers, body: encodedData);
+      final decodeData = jsonDecode(response.body);
+      
+  
+   return decodeData;
+  }
+}
+class CheckTokenUser{
+
+  final    String url = urlBase+'checkTokenUser';
+  final prefs =  PreferenciasUsuario();
+   Future <Map<String,dynamic>>  checkTokenUser() async{
+    var _urlcode = url+'?phoneUser='+prefs.token;
+    http.Response response = await http.get(_urlcode);
+    final decodeData = json.decode(response.body) ;
+
+
+    return decodeData;
 
    
   }

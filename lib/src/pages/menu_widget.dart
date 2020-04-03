@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:timugo/src/pages/Payment.dart';
+//import 'package:timugo/src/pages/Payment.dart';
 import 'package:timugo/src/pages/userInfo_pages.dart';
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -9,7 +9,7 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:timugo/src/services/number_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io' show Platform;
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+//import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 
 //MENU DRAWER CLASS 
@@ -112,19 +112,19 @@ class MenuWidget extends StatelessWidget {
               }
             ),
            ),
-          Container(
-            decoration: BoxDecoration(
-             border: Border.all( color: Colors.grey[200])),
-            child:ListTile(
-              leading: Icon(FontAwesomeIcons.creditCard,color: Colors.black,),
-              title: Text('Métodos de pago',),
-              onTap:(){
-                Navigator.push(
-                  context,MaterialPageRoute(
-                  builder: (context) => Payment()));
-              }       
-            ),
-          ),
+          // Container(
+          //   decoration: BoxDecoration(
+          //    border: Border.all( color: Colors.grey[200])),
+          //   child:ListTile(
+          //     leading: Icon(FontAwesomeIcons.creditCard,color: Colors.black,),
+          //     title: Text('Métodos de pago',),
+          //     onTap:(){
+          //       Navigator.push(
+          //         context,MaterialPageRoute(
+          //         builder: (context) => Payment()));
+          //     }       
+          //   ),
+          // ),
         ],
       ),
     );
@@ -206,77 +206,77 @@ _sendCommet(context){
  
 
 
- _sendCalification(context){
- Alert(
-        context: context,
-        title: "Califica tu experiencia",
-        content: Column(
-          children: <Widget>[  
-            Container(
-            height: 200,
-            color: Color(0xffeeeeee),
-            padding: EdgeInsets.all(10.0),
-            child: new ConstrainedBox(
-              constraints: BoxConstraints(
-                maxHeight: 200.0,
-              ),
-              child: new Scrollbar(
-                child: new SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  reverse: true,
-                  child: SizedBox(
-                    height: 190.0,
-                    child: RatingBar(
-                  initialRating: 3,
-                  itemCount: 3,
-                  itemBuilder: (context, index) {
-                    switch (index) {
-                        case 0:
-                          return Icon(
-                              Icons.mood_bad,
-                              color: Colors.red,
-                          );
-                        case 1:
-                          return Icon(
-                              Icons.sentiment_neutral,
-                              color: Colors.yellow,
-                          );
-                        case 2:
-                          return Icon(
-                              Icons.sentiment_very_satisfied,
-                              color: Colors.green,
-                          );
+//  _sendCalification(context){
+//  Alert(
+//         context: context,
+//         title: "Califica tu experiencia",
+//         content: Column(
+//           children: <Widget>[  
+//             Container(
+//             height: 200,
+//             color: Color(0xffeeeeee),
+//             padding: EdgeInsets.all(10.0),
+//             child: new ConstrainedBox(
+//               constraints: BoxConstraints(
+//                 maxHeight: 200.0,
+//               ),
+//               child: new Scrollbar(
+//                 child: new SingleChildScrollView(
+//                   scrollDirection: Axis.vertical,
+//                   reverse: true,
+//                   child: SizedBox(
+//                     height: 190.0,
+//                     child: RatingBar(
+//                   initialRating: 3,
+//                   itemCount: 3,
+//                   itemBuilder: (context, index) {
+//                     switch (index) {
+//                         case 0:
+//                           return Icon(
+//                               Icons.mood_bad,
+//                               color: Colors.red,
+//                           );
+//                         case 1:
+//                           return Icon(
+//                               Icons.sentiment_neutral,
+//                               color: Colors.yellow,
+//                           );
+//                         case 2:
+//                           return Icon(
+//                               Icons.sentiment_very_satisfied,
+//                               color: Colors.green,
+//                           );
                        
-                    }
-                  },
-                  onRatingUpdate: (rating) {
-                    print(rating);
-                  },
-                    )
-                  ),
-                ),
-              ),
-            ),
-          ),
-          ],
-        ),
-        buttons: [
-          DialogButton(
-            onPressed: (){  
-             final sendFeed =SendFeedBack();
-             var res = sendFeed.sendFeedBack(feedController.text);
-             res.then((response) async {
-             if (response['response'] == 2){
-               Navigator.pop(context); 
-              }});
-            },
-            child: Text(
-              "Enviar",
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
-          )
-        ]).show();
+//                     }
+//                   },
+//                   onRatingUpdate: (rating) {
+//                     print(rating);
+//                   },
+//                     )
+//                   ),
+//                 ),
+//               ),
+//             ),
+//           ),
+//           ],
+//         ),
+//         buttons: [
+//           DialogButton(
+//             onPressed: (){  
+//              final sendFeed =SendFeedBack();
+//              var res = sendFeed.sendFeedBack(feedController.text);
+//              res.then((response) async {
+//              if (response['response'] == 2){
+//                Navigator.pop(context); 
+//               }});
+//             },
+//             child: Text(
+//               "Enviar",
+//               style: TextStyle(color: Colors.white, fontSize: 20),
+//             ),
+//           )
+//         ]).show();
 
-  }
+//   }
 
 }

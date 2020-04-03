@@ -18,6 +18,7 @@ import 'package:timugo/src/pages/codeVerification_page.dart';
 import 'package:timugo/src/pages/login_page.dart';
 import 'package:timugo/src/pages/registerData_page.dart';
 import 'package:timugo/src/pages/services_page.dart';
+import 'package:timugo/src/widgets/formDirection.dart';
 
 
 void main() async{
@@ -77,7 +78,7 @@ class _MyAppState extends State<MyApp> {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        initialRoute: 'login' ,//_rute(),
+        initialRoute: _rute(),
         navigatorKey: navigatorKey,
         routes: {
          
@@ -88,7 +89,9 @@ class _MyAppState extends State<MyApp> {
           'checkin':(context)=> Checkin(),
           'orderProccess':(context)=> OrderProcces(),
           'publicity' : (context)=> Publicity(),
-          'sockets' :(context)=> Sokects()
+          'sockets' :(context)=> Sokects(),
+          'FormDirections':(context)=> FormDirections(address: null)
+          
           // 'userInfo' : (context)=> User()
 
         },

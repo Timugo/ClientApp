@@ -13,7 +13,7 @@
         android:label="Timugo"
         android:icon="@mipmap/ic_launcher">
         <meta-data android:name="com.google.android.geo.API_KEY"
-               android:value="AIzaSyC4Bg8apIFz5v6MVlTDQ6VFdJLlw61vLPg"/>
+               android:value="AIzaSyDsPifARDpIqrgAS8TBQtyI7baFlXh3Lu4"/>
        
         <activity
             android:name=".MainActivity"

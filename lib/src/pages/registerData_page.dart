@@ -119,13 +119,27 @@ class _LoginPageState extends State<RegisterData> {
               elevation: 5.0,
               shape: new RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(30.0),
-              side: BorderSide(color: Colors.green)),
+              ),
               color: Colors.green.shade300,
-              padding: EdgeInsets.fromLTRB(size.width*0.35, 20.0, size.width*0.35, 20.0),
+               padding: EdgeInsets.all(0.0),
+             
               onPressed: monVal == false && cont < 2? null:() {  _sendCommet(context);},
-              child: Text(
+              
+              child: Ink(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(colors: [Color(0xFF19AEFF), Color(0xFF139DF7),Color(0xFF0A83EE),Color(0xFF0570E5),Color(0xFF0064E0)],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
+                    borderRadius: BorderRadius.circular(20.0)
+                ),
+                child:Container(
+                   padding: EdgeInsets.fromLTRB(size.width*0.35, 20.0, size.width*0.35, 20.0),
+                  child:Text(
                 'Entrar',textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.white),
+              )
+                ),
               ),
             ),
             CheckboxListTile(

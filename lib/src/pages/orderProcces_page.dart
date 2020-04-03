@@ -178,32 +178,38 @@ class _ProccesState extends State<OrderProcces> {
    final size = MediaQuery.of(context).size;
 
     return Container(
-        
+      padding: EdgeInsets.only(bottom:30),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        
         children: <Widget>[
           RaisedButton(                                   
             elevation: 5.0,
-            shape:  RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-              side: BorderSide(color: Colors.green)
-            ),
-            color: Colors.green.shade400,
-            padding: EdgeInsets.fromLTRB(size.width*0.1, size.height*0.02, size.width*0.1, size.height*0.02),
+           
             onPressed:(){
                 _onButtonPressed(context);
             },// monVal == false ? null:   _subimit ,
-            child: Text(
-              'Editar Orden',textAlign: TextAlign.center,
-              style: TextStyle(
-              color: Colors.white,
-              ),
-            ),
-          ),   
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+                    padding: EdgeInsets.all(0.0),
+                    child: Ink( 
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(colors: [Color(0xFF19AEFF), Color(0xFF139DF7),Color(0xFF0A83EE),Color(0xFF0570E5),Color(0xFF0064E0)],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          ),
+                          borderRadius: BorderRadius.circular(20.0)
+                      ),
+                      child: Container(
+                        padding: EdgeInsets.fromLTRB(size.width*0.18, size.height*0.02, size.width*0.18,size.height*0.02),
+                      
+                        child:  Text('Editar',textAlign: TextAlign.center,style: TextStyle(color: Colors.white,))
+                      ),
+                    ),
+                  ),
           RaisedButton(                                   
             elevation: 5.0,
             shape:  RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
+              borderRadius: BorderRadius.circular(20.0),
               side: BorderSide(color: Colors.red)
             ),
             color: Colors.red.shade400,
