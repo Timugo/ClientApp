@@ -498,3 +498,31 @@ class CheckTokenUser{
   }
 }
 
+
+class SendCreditCard{
+  final    String url = urlBase+'saveNewCard';
+   final prefs =  PreferenciasUsuario();
+   Future <Map<String,dynamic>>  sendCard(String name,String lastName, int mont, int year,int cvc,String franchise, int cardNumber) async{
+       Map<String, String> headers = {"Content-Type": "application/json"};
+       var data = {
+          "phoneNumber": prefs.token,
+          "type":'CREDIT',
+          "name": name,
+          "lastName":lastName,
+          "mont":mont,
+          "year":year,
+          "cvc":cvc,
+          "franchise":franchise,
+          "cardNumber":cardNumber
+        };
+    final encodedData = json.encode(data);
+
+  // make POST request
+      http.Response response = await http.post(url, headers: headers, body: encodedData);
+      final decodeData = jsonDecode(response.body);
+     
+   return decodeData;
+  }
+}
+
+// CreateTempoarlOrder type -> campo extra CASH NEQUI CARD PSE
