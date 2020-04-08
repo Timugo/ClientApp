@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 //models
 import 'package:timugo/src/models/directions_model.dart';
+import 'package:timugo/src/pages/services_page.dart';
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 //providers
 import 'package:provider/provider.dart';
@@ -200,7 +201,7 @@ class DeleteItemInListViewPopupMenuState extends State<AddDireccions> {
     Navigator.push(
           context,  
             MaterialPageRoute(
-              builder: (context) => NewTripLocationView(currentAddress:_currentAddress)
+              builder: (context) => NewTripLocationView()
             ));
 
                   //_showBottomSheetCallBack();
@@ -226,10 +227,6 @@ class DeleteItemInListViewPopupMenuState extends State<AddDireccions> {
                addPrincipal: () => addPrincipal(productos[i].address,productos[i].city,i),
                isPressed: individualCount[i],
                producto: productos[i],
-
-            
-
-
               )
               //{ return Card( child:_card(context, productos[i] ));}, //  create aiterable list and call _card for paint list
             )
@@ -271,6 +268,7 @@ class ListTileItem extends StatelessWidget {
         ),
          onDismissed: (direccion){
           deleteDirectio.deleteaddress(producto.address);
+         
         },
         child: Stack(
         children: <Widget>[
@@ -284,12 +282,25 @@ class ListTileItem extends StatelessWidget {
                 PopupMenuItem(
                   child: IconButton(
                   icon:Icon( Icons.delete,color: Colors.red,),
-                  onPressed:() {}),
+                  onPressed:() {
+                     deleteDirectio.deleteaddress(producto.address);
+                       Navigator.push(
+                        context,  
+                        MaterialPageRoute(
+                          builder: (context) => Services()
+                        ));
+                    }),
                 ),
                  PopupMenuItem(
                   child: IconButton(
                   icon:Icon( Icons.check,color: Colors.green,),
-                  onPressed:()=> addPrincipal()),
+                  onPressed:(){ addPrincipal();
+                   Navigator.push(
+                        context,  
+                        MaterialPageRoute(
+                          builder: (context) => Services()
+                    ));
+                  }),
                 ),
               ],
         ),
