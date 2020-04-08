@@ -13,17 +13,17 @@ import 'package:timugo/src/widgets/formDirection.dart';
 
 
 class NewTripLocationView extends StatefulWidget {
-  final String currentAddress;
+ // final String currentAddress;
 
-  NewTripLocationView({Key key,this.currentAddress}) : super(key: key);
+  //NewTripLocationView({Key key,this.currentAddress}) : super(key: key);
 
   @override
-  _NewTripLocationViewState createState() => _NewTripLocationViewState(currentAddress:currentAddress);
+  _NewTripLocationViewState createState() => _NewTripLocationViewState();
 }
 
 class _NewTripLocationViewState extends State<NewTripLocationView> {
-  String currentAddress;
-  _NewTripLocationViewState({this.currentAddress});
+ // String currentAddress;
+//  _NewTripLocationViewState({this.currentAddress});
   TextEditingController _searchController = new TextEditingController();
   Timer _throttle;
   // Position _currentPosition;
@@ -71,7 +71,7 @@ class _NewTripLocationViewState extends State<NewTripLocationView> {
 
     // &location=3.4372201,-76.5224991&radius=500&
     Response response = await Dio().get(request);
-    print(currentAddress);
+   
 
     final predictions = response.data['predictions'];
     

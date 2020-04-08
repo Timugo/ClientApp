@@ -8,6 +8,8 @@ import 'package:timugo/src/services/number_provider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 
+import 'noLocation.dart';
+
 
 
 
@@ -169,41 +171,91 @@ class _FormDirectionsState extends State<FormDirections> {
                   )
                 ),
               Container(
-                padding:EdgeInsets.only(top: size.height*0.04),
-                alignment: Alignment.bottomCenter,
-                child:RaisedButton(                                   
-                  elevation: 5.0,
+          alignment: Alignment.bottomCenter,
+            padding:EdgeInsets.only(bottom: size.height*0.04,left: 30,right: 30,top: 15),
+              
+              child:RaisedButton(
+                 elevation: 5.0,
                   shape: new RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(10.0),
-                    side: BorderSide(color: Colors.green)
+                    borderRadius: new BorderRadius.circular(20.0),
+                    
                   ),
-                  color: Colors.green.shade400,
-                  padding: EdgeInsets.fromLTRB(size.width*0.2, size.height*0.02, size.width*0.2,size.height*0.02),
-                  onPressed: () { // when  pressed  call service sen Direction and add address of user
-                    _datas.add(_value+' '+directionController.text);
-                    var res= sendDirection.sendDirection(int.parse(prefs.token),'Cali',directionController.text,userInfo.loca.latitude,userInfo.loca.longitude,aditionalController.text);
-                    res.then((response) async {
-                      if (response['response'] == 2){
-                        Navigator.push(
-                          context,  
-                            MaterialPageRoute(
-                              builder: (context) => Services()
-                            ));
+                  padding: EdgeInsets.all(0.0),
+                  
+//
+                child: Ink(
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(colors: [Color(0xFF19AEFF), Color(0xFF139DF7),Color(0xFF0A83EE),Color(0xFF0570E5),Color(0xFF0064E0)],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          ),
+                          borderRadius: BorderRadius.circular(20.0)
+                      ),
+                      child: Container(
+                        padding: EdgeInsets.fromLTRB(size.width*0.1, size.height*0.005, size.width*0.1,size.height*0.005),
+                        child: ListTile(  title:Text("Agregar dirección ",textAlign: TextAlign.center,style: TextStyle(color: Colors.white,))),
+                      ),
+                    ),
+
+
+                 onPressed: () { // when  pressed  call service sen Direction and add address of user
+                    
+                    if((directionController.text).contains('Cali')){
+                      _datas.add(_value+' '+directionController.text);
+                      var res= sendDirection.sendDirection(int.parse(prefs.token),'Cali',directionController.text,userInfo.loca.latitude,userInfo.loca.longitude,aditionalController.text);
+                       res.then((response) async {
+                        if (response['response'] == 2){
+                          Navigator.push(
+                            context,  
+                              MaterialPageRoute(
+                                builder: (context) => Services()
+                              ));
                         
                       }
                     });
+
+                       print('bien');
+                    }else{
+
+                      print('no');
+                      _onButtonPressed(context);
+                    }
+                   
                   },
-                  child: Text('Agregar',textAlign: TextAlign.center,style: TextStyle(color: Colors.white,)),
-                ),
-              )
+              
+            )
+          ),
             ]
      
      );
+ 
+  
 
 
      
    }
-
+   void _onButtonPressed(BuildContext context) {
+    final size = MediaQuery.of(context).size.height;
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Container(
+          color: Color(0xFF737373),
+          height: size*0.75,
+          child: Container(
+            child: NoLocations(),
+            decoration: BoxDecoration(
+              color: Theme.of(context).canvasColor,
+              borderRadius: BorderRadius.only(
+                topLeft: const Radius.circular(10),
+                topRight: const Radius.circular(10),
+              ),
+            ),
+          ),
+        );
+      }
+    );
+  }
    void mapCreated(controller) {
     setState(() {
       _controller = controller;

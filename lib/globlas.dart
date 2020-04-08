@@ -1,3 +1,4 @@
 library my_prj.globals;
 
-String url = 'https://www.timugo.tk/';
+String url = 'https://api.timugo.com/';
+//String url ='api.timugotest.xyz';
