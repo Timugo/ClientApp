@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:timugo/src/pages/menu_widget.dart';
+import 'package:timugo/src/pages/nequi_page.dart';
 import 'package:timugo/src/widgets/creditCard.dart';
 
 class Payment extends StatelessWidget {
@@ -18,14 +18,7 @@ class Payment extends StatelessWidget {
          elevation: 0,
          leading: new IconButton(
                icon: new Icon(Icons.arrow_back, color: Colors.black,size: 35,),
-               onPressed: () {
-                Navigator.push(
-                  context,  
-                  MaterialPageRoute(
-                    builder: (context) => MenuWidget()
-                  )
-                );
-               },
+               onPressed: () => Navigator.of(context).pop(),
          ),
         backgroundColor: Colors.white,
        ),
@@ -73,10 +66,10 @@ class Payment extends StatelessWidget {
         //  )
         Container(
              margin: EdgeInsets.only(top:80,left: 15,right: 15),
-        child:Text('Añadir método de pago',style:  TextStyle(color: Colors.greenAccent,fontSize: 15,fontWeight: FontWeight.bold ),),
+        child:Text('Añadir método de pago',style:  TextStyle(color: Colors.blue,fontSize: 18,fontWeight: FontWeight.bold ),),
         ),
           Container(
-             margin: EdgeInsets.only(top:100,left: 15,right: 15,bottom: 200),
+             margin: EdgeInsets.only(top:120,left: 15,right: 15,bottom: 200),
             decoration: BoxDecoration(
             color: Colors.white,
            borderRadius: BorderRadius.all(
@@ -85,7 +78,8 @@ class Payment extends StatelessWidget {
             ), 
           ),
            child: ListTile(
-             title:Text('Tarjeta de crédito'),
+             contentPadding: EdgeInsets.only(left:30,right: 15),
+             title:Text('Tarjeta de crédito o débito'),
             leading: Icon(FontAwesomeIcons.solidCreditCard,color: Colors.black,),
             trailing: Icon(FontAwesomeIcons.arrowRight,color: Colors.black,) ,
             onTap: (){
@@ -95,7 +89,49 @@ class Payment extends StatelessWidget {
 
             },
            ),
-          )
+          ),
+          Container(
+             margin: EdgeInsets.only(top:190,left: 15,right: 15,bottom: 200),
+            decoration: BoxDecoration(
+            color: Colors.white,
+           borderRadius: BorderRadius.all(
+             Radius.circular(10),
+             
+            ), 
+          ),
+           child: ListTile(
+             title:Text('Nequi '),
+            leading: Image( image:AssetImage('assets/images/Nequi.png')),
+            trailing: Icon(FontAwesomeIcons.arrowRight,color: Colors.black,) ,
+            onTap: (){
+               Navigator.push(
+                  context,MaterialPageRoute(
+                  builder: (context) => NequiPage()));
+
+            },
+           ),
+          ),
+            Container(
+             margin: EdgeInsets.only(top:260,left: 15,right: 15,bottom: 200),
+            decoration: BoxDecoration(
+            color: Colors.white,
+           borderRadius: BorderRadius.all(
+             Radius.circular(10),
+             
+            ), 
+          ),
+           child: ListTile(
+             title:Text('PSE '),
+            leading: Image( image:AssetImage('assets/images/BotonPSE.png'),width: 55,),
+            trailing: Icon(FontAwesomeIcons.arrowRight,color: Colors.black,) ,
+            onTap: (){
+               Navigator.push(
+                  context,MaterialPageRoute(
+                  builder: (context) => CreditCardH()));
+
+            },
+           ),
+          ),
         ],
       )
     );
