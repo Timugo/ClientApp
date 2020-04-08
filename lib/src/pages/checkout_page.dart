@@ -1,6 +1,7 @@
 //packages
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:timugo/src/pages/Payment.dart';
 import 'package:timugo/src/providers/user.dart';
 //pages
 import 'package:timugo/src/widgets/addDirections.dart';
@@ -56,7 +57,7 @@ class _CheckoutState extends State<Checkout> {
                   title: Text(prefs.direccion == ''?'Elige una dirección':userInfo.directions),
                   trailing:IconButton(
                     icon: Icon(Icons.arrow_drop_down),
-                    onPressed: () => _onButtonPressed(context),
+                    onPressed: () => _onButtonPressed(context,AddDireccions()),
                   ),            
                 )
               ),
@@ -68,11 +69,25 @@ class _CheckoutState extends State<Checkout> {
               ),
               Card(
                 child: ListTile(
-                  title: Text('Método de pago',),
-                  trailing:RaisedButton.icon(
+                  trailing: RaisedButton.icon(
+                    
+                    icon: Icon(Icons.keyboard_arrow_down),
+                    onPressed: (){},
+                    // onPressed: (){ Navigator.push(
+                    //     context,  
+                    //       MaterialPageRoute(
+                    //         builder: (context) => Payment()
+                    //       ));
+
+                    // },
+                    color: Colors.white,
+                    label: Text('Cambiar',style: TextStyle(fontSize: 15)),
+                  ),
+                  leading:RaisedButton.icon(
                     color: Colors.green,
                     icon: Icon(Icons.attach_money),
                     onPressed: (){},
+                    
                     label: Text('Efectivo',style: TextStyle(fontSize: 20)),
                   )
                 ),
@@ -114,6 +129,13 @@ class _CheckoutState extends State<Checkout> {
             child:  RaisedButton(
               elevation: 5.0,
               onPressed: (){
+                
+                // primero ejecuto la funcion para verificar el pago , ya sea nequi , pse, credit 
+                //Para automaticos nequi ->  ['Corte de peloX1', 'Corte de baraba 50% off', 'Cejas'] array de 3 elements
+                // enviar a pagina de verificando pago   response 2 y ACCEPTED then  create Orden
+                // response 2  y REJECTED  verifico 6 segundo  description ''  devolver a checkout
+                // pago unico sincrono ACCEPTED  -> response content  con codeQr
+                // llamo  check push payment con el QR y lo  ejecuto hasta que responde accepted o rejected
                   var res= createOrdeProvider.createOrder(int.parse(prefs.id),prefs.direccion,userInfo.city,temp);
                   //if the user have a direction  setted
                   if( prefs.direccion != ''){
@@ -189,7 +211,7 @@ class _CheckoutState extends State<Checkout> {
 
   }
 
-  void _onButtonPressed(BuildContext context) {
+  void _onButtonPressed(BuildContext context,Widget ruta) {
     final size = MediaQuery.of(context).size.height;
     showModalBottomSheet(
       context: context,
@@ -198,7 +220,7 @@ class _CheckoutState extends State<Checkout> {
           color: Color(0xFF737373),
           height: size*0.75,
           child: Container(
-            child: AddDireccions(),
+            child: ruta,
             decoration: BoxDecoration(
               color: Theme.of(context).canvasColor,
               borderRadius: BorderRadius.only(

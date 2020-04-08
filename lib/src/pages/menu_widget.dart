@@ -9,6 +9,8 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:timugo/src/services/number_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io' show Platform;
+
+import 'Payment.dart';
 //import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 
@@ -125,6 +127,7 @@ class MenuWidget extends StatelessWidget {
           //     }       
           //   ),
           // ),
+         
         ],
       ),
     );
