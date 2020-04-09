@@ -5,7 +5,7 @@ import 'package:timugo/src/models/services_model.dart';
 import 'package:timugo/src/pages/checkin_page.dart';
 import 'package:timugo/src/providers/user.dart';
 import 'package:timugo/src/services/number_provider.dart';
-
+import 'package:timugo/globlas.dart' as globals;
 class CardsServices extends StatelessWidget {
   const CardsServices({Key key}) : super(key: key);
 
@@ -42,7 +42,7 @@ class _Card extends StatelessWidget {
    
  final  ServicesModel prod;
   _Card(this.prod);
-   final url ='https://timugo.tk/';
+   final String  url = globals.url;
   
   @override
   Widget build(BuildContext context) {

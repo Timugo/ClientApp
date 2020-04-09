@@ -9,7 +9,7 @@ class Payment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  // final size = MediaQuery.of(context).size;
+  
      return Scaffold(
        backgroundColor: Colors.grey[100],
        

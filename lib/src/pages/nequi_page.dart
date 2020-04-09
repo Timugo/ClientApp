@@ -1,43 +1,150 @@
-//flutter dependencies
-
-
+// //flutter dependencies
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:timugo/src/pages/Payment.dart';
-//user dependencies
-import 'package:timugo/src/preferencesUser/preferencesUser.dart';
-import 'package:timugo/src/providers/user.dart';
-import 'package:provider/provider.dart';
-//pages 
+import 'package:timugo/src/services/number_provider.dart';
 
+
+// //pages 
 class NequiPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  State<StatefulWidget> createState() {
+    return _MyHomePageState();
+  }
 }
-
-class _LoginPageState extends State<NequiPage> {
+class _MyHomePageState extends State<NequiPage>
+    with SingleTickerProviderStateMixin {
+  int _tabIndex = 0;
+  TextEditingController cedulaController = new TextEditingController();
+  TextEditingController numeroController = new TextEditingController();
+  String token;
   final _formKey = GlobalKey<FormState>();
-  bool monVal = false;
-  int cont =0;
-  
-   
+
+  TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(vsync: this, length: 4);
+  }
+
+  void _toggleTab() {
+    _tabIndex = _tabController.index + 1;
+    _tabController.animateTo(_tabIndex);
+  }
 
   @override
   Widget build(BuildContext context) {
+   final size = MediaQuery.of(context).size;
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+      appBar: AppBar(
+         elevation: 0,
+        leading: new IconButton(
+          icon: new Icon(Icons.arrow_back, color: Colors.white,size: 35,),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+         flexibleSpace: Container(
+           decoration:BoxDecoration(
+                    gradient: LinearGradient(colors: [Color(0xFF19AEFF), Color(0xFF139DF7),Color(0xFF0A83EE),Color(0xFF0570E5),Color(0xFF0064E0)],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    )),
+                    
+                ),
+        bottom: TabBar(
+          
+          controller: _tabController,
+          tabs: [
+            Tab(text: 'Unicos'),
+            Tab(text: 'Automaticos'),
+            Tab(text: 'Agrega'),
+            Tab(text: 'Verifica'),
+          ],
+        ),        
+      ),
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+           Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                 Container(
+                  child:Image.network(
+                      'https://nequi-wp-colombia.s3.amazonaws.com/conecta/s3fs-public/api3.png',width: size.width,height: 300,
+                    )),
+                    Container(
+                     child: ListTile(
+                       title: Text('Pago con débito automático',style:TextStyle(fontSize: 25.0,color: Colors.black,fontWeight: FontWeight.w800)),
+                       subtitle:Text("Se te harán cobros automaticos desde tu cuenta Nequi subscrita a timugo, cada vez que realices un servicio,solo basta con acepar la subscripción.",
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontSize: 22.0,color: Colors.black,fontWeight: FontWeight.w100),
+                        maxLines: 4,
+                     ))
+
+                    ),
+                ButtonTheme(
+                  // make buttons use the appropriate styles for cards
+                  child: ButtonBar(
+                    children: <Widget>[
+                      FlatButton(
+                        child: const Text('Siguiente'),
+                        onPressed: _toggleTab,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+
+         
+      
+        Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Container(
+                  child:Image.network(
+                      'https://nequi-wp-colombia.s3.amazonaws.com/conecta/s3fs-public/debito_automatico_ext_0.png',width: size.width,height: 300,
+                    )),
+                     Container(
+                     child: ListTile(
+                       title: Text('Pagos únicos',style:TextStyle(fontSize: 25.0,color: Colors.black,fontWeight: FontWeight.w800)),
+                       subtitle:Text("Con pagos únicos de Nequi tienes que aceptar el pago cada vez que realices un servicio.",
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontSize: 22.0,color: Colors.black,fontWeight: FontWeight.w100),
+                        maxLines: 4,
+                     ))
+
+                    ),
+                 ButtonTheme(
+                  // make buttons use the appropriate styles for cards
+                  child: ButtonBar(
+                    children: <Widget>[
+                      FlatButton(
+                        child: const Text('Siguiente'),
+                        onPressed: _toggleTab,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+        
+        main(context),
+        _verification(context)
+         
+        ],
+      ),
+    ));
+  }
+
+
+
+  
+  Widget main(BuildContext context) {
     
     return Scaffold( 
-      backgroundColor: Colors.grey[100],
-       
-       appBar: AppBar(
-      
-         elevation: 0,
-         leading: new IconButton(
-               icon: new Icon(Icons.arrow_back, color: Colors.black,size: 35,),
-               onPressed: () => Navigator.of(context).pop(),
-         ),
-        backgroundColor: Colors.grey[100],
-       ),
       body:Stack(
         children: <Widget>[
           _loginForm(context),
@@ -51,17 +158,15 @@ class _LoginPageState extends State<NequiPage> {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-           Row(
+           Column(
              mainAxisAlignment: MainAxisAlignment.center,
              children: <Widget>[
-            
-            Text(
-              'Nequi',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
-              
-              ),
             Image( image:AssetImage('assets/images/Nequi.png'),width: 100,height: 100,),
-            
+            ListTile(
+            title:Text('Ahora debes agregar tu cuenta',textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.black,fontSize: 24,fontWeight: FontWeight.w700)),
+            subtitle: Text('Recuerda agregar un numero asociado a una cuenta Nequi*',textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.w200)),)
              ]),
           _numberLogin( context ),
             RaisedButton(
@@ -72,11 +177,7 @@ class _LoginPageState extends State<NequiPage> {
               color: Colors.green.shade300,
                 padding: EdgeInsets.all(0.0),
               
-              onPressed:(){
-
-
-
-              },
+              onPressed:()=> _subimit(),
               
               child: Ink(
                 decoration: BoxDecoration(
@@ -89,20 +190,22 @@ class _LoginPageState extends State<NequiPage> {
                 child:Container(
                     padding: EdgeInsets.fromLTRB(size.width*0.35, 20.0, size.width*0.35, 20.0),
                   child:Text(
-                'Agregar',textAlign: TextAlign.center,
+                'Agregar cuenta',textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.white),
               )
                 ),
               ),
       ),
+    
+      
         ],
       ),
     );
+  
   }
-
   Widget _numberLogin(BuildContext context){
-    final userInfo   = Provider.of<UserInfo>(context);
-    final size = MediaQuery.of(context).size;
+  
+    
     return Card(
       margin: EdgeInsets.all(30),
        shape: RoundedRectangleBorder(
@@ -116,21 +219,7 @@ class _LoginPageState extends State<NequiPage> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[   
-              MyTextFormField(
-                text: Icon(Icons.assignment_ind),
-                hintText: 'Documento de identificación',
-                keyboardType: TextInputType.number,
-                validator: (String value) {
-                  if ( value.isEmpty){
-                    return 'Digita un nombre';
-                  }
-                  return null;
-                },
-                onSaved: (String value) {
-                
-                },
-          
-              ),
+            
             MyTextFormField(
                       inputFormatters: <TextInputFormatter>[WhitelistingTextInputFormatter.digitsOnly],
                       text: Icon(Icons.phone),
@@ -142,71 +231,66 @@ class _LoginPageState extends State<NequiPage> {
                         }
                         return null;
                       },
-                      onSaved: (String value) {
-                      },
+                      controller: numeroController,
                     ),
-           
-            // CheckboxListTile(
-            //   controlAffinity: ListTileControlAffinity.leading,
-            //   title: InkWell(
-            //   child: new Text('Acepto terminos y condiciones',style: TextStyle(fontSize: 13,color: Colors.blue,decoration: TextDecoration.underline)),
-            //     onTap: ()  {  Navigator.push(context,
-            //                     MaterialPageRoute(
-            //                       builder: (context) => MyWebView()
-            //                     )
-            //                   );
-            //                 }
-            //   ),
-            //   value: monVal,
-            //   onChanged: (bool value) {
-            //     setState(() {
-            //       monVal = value;
-            //       cont+=1;
-            //       print(cont);
-                  
-            //     });
-            //   },
-            //   )
+
           ]
         )
     )
     )
     ;
   }
+  Widget _verification(BuildContext context){
+    final size = MediaQuery.of(context).size;
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+           Column(
+             mainAxisAlignment: MainAxisAlignment.center,
+             children: <Widget>[
+            Image( image:AssetImage('assets/images/Nequi.png'),width: 100,height: 100,),
+            ListTile(
+            title:Text('Ahora solo falta verificar tu cuenta',textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.black,fontSize: 24,fontWeight: FontWeight.w700)),
+            subtitle: Text('Recuerda que para pagos automaticos debes subscribirte*',textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.w200)),)
+             ]),
+        RaisedButton(
+          elevation: 5.0,
+          shape: new RoundedRectangleBorder(
+          borderRadius: new BorderRadius.circular(30.0),
+          ),
+          color: Colors.green.shade300,
+            padding: EdgeInsets.all(0.0),
+          
+          onPressed:()=> _subimit2(token),
+          
+          child: Ink(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [Color(0xFF19AEFF), Color(0xFF139DF7),Color(0xFF0A83EE),Color(0xFF0570E5),Color(0xFF0064E0)],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                ),
+                borderRadius: BorderRadius.circular(20.0)
+            ),
+            child:Container(
+                padding: EdgeInsets.fromLTRB(size.width*0.35, 20.0, size.width*0.35, 20.0),
+              child:Text(
+            'Verificar Cuenta',textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.white),
+          )
+            ),
+          ),
+  )]));
+
+  }
   
   // response 2: content "message" ->  "description"  "token"-> guardarlo model.
   // vista   donde  infrome que debe acepar la subscripcion  -> Boton para comprobar la sub.
   // botton llama a  getSubscription con numero de nequi y el token. -> response == 2  y  "message" ACCEPTED REJECTED PENDING  then  uimprimo -> content " descrption" -> saveNequiOcount
-   _subimit(context){
-    final userInfo   = Provider.of<UserInfo>(context);
-    final prefs = new PreferenciasUsuario();
-    
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
-      // var res= sendDataProvider.sendData();
-      
-      // res.then((response) async {
-      //   if (response['response'] == 2){
-      //     print( response['content']);
-      //     prefs.token=userInfo.phone.toString();
-      //     Navigator.push(
-      //       context,  
-      //       MaterialPageRoute(
-      //         builder: (context) => Services()
-      //       )
-      //     );
-
-      //   }else{
-      //     print( response['content']);
-      //     _showMessa();
-      //   }
-      // });
-    }                
-  }
-  
-    _showMessa2(){ // show the toast message in bell appbar
+   _showMessa(String mesg){ // show the toast message in bell appbar
     Fluttertoast.showToast(
-      msg: "Por favor seleciona un  elemento*",
+      msg: mesg,
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
       timeInSecForIos: 1,
@@ -216,9 +300,77 @@ class _LoginPageState extends State<NequiPage> {
     );
 
   }
-  
+   
+   _subimit(){
+    
 
+    final nequiPaymentAutomatic = NequiPaymentAutomatic();
+    
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+      var res= nequiPaymentAutomatic.nequiAutomatic(numeroController.text);
+      
+      res.then((response) async {
+        if (response['response'] == 2){
+          
+          if( response['content']['message'] == 'ACCEPTED'){
+            _showMessa( response['content']['description']);
+           
+           setState(() {
+              token= response['content']['token'];
+           });
+          // Navigator.push(
+          //   context,  
+          //   MaterialPageRoute(
+          //     builder: (context) => Services()
+          //   )
+          // );
+          }
+        }else{
+          print( response['content']);
+          
+        }
+      
+    });                
+  }
+  //  var resget= nequiPaymentAutomatic.getSubscription(numeroController.text,token);
+  //           resget.then((response) async {
+  //             if (response['response'] == 2){
+  //               if( response['content']['message'] == 'ACCEPTED'){
+  //                   _showMessa( response['content']['description']);
+  //               }
+  //             }
+  //           });
+    
+  
+  
 }
+ _subimit2(token){
+    
+
+    final nequiPaymentAutomatic = NequiPaymentAutomatic();
+    
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+      
+      
+      
+   var resget= nequiPaymentAutomatic.getSubscription(numeroController.text,token);
+    resget.then((response) async {
+      if (response['response'] == 2){
+        if( response['content']['message'] == 'ACCEPTED'){
+            _showMessa( response['content']['description']);
+        }else{
+             _showMessa( response['content']['description']);
+        }
+      }
+    });
+
+  
+  
+}
+}
+    }
 
 class MyTextFormField extends StatelessWidget {
   final Icon text;
@@ -228,6 +380,7 @@ class MyTextFormField extends StatelessWidget {
   final List inputFormatters;
   final bool isEmail;
   final TextInputType keyboardType;
+  final TextEditingController controller;
 
   MyTextFormField({
     this.text,
@@ -236,7 +389,8 @@ class MyTextFormField extends StatelessWidget {
     this.onSaved,
     this.inputFormatters,
     this.isEmail = false,
-    this.keyboardType
+    this.keyboardType,
+    this.controller
   });
 
   @override
@@ -266,7 +420,8 @@ class MyTextFormField extends StatelessWidget {
       validator: validator,
       onSaved: onSaved,
       inputFormatters: inputFormatters,
-      keyboardType:keyboardType
+      keyboardType:keyboardType,
+      controller:controller ,
       ),
     );
   }

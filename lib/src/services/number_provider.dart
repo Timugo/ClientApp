@@ -525,4 +525,77 @@ class SendCreditCard{
   }
 }
 
+class NequiPaymentAutomatic{
+  final    String urlnew = urlBase+'payment/nequi/newSubscription';
+  final    String urlget = urlBase+'payment/nequi/getSubscription';
+  final    String urladd = urlBase+'payment/nequi/addNequiAccount';
+  final prefs =  PreferenciasUsuario();
+   Future <Map<String,dynamic>>  nequiAutomatic(String numero) async{
+       Map<String, String> headers = {"Content-Type": "application/json"};
+       var data = {
+          "phoneNumber": numero,
+        
+        };
+    final encodedData = json.encode(data);
+
+  // make POST request
+      http.Response response = await http.post(urlnew, headers: headers, body: encodedData);
+      final decodeData = jsonDecode(response.body);
+     
+   return decodeData;
+  }
+
+  Future <Map<String,dynamic>>  getSubscription(String numero, String token) async{
+       Map<String, String> headers = {"Content-Type": "application/json"};
+       var data = {
+          "phoneNumber": numero,
+          "token":token
+        
+        };
+    final encodedData = json.encode(data);
+
+  // make POST request
+      http.Response response = await http.post(urlget, headers: headers, body: encodedData);
+      final decodeData = jsonDecode(response.body);
+     
+   return decodeData;
+  }
+
+   Future <Map<String,dynamic>>  addNequiAcount(String numero, String token) async{
+       Map<String, String> headers = {"Content-Type": "application/json"};
+       var data = {
+          "phoneUser": prefs.token,
+          "phoneNequi": numero,
+          "token":token
+        
+        };
+    final encodedData = json.encode(data);
+
+  // make POST request
+      http.Response response = await http.post(urladd, headers: headers, body: encodedData);
+      final decodeData = jsonDecode(response.body);
+     
+   return decodeData;
+  }
+   Future <Map<String,dynamic>>  addNequiAcountUnique(String numero) async{
+       Map<String, String> headers = {"Content-Type": "application/json"};
+       var data = {
+          "phoneUser": prefs.token,
+          "phoneNequi": numero,
+         
+        
+        };
+    final encodedData = json.encode(data);
+
+  // make POST request
+      http.Response response = await http.post(urladd, headers: headers, body: encodedData);
+      final decodeData = jsonDecode(response.body);
+     
+   return decodeData;
+  }
+}
+
+
+
+
 // CreateTempoarlOrder type -> campo extra CASH NEQUI CARD PSE

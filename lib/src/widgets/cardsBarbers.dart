@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:timugo/src/models/barbers_model.dart';
 import 'package:timugo/src/services/number_provider.dart';
-
+import 'package:timugo/globlas.dart' as globals;
 
 import 'description.dart';
 //import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -37,7 +37,8 @@ class CardsBarbers extends StatelessWidget {
 
 class _Card extends StatelessWidget {
   final  BarbersModel prod;
-  final url ='https://timugo.tk/';
+  final String  url = globals.url;
+ 
   _Card(this.prod);
   @override
   Widget build(BuildContext context) {
