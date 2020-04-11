@@ -1,259 +1,263 @@
-import 'package:awesome_card/extra/helper.dart';
 import 'package:flutter/material.dart';
-import 'package:awesome_card/awesome_card.dart';
+import 'package:flutter_credit_card/flutter_credit_card.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:timugo/src/pages/Payment.dart';
 import 'package:timugo/src/services/number_provider.dart';
-
-
+import 'package:credit_card_type_detector/credit_card_type_detector.dart';
 
 class CreditCardH extends StatefulWidget {
- 
-
   @override
-  _CreditState createState() => _CreditState();
+  State<StatefulWidget> createState() {
+    return MySampleState();
+  }
 }
 
-class _CreditState extends State<CreditCardH> {
-  String cardNumber = "";
-  String cardHolderName = "Titular";
-  String name ='';
-  String mm;
-  String yy='';
-  String lastname ='';
-  String expiryDate = "";
-  String cvv = "";
-  bool showBack = false;
-
-
-  FocusNode _focusNode;
-
-  @override
-  void initState() {
-    super.initState();
-    _focusNode = new FocusNode();
-    _focusNode.addListener(() {
-      setState(() {
-        _focusNode.hasFocus ? showBack = true : showBack = false;
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    _focusNode.dispose();
-    super.dispose();
-  }
-
+class MySampleState extends State<CreditCardH> {
+  String cardNumber = '';
+  String expiryDate = '';
+  String cardHolderName = 'Titular';
+  String name;
+  String lastName;
+  String cvvCode = '';
+  bool isCvvFocused = false;
+  String type;
   @override
   Widget build(BuildContext context) {
-        final size = MediaQuery.of(context).size;
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Agregar tarjeta',style: TextStyle(color:Colors.black),),
+    final size = MediaQuery.of(context).size;
+  
+    return MaterialApp(
+      
+    
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+         appBar: AppBar(
+      
          elevation: 0,
          leading: new IconButton(
                icon: new Icon(Icons.arrow_back, color: Colors.black,size: 35,),
-               onPressed:() => Navigator.of(context).pop(),
+               onPressed: () => Navigator.of(context).pop(),
          ),
-        backgroundColor: Colors.white10,
+        backgroundColor: Colors.white12,
        ),
-      
-      body: 
-        SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          
-        child:Stack(
-        children:<Widget>[
-           Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            SizedBox(
-              height: 40,
-            ),
-            CreditCard(
-              cardNumber: cardNumber,
-              cardExpiry: expiryDate,
-              cardHolderName: name+lastname,
-              cvv: cvv,
-              bankName: "Banco",
-              showBackSide: showBack,
-              frontBackground: CardBackgrounds.black,
-              backBackground: CardBackgrounds.white,
-              showShadow: true,
-              cardType: getCardType(cardNumber),
-            ),
-            SizedBox(
-              height: 40,
-            ),
-
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.symmetric(
-                    horizontal: 20,
-                  ),
-                  child: TextFormField(
-                     keyboardType:TextInputType.number ,
-                    decoration: InputDecoration(hintText: "Número de tarjeta"),
-                    maxLength: 19,
-                    onChanged: (value) {
-                      setState(() {
-                        cardNumber = value;
-                      });
-                    },
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.only(left:15,right: 15),
-                  child:Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly ,
-                  children: <Widget>[
-                    Container(
-                      width: 100,
-                       child:TextFormField(
-                         
-                     keyboardType:TextInputType.number ,
-                    decoration: InputDecoration(hintText: "Mes Exp."),
-                    maxLength: 2,
-                    onChanged: (value) {
-                      setState(() {
-                        mm = value;
-                      });
-                    },
-                  )
-                    ),
-                  Container(
-                      width: 100,
-                       child:TextFormField(
-                         
-                     keyboardType:TextInputType.number ,
-                    decoration: InputDecoration(hintText: "Año Exp."),
-                    maxLength: 2,
-                    onChanged: (value) {
-                      setState(() {
-                        yy = value;
-                      });
-                    },
-                  )
-                    ),
-
-
-                  ]
-                )
-                ),
-                // Expanded(
-                 
-                //   child:Row(
-                //     children: <Widget>[ 
-                //     TextFormField(
-                //      keyboardType:TextInputType.number ,
-                //     decoration: InputDecoration(hintText: "Fecha de expiración"),
-                //     maxLength: 4,
-                //     onChanged: (value) {
-                //       setState(() {
-                //         expiryDate = value;
-                //       });
-                //     },
-                //   ),
-                //   TextFormField(
-                //      keyboardType:TextInputType.number ,
-                //     decoration: InputDecoration(hintText: "Fecha de expiración"),
-                //     maxLength: 4,
-                //     onChanged: (value) {
-                //       setState(() {
-                //         expiryDate = value;
-                //       });
-                //     },
-                //   )
-                //   ]),
-                // ),
-                Container(
-                  margin: EdgeInsets.symmetric(
-                    horizontal: 20,
-                  ),
-                  child: TextFormField(
-                    decoration: InputDecoration(hintText: "Nombre titular"),
-                    onChanged: (value) {
-                      setState(() {
-                        name = value;
-                      });
-                    },
-                  ),
-                ),
-                 Container(
-                  margin: EdgeInsets.symmetric(
-                    horizontal: 20,
-                  ),
-                  child: TextFormField(
-                    decoration: InputDecoration(hintText: "Apellido itular"),
-                    onChanged: (value) {
-                      setState(() {
-                        lastname = value;
-                      });
-                    },
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 25),
-                  child: TextFormField(
-                     keyboardType:TextInputType.number ,
-                    decoration: InputDecoration(hintText: "CVV"),
-                    maxLength: 3,
-                    onChanged: (value) {
-                      setState(() {
-                        cvv = value;
-                      });
-                    },
-                    focusNode: _focusNode,
-                  ),
-                ),
+        resizeToAvoidBottomInset: true,
+        body: SafeArea(
+          child:Container(
+            child: Column(
+            children: <Widget>[
+              Text('Añadir tarjeta ',style: TextStyle(fontSize: 28,fontWeight: FontWeight.w800),),
+              SizedBox(height:20),
+              CreditCardWidget(
                 
-                
-              ],
-            )
-          ],
+                cardNumber: cardNumber,
+                expiryDate: expiryDate,
+                cardHolderName: cardHolderName,
+                cvvCode: cvvCode,
+                showBackView: isCvvFocused,
+                cardBgColor:Colors.lightBlueAccent[700] ,
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(children: <Widget>[
+                     Column(
+                        children: <Widget>[
+                           MyTextFormField(
+                              hintText: "Numero de tarjeta",
+                              
+                              onChanged: (value) {
+                                setState(() {
+                                  cardNumber = value;
+                                  type = (detectCCType(cardNumber)).toString();
+                                  
+                                });
+                              },
+                              keyboardType: TextInputType.number,
+                            ),
+                          MyTextFormField(
+                             hintText: "Expiración tarjeta",
+                              len: 4,
+                              onChanged: (value) {
+                                setState(() {
+                                  expiryDate = value;
+                                });
+                              },
+                              keyboardType: TextInputType.number,
+                            ),
+                           Container(
+                            child:Row(
+                              
+                              children: <Widget>[
+                              Flexible(
+                              child:MyTextFormField(
+                              hintText: "Nombre ",
+                              onChanged: (value) {
+                                setState(() {
+                                  name=value+'';
+                                 cardHolderName = name + lastName;
+                                  
+                                  isCvvFocused = false;
+                                });
+                              },
+                            )),
+                            Flexible(
+                              child:MyTextFormField(
+                              
+                              hintText: "Apellido",
+                              onChanged: (value) {
+                                setState(() {
+                                  lastName = value;
+                                  cardHolderName = name + lastName;
+                                  
+                                  isCvvFocused = false;
+                                });
+                              },
+                            )),
+
+
+                            ],)
+                          
+                  
+                            ),
+                            MyTextFormField(
+                              len: 3,
+                              hintText: 'CVV',
+                                onChanged: (value) {
+                                  setState(() {
+                                    cvvCode = value;
+                                    isCvvFocused = true;
+                                  });
+                                },
+                                keyboardType: TextInputType.number,
+                                
+                              ),
+                          
+                            
+                          
+                          
+                          ],
+                        ),
+                        ListTile(title: Text('Por seguridad te cobraremos un monto menor a 500 para verificar que tu tarjeta sea valida.',maxLines: 3,style: TextStyle(fontSize: 15),),leading: Icon(Icons.security,color: Colors.green,),),
+                     
+                        RaisedButton(
+                          elevation: 5.0,
+                          shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(30.0),
+                          ),
+                          color: Colors.green.shade300,
+                            padding: EdgeInsets.all(0.0),
+                          
+                          onPressed: _sendCard,
+                          
+                          child: Ink(
+                            decoration: BoxDecoration(
+                                gradient: LinearGradient(colors: [Color(0xFF19AEFF), Color(0xFF139DF7),Color(0xFF0A83EE),Color(0xFF0570E5),Color(0xFF0064E0)],
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                ),
+                                borderRadius: BorderRadius.circular(20.0)
+                            ),
+                            child:Container(
+                                padding: EdgeInsets.fromLTRB(size.width*0.35, 20.0, size.width*0.35, 20.0),
+                              child:Text(
+                            'Añadir tarjeta',textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.white),
+                                            )
+                                  ),
+                          ),
+                      ),
+                    ],
+                  )
+                ),
+              )
+            ],
+          ),
+         )
         ),
-        Container(
-            alignment: Alignment.bottomCenter,
-            padding: EdgeInsets.only(bottom: size.height*0.04,top: size.height*0.8),
-            child: RaisedButton(                                   
-              elevation: 5.0,
-              shape: new RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(10.0),
-                side: BorderSide(color: Colors.green)
-              ),
-              color: Colors.green.shade500,
-              padding: EdgeInsets.fromLTRB(size.width*0.4, size.height*0.020, size.width*0.4, size.height*0.020),
-              onPressed: (){
-              _sendCard(getCardType(cardNumber).toString());
-
-               
-              } ,
-              child: Text('Guardar',textAlign: TextAlign.center, style: TextStyle(color: Colors.white, ),
-              ),
-            ),
-         )  //  c
-        ]
-        
       ),
-       
-        
-      )
     );
   }
-_sendCard(String franchise){
+ _showMessa(String mesg){ // show the toast message in bell appbar
+    Fluttertoast.showToast(
+      msg: mesg,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIos: 1,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 14.0
+    );
+
+  }
+
+       
+  
+_sendCard(){
  final sendCreditCard = SendCreditCard();
- var res = sendCreditCard.sendCard( name, lastname, int.parse((expiryDate.substring(1,2))), int.parse((expiryDate.substring(3,4))),int.parse( cvv), franchise, int.parse(cardNumber));
+ var res = sendCreditCard.sendCard( name, lastName, int.parse((expiryDate.substring(0,2))), int.parse((expiryDate.substring(3,4))),int.parse( cvvCode), type, int.parse(cardNumber));
  res.then((response) async {
    if (response['response'] == 2){
-    
-  }
+           _showMessa('Se ha agregado exitosamente tu cuenta');
+           Navigator.push(
+                  context,MaterialPageRoute(
+                  builder: (context) => Payment()));
+        }
        
           });
 }
+}
+class MyTextFormField extends StatelessWidget {
+  final Icon text;
+  final String hintText;
+  final Function validator;
+  final Function onChanged;
+  final List inputFormatters;
+  final bool isEmail;
+  final TextInputType keyboardType;
+  final TextEditingController controller;
+  final int len;
 
+  MyTextFormField({
+    this.text,
+    this.hintText,
+    this.validator,
+    this.onChanged,
+    this.inputFormatters,
+    this.isEmail = false,
+    this.keyboardType,
+    this.controller,
+    this.len
+  });
 
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    return Padding(
+      padding: EdgeInsets.only(left:size.width*0.1,right: size.width*0.1,bottom:10,top: size.width*0.05),
+      child: TextFormField(
+      decoration: InputDecoration(
+              hintText: hintText,
+              filled: true,
+              fillColor: Colors.white,
+              contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+              prefixIcon:text,
+              enabledBorder: const OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.blue, width: 0.0),
+                    borderRadius: const BorderRadius.all(
+                        const Radius.circular(10.0),
+                      ),
+              ),
+              border: new OutlineInputBorder(
+                    borderRadius: const BorderRadius.all(
+                          const Radius.circular(10.0),
+                    ),
+              )
+      ),
+      validator: validator,
+      onChanged: onChanged,
+      inputFormatters: inputFormatters,
+      keyboardType:keyboardType,
+      controller:controller ,
+      maxLength: len,
+      ),
+    );
+  }
 }
