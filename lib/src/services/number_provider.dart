@@ -528,7 +528,7 @@ class SendCreditCard{
 class NequiPaymentAutomatic{
   final    String urlnew = urlBase+'payment/nequi/newSubscription';
   final    String urlget = urlBase+'payment/nequi/getSubscription';
-  final    String urladd = urlBase+'payment/nequi/addNequiAccount';
+  final    String urladd = urlBase+'addNequiAccount';
   final prefs =  PreferenciasUsuario();
    Future <Map<String,dynamic>>  nequiAutomatic(String numero) async{
        Map<String, String> headers = {"Content-Type": "application/json"};
@@ -582,7 +582,6 @@ class NequiPaymentAutomatic{
        var data = {
           "phoneUser": prefs.token,
           "phoneNequi": numero,
-         
         
         };
     final encodedData = json.encode(data);
@@ -592,6 +591,27 @@ class NequiPaymentAutomatic{
       final decodeData = jsonDecode(response.body);
      
    return decodeData;
+  }
+}
+class GetUserPayments{
+
+  final    String url = urlBase+'getPaymentCards';
+  final prefs =  PreferenciasUsuario();
+  List<Directions> _services = new List();
+
+  Future <List<Directions>>  getAddresses() async{
+    var _urlcode = url+'?phoneUser='+prefs.token;
+    http.Response response = await http.get(_urlcode);
+    final decodeData = json.decode(response.body) ;
+
+     var list = decodeData['content'] as List;
+  
+   _services =list.map((i)=>Directions.fromJson(i)).toList();
+    
+
+    return _services;
+
+   
   }
 }
 
