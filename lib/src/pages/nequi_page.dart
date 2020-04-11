@@ -1,8 +1,10 @@
 // //flutter dependencies
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:timugo/src/services/number_provider.dart';
+import 'Payment.dart';
 
 
 // //pages 
@@ -18,6 +20,9 @@ class _MyHomePageState extends State<NequiPage>
   TextEditingController cedulaController = new TextEditingController();
   TextEditingController numeroController = new TextEditingController();
   String token;
+  bool uniquePay = false;
+  bool automaticPay = false;
+  bool loading = true;
   final _formKey = GlobalKey<FormState>();
 
   TabController _tabController;
@@ -25,12 +30,27 @@ class _MyHomePageState extends State<NequiPage>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(vsync: this, length: 4);
+    _tabController = TabController(vsync: this, length: 3);
   }
 
   void _toggleTab() {
     _tabIndex = _tabController.index + 1;
     _tabController.animateTo(_tabIndex);
+  }
+  void _backTab() {
+    if(_tabIndex == 0){
+      Navigator.of(context).pop();
+    }else{
+      if(_tabIndex == 1){
+        setState(() {
+           automaticPay = false;
+           uniquePay= false;
+        });
+      }
+      _tabIndex = _tabController.index - 1;
+    _tabController.animateTo(_tabIndex);
+    }
+  
   }
 
   @override
@@ -40,98 +60,97 @@ class _MyHomePageState extends State<NequiPage>
       debugShowCheckedModeBanner: false,
       home: Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white12,
          elevation: 0,
         leading: new IconButton(
-          icon: new Icon(Icons.arrow_back, color: Colors.white,size: 35,),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-         flexibleSpace: Container(
-           decoration:BoxDecoration(
-                    gradient: LinearGradient(colors: [Color(0xFF19AEFF), Color(0xFF139DF7),Color(0xFF0A83EE),Color(0xFF0570E5),Color(0xFF0064E0)],
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                    )),
-                    
-                ),
-        bottom: TabBar(
-          
-          controller: _tabController,
-          tabs: [
-            Tab(text: 'Unicos'),
-            Tab(text: 'Automaticos'),
-            Tab(text: 'Agrega'),
-            Tab(text: 'Verifica'),
-          ],
-        ),        
+          icon: new Icon(Icons.arrow_back, color: Colors.black,size: 35,),
+          onPressed: _backTab,
+        ), 
+        
       ),
       body: TabBarView(
+        physics: NeverScrollableScrollPhysics(),
         controller: _tabController,
         children: [
            Column(
+             
+             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
+                ListTile(
+             title:Text('Elige un metodo de pago',style: TextStyle(color: Colors.black,fontSize: 24,fontWeight: FontWeight.w700)),
+            leading: Image( image:AssetImage('assets/images/Nequi.png')),
+          
+           ),
+                GestureDetector(
+                  onTap: (){
+                    setState(() {
+                      automaticPay = true;
+                    });
+                     _toggleTab();},
+                child:Card(
+                  elevation: 5,
+                  shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                 ),
+                  margin:EdgeInsets.only(left:40,right:40,top:5),
+                  child: Column(
+                      children: <Widget>[
                  Container(
                   child:Image.network(
-                      'https://nequi-wp-colombia.s3.amazonaws.com/conecta/s3fs-public/api3.png',width: size.width,height: 300,
+                      'https://nequi-wp-colombia.s3.amazonaws.com/conecta/s3fs-public/api3.png',width: size.width,height: size.height*0.25,
                     )),
                     Container(
                      child: ListTile(
-                       title: Text('Pago con débito automático',style:TextStyle(fontSize: 25.0,color: Colors.black,fontWeight: FontWeight.w800)),
+                       title: Text('Pago con débito automático',style:TextStyle(fontSize: 18.0,color: Colors.black,fontWeight: FontWeight.w800)),
                        subtitle:Text("Se te harán cobros automaticos desde tu cuenta Nequi subscrita a timugo, cada vez que realices un servicio,solo basta con acepar la subscripción.",
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontSize: 22.0,color: Colors.black,fontWeight: FontWeight.w100),
+                        style: TextStyle(fontSize: 15.0,color: Colors.black,fontWeight: FontWeight.w300),
+                        maxLines: 4,
+                     ))
+
+                   )
+                      ]),
+                )),
+                 GestureDetector(
+                   onTap: (){
+                    setState(() {
+                      uniquePay = true;
+                    });
+                     _toggleTab();},
+                child:Card(
+                   margin:EdgeInsets.only(left:40,right:40,top:5),
+                    elevation: 5,
+                  shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                 ),
+                  child: Column(
+                      children: <Widget>[
+                Container(
+                  child:Image.network(
+                      'https://nequi-wp-colombia.s3.amazonaws.com/conecta/s3fs-public/debito_automatico_ext_0.png',width: size.width,height: size.height*0.25,
+                    )),
+                     Container(
+                     child: ListTile(
+                       title: Text('Pagos únicos',style:TextStyle(fontSize: 18.0,color: Colors.black,fontWeight: FontWeight.w800)),
+                       subtitle:Text("Con pagos únicos de Nequi tienes que aceptar el pago cada vez que realices un servicio.",
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontSize: 15.0,color: Colors.black,fontWeight: FontWeight.w300),
                         maxLines: 4,
                      ))
 
                     ),
-                ButtonTheme(
-                  // make buttons use the appropriate styles for cards
-                  child: ButtonBar(
-                    children: <Widget>[
-                      FlatButton(
-                        child: const Text('Siguiente'),
-                        onPressed: _toggleTab,
-                      ),
-                    ],
-                  ),
-                ),
+                      ]),
+                )
+                 )
+               
               ],
             ),
 
          
       
-        Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Container(
-                  child:Image.network(
-                      'https://nequi-wp-colombia.s3.amazonaws.com/conecta/s3fs-public/debito_automatico_ext_0.png',width: size.width,height: 300,
-                    )),
-                     Container(
-                     child: ListTile(
-                       title: Text('Pagos únicos',style:TextStyle(fontSize: 25.0,color: Colors.black,fontWeight: FontWeight.w800)),
-                       subtitle:Text("Con pagos únicos de Nequi tienes que aceptar el pago cada vez que realices un servicio.",
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontSize: 22.0,color: Colors.black,fontWeight: FontWeight.w100),
-                        maxLines: 4,
-                     ))
-
-                    ),
-                 ButtonTheme(
-                  // make buttons use the appropriate styles for cards
-                  child: ButtonBar(
-                    children: <Widget>[
-                      FlatButton(
-                        child: const Text('Siguiente'),
-                        onPressed: _toggleTab,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-        
-        main(context),
+       
+         main(context),
         _verification(context)
          
         ],
@@ -284,6 +303,13 @@ class _MyHomePageState extends State<NequiPage>
   )]));
 
   }
+  Widget _loading(BuildContext context){
+    return SpinKitRing(
+    color: Colors.black12,
+    );
+    
+
+  }
   
   // response 2: content "message" ->  "description"  "token"-> guardarlo model.
   // vista   donde  infrome que debe acepar la subscripcion  -> Boton para comprobar la sub.
@@ -303,35 +329,43 @@ class _MyHomePageState extends State<NequiPage>
    
    _subimit(){
     
-
     final nequiPaymentAutomatic = NequiPaymentAutomatic();
-    
     if (_formKey.currentState.validate()) {
+      if(automaticPay == true){
       _formKey.currentState.save();
       var res= nequiPaymentAutomatic.nequiAutomatic(numeroController.text);
-      
-      res.then((response) async {
-        if (response['response'] == 2){
-          
+      res.then((response)  async{
+       
+        if (response['response'] == 2) {
           if( response['content']['message'] == 'ACCEPTED'){
             _showMessa( response['content']['description']);
-           
            setState(() {
               token= response['content']['token'];
            });
-          // Navigator.push(
-          //   context,  
-          //   MaterialPageRoute(
-          //     builder: (context) => Services()
-          //   )
-          // );
+          _toggleTab();
+          //  setState(() {
+          //   loading= false;
+             
+          //   });
           }
-        }else{
-          print( response['content']);
-          
         }
-      
-    });                
+    }
+    );
+    }if(uniquePay == true){
+      _formKey.currentState.save();
+      var res= nequiPaymentAutomatic.addNequiAcountUnique(numeroController.text);
+      res.then((response) async {
+        if (response['response'] == 2){
+           _showMessa('Se ha agregado exitosamente tu cuenta');
+           Navigator.push(
+                  context,MaterialPageRoute(
+                  builder: (context) => Payment()));
+        }else{
+            _showMessa('Algo ha sucecido,intenta de nuevo');
+        }
+    });
+
+    }              
   }
   //  var resget= nequiPaymentAutomatic.getSubscription(numeroController.text,token);
   //           resget.then((response) async {
@@ -350,25 +384,16 @@ class _MyHomePageState extends State<NequiPage>
 
     final nequiPaymentAutomatic = NequiPaymentAutomatic();
     
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
-      
-      
-      
-   var resget= nequiPaymentAutomatic.getSubscription(numeroController.text,token);
-    resget.then((response) async {
-      if (response['response'] == 2){
-        if( response['content']['message'] == 'ACCEPTED'){
-            _showMessa( response['content']['description']);
+   var res= nequiPaymentAutomatic.addNequiAcount(numeroController.text,token);
+      res.then((response) async {
+        if (response['response'] == 2){
+           _showMessa('Se ha agregado exitosamente tu cuenta');
+           Navigator.push(
+                  context,MaterialPageRoute(
+                  builder: (context) => Payment()));
         }else{
              _showMessa( response['content']['description']);
-        }
-      }
-    });
-
-  
-  
-}
+        }});
 }
     }
 
