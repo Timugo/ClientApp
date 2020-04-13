@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:timugo/src/models/aditional_model.dart';
 import 'package:timugo/src/models/barbers_model.dart';
 import 'package:timugo/src/models/directions_model.dart';
+import 'package:timugo/src/models/pseInstitu_model.dart';
 import 'package:timugo/src/models/publicity_model.dart';
 import 'package:timugo/src/models/services_model.dart';
 import 'package:timugo/src/models/temporalOrder_model.dart';
@@ -616,6 +617,107 @@ class GetUserPayments{
 }
 
 
+class WompiPaymentBancolombia{
+  final    String urlTrans = urlBase+'payment/Wompi/transaction';
+  final    String urlCheck = urlBase+'payment/Wompi/transactionStatus';
+
+  final prefs =  PreferenciasUsuario();
+   Future <Map<String,dynamic>>  paymentBancolombia(String numero) async{
+       Map<String, String> headers = {"Content-Type": "application/json"};
+       var data = {
+          "phoneNumber": numero,
+        
+        };
+    final encodedData = json.encode(data);
+
+  // make POST request
+      http.Response response = await http.post(urlTrans, headers: headers, body: encodedData);
+      final decodeData = jsonDecode(response.body);
+     
+   return decodeData;
+  }
+
+  Future <Map<String,dynamic>>  checkBancolombia(String numero, String token) async{
+       Map<String, String> headers = {"Content-Type": "application/json"};
+       var data = {
+          "phoneNumber": numero,
+          "token":token
+        
+        };
+    final encodedData = json.encode(data);
+
+  // make POST request
+      http.Response response = await http.post(urlCheck, headers: headers, body: encodedData);
+      final decodeData = jsonDecode(response.body);
+     
+   return decodeData;
+  }
+
+}
+class WompiPaymentPSE{
+  final    String urlTrans = urlBase+'payment/Wompi/transaction';
+  final    String urlCheck = urlBase+'payment/Wompi/transactionStatus';
+
+  final prefs =  PreferenciasUsuario();
+   Future <Map<String,dynamic>>  paymentPSE(String idType,String idNumber,String institutionCode,String paymentDescription,String value,String email) async{
+       Map<String, String> headers = {"Content-Type": "application/json"};
+       var data = {
+          
+        
+        };
+    final encodedData = json.encode(data);
+
+  // make POST request
+      http.Response response = await http.post(urlTrans, headers: headers, body: encodedData);
+      final decodeData = jsonDecode(response.body);
+     
+   return decodeData;
+  }
+
+  Future <Map<String,dynamic>>  checkPSE(String transactionID) async{
+       Map<String, String> headers = {"Content-Type": "application/json"};
+       var data = {
+          "transactionID": transactionID,
+          
+        
+        };
+    final encodedData = json.encode(data);
+
+  // make POST request
+      http.Response response = await http.post(urlCheck, headers: headers, body: encodedData);
+      final decodeData = jsonDecode(response.body);
+     
+   return decodeData;
+  }
+
+}
+class GetPseInst{
+
+  final    String url = urlBase+'payment/Wompi/pse/institutions';
+  final prefs =  PreferenciasUsuario();
+  List<InstituPse> _services = new List();
+
+  Future <List<InstituPse>>  getInstiPse() async{
+
+    http.Response response = await http.get(url);
+    final decodeData = json.decode(response.body) ;
+
+     var list = decodeData['institutions'] as List;
+     
+     
+  
+   _services =list.map((i)=>InstituPse.fromJson(i)).toList();
+    
+    
+    return _services;
+
+   
+  }
+}
 
 
-// CreateTempoarlOrder type -> campo extra CASH NEQUI CARD PSE
+
+// form   documento (cc,NIT)   cedula  ()  institucion code (list) tipo persona persona ( 0 natural , 1 juridico) se enviara un comprobante de pago a este  correo;
+
+
+// userPhone ""  last4Numbers '4 digitos' frachise
