@@ -62,7 +62,6 @@ class MySampleState extends State<CreditCardH> {
                         children: <Widget>[
                            MyTextFormField(
                               hintText: "Numero de tarjeta",
-                              
                               onChanged: (value) {
                                 setState(() {
                                   cardNumber = value;
