@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:timugo/src/pages/nequi_page.dart';
+import 'package:timugo/src/pages/pse_page.dart';
 import 'package:timugo/src/widgets/creditCard.dart';
 
 class Payment extends StatelessWidget {
@@ -121,13 +122,13 @@ class Payment extends StatelessWidget {
             ), 
           ),
            child: ListTile(
-             title:Text('PSE '),
+             title:Text('PSE'),
             leading: Image( image:AssetImage('assets/images/BotonPSE.png'),width: 55,),
             trailing: Icon(FontAwesomeIcons.arrowRight,color: Colors.black,) ,
             onTap: (){
                Navigator.push(
                   context,MaterialPageRoute(
-                  builder: (context) => CreditCardH()));
+                  builder: (context) => PSEpayment()));
 
             },
            ),
