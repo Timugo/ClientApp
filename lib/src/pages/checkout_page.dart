@@ -72,13 +72,14 @@ class _CheckoutState extends State<Checkout> {
                   trailing: RaisedButton.icon(
                     
                     icon: Icon(Icons.keyboard_arrow_down),
-                    onPressed: (){ Navigator.push(
-                        context,  
-                          MaterialPageRoute(
-                            builder: (context) => Payment()
-                          ));
+                    onPressed: (){},
+                   // { Navigator.push(
+                    //     context,  
+                    //       MaterialPageRoute(
+                    //         builder: (context) => Payment()
+                    //       ));
 
-                    },
+                    // },
                     color: Colors.white,
                     label: Text('Cambiar',style: TextStyle(fontSize: 15)),
                   ),
