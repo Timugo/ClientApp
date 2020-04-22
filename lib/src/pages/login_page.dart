@@ -79,10 +79,11 @@ class _LoginPageState extends State<LoginPage> {
                 new Container(
                   child:new Flexible(
                     child:CountryCodePicker(
+                      countryFilter: ['CO'],
                       onChanged: print,
                       initialSelection: 'CO',
                       favorite: ['+57','CO'],
-                      showCountryOnly: false,
+                      showCountryOnly: true,
                       showOnlyCountryWhenClosed: false,
                       alignLeft: false,
                     ),

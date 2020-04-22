@@ -20,7 +20,7 @@ class MySampleState extends State<CreditCardH> {
   String lastName;
   String cvvCode = '';
   bool isCvvFocused = false;
-  String type;
+  var type;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -65,7 +65,7 @@ class MySampleState extends State<CreditCardH> {
                               onChanged: (value) {
                                 setState(() {
                                   cardNumber = value;
-                                  type = (detectCCType(cardNumber)).toString();
+                                  type = detectCCType(cardNumber);
                                   
                                 });
                               },
@@ -190,6 +190,8 @@ class MySampleState extends State<CreditCardH> {
        
   
 _sendCard(){
+
+
  final sendCreditCard = SendCreditCard();
  var res = sendCreditCard.sendCard( name, lastName, int.parse((expiryDate.substring(0,2))), int.parse((expiryDate.substring(3,4))),int.parse( cvvCode), type, int.parse(cardNumber));
  res.then((response) async {
