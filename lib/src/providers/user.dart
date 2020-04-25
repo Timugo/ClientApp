@@ -13,6 +13,7 @@ class UserInfo with ChangeNotifier {
   String _city='Cali';
   String _publi ='null';
   Position _loca;
+  String _payment='Efectivo';
 
   get phone {
     return _phone;
@@ -44,6 +45,13 @@ class UserInfo with ChangeNotifier {
   }
   get loca {
     return _loca;
+  }
+   get payment {
+    return _payment;
+  }
+    set payment(String nombre){
+     this._payment = nombre;
+    notifyListeners();
   }
     set loca(Position nombre){
      this._loca = nombre;

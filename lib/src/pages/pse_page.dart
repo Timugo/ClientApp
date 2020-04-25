@@ -68,11 +68,9 @@ class _LoginPageState extends State<PSEpayment> {
       typeController.text = _identValue.code;
     });
   }
-   
-
   @override
   Widget build(BuildContext context) {
-    
+
     return Scaffold( 
       body:Stack(
         children: <Widget>[
@@ -87,21 +85,18 @@ class _LoginPageState extends State<PSEpayment> {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-
-        
-            SizedBox(height: size.height*0.1),
-            Container(),
-                SizedBox(height: 10),
-                SizedBox(height: 8),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Text(
-                    'Ingresa tus datos',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                _numberLogin( context )
+          SizedBox(height: size.height*0.1),
+          Container(),
+          SizedBox(height: 10),
+          SizedBox(height: 8),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Text('Ingresa tus datos',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          _numberLogin( context )
         ],
       ),
     );
@@ -187,34 +182,31 @@ class _LoginPageState extends State<PSEpayment> {
                 },
           
               )),
-           Card( 
-             child:ListTile(
-                 contentPadding: EdgeInsets.only(left:50,right:50),
-                leading: Icon(FontAwesomeIcons.university),
-                title: Text('Banco'),
-                trailing: DropdownButton<InstituPse>(
-              value: _pseValue,
-              isDense: true,
-              onChanged: (InstituPse newValue) {
-                print('value change');
-                print(newValue);
-                setState(() {
-                  _pseValue = newValue;
-                  instiController.text = _pseValue.code;
-                });
-              },
-              items: pseItems.map((InstituPse value) {
-                return DropdownMenuItem<InstituPse>(
-                  value: value,
-                  child: Text(value.name),
-                );
-              }).toList(), 
-              )
-
-              
-              
-      
-        )),
+              Card( 
+                child:ListTile(
+                    contentPadding: EdgeInsets.only(left:50,right:50),
+                    leading: Icon(FontAwesomeIcons.university),
+                    title: Text('Banco'),
+                    trailing: DropdownButton<InstituPse>(
+                  value: _pseValue,
+                  isDense: true,
+                  onChanged: (InstituPse newValue) {
+                    print('value change');
+                    print(newValue);
+                    setState(() {
+                      _pseValue = newValue;
+                      instiController.text = _pseValue.code;
+                    });
+                  },
+                  items: pseItems.map((InstituPse value) {
+                    return DropdownMenuItem<InstituPse>(
+                      value: value,
+                      child: Text(value.name),
+                    );
+                  }).toList(), 
+                  ) 
+                )
+              ),
            
             RaisedButton(
               elevation: 5.0,
@@ -235,9 +227,9 @@ class _LoginPageState extends State<PSEpayment> {
                     borderRadius: BorderRadius.circular(20.0)
                 ),
                 child:Container(
-                   padding: EdgeInsets.fromLTRB(size.width*0.35, 20.0, size.width*0.35, 20.0),
+                  padding: EdgeInsets.fromLTRB(size.width*0.35, 20.0, size.width*0.35, 20.0),
                   child:Text(
-                'Entrar',textAlign: TextAlign.center,
+                'Enviar',textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.white),
               )
                 ),
@@ -277,8 +269,8 @@ class _LoginPageState extends State<PSEpayment> {
               builder: (context) => Services()
             )
           );
-
-        }else{
+        }
+        else{
           print( response['content']);
           _showMessa();
         }
