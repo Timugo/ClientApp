@@ -3,7 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:timugo/src/models/aditional_model.dart';
 import 'package:timugo/src/models/barbers_model.dart';
+import 'package:timugo/src/models/card_model.dart';
 import 'package:timugo/src/models/directions_model.dart';
+import 'package:timugo/src/models/nequi_model.dart';
 import 'package:timugo/src/models/pseInstitu_model.dart';
 import 'package:timugo/src/models/publicity_model.dart';
 import 'package:timugo/src/models/services_model.dart';
@@ -254,6 +256,40 @@ class CreateOrderProvider{
    return decodeData;
   }
 }
+class CreateCheckOrderProvider{
+
+  final    String url = urlBase+'createTemporalOrder';
+   final prefs =  PreferenciasUsuario();
+   
+
+   Future <Map<String,dynamic>>  createCheckOrder(int  id,String address,String city,List services,String addressDescription,String typePayment) async{
+       Map<String, String> headers = {"Content-Type": "application/json"};
+       var data = {
+          "idClient": id,
+          "address": address,
+          "city":city,
+          "services":json.encode(services),
+          "addressDescription":addressDescription,
+          "typePayment":typePayment
+
+
+        };
+    final encodedData = json.encode(data);
+
+  // make POST request
+      http.Response response = await http.post(url, headers: headers, body: encodedData);
+      final decodeData = jsonDecode(response.body);
+      if (decodeData['response']== 2){
+
+           prefs.order=(decodeData['content']['orderDB']['id']).toString();
+      }
+     
+      
+      
+  
+   return decodeData;
+  }
+}
 
 class TemporalOrderProvider  extends ChangeNotifier{
 
@@ -445,20 +481,11 @@ class GetPublicity{
   List<PublicityMethods> _services = new List();
 
   Future <List<PublicityMethods>>  getpublicity() async{
-
     http.Response response = await http.get(url);
     final decodeData = json.decode(response.body) ;
-
-     var list = decodeData['content'] as List;
-     
-     
-  
-   _services =list.map((i)=>PublicityMethods.fromJson(i)).toList();
-    
-    
+    var list = decodeData['content'] as List;
+    _services =list.map((i)=>PublicityMethods.fromJson(i)).toList();
     return _services;
-
-   
   }
 }
 class SendFavorite{
@@ -506,19 +533,18 @@ class SendCreditCard{
    Future <Map<String,dynamic>>  sendCard(String name,String lastName, int mont, int year,int cvc,String franchise, int cardNumber) async{
        Map<String, String> headers = {"Content-Type": "application/json"};
        var data = {
-          "phoneNumber": prefs.token,
+          "phoneUser": 3106838163,
           "type":'CREDIT',
-          "name": name,
-          "lastName":lastName,
-          "mont":mont,
-          "year":year,
-          "cvc":cvc,
-          "franchise":franchise,
-          "cardNumber":cardNumber
+          "name": 'Jeisson',
+          "lastName":'Santacruz',
+          "month": 06,
+          "year":22,
+          "cvc": 165,
+          "brand": 'VISA',
+          "cardNumber": 4242424242424242
         };
     final encodedData = json.encode(data);
-
-  // make POST request
+    // make POST request
       http.Response response = await http.post(url, headers: headers, body: encodedData);
       final decodeData = jsonDecode(response.body);
      
@@ -596,21 +622,36 @@ class NequiPaymentAutomatic{
 }
 class GetUserPayments{
 
-  final    String url = urlBase+'getPaymentCards';
+  final    String url = urlBase+'getPaymentMethods';
   final prefs =  PreferenciasUsuario();
-  List<Directions> _services = new List();
+  List<CardModel> _services = new List();
 
-  Future <List<Directions>>  getAddresses() async{
+  Future <List<CardModel>>  getPayments() async{
     var _urlcode = url+'?phoneUser='+prefs.token;
     http.Response response = await http.get(_urlcode);
     final decodeData = json.decode(response.body) ;
 
-     var list = decodeData['content'] as List;
+     var list = decodeData['content']['cards'] as List;
   
-   _services =list.map((i)=>Directions.fromJson(i)).toList();
+   _services =list.map((i)=>CardModel.fromJson(i)).toList();
     
 
     return _services;
+
+   
+  }
+   List<NequiModel> _nequi = new List();
+  Future <List<NequiModel>>  getPaymentsNequi() async{
+    var _urlcode = url+'?phoneUser='+prefs.token;
+    http.Response response = await http.get(_urlcode);
+    final decodeData = json.decode(response.body) ;
+
+     var list = decodeData['content']['nequiAccounts'] as List;
+  
+   _nequi =list.map((i)=>NequiModel.fromJson(i)).toList();
+    
+
+    return _nequi;
 
    
   }
@@ -639,6 +680,7 @@ class WompiPaymentBancolombia{
 
   Future <Map<String,dynamic>>  checkBancolombia(String numero, String token) async{
        Map<String, String> headers = {"Content-Type": "application/json"};
+     
        var data = {
           "phoneNumber": numero,
           "token":token
@@ -659,12 +701,22 @@ class WompiPaymentPSE{
   final    String urlCheck = urlBase+'payment/Wompi/transactionStatus';
 
   final prefs =  PreferenciasUsuario();
-   Future <Map<String,dynamic>>  paymentPSE(String idType,String idNumber,String institutionCode,String paymentDescription,String value,String email) async{
+   Future <Map<String,dynamic>>  paymentPSE(String doc,String idType,String idNumber,String institutionCode,String paymentDescription,String value,String email) async{
        Map<String, String> headers = {"Content-Type": "application/json"};
-       var data = {
-          
-        
-        };
+         var data={
+         "type" : "PSE_PAYMENT",
+	       "data":{
+	        	"idType" : doc,
+	        	"idNumber" : idNumber,
+		        "institutionCode" : institutionCode,
+		        "paymentDescription" : "Corte de cabello",
+		         "userType": idType
+           	},
+	        "bill" : {
+	         	"value" : 14900,
+	        	"email":"ander.laverde.dev@gmai.com"
+        	}
+       };
     final encodedData = json.encode(data);
 
   // make POST request
