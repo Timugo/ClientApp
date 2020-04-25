@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:timugo/src/models/pseInstitu_model.dart';
 import 'package:timugo/src/pages/publicity_page.dart';
@@ -10,7 +11,6 @@ import 'package:timugo/src/pages/publicity_page.dart';
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'package:timugo/src/providers/user.dart';
 import 'package:timugo/src/services/number_provider.dart';
-import 'package:validators/validators.dart' as validator; 
 import 'package:provider/provider.dart';
 import 'package:timugo/src/models/user_model.dart';
 //pages 
@@ -30,28 +30,42 @@ class _LoginPageState extends State<PSEpayment> {
   bool monVal = false;
   int cont =0;
   Model model = Model();
-  static List<PersonModel> _dropdownItems = new List();
+  static List<PersonModel> personItems = new List();
+  static List<IdenTModel> identItems = new List();
+  static List<InstituPse>  pseItems = new List();
   final formKey = new GlobalKey<FormState>();
 
   
   PersonModel _dropdownValue;
-   InstituPse _pseValue;
+  IdenTModel _identValue;
+  InstituPse _pseValue;
   
  
   TextEditingController codeController = new TextEditingController();
    TextEditingController typeController = new TextEditingController();
    TextEditingController instiController = new TextEditingController();
-
+    final servicesProvider = GetPseInst();
 
   @override
   void initState() {
-  
+    identItems=[];
+   personItems=[];
     super.initState();
+    servicesProvider.getInstiPse().then((list){
+      setState(() {
+    pseItems = list;
+  });
+
+    });
     setState(() {
-      _dropdownItems.add(PersonModel(person: 'Natural', code: '0',idType: 'Cedula'));
-      _dropdownItems.add(PersonModel(person: 'Juridica', code: '1',idType: 'NIT'));
-       _dropdownValue = _dropdownItems[0];
+      personItems.add(PersonModel(person: 'Natural', code: '0'));
+      personItems.add(PersonModel(person: 'Juridica', code: '1'));
+      identItems.add(IdenTModel( code: '0',idType: 'CEDULA'));
+      identItems.add(IdenTModel( code: '1',idType: 'NIT'));
+       _dropdownValue = personItems[0];
+       _identValue = identItems[0];
       codeController.text = _dropdownValue.code;
+      typeController.text = _identValue.code;
     });
   }
    
@@ -78,11 +92,6 @@ class _LoginPageState extends State<PSEpayment> {
             SizedBox(height: size.height*0.1),
             Container(),
                 SizedBox(height: 10),
-                // Image.asset(
-                //   'assets/verify.png',
-                //   height: MediaQuery.of(context).size.height / 3,
-                //   fit: BoxFit.fitHeight,
-                // ),
                 SizedBox(height: 8),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -99,16 +108,16 @@ class _LoginPageState extends State<PSEpayment> {
   }
 
   Widget _numberLogin(BuildContext context){
-    final userInfo   = Provider.of<UserInfo>(context);
     final size = MediaQuery.of(context).size;
     return Form(
         key: _formKey,
         child: Column(
+         
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[   
-
-            ListTile(
+            Card(
+            child:ListTile(
               contentPadding: EdgeInsets.only(left:50,right:50),
               leading:  Icon(Icons.people),
               title: Text('Tipo de Persona'),
@@ -123,31 +132,33 @@ class _LoginPageState extends State<PSEpayment> {
                   codeController.text = _dropdownValue.code;
                 });
               },
-              items: _dropdownItems.map((PersonModel value) {
+              items: personItems.map((PersonModel value) {
                 return DropdownMenuItem<PersonModel>(
                   value: value,
                   child: Text(value.person),
                 );
               }).toList(), 
               )
+            )
             ),
-              ListTile(
+             Card(
+               child: ListTile(
                  contentPadding: EdgeInsets.only(left:50,right:50),
                 leading: Icon(Icons.perm_identity),
                 title: Text('identificación'),
-                trailing: DropdownButton<PersonModel>(
-              value: _dropdownValue,
+                trailing: DropdownButton<IdenTModel>(
+              value: _identValue,
               isDense: true,
-              onChanged: (PersonModel newValue) {
+              onChanged: (IdenTModel newValue) {
                 print('value change');
                 print(newValue);
                 setState(() {
-                  _dropdownValue = newValue;
-                  typeController.text = _dropdownValue.idType;
+                  _identValue = newValue;
+                  typeController.text = _identValue.idType;
                 });
               },
-              items: _dropdownItems.map((PersonModel value) {
-                return DropdownMenuItem<PersonModel>(
+              items: identItems.map((IdenTModel value) {
+                return DropdownMenuItem<IdenTModel>(
                   value: value,
                   child: Text(value.idType),
                 );
@@ -157,8 +168,9 @@ class _LoginPageState extends State<PSEpayment> {
               
               
       
-        ),
-              MyTextFormField(
+        )),
+        Card(
+          child:   MyTextFormField(
                 text: Icon(Icons.people),
                 keyboardType: TextInputType.number,
                 hintText: 'Numero de identifcación',
@@ -174,8 +186,35 @@ class _LoginPageState extends State<PSEpayment> {
                  });
                 },
           
-              ),
-            createList(context),
+              )),
+           Card( 
+             child:ListTile(
+                 contentPadding: EdgeInsets.only(left:50,right:50),
+                leading: Icon(FontAwesomeIcons.university),
+                title: Text('Banco'),
+                trailing: DropdownButton<InstituPse>(
+              value: _pseValue,
+              isDense: true,
+              onChanged: (InstituPse newValue) {
+                print('value change');
+                print(newValue);
+                setState(() {
+                  _pseValue = newValue;
+                  instiController.text = _pseValue.code;
+                });
+              },
+              items: pseItems.map((InstituPse value) {
+                return DropdownMenuItem<InstituPse>(
+                  value: value,
+                  child: Text(value.name),
+                );
+              }).toList(), 
+              )
+
+              
+              
+      
+        )),
            
             RaisedButton(
               elevation: 5.0,
@@ -204,77 +243,13 @@ class _LoginPageState extends State<PSEpayment> {
                 ),
               ),
             ),
-            CheckboxListTile(
-              controlAffinity: ListTileControlAffinity.leading,
-              title: InkWell(
-              child: new Text('Acepto terminos y condiciones',style: TextStyle(fontSize: 13,color: Colors.blue,decoration: TextDecoration.underline)),
-                onTap: ()  {  Navigator.push(context,
-                                MaterialPageRoute(
-                                  builder: (context) => MyWebView()
-                                )
-                              );
-                            }
-              ),
-              value: monVal,
-              onChanged: (bool value) {
-                setState(() {
-                  monVal = value;
-                  cont+=1;
-                  print(cont);
-                  
-                });
-              },
-              )
+           
           ]
         )
     );
   }
  
-  Widget createList(BuildContext context) {
- final size = MediaQuery.of(context).size;
-
-    final servicesProvider = GetPseInst();
-    return FutureBuilder(
-      future: servicesProvider.getInstiPse(),
-      builder: (BuildContext context, AsyncSnapshot<List<InstituPse>> snapshot) {  
-        if ( snapshot.hasData ) {
-          final productos = snapshot.data;
-        
-          return ListTile(
-              contentPadding: EdgeInsets.only(left:50,right:50),
-                leading: Icon(Icons.perm_identity),
-                title: Text('Banco'),
-            
-            trailing:DropdownButton<InstituPse>(
-              value: _pseValue,
-              isDense: true,
-              onChanged: (InstituPse newValue) {
-                print('value change');
-                print(newValue);
-                setState(() {
-                  _pseValue = newValue;
-                  instiController.text = _pseValue.code;
-                });
-              },
-              items: productos.map((InstituPse value) {
-                return DropdownMenuItem<InstituPse>(
-                  value: value,
-                  child: Text(value.name),
-                );
-              }).toList()));
-          
-          
-        }
-        else{
-          return Center( child: CircularProgressIndicator());
-        }}
-    );
-      
-
-
-
-
-  }
+  
 
 
 
@@ -421,6 +396,17 @@ class PersonModel {
 
   PersonModel({
     this.person,
+    this.code,
+    this.idType
+  });
+}
+
+class IdenTModel {
+ 
+  String code = '';
+  String idType ='';
+
+  IdenTModel({
     this.code,
     this.idType
   });

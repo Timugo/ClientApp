@@ -72,14 +72,14 @@ class _CheckoutState extends State<Checkout> {
                   trailing: RaisedButton.icon(
                     
                     icon: Icon(Icons.keyboard_arrow_down),
-                    onPressed: (){},
-                   // { Navigator.push(
-                    //     context,  
-                    //       MaterialPageRoute(
-                    //         builder: (context) => Payment()
-                    //       ));
+                    onPressed: ()
+                   { Navigator.push(
+                        context,  
+                          MaterialPageRoute(
+                            builder: (context) => Payment()
+                          ));
 
-                    // },
+                    },
                     color: Colors.white,
                     label: Text('Cambiar',style: TextStyle(fontSize: 15)),
                   ),
@@ -88,7 +88,7 @@ class _CheckoutState extends State<Checkout> {
                     icon: Icon(Icons.attach_money),
                     onPressed: (){},
                     
-                    label: Text('Efectivo',style: TextStyle(fontSize: 20)),
+                    label: Text(prefs.payment == null?'Efectivo':prefs.payment,style: TextStyle(fontSize: 20)),
                   )
                 ),
               ),
