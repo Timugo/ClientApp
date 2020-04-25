@@ -22,7 +22,7 @@ class _MyHomePageState extends State<NequiPage>
   String token;
   bool uniquePay = false;
   bool automaticPay = false;
-  bool loading = true;
+  bool loading = false;
   final _formKey = GlobalKey<FormState>();
 
   TabController _tabController;
@@ -148,10 +148,10 @@ class _MyHomePageState extends State<NequiPage>
             ),
 
          
-      
-       
-         main(context),
-        _verification(context)
+       main(context),
+       _verification(context),
+        
+        
          
         ],
       ),
@@ -261,7 +261,7 @@ class _MyHomePageState extends State<NequiPage>
   }
   Widget _verification(BuildContext context){
     final size = MediaQuery.of(context).size;
-    return SingleChildScrollView(
+    return loading ?  _loading(context):SingleChildScrollView(
       child: Column(
         children: <Widget>[
            Column(
@@ -304,9 +304,10 @@ class _MyHomePageState extends State<NequiPage>
 
   }
   Widget _loading(BuildContext context){
-    return SpinKitRing(
+    return Center (
+      child:SpinKitRing(
     color: Colors.black12,
-    );
+    ));
     
 
   }
@@ -343,10 +344,7 @@ class _MyHomePageState extends State<NequiPage>
               token= response['content']['token'];
            });
           _toggleTab();
-          //  setState(() {
-          //   loading= false;
-             
-          //   });
+         
           }
         }
     }
@@ -379,11 +377,17 @@ class _MyHomePageState extends State<NequiPage>
   
   
 }
+
+      void _finish() async{
+        setState((){
+          loading = false;
+        });
+      }
  _subimit2(token){
     
 
     final nequiPaymentAutomatic = NequiPaymentAutomatic();
-    
+  if (token != null){
    var res= nequiPaymentAutomatic.addNequiAcount(numeroController.text,token);
       res.then((response) async {
         if (response['response'] == 2){
@@ -392,9 +396,19 @@ class _MyHomePageState extends State<NequiPage>
                   context,MaterialPageRoute(
                   builder: (context) => Payment()));
         }else{
-             _showMessa( response['content']['description']);
-        }});
-}
+          {
+          setState(() {
+          loading = true;
+          _loading(context);
+          new Future.delayed(new Duration(seconds: 3), _finish);
+        });
+       
+        _showMessa(response['content']['message']);
+      
+      
+}}
+    });}
+ }
     }
 
 class MyTextFormField extends StatelessWidget {
