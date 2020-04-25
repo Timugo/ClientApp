@@ -21,6 +21,7 @@ class MySampleState extends State<CreditCardH> {
   String cvvCode = '';
   bool isCvvFocused = false;
   var type;
+  var brand;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -66,10 +67,13 @@ class MySampleState extends State<CreditCardH> {
                                 setState(() {
                                   cardNumber = value;
                                   type = detectCCType(cardNumber);
+                                 
                                   
                                 });
                               },
                               keyboardType: TextInputType.number,
+                            
+                              // _checkCard,
                             ),
                           MyTextFormField(
                              hintText: "Expiración tarjeta",
@@ -126,7 +130,12 @@ class MySampleState extends State<CreditCardH> {
                                   });
                                 },
                                 keyboardType: TextInputType.number,
+                                onComplete:(){
+                                   setState(() {
                                 
+                                    isCvvFocused = false;
+                                  });
+                                } ,
                               ),
                           
                             
@@ -190,20 +199,57 @@ class MySampleState extends State<CreditCardH> {
        
   
 _sendCard(){
-
-
- final sendCreditCard = SendCreditCard();
- var res = sendCreditCard.sendCard( name, lastName, int.parse((expiryDate.substring(0,2))), int.parse((expiryDate.substring(3,4))),int.parse( cvvCode), type, int.parse(cardNumber));
- res.then((response) async {
-   if (response['response'] == 2){
-           _showMessa('Se ha agregado exitosamente tu cuenta');
-           Navigator.push(
-                  context,MaterialPageRoute(
-                  builder: (context) => Payment()));
+ 
+ 
+    final sendCreditCard = SendCreditCard();
+    var res = sendCreditCard.sendCard( name, lastName, int.parse((expiryDate.substring(0,2))), int.parse((expiryDate.substring(2,4))),int.parse( cvvCode), brand, int.parse(cardNumber));
+    
+    res.then((response) async {
+      print(response);
+      if (response['response'] == 2){
+        _showMessa('Se ha agregado exitosamente tu cuenta');
+        Navigator.push(
+          context,MaterialPageRoute(
+          builder: (context) => Payment()));
         }
-       
-          });
+          
+    });
+  
 }
+
+
+ bool _checkCard(){
+   bool res = true;
+   if (type == CreditCardType.visa){
+      setState(() {
+        brand = 'VISA';
+      });
+   }
+   else if (type == CreditCardType.amex){
+      setState(() {
+        brand = 'AMERICAN_EXPRESS';
+      });
+   }
+   else if (type == CreditCardType.mastercard) {
+       setState(() {
+        brand = 'MASTER_CARD';
+      });
+   }
+   
+   else {
+      _showMessa('Tarjeta no aceptada');
+      res = false;
+      
+
+   }
+   return res;
+       
+  
+  
+
+
+
+ }
 }
 class MyTextFormField extends StatelessWidget {
   final Icon text;
@@ -214,6 +260,7 @@ class MyTextFormField extends StatelessWidget {
   final bool isEmail;
   final TextInputType keyboardType;
   final TextEditingController controller;
+  final Function onComplete;
   final int len;
 
   MyTextFormField({
@@ -225,7 +272,8 @@ class MyTextFormField extends StatelessWidget {
     this.isEmail = false,
     this.keyboardType,
     this.controller,
-    this.len
+    this.len,
+    this.onComplete
   });
 
   @override
@@ -258,6 +306,7 @@ class MyTextFormField extends StatelessWidget {
       keyboardType:keyboardType,
       controller:controller ,
       maxLength: len,
+      onEditingComplete: onComplete,
       ),
     );
   }
