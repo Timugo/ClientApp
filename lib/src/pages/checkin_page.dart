@@ -157,7 +157,7 @@ class _CheckinState extends State<Checkin> {
                     elevation: 5.0,
                     onPressed:(){
                         userInfo.price=total.toString();
-                        
+                        print(orderFinal);
                         addServiceToarray();
                         Navigator.push(
                           context,MaterialPageRoute(
@@ -259,8 +259,7 @@ class _CheckinState extends State<Checkin> {
                       count: individualCount[i],
                       decrement: () => decrement(i,productos[i]),
                       increment: () => increment(i,productos[i]),
-                    
-                       addAditional: () => addAditionalOrder(productos[i]),
+                      addAditional: () => addAditionalOrder(productos[i]),
                       deleteAditional: () =>  deleteAditionalOrder(productos[i]), ),
                   );
                 }else {

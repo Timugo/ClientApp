@@ -31,9 +31,9 @@ class _CheckoutState extends State<Checkout> {
    @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final createOrdeProvider = CreateOrderProvider();
     final prefs = new PreferenciasUsuario();  
     final userInfo   = Provider.of<UserInfo>(context);
+   
 
     return Scaffold(
       appBar: AppBar(
@@ -88,7 +88,7 @@ class _CheckoutState extends State<Checkout> {
                     icon: Icon(Icons.attach_money),
                     onPressed: (){},
                     
-                    label: Text(prefs.payment == null?'Efectivo':prefs.payment,style: TextStyle(fontSize: 20)),
+                    label: Text((prefs.payment != null &&   userInfo.payment == 'Efectivo') ?prefs.payment :  userInfo.payment ,style: TextStyle(fontSize: 20)),
                   )
                 ),
               ),
@@ -129,6 +129,10 @@ class _CheckoutState extends State<Checkout> {
             child:  RaisedButton(
               elevation: 5.0,
               onPressed: (){
+                 _pseDescription();
+
+
+  
                 
                 // primero ejecuto la funcion para verificar el pago , ya sea nequi , pse, credit 
                 //Para automaticos nequi ->  ['Corte de peloX1', 'Corte de baraba 50% off', 'Cejas'] array de 3 elements
@@ -136,29 +140,29 @@ class _CheckoutState extends State<Checkout> {
                 // response 2  y REJECTED  verifico 6 segundo  description ''  devolver a checkout
                 // pago unico sincrono ACCEPTED  -> response content  con codeQr
                 // llamo  check push payment con el QR y lo  ejecuto hasta que responde accepted o rejected
-                  var res= createOrdeProvider.createOrder(int.parse(prefs.id),prefs.direccion,userInfo.city,temp);
-                  //if the user have a direction  setted
-                  if( prefs.direccion != ''){
-                  res.then((response) async {
-                    //if the response is 2 = correct
-                    if (response['response'] == 2){
-                      //code ==1 its because the order cant be created for some reason
-                      if (response['content']['code'] == 1){
-                          //diaplay the message with the reason
-                            _showMessa2( response['content']['message']);
-                      }else{
-                      //if the order was created correctly
-                      Navigator.push(
-                        context,  
-                          MaterialPageRoute(
-                            builder: (context) => OrderProcces()
-                          ));
-                      }
-                    }
-                  });
-                }else{
-                  _showMessa( "Por favor  elige una direccion!");
-                }
+                //   var res= createOrdeProvider.createOrder(int.parse(prefs.id),prefs.direccion,userInfo.city,temp);
+                //   //if the user have a direction  setted
+                //   if( prefs.direccion != ''){
+                //   res.then((response) async {
+                //     //if the response is 2 = correct
+                //     if (response['response'] == 2){
+                //       //code ==1 its because the order cant be created for some reason
+                //       if (response['content']['code'] == 1){
+                //           //diaplay the message with the reason
+                //             _showMessa( response['content']['message'],Colors.blue[200]);
+                //       }else{
+                //       //if the order was created correctly
+                //       Navigator.push(
+                //         context,  
+                //           MaterialPageRoute(
+                //             builder: (context) => OrderProcces()
+                //           ));
+                //       }
+                //     }
+                //   });
+                // }else{
+                //   _showMessa( "Por favor  elige una direccion!",Colors.red);
+                // }
                 
                 } ,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -184,30 +188,93 @@ class _CheckoutState extends State<Checkout> {
       )
     );
   } 
+  _payment(){
+    final prefs              = PreferenciasUsuario(); 
+    final createOrdeProvider = CreateOrderProvider();
+    final userInfo           = Provider.of<UserInfo>(context);
+
+    if (userInfo.payment =='Efectivo'){
+      var res= createOrdeProvider.createOrder(int.parse(prefs.id),prefs.direccion,userInfo.city,temp);
+      //if the user have a direction  setted
+      if( prefs.direccion != ''){
+        res.then((response) async {
+        //if the response is 2 = correct
+          if (response['response'] == 2){
+            //code ==1 its because the order cant be created for some reason
+            if (response['content']['code'] == 1){
+                //diaplay the message with the reason
+                  _showMessa( response['content']['message'],Colors.blue[200]);
+            }else{
+            //if the order was created correctly
+            Navigator.push(
+              context,  
+                MaterialPageRoute(
+                  builder: (context) => OrderProcces()
+                ));
+            }
+          }
+        });
+      }else{
+      _showMessa( "Por favor  elige una direccion!",Colors.red);
+     }
+    }
+
+    if (userInfo.payment =='Tarjeta'){
+      var res= createOrdeProvider.createOrder(int.parse(prefs.id),prefs.direccion,userInfo.city,temp);
+      //if the user have a direction  setted
+      if( prefs.direccion != ''){
+        res.then((response) async {
+        //if the response is 2 = correct
+          if (response['response'] == 2){
+            //code ==1 its because the order cant be created for some reason
+            if (response['content']['code'] == 1){
+                //diaplay the message with the reason
+                  _showMessa( response['content']['message'],Colors.blue[200]);
+            }else{
+            //if the order was created correctly
+            Navigator.push(
+              context,  
+                MaterialPageRoute(
+                  builder: (context) => OrderProcces()
+                ));
+            }
+          }
+        });
+      }else{
+      _showMessa( "Por favor  elige una direccion!",Colors.red);
+      }
+    }
+
+
+
+
+  }
+
+
+  String _pseDescription(){
+    String  pseDesc =''; 
+    for (var i in temp) {
+       String  services = '';
+     services =(i['nameService']) +'X'+(i['quantity']).toString() ;
+      pseDesc =pseDesc+','+services;
+    }
+    return  pseDesc;
+
+
+  }
   
    
-  _showMessa(String msj){ // show the toast message in bell appbar
+  _showMessa(String msj, Color color){ // show the toast message in bell appbar
     Fluttertoast.showToast(
       msg:msj,
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
       timeInSecForIos: 1,
-      backgroundColor:Colors.red,
+      backgroundColor:color,
       textColor: Colors.white,
       fontSize: 14.0
     );
 
-  }
-   _showMessa2(String msj){ // show the toast message in bell appbar
-    Fluttertoast.showToast(
-      msg:msj,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.TOP,
-      timeInSecForIos: 1,
-      backgroundColor:Colors.blue[200],
-      textColor: Colors.white,
-      fontSize: 14.0
-    );
 
   }
 
