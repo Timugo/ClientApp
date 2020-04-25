@@ -701,7 +701,7 @@ class WompiPaymentPSE{
   final    String urlCheck = urlBase+'payment/Wompi/transactionStatus';
 
   final prefs =  PreferenciasUsuario();
-   Future <Map<String,dynamic>>  paymentPSE(String doc,String idType,String idNumber,String institutionCode,String paymentDescription,String value,String email) async{
+   Future <Map<String,dynamic>>  paymentPSE(String doc,String idType,String idNumber,String institutionCode,String paymentDescription,String value) async{
        Map<String, String> headers = {"Content-Type": "application/json"};
          var data={
          "type" : "PSE_PAYMENT",
@@ -709,12 +709,12 @@ class WompiPaymentPSE{
 	        	"idType" : doc,
 	        	"idNumber" : idNumber,
 		        "institutionCode" : institutionCode,
-		        "paymentDescription" : "Corte de cabello",
+		        "paymentDescription" :paymentDescription,
 		         "userType": idType
            	},
 	        "bill" : {
-	         	"value" : 14900,
-	        	"email":"ander.laverde.dev@gmai.com"
+	         	"value" :value ,
+	        	"email": prefs.email,
         	}
        };
     final encodedData = json.encode(data);
@@ -732,6 +732,49 @@ class WompiPaymentPSE{
           "transactionID": transactionID,
           
         
+        };
+    final encodedData = json.encode(data);
+
+  // make POST request
+      http.Response response = await http.post(urlCheck, headers: headers, body: encodedData);
+      final decodeData = jsonDecode(response.body);
+     
+   return decodeData;
+  }
+
+}
+
+class WompiPaymentCard{
+  final    String urlTrans = urlBase+'payment/Wompi/transaction';
+  final    String urlCheck = urlBase+'payment/Wompi/transactionStatus';
+
+  final prefs =  PreferenciasUsuario();
+   Future <Map<String,dynamic>>  paymentCard(String doc,String idType,String idNumber,String institutionCode,String paymentDescription,String value,String email) async{
+       Map<String, String> headers = {"Content-Type": "application/json"};
+         var data={
+         "type" : "CREDIT_CARD_PAYMENT",
+	       "data":{
+	        	"number" : doc,
+	        	"idNumber" : idNumber,
+           	},
+	        "bill" : {
+	         	"value" : 14900,
+	        	"email":"ander.laverde.dev@gmai.com"
+        	}
+       };
+    final encodedData = json.encode(data);
+
+  // make POST request
+      http.Response response = await http.post(urlTrans, headers: headers, body: encodedData);
+      final decodeData = jsonDecode(response.body);
+     
+   return decodeData;
+  }
+
+  Future <Map<String,dynamic>>  checkCard(String transactionID) async{
+       Map<String, String> headers = {"Content-Type": "application/json"};
+       var data = {
+          "transactionID": transactionID,
         };
     final encodedData = json.encode(data);
 
