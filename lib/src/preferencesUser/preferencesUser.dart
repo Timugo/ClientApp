@@ -95,6 +95,13 @@ class PreferenciasUsuario {
   get direccion {
     return _prefs.getString('direccion') ?? '';
   }
+   get payment {
+    return _prefs.getString('payment') ?? '';
+  }
+  set payment( String value ) {
+    _prefs.setString('payment', value);
+  }
+ 
 
 }
 

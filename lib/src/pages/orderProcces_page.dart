@@ -12,6 +12,8 @@ import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 //pages
 import 'package:timugo/src/pages/services_page.dart';
 import 'editOrder_page.dart';
+import 'package:timugo/globlas.dart' as globals;
+
 
 
 
@@ -111,7 +113,8 @@ class _ProccesState extends State<OrderProcces> {
     final size = MediaQuery.of(context).size;
 
     var urlI = 'https://i.pinimg.com/736x/a4/93/25/a493253f2b9b3be6ef48886bbf92af58.jpg';
-    var baseUrl= 'https://www.timugo.tk/';
+   // var baseUrl= 'https://www.timugo.tk/';
+    final String  baseUrl = globals.url;
 
     if (barberAsigned.name == 'Sin Asignar' ){
         _getBarber();
