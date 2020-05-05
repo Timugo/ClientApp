@@ -295,11 +295,7 @@ class ListTileItem extends StatelessWidget {
                   child: IconButton(
                   icon:Icon( Icons.check,color: Colors.green,),
                   onPressed:(){ addPrincipal();
-                   Navigator.push(
-                        context,  
-                        MaterialPageRoute(
-                          builder: (context) => Services()
-                    ));
+                  Navigator.of(context).pop();
                   }),
                 ),
               ],

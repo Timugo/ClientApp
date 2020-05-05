@@ -10,7 +10,7 @@ import 'package:timugo/src/services/number_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io' show Platform;
 
-import 'Payment.dart';
+//import 'Payment.dart';
 //import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 
@@ -114,19 +114,19 @@ class MenuWidget extends StatelessWidget {
               }
             ),
            ),
-          Container(
-            decoration: BoxDecoration(
-             border: Border.all( color: Colors.grey[200])),
-            child:ListTile(
-              leading: Icon(FontAwesomeIcons.creditCard,color: Colors.black,),
-              title: Text('Métodos de pago',),
-              onTap:(){
-                Navigator.push(
-                  context,MaterialPageRoute(
-                  builder: (context) => Payment()));
-              }       
-            ),
-          ),
+          // Container(
+          //   decoration: BoxDecoration(
+          //    border: Border.all( color: Colors.grey[200])),
+          //   child:ListTile(
+          //     leading: Icon(FontAwesomeIcons.creditCard,color: Colors.black,),
+          //     title: Text('Métodos de pago',),
+          //     onTap:(){
+          //       Navigator.push(
+          //         context,MaterialPageRoute(
+          //         builder: (context) => Payment()));
+          //     }       
+          //   ),
+          // ),
          
         ],
       ),
