@@ -13,7 +13,6 @@ import 'package:timugo/src/models/temporalOrder_model.dart';
 
 import 'dart:convert';
 
-import 'package:timugo/src/models/user_model.dart';
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'package:timugo/globlas.dart' as globals;
 
@@ -23,12 +22,16 @@ class NumberProvider{
   final    String url = urlBase+'loginUser';
   
 
-   Future <Map<String,dynamic>>  sendNumber(model) async{
+   Future <Map<String,dynamic>>  sendNumber(int phone,String city) async{
      
       Map<String, String> headers = {"Content-Type": "application/json"};
-      String json = registerModelToJson(model);
+       var data = {
+      "phone": phone,
+      "city": city
+    };
+    final encodedData = json.encode(data);
   // make POST request
-      http.Response response = await http.post(url, headers: headers, body: json);
+      http.Response response = await http.post(url, headers: headers, body: encodedData);
       final decodeData = jsonDecode(response.body);
       
   
