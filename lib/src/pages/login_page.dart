@@ -25,9 +25,8 @@ class _LoginPageState extends State<LoginPage> {
   String _currentAddress;
   Position _currentPosition;
 
-  _check()async{
+  Future<PermissionStatus> _check()async{
    PermissionStatus permission = await LocationPermissions().requestPermissions();
-   permission;
   }
   Future<Position> _getCurrentLocation(context) async {
     final userInfo = Provider.of<UserInfo>(context);
@@ -35,19 +34,22 @@ class _LoginPageState extends State<LoginPage> {
 
     
     
-      final position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high).catchError( 
-      _check
-    ).then((response)async{
-     setState((){
+      final position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high).then(
+        (response){
+
+        setState((){
       _currentPosition = response;
       userInfo.loca = _currentPosition;
       print('location');
       print(_currentPosition);
-      _getAddressFrom();
+      
      
     });
-    }
-    );
+
+        });
+     
+    
+  
     
    
     
@@ -56,6 +58,8 @@ class _LoginPageState extends State<LoginPage> {
    
    
    return _currentPosition;
+
+
   }
   
 
@@ -122,6 +126,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _numberLogin(BuildContext context) {
+    
     final size = MediaQuery.of(context).size;
     final userInfo = Provider.of<UserInfo>(context);
     return Form(
@@ -214,15 +219,16 @@ class _LoginPageState extends State<LoginPage> {
   void _subimit() {
     print(model.phone);
     _getCurrentLocation(context);
-    Future.delayed(const Duration(milliseconds: 100), () {
-      
+    Future.delayed(const Duration(seconds: 1), () {
+      _getAddressFrom();
        print(_currentAddress);
       if (_formKey.currentState.validate()) {
         _formKey.currentState.save();
-        var res = registeProvider.sendNumber(model.phone, _currentAddress);
+        var res = registeProvider.sendNumber(model.phone,_currentAddress);
         res.then((response) async {
+          print(response);
           if (response['response'] == 2) {
-            if (response['content']['code'] == 1) {
+            if (response['content']['code'] == 2) {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => RegisterData()));
             } else {
