@@ -1,17 +1,22 @@
+/* Flutter dependencies */
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:country_code_picker/country_code_picker.dart';
+import 'package:location_permissions/location_permissions.dart';
+/* Models */
 import 'package:timugo/src/models/user_model.dart';
+/* Pages */
 import 'package:timugo/src/pages/registerData_page.dart';
 import 'package:timugo/src/pages/services_page.dart';
-import 'package:timugo/src/providers/user.dart';
-import 'package:timugo/src/services/number_provider.dart';
-import 'package:country_code_picker/country_code_picker.dart';
 import 'codeVerification_page.dart';
+/* Providers */
+import 'package:timugo/src/providers/user.dart';
+/* Services */
+import 'package:timugo/src/services/number_provider.dart';
 
-import 'package:location_permissions/location_permissions.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -32,21 +37,17 @@ class _LoginPageState extends State<LoginPage> {
     final userInfo = Provider.of<UserInfo>(context);
     
   try {
-     await Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
-
-        
-        .then((response) {
-      setState(() {
-        _currentPosition = response;
-        userInfo.loca = _currentPosition;
-        print('location');
-        print(_currentPosition);
+    await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+      .then((response) {
+        setState(() {
+          _currentPosition = response;
+          userInfo.loca = _currentPosition;
+          print('location');
+          print(_currentPosition);
+        });
+        _getAddressFrom();
       });
-      _getAddressFrom();
-    });
-
-  }
+    }
    catch (e) {
       print(e);
     }

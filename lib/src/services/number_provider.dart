@@ -18,24 +18,23 @@ import 'package:timugo/globlas.dart' as globals;
 
 final String  urlBase = globals.url;
 class NumberProvider{
-
-  final    String url = urlBase+'loginUser';
+  /* Request Url  */
+  final String url = urlBase+'loginUserV2';
   
 
-   Future <Map<String,dynamic>>  sendNumber(int phone,String city) async{
-     
-      Map<String, String> headers = {"Content-Type": "application/json"};
-       var data = {
+  Future <Map<String,dynamic>>  sendNumber(int phone,String city) async{
+    /* Headers */
+    Map<String, String> headers = {"Content-Type": "application/json"};
+    /* Body */
+    var data = {
       "phone": phone,
       "city": city
     };
+    /* Response */
     final encodedData = json.encode(data);
-  // make POST request
-      http.Response response = await http.post(url, headers: headers, body: encodedData);
-      final decodeData = jsonDecode(response.body);
-      
-  
-   return decodeData;
+    // making  POST request
+    http.Response response = await http.post(url, headers: headers, body: encodedData);
+    return jsonDecode(response.body);
   }
 }
 
