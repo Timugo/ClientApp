@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:timugo/src/models/user_model.dart';
 import 'package:timugo/src/pages/registerData_page.dart';
+import 'package:timugo/src/pages/services_page.dart';
 import 'package:timugo/src/providers/user.dart';
 import 'package:timugo/src/services/number_provider.dart';
 import 'package:country_code_picker/country_code_picker.dart';
@@ -25,62 +27,49 @@ class _LoginPageState extends State<LoginPage> {
   String _currentAddress;
   Position _currentPosition;
 
-  Future<PermissionStatus> _check()async{
-   PermissionStatus permission = await LocationPermissions().requestPermissions();
-  }
+
   Future<Position> _getCurrentLocation(context) async {
     final userInfo = Provider.of<UserInfo>(context);
-
-
     
-    
-      final position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high).then(
-        (response){
+  try {
+     await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
 
-        setState((){
-      _currentPosition = response;
-      userInfo.loca = _currentPosition;
-      print('location');
-      print(_currentPosition);
-      
-     
+        
+        .then((response) {
+      setState(() {
+        _currentPosition = response;
+        userInfo.loca = _currentPosition;
+        print('location');
+        print(_currentPosition);
+      });
+      _getAddressFrom();
     });
 
-        });
-     
-    
-  
-    
-   
-    
-
-    
-   
-   
-   return _currentPosition;
-
-
   }
-  
+   catch (e) {
+      print(e);
+    }
+   
+    return _currentPosition;
+  }
 
   Future<String> _getAddressFrom() async {
-    final userInfo = Provider.of<UserInfo>(context);
-    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+   
     try {
-      List<Placemark> p = await geolocator.placemarkFromCoordinates(
-          userInfo.loca.latitude, userInfo.loca.longitude);
+      List<Placemark> p = await Geolocator().placemarkFromCoordinates(
+          _currentPosition.latitude, _currentPosition.longitude);
 
       Placemark place = p[0];
 
       setState(() {
-        _currentAddress =
-            "${place.subAdministrativeArea}";
+        _currentAddress = "${place.subAdministrativeArea}";
         print(_currentAddress);
       });
     } catch (e) {
       print(e);
     }
-    return Future.delayed(Duration(seconds: 4), () => _currentAddress);
+    return _currentAddress;
   }
 
   @override
@@ -126,7 +115,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _numberLogin(BuildContext context) {
-    
     final size = MediaQuery.of(context).size;
     final userInfo = Provider.of<UserInfo>(context);
     return Form(
@@ -216,34 +204,76 @@ class _LoginPageState extends State<LoginPage> {
             ]));
   }
 
-  void _subimit() {
-    print(model.phone);
-    _getCurrentLocation(context);
+  _openSettings(context) {
+    Alert(
+        context: context,
+        title: 'Ubicación',
+        content: Column(
+          children: <Widget>[
+            Container(
+              height: 200,
+              color: Color(0xffeeeeee),
+              padding: EdgeInsets.all(10.0),
+              child: new Text(
+                  'Es importante que actives tu GPS, Timugo no puede trabajar sin tu ubicación'),
+            ),
+          ],
+        ),
+        buttons: [
+          DialogButton(
+            onPressed: () {
+              LocationPermissions().openAppSettings().then((bool hasOpened) =>
+                  debugPrint('App Settings opened: ' + hasOpened.toString()));
+            },
+            child: Text(
+              "Abrir Configuraciones",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          )
+        ]).show();
+  }
+
+  void _subimit() async {
+    PermissionStatus permission =
+        await LocationPermissions().requestPermissions();
+    if (permission == PermissionStatus.denied) {
+      _openSettings(context);
+    }
+
+    else{
+    
     Future.delayed(const Duration(seconds: 1), () {
-      _getAddressFrom();
-       print(_currentAddress);
-      if (_formKey.currentState.validate()) {
-        _formKey.currentState.save();
-        var res = registeProvider.sendNumber(model.phone,_currentAddress);
-        res.then((response) async {
-          print(response);
-          if (response['response'] == 2) {
-            if (response['content']['code'] == 2) {
+
+      _getCurrentLocation(context);
+    });
+    print(_currentAddress);
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+      var res = registeProvider.sendNumber(model.phone, _currentAddress);
+      res.then((response) async {
+        print(response['content']);
+        if (response['response'] == 2) {
+          if (response['content']['code'] == 2) {
+            if (response['content']['newUser'] == false) {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => RegisterData()));
             } else {
-              print(model.phone);
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Code(model: this.model)));
+                  context, MaterialPageRoute(builder: (context) => Services()));
             }
           } else {
-            print(response['content']);
+            print(model.phone);
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Code(model: this.model)));
           }
-        });
-      }
-    });
+        } else {
+          print(response['content']);
+        }
+      });
+    }
+    }
   }
 }
 
