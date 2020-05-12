@@ -219,7 +219,7 @@ class DeleteItemInListViewPopupMenuState extends State<AddDireccions> {
         if( snapshot.hasData ){
           final productos = snapshot.data;
           return Container(
-            margin:  EdgeInsets.only(top: 60,bottom: 50),
+            margin:  EdgeInsets.only(top: 60,bottom: 90),
             child:ListView.builder(
               key: UniqueKey(),
               itemCount: productos.length,

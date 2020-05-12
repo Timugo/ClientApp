@@ -50,8 +50,8 @@ class _MyAppState extends State<MyApp> {
     final  userName = UserProvider();
     //checking the user data save in device
     final prefs = new PreferenciasUsuario();
-    userName.getName(prefs.token);
     temporalOrderProvider.getBarberAsigned();
+     userName.getName(prefs.token);
     //initialize the push notification provider
     pushProvider.initNotifications();
     pushProvider.messages.listen((data){

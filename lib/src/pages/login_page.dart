@@ -11,6 +11,7 @@ import 'package:timugo/src/models/user_model.dart';
 /* Pages */
 import 'package:timugo/src/pages/registerData_page.dart';
 import 'package:timugo/src/pages/services_page.dart';
+import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'codeVerification_page.dart';
 /* Providers */
 import 'package:timugo/src/providers/user.dart';
@@ -235,6 +236,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _subimit() async {
+     final  userName = UserProvider();
+     final prefs = new PreferenciasUsuario();
     PermissionStatus permission =
         await LocationPermissions().requestPermissions();
     if (permission == PermissionStatus.denied) {
@@ -251,6 +254,7 @@ class _LoginPageState extends State<LoginPage> {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       var res = registeProvider.sendNumber(model.phone, _currentAddress);
+      userName.getName(model.phone.toString());
       res.then((response) async {
         print(response['content']);
         if (response['response'] == 2) {
@@ -261,6 +265,7 @@ class _LoginPageState extends State<LoginPage> {
             } else {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => Services()));
+                  prefs.token=model.phone.toString();
             }
           } else {
             print(model.phone);
