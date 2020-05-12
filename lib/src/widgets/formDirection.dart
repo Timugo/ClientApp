@@ -114,8 +114,8 @@ class _FormDirectionsState extends State<FormDirections> {
           children: <Widget>[
             Container(
               
-              child:Text("Confirma tu dirección",style: TextStyle(color: Colors.black,fontSize: 30,fontWeight: FontWeight.bold)),
-            ),
+              child:ListTile(title:Text("Confirma tu dirección",style: TextStyle(color: Colors.black,fontSize: 30,fontWeight: FontWeight.bold)),
+            subtitle:Text("Para mayor precisión,pulsa y arrastra el marcador a tu dirección*") ,)),
             Container(
               
               height: MediaQuery.of(context).size.height*0.5,
