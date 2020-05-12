@@ -62,7 +62,7 @@ class _CheckoutState extends State<Checkout> {
             ),
             Card(
                 child: ListTile(
-              title: Text(prefs.direccion == ''
+              title: Text(prefs.direccion == null &&  userInfo.directions ==''
                   ? 'Elige una dirección'
                   : userInfo.directions),
               trailing: IconButton(
@@ -98,13 +98,13 @@ class _CheckoutState extends State<Checkout> {
                     color: Colors.green,
                     icon: Icon(Icons.attach_money),
                     onPressed: () {},
-                    label: Text(
-                        (prefs.payment != null &&
-                                userInfo.payment == 'Efectivo')
-                            ? prefs.payment
-                            : userInfo.payment,
-                        style: TextStyle(fontSize: 20)),
-                  )),
+                    label: Text("Efectivo"
+                        // (prefs.payment != null &&
+                        //         userInfo.payment == 'Efectivo')
+                        //     ? prefs.payment
+                        //     : userInfo.payment,
+                        // style: TextStyle(fontSize: 20)),
+                  ))),
             ),
             SizedBox(
               height: size.height * 0.05,
@@ -210,7 +210,7 @@ class _CheckoutState extends State<Checkout> {
                       begin: Alignment.centerLeft,
                       end: Alignment.centerRight,
                     ),
-                    borderRadius: BorderRadius.circular(20.0)),
+                    borderRadius: BorderRadius.circular(10.0)),
                 child: Container(
                   padding: EdgeInsets.fromLTRB(
                       size.width * 0.25,

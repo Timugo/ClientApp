@@ -123,7 +123,7 @@ class _LoginPageState extends State<RegisterData> {
               color: Colors.green.shade300,
                padding: EdgeInsets.all(0.0),
              
-              onPressed: monVal == false && cont < 2? null:() {  _sendCommet(context);},
+              onPressed: monVal == true && cont <= 2? () {  _sendCommet(context);}:null,
               
               child: Ink(
                 decoration: BoxDecoration(
@@ -192,14 +192,14 @@ class _LoginPageState extends State<RegisterData> {
 
         }else{
           print( response['content']);
-          _showMessa();
+          _showMessa("El email tiene que ser único!");
         }
       });
-    }                
+    }_showMessa("Por Favor complete los campos del formulario");                
   }
-   _showMessa(){ // show the toast message in bell appbar
+   _showMessa( String msg){ // show the toast message in bell appbar
     Fluttertoast.showToast(
-      msg: "El email tiene que ser único!",
+      msg: msg,
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
       timeInSecForIos: 1,

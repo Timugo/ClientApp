@@ -254,7 +254,7 @@ class _LoginPageState extends State<LoginPage> {
         print(response['content']);
         if (response['response'] == 2) {
           if (response['content']['code'] == 2) {
-            if (response['content']['newUser'] == false) {
+            if (response['content']['newUser'] == true) {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => RegisterData()));
             } else {
