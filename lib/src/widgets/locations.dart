@@ -141,6 +141,12 @@ class _NewTripLocationViewState extends State<NewTripLocationView> {
       body: Center(
         child: Column(
           children: <Widget>[
+            ListTile(
+              title:Text('Ingresa tu dirección ',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                    textAlign: TextAlign.left,),
+              subtitle:Text('ej: calle 23 # 70-81 barrio .. '),
+            ),
+            
             Container(
               padding: const EdgeInsets.all(30.0),
               child: TextField(

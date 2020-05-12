@@ -106,17 +106,18 @@ class _FormDirectionsState extends State<FormDirections> {
         ),
          backgroundColor: Colors.white10,
       ),
-      
+    
       extendBody: true,
-      body:Stack(
+      body:SingleChildScrollView(
+      child:Column(
         
           children: <Widget>[
             Container(
-              padding:EdgeInsets.only(left:size.width*0.04) ,
+              
               child:Text("Confirma tu dirección",style: TextStyle(color: Colors.black,fontSize: 30,fontWeight: FontWeight.bold)),
             ),
             Container(
-              padding:EdgeInsets.only(top:size.width*0.1) ,
+              
               height: MediaQuery.of(context).size.height*0.5,
               width: MediaQuery.of(context).size.width,
               child: GoogleMap(
@@ -128,18 +129,22 @@ class _FormDirectionsState extends State<FormDirections> {
                  //  onCameraMove: ((_position) => _updatePosition(_position)),
               ),
             ),
-            Scrollbar(
+          
               
-              child:Container(
-                padding:EdgeInsets.only(top:size.height*0.4,left: 15,right: 30),
-                child: _numberLogin(context)
+              _numberLogin(context)
+              
+              //   Container(
+              //   padding:EdgeInsets.only(left: 15,right: 30),
+              //   child: _numberLogin(context)
 
-              )
-            )
+              // )
+                
+            
            
            
           ],
       ),
+    )
     );
 
   }
@@ -147,7 +152,8 @@ class _FormDirectionsState extends State<FormDirections> {
      final size = MediaQuery.of(context).size;
      final userInfo   = Provider.of<UserInfo>(context);
      return  ListView(
-       padding: EdgeInsets.only(top:size.height*0.15),
+       shrinkWrap: true,
+       padding: EdgeInsets.only(top:size.height*0.05),
               children:<Widget>[
                 Container(
                   child:Column(
