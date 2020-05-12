@@ -33,6 +33,7 @@ class _CheckoutState extends State<Checkout> {
     final size = MediaQuery.of(context).size;
     final prefs = new PreferenciasUsuario();
     final userInfo = Provider.of<UserInfo>(context);
+    var dir =prefs.direccion == '' ?'Elegir direccion':'';
 
     return Scaffold(
         appBar: AppBar(
@@ -62,9 +63,7 @@ class _CheckoutState extends State<Checkout> {
             ),
             Card(
                 child: ListTile(
-              title: Text(prefs.direccion == null &&  userInfo.directions ==''
-                  ? 'Elige una dirección'
-                  : userInfo.directions),
+              title: Text(userInfo.directions == '' ? prefs.direccion+dir:userInfo.directions),
               trailing: IconButton(
                 icon: Icon(Icons.arrow_drop_down),
                 onPressed: () => _onButtonPressed(context, AddDireccions()),
