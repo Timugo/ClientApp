@@ -42,8 +42,8 @@ class _LoginPageState extends State<LoginPage> {
         setState(() {
           _currentPosition = response;
           userInfo.loca = _currentPosition;
-          print('location');
-          print(_currentPosition);
+          
+         
         });
         _getAddressFrom();
       });
@@ -65,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
 
       setState(() {
         _currentAddress = "${place.subAdministrativeArea}";
-        print(_currentAddress);
+        
       });
     } catch (e) {
       print(e);
