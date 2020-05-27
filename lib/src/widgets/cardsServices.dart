@@ -104,7 +104,7 @@ class _Card extends StatelessWidget {
       msg: "Aún tienes ordenes en curso!",
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
-      timeInSecForIos: 1,
+      timeInSecForIosWeb: 1,
       backgroundColor: Colors.red,
       textColor: Colors.white,
       fontSize: 14.0
@@ -198,7 +198,7 @@ class _DescriptionCard extends StatelessWidget {
       msg: "Aún tienes ordenes en curso!",
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
-      timeInSecForIos: 1,
+      timeInSecForIosWeb: 1,
       backgroundColor: Colors.red,
       textColor: Colors.white,
       fontSize: 14.0

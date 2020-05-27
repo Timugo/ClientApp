@@ -300,7 +300,7 @@ class _CheckoutState extends State<Checkout> {
         msg: msj,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
-        timeInSecForIos: 1,
+        timeInSecForIosWeb: 1,
         backgroundColor: color,
         textColor: Colors.white,
         fontSize: 14.0);
