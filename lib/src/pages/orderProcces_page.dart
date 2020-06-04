@@ -12,7 +12,7 @@ import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 //pages
 import 'package:timugo/src/pages/services_page.dart';
 import 'editOrder_page.dart';
-import 'package:timugo/globlas.dart' as globals;
+import 'package:timugo/globals.dart' as globals;
 
 
 

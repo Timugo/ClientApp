@@ -7,6 +7,7 @@ import 'checkout_page.dart';
 //providers
 import 'package:timugo/src/providers/user.dart';
 import 'package:timugo/src/services/number_provider.dart';
+import 'package:timugo/globals.dart' as globals;
 //models
 import 'package:timugo/src/models/aditional_model.dart';
 import 'package:timugo/src/models/order_model.dart';
@@ -112,20 +113,20 @@ class _CheckinState extends State<Checkin> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final url = 'https://timugo.tk/';
+    final String url = globals.url;
     final userInfo = Provider.of<UserInfo>(context);
     final price = int.parse(model.price);
 
     return Scaffold(
-        body: Stack(alignment: Alignment.topCenter, children: <Widget>[
+      body: Stack(alignment: Alignment.topCenter, children: <Widget>[
       AppBarCheckin(),
       Positioned(
-          top: 70,
-          height: size.height * 0.25,
-          child: Image.network(
-            url + model.urlImg,
-            width: size.height * 0.20,
-          )),
+        top: 70,
+        height: size.height * 0.25,
+        child: Image.network(
+          model.urlImg,
+          width: size.height * 0.20,
+        )),
       Container(
         child: _crearListado(),
       ),
