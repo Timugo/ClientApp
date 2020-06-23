@@ -22,7 +22,6 @@ class MenuWidget extends StatelessWidget {
   @override
    Widget build(BuildContext context) { 
     final prefs = new PreferenciasUsuario();
-    final size = MediaQuery.of(context).size;
     // funcion that return the name and pts of user
     return Drawer(
       child: ListView(

@@ -7,7 +7,6 @@ import 'checkout_page.dart';
 //providers
 import 'package:timugo/src/providers/user.dart';
 import 'package:timugo/src/services/number_provider.dart';
-import 'package:timugo/globals.dart' as globals;
 //models
 import 'package:timugo/src/models/aditional_model.dart';
 import 'package:timugo/src/models/order_model.dart';
@@ -113,7 +112,6 @@ class _CheckinState extends State<Checkin> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final String url = globals.url;
     final userInfo = Provider.of<UserInfo>(context);
     final price = int.parse(model.price);
 
