@@ -62,8 +62,6 @@ class _NewTripLocationViewState extends State<NewTripLocationView> {
     final predictions = response.data['predictions'];
     List<Place> _displayResults = [];
 
-    
-
     for (var i = 0; i < predictions.length; i++) {
       String name = predictions[i]['description'];
       double averageBudget = 200.0;
@@ -97,7 +95,7 @@ class _NewTripLocationViewState extends State<NewTripLocationView> {
           children: <Widget>[
             ListTile(
               title:Text('Ingresa tu dirección ',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-            ),
+              textAlign: TextAlign.left,),
               subtitle:Text('ej: calle 23 # 70-81 barrio .. '),
             ),
             Container(
@@ -208,7 +206,7 @@ class _NewTripLocationViewState extends State<NewTripLocationView> {
     } catch (e) {
       print(e);
     }
-    Future.delayed(const Duration(milliseconds: 100), () {
+    Future.delayed(const Duration(milliseconds:100), () {
       setState(() {
         Navigator.push(
           context,

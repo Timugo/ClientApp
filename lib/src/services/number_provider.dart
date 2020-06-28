@@ -15,8 +15,8 @@ import 'dart:convert';
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'package:timugo/globals.dart' as globals;
 
-final String urlBase = globals.url;
 
+final String urlBase = globals.url;
 class NumberProvider {
   /* Request Url  */
   final String url = urlBase + 'loginUserV2';
@@ -62,7 +62,6 @@ class VerificateProvider {
     return decodeData;
   }
 }
-
 
 
 class SendDataProvider{
