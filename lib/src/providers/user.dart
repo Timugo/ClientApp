@@ -18,15 +18,30 @@ class UserInfo with ChangeNotifier {
   get phone {
     return _phone;
   }
+  set phone( int nombre ) {
+    this._phone = nombre;
+    notifyListeners();
+  }
   get name {
     return _name;
   }
+  set name( String nombre ) {
+    this._name = nombre;
+    notifyListeners();
+  }
+
   get email {
     return _email;
   }
+  set email( String nombre ) {
+    this._email = nombre;
+    notifyListeners();
+  }
+  
    get directions {
     return _directions;
   }
+
   get city {
     return _city;
   }
@@ -65,18 +80,9 @@ class UserInfo with ChangeNotifier {
      this._pts = nombre;
     notifyListeners();
   }
-  set phone( int nombre ) {
-    this._phone = nombre;
-    notifyListeners();
-  }
-  set name( String nombre ) {
-    this._name = nombre;
-    notifyListeners();
-  }
-  set email( String nombre ) {
-    this._email = nombre;
-    notifyListeners();
-  }
+  
+ 
+  
   
   set directions( String nombre ) {
     
