@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:timugo/src/models/barbers_model.dart';
 import 'package:timugo/src/services/number_provider.dart';
 import 'description.dart';
+// Enviroment Variables
+import 'package:timugo/globals.dart' as globals;
 
 class CardsBarbers extends StatelessWidget {
   @override
@@ -32,6 +34,10 @@ class CardsBarbers extends StatelessWidget {
 }
 
 class _Card extends StatelessWidget {
+  //Server url
+  final String  url = globals.url;
+  // Data server Url
+  final String  dataUrl = globals.dataUrl;
   final  BarbersModel prod;
   _Card(this.prod);
   @override
@@ -52,13 +58,13 @@ class _Card extends StatelessWidget {
               children:<Widget>[
                 new RawMaterialButton(
                   onPressed:  () => _onButtonPressed(context,prod),
-                shape: new CircleBorder(),
-                child:CircleAvatar(
+                  shape: new CircleBorder(),
+                  child:CircleAvatar(
                     radius:80.0,
-                    backgroundImage:NetworkImage(prod.urlImg),
-                    backgroundColor: Colors.black,
+                    backgroundImage : NetworkImage(dataUrl+prod.urlImg),
+                    backgroundColor : Colors.black,
                     
-                )
+                  )
                 ),
                 Text(prod.name,style: TextStyle(color: Colors.black,fontSize: 16,fontWeight: FontWeight.bold))
                 ,
