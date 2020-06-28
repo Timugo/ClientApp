@@ -13,7 +13,7 @@ import 'package:timugo/src/models/temporalOrder_model.dart';
 import 'dart:convert';
 
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
-import 'package:timugo/globlas.dart' as globals;
+import 'package:timugo/globals.dart' as globals;
 
 final String urlBase = globals.url;
 
@@ -63,29 +63,26 @@ class VerificateProvider {
   }
 }
 
-class SendDataProvider {
-  final String url = urlBase + 'editInfoUser';
 
-  Future<Map<String, dynamic>> sendData(
-      int phone, String name, String email, String publi) async {
+
+class SendDataProvider{
+  final    String url = urlBase+'editInfoUser';
+  Future <Map<String,dynamic>>  sendData( int phone,String  name,String email,String publi ) async{
     Map<String, String> headers = {"Content-Type": "application/json"};
     var data = {
-      "phone": phone,
+      "phone":phone,
       "name": name,
       "email": email,
-      "publicityMethod": publi
+      "publicityMethod":publi
     };
     final encodedData = json.encode(data);
-
     // make POST request
-    http.Response response =
-        await http.put(url, headers: headers, body: encodedData);
+    http.Response response = await http.put(url, headers: headers, body: encodedData);
     final decodeData = jsonDecode(response.body);
-
     return decodeData;
   }
-}
 
+}
 class ServicesProvider extends ChangeNotifier {
   final String url = urlBase + 'getServices';
   List<ServicesModel> _productos = new List();
@@ -172,21 +169,21 @@ class DirectionProvider {
   }
 }
 
-class UserProvider {
-  final String url = urlBase + 'getUser';
-  final prefs = PreferenciasUsuario();
-
-  Future<Map<String, dynamic>> getName(String phone) async {
-    var _urlcode = url + '?phone=' + phone;
-    // make POST request
-    http.Response response = await http.get(_urlcode);
-    final decodeData = jsonDecode(response.body);
-    // final userInfo   = Provider.of<UserInfo>();
-    if (decodeData['response'] == 2) {
-      prefs.name = decodeData['content']['name'].toString();
-      prefs.pts = decodeData['content']['points'].toString();
-      prefs.id = decodeData['content']['id'].toString();
-      prefs.email = decodeData['content']['email'].toString();
+class UserProvider{
+  final    String url = urlBase+'getUser';
+  final prefs =  PreferenciasUsuario();
+  
+    Future<Map<String,dynamic>>  getName(String  phone) async{
+        var _urlcode = url+'?phone='+phone;
+        // make POST request
+        http.Response response = await http.get(_urlcode);
+        final decodeData = jsonDecode(response.body);
+       // final userInfo   = Provider.of<UserInfo>();
+        if (decodeData['response'] == 2){
+        prefs.name=decodeData['content']['name'].toString();
+        prefs.pts=decodeData['content']['points'].toString();
+        prefs.id = decodeData['content']['id'].toString();
+        prefs.email = decodeData['content']['email'].toString();
       //  userInfo.pts=decodeData['content']['points'];
     }
     return decodeData;
@@ -434,14 +431,13 @@ class SendFavorite {
     return decodeData;
   }
 }
-
-class CheckTokenUser {
-  final String url = urlBase + 'checkTokenUser';
-  final prefs = PreferenciasUsuario();
-  Future<Map<String, dynamic>> checkTokenUser() async {
-    var _urlcode = url + '?phoneUser=' + prefs.token;
+class CheckTokenUser{
+  final    String url = urlBase+'checkTokenUser';
+  final prefs =  PreferenciasUsuario();
+  Future <Map<String,dynamic>>  checkTokenUser() async{
+    var _urlcode = url+'?phoneUser='+prefs.token;
     http.Response response = await http.get(_urlcode);
-    final decodeData = json.decode(response.body);
+    final decodeData = json.decode(response.body) ;
 
     return decodeData;
   }

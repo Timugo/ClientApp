@@ -9,12 +9,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 
 import 'noLocation.dart';
-
 class FormDirections extends StatefulWidget {
   final String address;
   final Position position;
 
-  FormDirections({this.address, this.position});
+  FormDirections({this.address,this.position});
   @override
   _FormDirectionsState createState() =>
       _FormDirectionsState(address: address, position: position);
@@ -28,13 +27,13 @@ class _FormDirectionsState extends State<FormDirections> {
 
   final String address;
   final Position position;
-
+ 
   double latitude;
   double longitude;
   GoogleMapController _controller;
 
-  _FormDirectionsState({this.address, this.position});
-
+  _FormDirectionsState({this.address,this.position});
+  
   final sendDirection = DirectionProvider();
   final prefs = new PreferenciasUsuario();
 
@@ -45,11 +44,8 @@ class _FormDirectionsState extends State<FormDirections> {
   Future<double> _getAddressFromLatLng(String address) async {
     final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
     try {
-      List<Placemark> placemark =
-          await geolocator.placemarkFromAddress(address);
-
+      List<Placemark> placemark = await geolocator.placemarkFromAddress(address);
       Placemark place = placemark[0];
-
       setState(() {
         latitude = place.position.latitude;
         longitude = place.position.longitude;
@@ -59,190 +55,148 @@ class _FormDirectionsState extends State<FormDirections> {
     }
     return longitude;
   }
-
   @override
   void initState() {
     super.initState();
-
-    allMarkers.add(Marker(
-      consumeTapEvents: true,
-      markerId: MarkerId('marker_2'),
-      onTap: () {
-        print(LatLng);
-      },
-      draggable: true,
-      position: LatLng(position.latitude, position.longitude),
-      onDragEnd: ((value) {
-        print(value.latitude);
-        print(value.longitude);
-      }),
-    ));
+    allMarkers.add(
+      Marker(
+        consumeTapEvents: true,
+        markerId: MarkerId('marker_2'),
+        onTap: () {
+          print(LatLng);
+        },
+        draggable: true,
+        position: LatLng(position.latitude, position.longitude),
+        onDragEnd: ((value) {
+            print(value.latitude);
+            print(value.longitude);
+        }),
+      )
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final userInfo = Provider.of<UserInfo>(context);
-
-    // final size = MediaQuery.of(context).size;
-    directionController.text = address;
+    final userInfo   = Provider.of<UserInfo>(context);
+    directionController.text  = address;
     _getAddressFromLatLng(address);
-
     return Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          leading: new IconButton(
-            icon: new Icon(
-              Icons.arrow_back,
-              color: Colors.black,
-              size: 35,
-            ),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          backgroundColor: Colors.white10,
+      appBar: AppBar(
+        elevation: 0,
+        leading: new IconButton(
+          icon: new Icon(Icons.arrow_back, color: Colors.blueAccent,size: 35,),
+          onPressed: () => Navigator.of(context).pop(),
         ),
-        extendBody: true,
-        body: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Container(
-                  child: ListTile(
-                title: Text("Confirma tu dirección",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold)),
-                subtitle: Text(
-                    "Para mayor precisión,pulsa y arrastra el marcador a tu dirección*"),
-              )),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.5,
-                width: MediaQuery.of(context).size.width,
-                child: GoogleMap(
-                  initialCameraPosition: CameraPosition(
-                      target: LatLng(
-                          userInfo.loca.latitude, userInfo.loca.longitude),
-                      zoom: 16.5),
-                  markers: Set.from(allMarkers),
-                  onMapCreated: mapCreated,
-                  myLocationEnabled: true,
-                  myLocationButtonEnabled: true,
-                  //  onCameraMove: ((_position) => _updatePosition(_position)),
-                ),
+        backgroundColor: Colors.white10,
+      ),
+    
+      extendBody: true,
+      body:SingleChildScrollView(
+        child:Column(
+          children: <Widget>[
+            Container(
+              child : ListTile(
+                title : Text("Confirma tu dirección",style: TextStyle(color: Colors.black,fontSize: 30,fontWeight: FontWeight.bold)),
+                subtitle : Text("* Para mayor precisión, pulsa y arrastra el marcador.",style: TextStyle(color: Colors.blueAccent))
+              )
+            ),
+            Container(
+              height: MediaQuery.of(context).size.height*0.5,
+              width: MediaQuery.of(context).size.width*0.9,
+              child: GoogleMap(
+                initialCameraPosition:CameraPosition(target: LatLng(userInfo.loca.latitude,userInfo.loca.longitude), zoom: 16.5),
+                markers: Set.from(allMarkers),
+                onMapCreated: mapCreated,
+                myLocationEnabled: true,
+                myLocationButtonEnabled: true,
+                //  onCameraMove: ((_position) => _updatePosition(_position)),
               ),
-
-              _numberLogin(context)
-
-              //   Container(
-              //   padding:EdgeInsets.only(left: 15,right: 30),
-              //   child: _numberLogin(context)
-
-              // )
-            ],
-          ),
-        ));
+            ),
+            _numberLogin(context)
+      
+          ],
+        ),
+      )
+    );
   }
 
-  Widget _numberLogin(BuildContext context) {
+  Widget _numberLogin(BuildContext context){
     final size = MediaQuery.of(context).size;
-    final userInfo = Provider.of<UserInfo>(context);
-    return ListView(
-        shrinkWrap: true,
-        padding: EdgeInsets.only(top: size.height * 0.05),
-        children: <Widget>[
-          Container(
-              child: Column(
+    final userInfo   = Provider.of<UserInfo>(context);
+    return  ListView(
+      shrinkWrap: true,
+      padding: EdgeInsets.only(top:size.height*0.05),
+      children:<Widget>[
+        Container(
+          child:Column(
             children: <Widget>[
               TextField(
                 decoration: InputDecoration(
                   icon: Icon(Icons.directions),
                   labelText: 'Dirección',
                 ),
-                controller: directionController,
+                controller:directionController ,
               ),
-              SizedBox(
-                height: 40,
-              ),
+              SizedBox(height: 40,),
               TextField(
                 decoration: InputDecoration(
-                  icon: Icon(Icons.business),
-                  labelText: 'Apto, casa, piso',
+                  icon: Icon(Icons.home),
+                  labelText: 'Apartamento, Casa, Piso, Bloque',
                 ),
-                controller: aditionalController,
+                controller:aditionalController ,
               ),
             ],
-          )),
-          Container(
-              alignment: Alignment.bottomCenter,
-              padding: EdgeInsets.only(
-                  bottom: size.height * 0.04, left: 30, right: 30, top: 15),
-              child: RaisedButton(
-                elevation: 5.0,
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(20.0),
+          )
+        ),
+        Container(
+          alignment: Alignment.bottomCenter,
+          padding:EdgeInsets.only(bottom: size.height*0.04,left: 30,right: 30,top: 15),
+          child:RaisedButton(
+            elevation: 5.0,
+            shape: new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(20.0),
+            ),
+            padding: EdgeInsets.all(0.0),
+            child: Ink(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Color(0xFF19AEFF), Color(0xFF139DF7),Color(0xFF0A83EE),Color(0xFF0570E5),Color(0xFF0064E0)],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
                 ),
-                padding: EdgeInsets.all(0.0),
-
-//
-                child: Ink(
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Color(0xFF19AEFF),
-                          Color(0xFF139DF7),
-                          Color(0xFF0A83EE),
-                          Color(0xFF0570E5),
-                          Color(0xFF0064E0)
-                        ],
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                      ),
-                      borderRadius: BorderRadius.circular(20.0)),
-                  child: Container(
-                    padding: EdgeInsets.fromLTRB(
-                        size.width * 0.1,
-                        size.height * 0.005,
-                        size.width * 0.1,
-                        size.height * 0.005),
-                    child: ListTile(
-                        title: Text("Agregar dirección ",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.white,
-                            ))),
-                  ),
+                borderRadius: BorderRadius.circular(20.0)
+              ),
+              child : Container(
+                padding : EdgeInsets.fromLTRB(size.width*0.1, size.height*0.005, size.width*0.1,size.height*0.005),
+                child : ListTile(
+                  title:Text("Agregar",textAlign: TextAlign.center,style: TextStyle(color: Colors.white,))
                 ),
-
-                onPressed: () {
-                  // when  pressed  call service sen Direction and add address of user
-
-                  if ((directionController.text).contains('Cali')) {
-                    _datas.add(_value + ' ' + directionController.text);
-                    var res = sendDirection.sendDirection(
-                        int.parse(prefs.token),
-                        'Cali',
-                        directionController.text,
-                        userInfo.loca.latitude,
-                        userInfo.loca.longitude,
-                        aditionalController.text);
-                    res.then((response) async {
-                      if (response['response'] == 2) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Services()));
-                      }
-                    });
-
-                    print('bien');
-                  } else {
-                    print('no');
-                    _onButtonPressed(context);
+              ),
+            ),
+            onPressed: () { 
+              // when  pressed  call service send Direction and add address of user
+              if((directionController.text).contains('Cali')){
+                _datas.add(_value+' '+directionController.text);
+                var res= sendDirection.sendDirection(int.parse(prefs.token),'Cali',directionController.text,userInfo.loca.latitude,userInfo.loca.longitude,aditionalController.text);
+                res.then((response) async {
+                  if (response['response'] == 2){
+                    Navigator.push(
+                      context,  
+                      MaterialPageRoute(
+                        builder: (context) => Services()
+                      )
+                    );
                   }
-                },
-              )),
-        ]);
+                });
+              }else{
+                _onButtonPressed(context);
+              }
+            },
+          )
+        ),
+      ]
+    );
   }
-
   void _onButtonPressed(BuildContext context) {
     final size = MediaQuery.of(context).size.height;
     showModalBottomSheet(
@@ -264,26 +218,24 @@ class _FormDirectionsState extends State<FormDirections> {
           );
         });
   }
-
+  /* Extra Functions */
   void mapCreated(controller) {
     setState(() {
       _controller = controller;
     });
   }
-
   movetoBoston() {
-    _controller.animateCamera(CameraUpdate.newCameraPosition(
-      CameraPosition(
-          target: LatLng(42.3601, -71.0589),
-          zoom: 14.0,
-          bearing: 45.0,
-          tilt: 45.0),
-    ));
+    _controller.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(target: LatLng(42.3601, -71.0589), zoom: 14.0, bearing: 45.0, tilt: 45.0),
+      )
+    );
   }
-
   movetoNewYork() {
-    _controller.animateCamera(CameraUpdate.newCameraPosition(
-      CameraPosition(target: LatLng(40.7128, -74.0060), zoom: 12.0),
-    ));
+    _controller.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(target: LatLng(40.7128, -74.0060), zoom: 12.0),
+      )
+    );
   }
 }

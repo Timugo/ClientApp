@@ -12,7 +12,7 @@ import 'package:timugo/src/providers/counter_provider.dart';
 import 'package:timugo/src/providers/order.dart';
 import 'package:timugo/src/providers/push_notifications_provider.dart';
 import 'package:timugo/src/providers/user.dart';
-import 'package:timugo/src/registerUserData/publicityMethods_page.dart';
+import 'package:timugo/src/registerUserData/publicityMethods_widget.dart';
 import 'package:timugo/src/registerUserData/registerData_page.dart';
 import 'package:timugo/src/services/number_provider.dart';
 //pages

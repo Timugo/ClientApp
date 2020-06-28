@@ -359,13 +359,15 @@ class _MyHomePageState extends State<NequiPage>
   _showMessa(String mesg) {
     // show the toast message in bell appbar
     Fluttertoast.showToast(
-        msg: mesg,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIos: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 14.0);
+      msg: mesg,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 14.0
+    );
+
   }
 
   _subimit() {

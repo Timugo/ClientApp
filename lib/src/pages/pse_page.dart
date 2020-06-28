@@ -150,23 +150,23 @@ class _LoginPageState extends State<PSEpayment> {
                           );
                         }).toList(),
                       ))),
-              Card(
-                  child: MyTextFormField(
-                text: Icon(Icons.people),
-                keyboardType: TextInputType.number,
-                hintText: 'Numero de identifcación',
-                validator: (String value) {
-                  if (value.isEmpty) {
-                    return 'Digita un nombre';
-                  }
-                  return null;
-                },
-                onSaved: (String value) {
-                  setState(() {
-                    idNumber = value;
-                  });
-                },
-              )),
+              // Card(
+              //     child: MyTextFormField(
+              //   text: Icon(Icons.people),
+              //   keyboardType: TextInputType.number,
+              //   hintText: 'Numero de identifcación',
+              //   validator: (String value) {
+              //     if (value.isEmpty) {
+              //       return 'Digita un nombre';
+              //     }
+              //     return null;
+              //   },
+              //   onSaved: (String value) {
+              //     setState(() {
+              //       idNumber = value;
+              //     });
+              //   },
+              // )),
               Card(
                   child: ListTile(
                       contentPadding: EdgeInsets.only(left: 50, right: 50),
@@ -253,17 +253,29 @@ class _LoginPageState extends State<PSEpayment> {
       });
     }
   }
+   _showMessa(){ // show the toast message in bell appbar
+    Fluttertoast.showToast(
+      msg: "El email tiene que ser único!",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 14.0
+    );
 
   _showMessa() {
     // show the toast message in bell appbar
     Fluttertoast.showToast(
-        msg: "El email tiene que ser único!",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIos: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 14.0);
+      msg: "Por favor seleciona un  elemento*",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 14.0
+    );
+
   }
 
   _showMessa2() {
@@ -272,7 +284,6 @@ class _LoginPageState extends State<PSEpayment> {
         msg: "Por favor seleciona un  elemento*",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
-        timeInSecForIos: 1,
         backgroundColor: Colors.red,
         textColor: Colors.white,
         fontSize: 14.0);
@@ -280,56 +291,6 @@ class _LoginPageState extends State<PSEpayment> {
 
 }
 
-class MyTextFormField extends StatelessWidget {
-  final Icon text;
-  final String hintText;
-  final Function validator;
-  final Function onSaved;
-  final TextInputType keyboardType;
-  final bool isEmail;
-
-  MyTextFormField({
-    this.text,
-    this.hintText,
-    this.validator,
-    this.onSaved,
-    this.keyboardType,
-    this.isEmail = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return Padding(
-      padding: EdgeInsets.only(
-          left: size.width * 0.1,
-          right: size.width * 0.1,
-          bottom: 10,
-          top: size.width * 0.05),
-      child: TextFormField(
-        decoration: InputDecoration(
-            hintText: hintText,
-            filled: true,
-            fillColor: Colors.white,
-            contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-            prefixIcon: text,
-            enabledBorder: const OutlineInputBorder(
-              borderSide: const BorderSide(color: Colors.white, width: 0.0),
-              borderRadius: const BorderRadius.all(
-                const Radius.circular(10.0),
-              ),
-            ),
-            border: new OutlineInputBorder(
-              borderRadius: const BorderRadius.all(
-                const Radius.circular(10.0),
-              ),
-            )),
-        validator: validator,
-        onSaved: onSaved,
-        keyboardType: keyboardType,
-      ),
-    );
-  }
 }
 
 class PersonModel {

@@ -152,7 +152,7 @@ class MySampleState extends State<CreditCardH> {
                       ),
                       color: Colors.green.shade300,
                       padding: EdgeInsets.all(0.0),
-                      onPressed: _sendCard,
+                      onPressed: (){},
                       child: Ink(
                         decoration: BoxDecoration(
                             gradient: LinearGradient(
@@ -185,7 +185,17 @@ class MySampleState extends State<CreditCardH> {
         )),
       ),
     );
-  }
+  
+ _showMessa(String mesg){ // show the toast message in bell appbar
+    Fluttertoast.showToast(
+      msg: mesg,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 14.0
+    );
 
   _showMessa(String mesg) {
     // show the toast message in bell appbar
@@ -193,7 +203,6 @@ class MySampleState extends State<CreditCardH> {
         msg: mesg,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
-        timeInSecForIos: 1,
         backgroundColor: Colors.red,
         textColor: Colors.white,
         fontSize: 14.0);
@@ -219,7 +228,7 @@ class MySampleState extends State<CreditCardH> {
       }
     });
   }
-
+ }
 //  bool _checkCard(){
 //    bool res = true;
 //    if (type == CreditCardType.visa){
@@ -247,7 +256,7 @@ class MySampleState extends State<CreditCardH> {
 
 //  }
 }
-
+}
 class MyTextFormField extends StatelessWidget {
   final Icon text;
   final String hintText;

@@ -83,7 +83,7 @@ class PushNotificationProvider {
       msg:info,
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.TOP,
-      timeInSecForIos: 1,
+      timeInSecForIosWeb: 1,
       backgroundColor: Colors.blue,
       textColor: Colors.white,
       fontSize: 14.0
