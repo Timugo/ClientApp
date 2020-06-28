@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:timugo/src/models/aditional_model.dart';
@@ -14,7 +13,7 @@ import 'package:timugo/src/models/temporalOrder_model.dart';
 import 'dart:convert';
 
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
-import 'package:timugo/globlas.dart' as globals;
+import 'package:timugo/globals.dart' as globals;
 
 final String  urlBase = globals.url;
 class NumberProvider{
@@ -75,26 +74,20 @@ class VerificateProvider{
 
 
 class SendDataProvider{
-
   final    String url = urlBase+'editInfoUser';
-   
-
-   Future <Map<String,dynamic>>  sendData( int phone,String  name,String email,String publi ) async{
-       Map<String, String> headers = {"Content-Type": "application/json"};
-       var data = {
-         "phone":phone,
-          "name": name,
-          "email": email,
-          "publicityMethod":publi
-        };
+  Future <Map<String,dynamic>>  sendData( int phone,String  name,String email,String publi ) async{
+    Map<String, String> headers = {"Content-Type": "application/json"};
+    var data = {
+      "phone":phone,
+      "name": name,
+      "email": email,
+      "publicityMethod":publi
+    };
     final encodedData = json.encode(data);
-
-  // make POST request
-      http.Response response = await http.put(url, headers: headers, body: encodedData);
-      final decodeData = jsonDecode(response.body);
-      
-
-   return decodeData;
+    // make POST request
+    http.Response response = await http.put(url, headers: headers, body: encodedData);
+    final decodeData = jsonDecode(response.body);
+    return decodeData;
   }
 }
 
@@ -211,7 +204,7 @@ class UserProvider{
   
     Future<Map<String,dynamic>>  getName(String  phone) async{
         var _urlcode = url+'?phone='+phone;
-    // make POST request
+        // make POST request
         http.Response response = await http.get(_urlcode);
         final decodeData = jsonDecode(response.body);
        // final userInfo   = Provider.of<UserInfo>();
@@ -513,18 +506,14 @@ class SendFavorite{
   }
 }
 class CheckTokenUser{
-
   final    String url = urlBase+'checkTokenUser';
   final prefs =  PreferenciasUsuario();
-   Future <Map<String,dynamic>>  checkTokenUser() async{
+  Future <Map<String,dynamic>>  checkTokenUser() async{
     var _urlcode = url+'?phoneUser='+prefs.token;
     http.Response response = await http.get(_urlcode);
     final decodeData = json.decode(response.body) ;
 
-
     return decodeData;
-
-   
   }
 }
 

@@ -22,7 +22,6 @@ class MenuWidget extends StatelessWidget {
   @override
    Widget build(BuildContext context) { 
     final prefs = new PreferenciasUsuario();
-    final size = MediaQuery.of(context).size;
     // funcion that return the name and pts of user
     return Drawer(
       child: ListView(
@@ -55,7 +54,7 @@ class MenuWidget extends StatelessWidget {
                   msg: "Proximamente obtendras beneficios con tus puntos",
                   toastLength: Toast.LENGTH_SHORT,
                   gravity: ToastGravity.BOTTOM,
-                  timeInSecForIos: 1,
+                  timeInSecForIosWeb: 1,
                   backgroundColor: Colors.red,
                   textColor: Colors.white,
                   fontSize: 14.0

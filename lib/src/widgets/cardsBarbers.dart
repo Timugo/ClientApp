@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:timugo/src/models/barbers_model.dart';
 import 'package:timugo/src/services/number_provider.dart';
-import 'package:timugo/globlas.dart' as globals;
-
 import 'description.dart';
-//import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+// Enviroment Variables
+import 'package:timugo/globals.dart' as globals;
 
 class CardsBarbers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-     final size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
     final servicesProvider = BarbersProvider();
-
     return FutureBuilder(
       future: servicesProvider.getBarbers(),
       builder: (BuildContext context, AsyncSnapshot<List<BarbersModel>> snapshot) {  
@@ -36,9 +34,11 @@ class CardsBarbers extends StatelessWidget {
 }
 
 class _Card extends StatelessWidget {
-  final  BarbersModel prod;
+  //Server url
   final String  url = globals.url;
- 
+  // Data server Url
+  final String  dataUrl = globals.dataUrl;
+  final  BarbersModel prod;
   _Card(this.prod);
   @override
   Widget build(BuildContext context) {
@@ -58,13 +58,13 @@ class _Card extends StatelessWidget {
               children:<Widget>[
                 new RawMaterialButton(
                   onPressed:  () => _onButtonPressed(context,prod),
-                shape: new CircleBorder(),
-                child:CircleAvatar(
+                  shape: new CircleBorder(),
+                  child:CircleAvatar(
                     radius:80.0,
-                    backgroundImage:NetworkImage(url+prod.urlImg),
-                    backgroundColor: Colors.black,
+                    backgroundImage : NetworkImage(dataUrl+prod.urlImg),
+                    backgroundColor : Colors.black,
                     
-                )
+                  )
                 ),
                 Text(prod.name,style: TextStyle(color: Colors.black,fontSize: 16,fontWeight: FontWeight.bold))
                 ,
@@ -78,26 +78,26 @@ class _Card extends StatelessWidget {
 
    
 void _onButtonPressed(BuildContext context, BarbersModel prod) {
-     final size = MediaQuery.of(context).size.height;
-     print(prod.phone);
-    showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return Container(
-            color: Color(0xFF737373),
-            height: size*0.4,
-            child: Container(
-              child: Description(prod),
-              decoration: BoxDecoration(
-                color: Theme.of(context).canvasColor,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
-                ),
-              ),
+  final size = MediaQuery.of(context).size.height;
+  print(prod.phone);
+  showModalBottomSheet(
+    context: context,
+    builder: (context) {
+      return Container(
+        color: Color(0xFF737373),
+        height: size*0.4,
+        child: Container(
+          child: Description(prod),
+          decoration: BoxDecoration(
+            color: Theme.of(context).canvasColor,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
             ),
-          );
-        });
+          ),
+        ),
+      );
+    });
   }
 }
 

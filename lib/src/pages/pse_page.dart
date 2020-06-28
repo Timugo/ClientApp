@@ -15,7 +15,6 @@ import 'package:provider/provider.dart';
 import 'package:timugo/src/models/user_model.dart';
 //pages 
 import 'package:timugo/src/pages/services_page.dart';
-import 'package:timugo/src/pages/webview_page.dart';
 
 class PSEpayment extends StatefulWidget {
   @override
@@ -282,7 +281,7 @@ class _LoginPageState extends State<PSEpayment> {
       msg: "El email tiene que ser único!",
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
-      timeInSecForIos: 1,
+      timeInSecForIosWeb: 1,
       backgroundColor: Colors.red,
       textColor: Colors.white,
       fontSize: 14.0
@@ -294,7 +293,7 @@ class _LoginPageState extends State<PSEpayment> {
       msg: "Por favor seleciona un  elemento*",
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
-      timeInSecForIos: 1,
+      timeInSecForIosWeb: 1,
       backgroundColor: Colors.red,
       textColor: Colors.white,
       fontSize: 14.0

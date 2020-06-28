@@ -217,7 +217,7 @@ class _CheckoutState extends State<Checkout> {
                       size.width * 0.25,
                       size.height * 0.02),
                   child: Text(
-                    'Enviar pedido' + ' ' + "\$" + (price + priceA).toString(),
+                    'Solicitar Servicio' + ' ' + "\$" + (price + priceA).toString(),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
@@ -300,7 +300,7 @@ class _CheckoutState extends State<Checkout> {
         msg: msj,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
-        timeInSecForIos: 1,
+        timeInSecForIosWeb: 1,
         backgroundColor: color,
         textColor: Colors.white,
         fontSize: 14.0);

@@ -8,15 +8,19 @@ class DividerWithText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        Expanded(child: Padding(
-          padding: const EdgeInsets.only(right:8.0),
-          child: Divider(),
-        )),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(right:8.0),
+            child: Divider(),
+          )
+        ),
         Text(dividerText),
-        Expanded(child: Padding(
-          padding: const EdgeInsets.only(left: 8.0),
-          child: Divider(),
-        )),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Divider(),
+          )
+        ),
       ],
     );
   }

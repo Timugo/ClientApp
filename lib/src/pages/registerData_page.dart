@@ -202,7 +202,7 @@ class _LoginPageState extends State<RegisterData> {
       msg: msg,
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
-      timeInSecForIos: 1,
+      timeInSecForIosWeb: 1,
       backgroundColor: Colors.red,
       textColor: Colors.white,
       fontSize: 14.0
@@ -214,7 +214,7 @@ class _LoginPageState extends State<RegisterData> {
       msg: "Por favor seleciona un  elemento*",
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
-      timeInSecForIos: 1,
+      timeInSecForIosWeb: 1,
       backgroundColor: Colors.red,
       textColor: Colors.white,
       fontSize: 14.0
