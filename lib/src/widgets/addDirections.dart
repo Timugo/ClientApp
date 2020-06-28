@@ -1,4 +1,3 @@
-
 //packages
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -21,294 +20,249 @@ class AddDireccions extends StatefulWidget {
     return new DeleteItemInListViewPopupMenuState(position: position);
   }
 }
+
 class DeleteItemInListViewPopupMenuState extends State<AddDireccions> {
   // finals
   final Position position;
   DeleteItemInListViewPopupMenuState({this.position});
   final deleteDirectio = DeleteAddress();
   final prefs = new PreferenciasUsuario();
-  final addressmodel =  Directions();
-   //Position _currentPosition;
- 
+  final addressmodel = Directions();
+  //Position _currentPosition;
+
   String _currentAddress;
   var isPressed = false;
-  var principal ='';
-  List<bool> individualCount = [false,false,false,false,false];
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>(); // global key of scaffol
-   //VoidCallback _showBottomSheetCallBack;
+  var principal = '';
+  List<bool> individualCount = [false, false, false, false, false];
+  final GlobalKey<ScaffoldState> _scaffoldKey =
+      new GlobalKey<ScaffoldState>(); // global key of scaffol
 
-  // Future<String> _getAddressFromLatLng(Position position) async {
-  //    final userInfo   = Provider.of<UserInfo>(context);
-  //   final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
-  //   try {
-  //     List<Placemark> p = await geolocator.placemarkFromCoordinates(
-  //         userInfo.loca.latitude, userInfo.loca.longitude);
-
-  //     Placemark place = p[0];
-      
-  //     setState(() {
-  //       _currentAddress =
-  //           " ${place.name},${place.locality}, ${place.subAdministrativeArea}";
-  //           print(_currentAddress);
-  //     });
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  //   return Future.delayed(Duration(seconds: 4),()=> _currentAddress);
-    
-  // }
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _showBottomSheetCallBack = _onButtonPressed;
-  // }
-  // void _onButtonPressed() {
-  //    setState(() {
-  //      _showBottomSheetCallBack = null; 
-  //    }); // show de modal botton sheet tha open the  add Directions widget
-    
-  //   _scaffoldKey.currentState.showBottomSheet( (context) {
-  //     return Container(
-  //       color: Color(0xFF737373),
-  //       child: Container(
-  //         child: NewTripLocationView(),
-  //         decoration: BoxDecoration(
-  //           color: Theme.of(context).canvasColor,
-  //           borderRadius: BorderRadius.only(
-  //             topLeft: Radius.circular(30),
-  //             topRight: Radius.circular(30),
-  //           ),
-  //         ),
-  //       ),
-  //     );
-  //   })
-  //   .closed
-  //   .whenComplete((){
-  //     if(mounted){
-  //       setState((){
-  //       _showBottomSheetCallBack = _onButtonPressed;
-  //       });
-  //     }
-  //   });
-  // }
-
-   
   Future<String> _getAddressFrom() async {
-     final userInfo   = Provider.of<UserInfo>(context);
+    final userInfo = Provider.of<UserInfo>(context);
     final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
     try {
       List<Placemark> p = await geolocator.placemarkFromCoordinates(
           userInfo.loca.latitude, userInfo.loca.longitude);
 
       Placemark place = p[0];
-      
+
       setState(() {
         _currentAddress =
             " ${place.name},${place.locality}, ${place.subAdministrativeArea}";
-            print(_currentAddress);
+        print(_currentAddress);
       });
     } catch (e) {
       print(e);
     }
-    return Future.delayed(Duration(seconds: 4),()=> _currentAddress);
-    
+    return Future.delayed(Duration(seconds: 4), () => _currentAddress);
   }
- 
 
-  void addPrincipal(String value,String city,int i){  //this function add the principal address of user
-    final userInfo   = Provider.of<UserInfo>(context);
-   // final addFavorite = SendFavorite();
+  void addPrincipal(String value, String city, int i) {
+    //this function add the principal address of user
+    final userInfo = Provider.of<UserInfo>(context);
+    // final addFavorite = SendFavorite();
     print('estpy selecionando');
     userInfo.directions = value;
     prefs.direccion = value;
-    userInfo.city= city;
-    print(prefs.direccion );
-   // addFavorite.seendFavorite(value);
+    userInfo.city = city;
+    print(prefs.direccion);
+    // addFavorite.seendFavorite(value);
   }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-     appBar: AppBar(
-        elevation: 0,
-        leading: new IconButton(
-          icon: new Icon(Icons.arrow_back, color: Colors.red,size: 35,),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        backgroundColor: Colors.white24,
-      ),
-     key: _scaffoldKey,
-      resizeToAvoidBottomInset: true,
-      body:Stack(
-        children:<Widget>[
-          Container(
-          padding:EdgeInsets.only(left:15,top: 25,right: 30) ,
-          child:ListTile(
-            title:Text("Elige o agrega una dirección",style: TextStyle(color: Colors.black,fontSize: 33,fontWeight: FontWeight.bold)),
-           ),
+        appBar: AppBar(
+          elevation: 0,
+          leading: new IconButton(
+            icon: new Icon(
+              Icons.arrow_back,
+              color: Colors.red,
+              size: 35,
+            ),
+            onPressed: () => Navigator.of(context).pop(),
           ),
-        Container(
-          padding:EdgeInsets.only(left:15,top: 80,right: 30),
-          alignment: Alignment.center,
-          child: _createItems(),
+          backgroundColor: Colors.white24,
         ),
-        Container(
-          alignment: Alignment.bottomCenter,
-            padding:EdgeInsets.only(bottom: size.height*0.04,left: 30,right: 30),
-              
-              child:RaisedButton(
-                 elevation: 5.0,
+        key: _scaffoldKey,
+        resizeToAvoidBottomInset: true,
+        body: Stack(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(left: 15, top: 25, right: 30),
+              child: ListTile(
+                title: Text("Elige o agrega una dirección",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 33,
+                        fontWeight: FontWeight.bold)),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 15, top: 80, right: 30),
+              alignment: Alignment.center,
+              child: _createItems(),
+            ),
+            Container(
+                alignment: Alignment.bottomCenter,
+                padding: EdgeInsets.only(
+                    bottom: size.height * 0.04, left: 30, right: 30),
+                child: RaisedButton(
+                  elevation: 5.0,
                   shape: new RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(20.0),
-                    
                   ),
                   padding: EdgeInsets.all(0.0),
-                  
+
 //
-                child: Ink(
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(colors: [Color(0xFF19AEFF), Color(0xFF139DF7),Color(0xFF0A83EE),Color(0xFF0570E5),Color(0xFF0064E0)],
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
+                  child: Ink(
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Color(0xFF19AEFF),
+                            Color(0xFF139DF7),
+                            Color(0xFF0A83EE),
+                            Color(0xFF0570E5),
+                            Color(0xFF0064E0)
+                          ],
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                        ),
+                        borderRadius: BorderRadius.circular(20.0)),
+                    child: Container(
+                      padding: EdgeInsets.fromLTRB(
+                          size.width * 0.1,
+                          size.height * 0.005,
+                          size.width * 0.1,
+                          size.height * 0.005),
+                      child: ListTile(
+                          trailing: Icon(
+                            Icons.add_location,
+                            color: Colors.white,
                           ),
-                          borderRadius: BorderRadius.circular(20.0)
-                      ),
-                      child: Container(
-                        padding: EdgeInsets.fromLTRB(size.width*0.1, size.height*0.005, size.width*0.1,size.height*0.005),
-                        child: ListTile( trailing: Icon(Icons.add_location,color: Colors.white,), title:Text("Añade una dirección ",textAlign: TextAlign.center,style: TextStyle(color: Colors.white,))),
-                      ),
+                          title: Text("Añade una dirección ",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.white,
+                              ))),
                     ),
+                  ),
 
-
-                onPressed: (){
-                 _goTo();
-                },
-              
-            )
-          ),
-        ],
-      )
-    );
+                  onPressed: () {
+                    _goTo();
+                  },
+                )),
+          ],
+        ));
   }
 
-  _goTo() async{
-
-  _getAddressFrom();
-  print(_currentAddress);
-   Future.delayed(const Duration(milliseconds:100), () {
+  _goTo() async {
+    _getAddressFrom();
+    print(_currentAddress);
+    Future.delayed(const Duration(milliseconds: 100), () {
       setState(() {
-    Navigator.push(
-          context,  
-            MaterialPageRoute(
-              builder: (context) => NewTripLocationView()
-            ));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => NewTripLocationView()));
 
-                  //_showBottomSheetCallBack();
-
-      });});
-
+        //_showBottomSheetCallBack();
+      });
+    });
   }
+
   // this widget call the services of get directions and  create a iterable list of istances the model Directions
-  Widget _createItems(){
-     final getdirections =GetAddresses();
+  Widget _createItems() {
+    final getdirections = GetAddresses();
 
-     return FutureBuilder(
-      future:  getdirections.getAddresses(),
-      builder: (BuildContext context, AsyncSnapshot<List<Directions>> snapshot) {  
-        if( snapshot.hasData ){
-          final productos = snapshot.data;
-          return Container(
-            margin:  EdgeInsets.only(top: 60,bottom: 90),
-            child:ListView.builder(
-              key: UniqueKey(),
-              itemCount: productos.length,
-              itemBuilder: (context, i) => ListTileItem(
-               addPrincipal: () => addPrincipal(productos[i].address,productos[i].city,i),
-               isPressed: individualCount[i],
-               producto: productos[i],
-              )
-              //{ return Card( child:_card(context, productos[i] ));}, //  create aiterable list and call _card for paint list
-            )
-          );
-        }else{
-          return Center(
-            child: CircularProgressIndicator()
-          );
-        }
-      }
-    );
+    return FutureBuilder(
+        future: getdirections.getAddresses(),
+        builder:
+            (BuildContext context, AsyncSnapshot<List<Directions>> snapshot) {
+          if (snapshot.hasData) {
+            final productos = snapshot.data;
+            return Container(
+                margin: EdgeInsets.only(top: 60, bottom: 90),
+                child: ListView.builder(
+                    key: UniqueKey(),
+                    itemCount: productos.length,
+                    itemBuilder: (context, i) => ListTileItem(
+                          addPrincipal: () => addPrincipal(
+                              productos[i].address, productos[i].city, i),
+                          isPressed: individualCount[i],
+                          producto: productos[i],
+                        )
+                    //{ return Card( child:_card(context, productos[i] ));}, //  create aiterable list and call _card for paint list
+                    ));
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        });
   }
-  
 }
 // this widget paint the list of elements the address user
 
 // show the  pop up where contains the form to add new address of user
-  
+
 class ListTileItem extends StatelessWidget {
   final Directions producto;
   final Function addPrincipal;
   final bool isPressed;
 
-  ListTileItem({this.producto,this.addPrincipal,this.isPressed});
+  ListTileItem({this.producto, this.addPrincipal, this.isPressed});
 
   @override
   Widget build(BuildContext context) {
     final deleteDirectio = DeleteAddress();
     print(producto.favorite);
-     return Card(
+    return Card(
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
+          borderRadius: BorderRadius.circular(15.0),
         ),
         elevation: 5,
-       child:Dismissible(
-        key: UniqueKey(),
-        background: Container(
-          color:Colors.redAccent
-        ),
-         onDismissed: (direccion){
-          deleteDirectio.deleteaddress(producto.address);
-         
-        },
-        child: Stack(
-        children: <Widget>[
-         
-          ListTile(
-          leading: Icon(Icons.place,color: producto.favorite == false ?Colors.black
+        child: Dismissible(
+            key: UniqueKey(),
+            background: Container(color: Colors.redAccent),
+            onDismissed: (direccion) {
+              deleteDirectio.deleteaddress(producto.address);
+            },
+            child: Stack(children: <Widget>[
+              ListTile(
+                leading: Icon(Icons.place,
+                    color: producto.favorite == false
+                        ? Colors.black
                         : Color(0xFF0064E0)),
-          title: Text(producto.address),
-          trailing:PopupMenuButton<int>(
-          itemBuilder: (context) => [
-                PopupMenuItem(
-                  child: IconButton(
-                  icon:Icon( Icons.delete,color: Colors.red,),
-                  onPressed:() {
-                     deleteDirectio.deleteaddress(producto.address);
-                       Navigator.push(
-                        context,  
-                        MaterialPageRoute(
-                          builder: (context) => Services()
-                        ));
-                    }),
+                title: Text(producto.address),
+                trailing: PopupMenuButton<int>(
+                  itemBuilder: (context) => [
+                    PopupMenuItem(
+                      child: IconButton(
+                          icon: Icon(
+                            Icons.delete,
+                            color: Colors.red,
+                          ),
+                          onPressed: () {
+                            deleteDirectio.deleteaddress(producto.address);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Services()));
+                          }),
+                    ),
+                    PopupMenuItem(
+                      child: IconButton(
+                          icon: Icon(
+                            Icons.check,
+                            color: Colors.green,
+                          ),
+                          onPressed: () {
+                            addPrincipal();
+                            Navigator.of(context).pop();
+                          }),
+                    ),
+                  ],
                 ),
-                 PopupMenuItem(
-                  child: IconButton(
-                  icon:Icon( Icons.check,color: Colors.green,),
-                  onPressed:(){ addPrincipal();
-                  Navigator.of(context).pop();
-                  }),
-                ),
-              ],
-        ),
-
-        
-          onTap:()=> addPrincipal(),
-      
-        ),
-         
-       
-     
-        ])));
-  
+                onTap: () => addPrincipal(),
+              ),
+            ])));
   }
 }

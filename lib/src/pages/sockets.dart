@@ -2,7 +2,6 @@
 // import 'dart:convert';
 // import 'package:adhara_socket_io/adhara_socket_io.dart';
 
-
 // const String URI = "https://timugotest.xyz";
 
 // class Sokects extends StatefulWidget {
@@ -71,12 +70,12 @@
 //     if (sockets[identifier] != null) {
 //       pprint("sending message from '$identifier'...");
 //       sockets[identifier].emit("handshake", [
-       
+
 //         {
 //           "usertype": "client",
 //           "phoneNumber": 123456789
 //         },
-       
+
 //       ]);
 //       pprint("Message emitted from '$identifier'...");
 //     }

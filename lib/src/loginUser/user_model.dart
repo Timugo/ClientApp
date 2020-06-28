@@ -4,23 +4,23 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 
-Model registerModelFromJson(String str) => Model.fromJson(json.decode(str));
+UserModel registerUserModelFromJson(String str) => UserModel.fromJson(json.decode(str));
 
-String registerModelToJson(Model data) => json.encode(data.toJson());
+String registerUserModelToJson(UserModel data) => json.encode(data.toJson());
 
-class Model with ChangeNotifier{
+class UserModel with ChangeNotifier{
     
     int phone;
     String name;
     String email;
-    Model({
+    UserModel({
      
         this.phone,
         this.name='',
         this.email='',
       
     });
-    factory Model.fromJson(Map<String, dynamic> json) => Model(
+    factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
   
         phone: (json["phone"]),
         email: json["email"],

@@ -11,9 +11,8 @@ import 'package:timugo/src/widgets/divider_with_text.dart';
 import 'package:timugo/src/widgets/formDirection.dart';
 //import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 
-
 class NewTripLocationView extends StatefulWidget {
- // final String currentAddress;
+  // final String currentAddress;
 
   //NewTripLocationView({Key key,this.currentAddress}) : super(key: key);
 
@@ -22,7 +21,7 @@ class NewTripLocationView extends StatefulWidget {
 }
 
 class _NewTripLocationViewState extends State<NewTripLocationView> {
- // String currentAddress;
+  // String currentAddress;
 //  _NewTripLocationViewState({this.currentAddress});
   TextEditingController _searchController = new TextEditingController();
   Timer _throttle;
@@ -30,8 +29,7 @@ class _NewTripLocationViewState extends State<NewTripLocationView> {
   // String _currentAddress;
   String _heading;
   List<Place> _placesList;
-  final List<Place> _suggestedList = [
-  ];
+  final List<Place> _suggestedList = [];
   @override
   void initState() {
     super.initState();
@@ -61,25 +59,24 @@ class _NewTripLocationViewState extends State<NewTripLocationView> {
       });
       return;
     }
-    
-    String busq = input.replaceAll(new RegExp(r'[^\w\s]+'),'');
-    print(busq);
-    String baseURL = 'https://maps.googleapis.com/maps/api/place/autocomplete/json';
-    String apiKey= 'AIzaSyDsPifARDpIqrgAS8TBQtyI7baFlXh3Lu4';
 
-    String request = '$baseURL?input=$busq&language=es&location=3.4372201,-76.5224991&radius=500&key=$apiKey';
+    String busq = input.replaceAll(new RegExp(r'[^\w\s]+'), '');
+    print(busq);
+    String baseURL =
+        'https://maps.googleapis.com/maps/api/place/autocomplete/json';
+    String apiKey = 'AIzaSyDsPifARDpIqrgAS8TBQtyI7baFlXh3Lu4';
+
+    String request =
+        '$baseURL?input=$busq&language=es&location=3.4372201,-76.5224991&radius=500&key=$apiKey';
 
     // &location=3.4372201,-76.5224991&radius=500&
     Response response = await Dio().get(request);
-   
 
     final predictions = response.data['predictions'];
-    
-    List<Place> _displayResults = [
-     
-    ];
 
-    for (var i=0; i < predictions.length; i++) {
+    List<Place> _displayResults = [];
+
+    for (var i = 0; i < predictions.length; i++) {
       String name = predictions[i]['description'];
       double averageBudget = 200.0;
       _displayResults.add(Place(name, averageBudget));
@@ -90,63 +87,34 @@ class _NewTripLocationViewState extends State<NewTripLocationView> {
       _placesList = _displayResults;
     });
   }
-  //   _getCurrentLocation() {
-  //   final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
 
-  //   geolocator
-  //       .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-  //       .then((Position position) {
-  //     setState(() {
-  //       _currentPosition = position;
-  //     });
-  //   }).catchError((e) {
-  //     print(e);
-  //   });
-  // }
-  // Future<String> _getAddressFrom(Position position) async {
-  //    final userInfo   = Provider.of<UserInfo>(context);
-  //   final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
-  //   try {
-  //     List<Placemark> p = await geolocator.placemarkFromCoordinates(
-  //         userInfo.loca.latitude, userInfo.loca.longitude);
-
-  //     Placemark place = p[0];
-      
-  //     setState(() {
-  //       _currentAddress =
-  //           " ${place.name},${place.locality}, ${place.subAdministrativeArea}";
-  //           print(_currentAddress);
-  //     });
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  //   return Future.delayed(Duration(seconds: 4),()=> _currentAddress);
-    
-  // }
 
   @override
   Widget build(BuildContext context) {
-   
     return Scaffold(
-    
-       appBar: AppBar(
+      appBar: AppBar(
         elevation: 0,
-        
         leading: new IconButton(
-          icon: new Icon(Icons.arrow_back, color: Colors.red,size: 35,),
+          icon: new Icon(
+            Icons.arrow_back,
+            color: Colors.red,
+            size: 35,
+          ),
           onPressed: () => Navigator.of(context).pop(),
         ),
-         backgroundColor: Colors.white24,
+        backgroundColor: Colors.white24,
       ),
       body: Center(
         child: Column(
           children: <Widget>[
             ListTile(
-              title:Text('Ingresa tu dirección ',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-                    textAlign: TextAlign.left,),
-              subtitle:Text('ej: calle 23 # 70-81 barrio .. '),
+              title: Text(
+                'Ingresa tu dirección ',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                textAlign: TextAlign.left,
+              ),
+              subtitle: Text('ej: calle 23 # 70-81 barrio .. '),
             ),
-            
             Container(
               padding: const EdgeInsets.all(30.0),
               child: TextField(
@@ -162,7 +130,6 @@ class _NewTripLocationViewState extends State<NewTripLocationView> {
                 dividerText: _heading,
               ),
             ),
-            
             Expanded(
               child: ListView.builder(
                 itemCount: _placesList.length,
@@ -177,7 +144,6 @@ class _NewTripLocationViewState extends State<NewTripLocationView> {
   }
 
   Widget buildPlaceCard(BuildContext context, int index) {
-  
     return Hero(
       tag: "SelectedTrip-${_placesList[index].name}",
       transitionOnUserGestures: true,
@@ -188,94 +154,93 @@ class _NewTripLocationViewState extends State<NewTripLocationView> {
             right: 8.0,
           ),
           child: Card(
-             shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
-        ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+            ),
             child: InkWell(
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              
-                              
-
-                              Flexible(
-                                child:ListTile(
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Flexible(
+                                    child: ListTile(
                                   trailing: IconButton(
                                     icon: Icon(Icons.arrow_right),
-                                    onPressed:() async{
+                                    onPressed: () async {
                                       String address = _placesList[index].name;
                                       _getAddressFromLatLng(address);
-                                      Future.delayed(const Duration(seconds: 4), () {
-                                            setState(() {
-                                              Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => FormDirections(address: address)),
-                                      );
-                                            });
-                                          });
-                                      
-                                    }
-                                  ,), 
-                                  title:Text(_placesList[index].name,style:(TextStyle(color: Colors.black,fontWeight: FontWeight.w500)),),
+                                      Future.delayed(const Duration(seconds: 4),
+                                          () {
+                                        setState(() {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    FormDirections(
+                                                        address: address)),
+                                          );
+                                        });
+                                      });
+                                    },
+                                  ),
+                                  title: Text(
+                                    _placesList[index].name,
+                                    style: (TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500)),
+                                  ),
                                   leading: Icon(Icons.place),
-                                  
-                                )
-                              ),
-                            ],
-                          ),
-                          
-                        ],
+                                )),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                 
-                ],
-              ),
-              onTap: (){
-                String address = _placesList[index].name;
-                _getAddressFromLatLng(address);
-               
-                
-              }
-            ),
+                  ],
+                ),
+                onTap: () {
+                  String address = _placesList[index].name;
+                  _getAddressFromLatLng(address);
+                }),
           ),
         ),
       ),
     );
   }
-    _getAddressFromLatLng(String address) async {
-     final userInfo   = Provider.of<UserInfo>(context);
+
+  _getAddressFromLatLng(String address) async {
+    final userInfo = Provider.of<UserInfo>(context);
 
     final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
     try {
-      List<Placemark> placemark = await geolocator.placemarkFromAddress(address);
+      List<Placemark> placemark =
+          await geolocator.placemarkFromAddress(address);
 
       Placemark place = placemark[0];
-      
+
       setState(() {
-        userInfo.loca=place.position;
-        
+        userInfo.loca = place.position;
       });
-    } catch (e) { 
+    } catch (e) {
       print(e);
     }
-     Future.delayed(const Duration(milliseconds:100), () {
+    Future.delayed(const Duration(milliseconds: 100), () {
       setState(() {
         Navigator.push(
-  context,
-  MaterialPageRoute(
-      builder: (context) => FormDirections(address: address,position: userInfo.loca,)),
-);
+          context,
+          MaterialPageRoute(
+              builder: (context) => FormDirections(
+                    address: address,
+                    position: userInfo.loca,
+                  )),
+        );
       });
     });
-  
-    
   }
 }

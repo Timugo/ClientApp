@@ -13,8 +13,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 */
 
 class PreferenciasUsuario {
-
-  static final PreferenciasUsuario _instancia = new PreferenciasUsuario._internal();
+  static final PreferenciasUsuario _instancia =
+      new PreferenciasUsuario._internal();
 
   factory PreferenciasUsuario() {
     return _instancia;
@@ -33,7 +33,7 @@ class PreferenciasUsuario {
     return _prefs.getString('order') ?? '';
   }
 
-  set order( String value ) {
+  set order(String value) {
     _prefs.setString('order', value);
   }
 
@@ -41,67 +41,72 @@ class PreferenciasUsuario {
     return _prefs.getString('token') ?? '';
   }
 
-  set token( String value ) {
+  set token(String value) {
     _prefs.setString('token', value);
   }
-   get tokenPhone {
+
+  get tokenPhone {
     return _prefs.getString('tokenPhone') ?? '';
   }
-  set pts( String value ) {
+
+  set pts(String value) {
     _prefs.setString('pts', value);
   }
-  get pts{
+
+  get pts {
     return _prefs.getString('pts') ?? '';
   }
 
-  set tokenPhone( String value ) {
+  set tokenPhone(String value) {
     _prefs.setString('tokenPhone', value);
   }
+
   get name {
     return _prefs.getString('name') ?? '';
   }
 
-  set name( String value ) {
+  set name(String value) {
     _prefs.setString('name', value);
   }
 
-   set email( String value ) {
+  set email(String value) {
     _prefs.setString('email', value);
   }
-  get email{
+
+  get email {
     return _prefs.getString('email') ?? '';
   }
-  
 
   // GET y SET de la última página
   get ultimaPagina {
     return _prefs.getString('ultimaPagina') ?? 'login';
   }
 
-  set ultimaPagina( String value ) {
+  set ultimaPagina(String value) {
     _prefs.setString('ultimaPagina', value);
   }
 
-  
-  set id( String value ) {
+  set id(String value) {
     _prefs.setString('id', value);
   }
+
   get id {
     return _prefs.getString('id') ?? '';
   }
-   set direccion( String value ) {
+
+  set direccion(String value) {
     _prefs.setString('direccion', value);
   }
+
   get direccion {
     return _prefs.getString('direccion') ?? '';
   }
-   get payment {
+
+  get payment {
     return _prefs.getString('payment') ?? '';
   }
-  set payment( String value ) {
+
+  set payment(String value) {
     _prefs.setString('payment', value);
   }
- 
-
 }
-
