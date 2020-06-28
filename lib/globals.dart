@@ -8,3 +8,6 @@ library my_prj.globals;
 String url = 'https://api.timugo.com/';
 /* Sanbox URL */
 //String url ='https://sandbox.timugo.com/'; 
+
+/*data url*/
+String dataUrl = 'https://data.timugo.com/';
