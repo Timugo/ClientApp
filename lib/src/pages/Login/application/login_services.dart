@@ -1,12 +1,15 @@
+//flutter dependencies
 import 'package:http/http.dart' as http;
-import 'package:timugo/globlas.dart' as globals;
+import 'package:timugo/globals.dart' as globals;
 import 'dart:convert';
-
+// Preferences
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 
 final String urlBase = globals.url;
 
-/* Class that create a user  */
+/* 
+  Class that create a user 
+*/
 class RegisterUser {
   /* Request Url  */
   final String url = urlBase + 'loginUserV2';
@@ -24,24 +27,34 @@ class RegisterUser {
     return jsonDecode(response.body);
   }
 }
-/* Class that get the user information */
+
+/*
+  Class that get the user information
+*/
 class GetUserInformation {
+  // Properties
   final String url = urlBase + 'getUser';
   final prefs = PreferenciasUsuario();
 
   Future<Map<String, dynamic>> getName(String phone) async {
     var _urlcode = url + '?phone=' + phone;
-    // make POST request
-    http.Response response = await http.get(_urlcode);
-    final decodeData = jsonDecode(response.body);
-    // put the  user information into  internal storage
-    if (decodeData['response'] == 2) {
-      prefs.name = decodeData['content']['name'].toString();
-      prefs.pts = decodeData['content']['points'].toString();
-      prefs.id = decodeData['content']['id'].toString();
-      prefs.email = decodeData['content']['email'].toString();
-      //  userInfo.pts=decodeData['content']['points'];
-    }
-    return decodeData;
+    // http.Response response = await http.get(_urlcode);
+    //final decodeData = jsonDecode(response.body);
+
+    //POST request (Need to be improved, servives only returns a https requests)
+    http.get(_urlcode).then((response) {
+      final decodeData = jsonDecode(response.body);
+      if (decodeData['response'] == 2) {
+        prefs.name = decodeData['content']['name'].toString();
+        prefs.pts = decodeData['content']['points'].toString();
+        prefs.id = decodeData['content']['id'].toString();
+        prefs.email = decodeData['content']['email'].toString();
+      }
+
+      return decodeData;
+    }).catchError((err) {
+      //error handle
+      print(err);
+    });
   }
 }
