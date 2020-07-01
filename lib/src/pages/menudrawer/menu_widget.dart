@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 //import 'package:timugo/src/pages/Payment.dart';
-import 'package:timugo/src/pages/userInfo_pages.dart';
+import 'package:timugo/src/pages/menudrawer/widgets/userprofile_widget.dart';
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';

@@ -6,9 +6,9 @@ import 'package:timugo/src/models/card_model.dart';
 import 'package:timugo/src/models/directions_model.dart';
 import 'package:timugo/src/models/nequi_model.dart';
 import 'package:timugo/src/models/pseInstitu_model.dart';
-import 'package:timugo/src/models/publicityMethods_model.dart';
 import 'package:timugo/src/models/services_model.dart';
 import 'package:timugo/src/models/temporalOrder_model.dart';
+import 'package:timugo/src/pages/register/domain/publicitymethods_model.dart';
 
 import 'dart:convert';
 

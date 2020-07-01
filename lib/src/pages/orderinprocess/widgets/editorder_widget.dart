@@ -5,7 +5,7 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:timugo/src/models/order_model.dart';
 import 'package:timugo/src/models/temporalOrder_model.dart';
 //pages
-import 'package:timugo/src/pages/orderProcces_page.dart';
+import 'package:timugo/src/pages/orderinprocess/orderinprocces_page.dart';
 import 'package:timugo/src/services/number_provider.dart';
 
 class EditOrder extends StatefulWidget {

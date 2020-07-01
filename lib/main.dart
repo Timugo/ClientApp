@@ -1,9 +1,11 @@
 //Flutter dependencies
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:timugo/src/loginUser/login_page.dart';
-import 'package:timugo/src/pages/checkin_page.dart';
-import 'package:timugo/src/pages/orderProcces_page.dart';
+import 'package:timugo/src/pages/Login/application/login_page.dart';
+import 'package:timugo/src/pages/checkin/checkin_page.dart';
+import 'package:timugo/src/pages/orderinprocess/orderinprocces_page.dart';
+import 'package:timugo/src/pages/register/application/registerData_page.dart';
+import 'package:timugo/src/pages/register/application/widgets/publicityMethods_widget.dart';
 
 //User dependencies
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
@@ -12,12 +14,10 @@ import 'package:timugo/src/providers/counter_provider.dart';
 import 'package:timugo/src/providers/order.dart';
 import 'package:timugo/src/providers/push_notifications_provider.dart';
 import 'package:timugo/src/providers/user.dart';
-import 'package:timugo/src/registerUserData/publicityMethods_widget.dart';
-import 'package:timugo/src/registerUserData/registerData_page.dart';
 import 'package:timugo/src/services/number_provider.dart';
 //pages
 
-import 'package:timugo/src/pages/services_page.dart';
+import 'package:timugo/src/pages/homeservices/services_page.dart';
 import 'package:timugo/src/widgets/formDirection.dart';
 
 void main() async {
@@ -75,7 +75,7 @@ class _MyAppState extends State<MyApp> {
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          initialRoute: 'login',
+          initialRoute: _rute(),
           navigatorKey: navigatorKey,
           routes: {
             'login': (context) => LoginPage(),
@@ -90,7 +90,7 @@ class _MyAppState extends State<MyApp> {
           },
         ));
   }
-
+  
   _rute<String>() {
     final prefs = new PreferenciasUsuario();
     final checkUserOrder = CheckUserOrder();

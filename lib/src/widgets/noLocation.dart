@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:timugo/src/pages/services_page.dart';
+import 'package:timugo/src/pages/homeservices/services_page.dart';
 
 class NoLocations extends StatelessWidget {
   // This widget is the root of your application.

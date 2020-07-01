@@ -10,8 +10,8 @@ import 'package:timugo/src/providers/barber_provider.dart';
 import 'package:timugo/src/models/temporalOrder_model.dart';
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 //pages
-import 'package:timugo/src/pages/services_page.dart';
-import 'editOrder_page.dart';
+import 'package:timugo/src/pages/homeservices/services_page.dart';
+import 'widgets/editorder_widget.dart';
 import 'package:timugo/globals.dart' as globals;
 
 

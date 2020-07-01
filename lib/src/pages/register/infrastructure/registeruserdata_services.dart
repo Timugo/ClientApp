@@ -1,8 +1,8 @@
 import 'package:http/http.dart' as http;
-import 'package:timugo/globlas.dart' as globals;
+import 'package:timugo/globals.dart' as globals;
+import 'package:timugo/src/pages/register/domain/publicitymethods_model.dart';
 import 'dart:convert';
 
-import 'package:timugo/src/models/publicityMethods_model.dart';
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 
 final String urlBase = globals.url;

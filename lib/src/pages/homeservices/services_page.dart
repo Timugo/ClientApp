@@ -3,14 +3,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
-import 'package:timugo/src/pages/menu_widget.dart';
-import 'package:timugo/src/pages/orderProcces_page.dart';
+import 'package:timugo/src/pages/menudrawer/menu_widget.dart';
+import 'package:timugo/src/pages/orderinprocess/orderinprocces_page.dart';
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'package:timugo/src/providers/user.dart';
-import 'package:timugo/src/widgets/addDirections.dart';
+import 'package:timugo/src/pages/directions/directions_page.dart';
 //Pages
-import 'package:timugo/src/widgets/cardsServices.dart';
-import 'package:timugo/src/widgets/cardsBarbers.dart';
+import 'package:timugo/src/pages/homeservices/widgets/cardservices_widget.dart';
+import 'package:timugo/src/pages/homeservices/widgets/cardbarbers_widget.dart';
 import 'package:timugo/src/widgets/circularBackground.dart';
 import 'package:timugo/src/services/number_provider.dart';
 

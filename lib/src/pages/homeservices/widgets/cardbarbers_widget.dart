@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:timugo/src/models/barbers_model.dart';
 import 'package:timugo/src/services/number_provider.dart';
-import 'description.dart';
+import '../../../widgets/description.dart';
 // Enviroment Variables
 import 'package:timugo/globals.dart' as globals;
 

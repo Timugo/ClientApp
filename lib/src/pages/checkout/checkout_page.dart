@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:timugo/src/providers/user.dart';
 //pages
-import 'package:timugo/src/widgets/addDirections.dart';
+import 'package:timugo/src/pages/directions/directions_page.dart';
 import 'package:timugo/src/services/number_provider.dart';
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
-import 'orderProcces_page.dart';
+import '../orderinprocess/orderinprocces_page.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 //this class contains the user order summary

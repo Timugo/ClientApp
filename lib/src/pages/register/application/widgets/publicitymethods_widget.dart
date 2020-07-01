@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:timugo/src/models/publicityMethods_model.dart';
+import 'package:timugo/src/pages/register/domain/publicitymethods_model.dart';
 import 'package:timugo/src/providers/user.dart';
 import 'package:timugo/src/services/number_provider.dart';
 

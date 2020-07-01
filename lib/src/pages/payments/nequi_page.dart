@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:timugo/src/services/number_provider.dart';
-import 'Payment.dart';
+import 'payments_page.dart';
 
 // //pages
 class NequiPage extends StatefulWidget {

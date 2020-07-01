@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:timugo/src/pages/Payment.dart';
-import 'package:timugo/src/services/number_provider.dart';
+
 import 'package:credit_card_type_detector/credit_card_type_detector.dart';
 
 class CreditCardH extends StatefulWidget {
@@ -186,48 +184,48 @@ class MySampleState extends State<CreditCardH> {
       ),
     );
   
- _showMessa(String mesg){ // show the toast message in bell appbar
-    Fluttertoast.showToast(
-      msg: mesg,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 1,
-      backgroundColor: Colors.red,
-      textColor: Colors.white,
-      fontSize: 14.0
-    );
+//  _showMessa(String mesg){ // show the toast message in bell appbar
+//     Fluttertoast.showToast(
+//       msg: mesg,
+//       toastLength: Toast.LENGTH_SHORT,
+//       gravity: ToastGravity.BOTTOM,
+//       timeInSecForIosWeb: 1,
+//       backgroundColor: Colors.red,
+//       textColor: Colors.white,
+//       fontSize: 14.0
+//     );
 
-  _showMessa(String mesg) {
-    // show the toast message in bell appbar
-    Fluttertoast.showToast(
-        msg: mesg,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 14.0);
-  }
+//   _showMessa(String mesg) {
+//     // show the toast message in bell appbar
+//     Fluttertoast.showToast(
+//         msg: mesg,
+//         toastLength: Toast.LENGTH_SHORT,
+//         gravity: ToastGravity.BOTTOM,
+//         backgroundColor: Colors.red,
+//         textColor: Colors.white,
+//         fontSize: 14.0);
+//   }
 
-  _sendCard() {
-    final sendCreditCard = SendCreditCard();
-    var res = sendCreditCard.sendCard(
-        name,
-        lastName,
-        int.parse((expiryDate.substring(0, 2))),
-        int.parse((expiryDate.substring(2, 4))),
-        int.parse(cvvCode),
-        brand,
-        int.parse(cardNumber));
+  // _sendCard() {
+  //   final sendCreditCard = SendCreditCard();
+  //   var res = sendCreditCard.sendCard(
+  //       name,
+  //       lastName,
+  //       int.parse((expiryDate.substring(0, 2))),
+  //       int.parse((expiryDate.substring(2, 4))),
+  //       int.parse(cvvCode),
+  //       brand,
+  //       int.parse(cardNumber));
 
-    res.then((response) async {
-      print(response);
-      if (response['response'] == 2) {
-        _showMessa('Se ha agregado exitosamente tu cuenta');
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Payment()));
-      }
-    });
-  }
+  //   res.then((response) async {
+  //     print(response);
+  //     if (response['response'] == 2) {
+  //       _showMessa('Se ha agregado exitosamente tu cuenta');
+  //       Navigator.push(
+  //           context, MaterialPageRoute(builder: (context) => Payment()));
+  //     }
+  //   });
+  // }
  }
 //  bool _checkCard(){
 //    bool res = true;
@@ -256,7 +254,7 @@ class MySampleState extends State<CreditCardH> {
 
 //  }
 }
-}
+
 class MyTextFormField extends StatelessWidget {
   final Icon text;
   final String hintText;

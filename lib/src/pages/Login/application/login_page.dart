@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:timugo/src/pages/Login/application/privacypolicies_widget.dart';
+
 /*models*/
-import 'package:timugo/src/loginUser/user_model.dart';
-import 'package:timugo/src/registerUserData/privacyPolicies_page.dart';
 /* Services */
 import 'package:timugo/src/services/number_provider.dart';
 /* widgets */
 import 'package:timugo/src/widgets/buttonCustom.dart';
+
+import '../domain/user_model.dart';
 
 class LoginPage extends StatefulWidget {
   @override

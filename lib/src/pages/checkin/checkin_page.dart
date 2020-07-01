@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 // pages
 import 'package:timugo/src/widgets/appbar.dart';
-import 'checkout_page.dart';
+import '../checkout/checkout_page.dart';
 //providers
 import 'package:timugo/src/providers/user.dart';
 import 'package:timugo/src/services/number_provider.dart';
