@@ -1,21 +1,22 @@
 //flutter dependencies
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+/* Models*/
 import 'package:timugo/src/pages/Login/domain/user_model.dart';
+/* Pages */ 
+import 'package:timugo/src/pages/homeservices/application/services_page.dart';
 import 'package:timugo/src/pages/register/application/widgets/publicitymethods_widget.dart';
-//user dependencies
+/* Provider*/
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'package:timugo/src/providers/user.dart';
+/* services*/
 import 'package:timugo/src/services/number_provider.dart';
+/* Widgets*/
 import 'package:timugo/src/widgets/buttonCustom.dart';
 import 'package:timugo/src/widgets/textFormFieldCustom.dart';
-
-// widgets
 import 'package:timugo/src/widgets/toastMessage.dart';
 import 'package:validators/validators.dart' as validator;
-import 'package:provider/provider.dart';
-//pages
-import 'package:timugo/src/pages/homeservices/services_page.dart';
 
 /* Page for register the user Data (only  for register with  phone)*/
 class RegisterUserData extends StatefulWidget {

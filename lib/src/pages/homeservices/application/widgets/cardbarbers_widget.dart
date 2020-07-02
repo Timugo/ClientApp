@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:timugo/src/models/barbers_model.dart';
+import 'package:timugo/src/pages/homeservices/domain/barbers_model.dart';
 import 'package:timugo/src/services/number_provider.dart';
-import '../../../widgets/description.dart';
 // Enviroment Variables
 import 'package:timugo/globals.dart' as globals;
+/* Widgets */
+import 'barberprofile_widget.dart';
 
 class CardsBarbers extends StatelessWidget {
   @override

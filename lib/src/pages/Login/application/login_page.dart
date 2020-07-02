@@ -1,23 +1,23 @@
 /* Flutter dependencies */
+import 'dart:convert';
+
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:country_code_picker/country_code_picker.dart';
-import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
-import 'package:timugo/src/providers/user.dart';
-import 'dart:convert';
-/* models */
-import '../domain/user_model.dart';
-/* Services */
+import 'package:provider/provider.dart';
+/* Pages */
+import 'package:timugo/src/pages/Login/application/privacypolicies_widget.dart';
 import 'package:timugo/src/pages/Login/infrastructure/login_services.dart';
-/* widgets */
+import 'package:timugo/src/pages/register/application/registerData_page.dart';
+import 'package:timugo/src/providers/user.dart';
+/* Widget */
 import 'package:timugo/src/widgets/buttonCustom.dart';
 import 'package:timugo/src/widgets/toastMessage.dart';
-import 'package:timugo/src/pages/Login/application/privacypolicies_widget.dart';
-/* pages */
-import 'package:timugo/src/pages/register/application/registerData_page.dart';
+/* Models */
+import '../domain/user_model.dart';
 
 
 //contains the login page

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:timugo/src/models/barbers_model.dart';
+import 'package:timugo/src/pages/homeservices/domain/barbers_model.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 class Description extends StatelessWidget {

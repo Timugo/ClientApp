@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
-import 'package:timugo/src/models/services_model.dart';
-import 'package:timugo/src/pages/checkin/checkin_page.dart';
-import 'package:timugo/src/providers/user.dart';
-import 'package:timugo/src/services/number_provider.dart';
-// Enviroment variables
+/* Enviroments*/
 import 'package:timugo/globals.dart' as globals;
+/* Pages */
+import 'package:timugo/src/pages/checkin/application/checkin_page.dart';
+import 'package:timugo/src/pages/homeservices/domain/services_model.dart';
+import 'package:timugo/src/providers/user.dart';
+/* Services */
+import 'package:timugo/src/services/number_provider.dart';
+import 'package:timugo/src/widgets/toastMessage.dart';
 class CardsServices extends StatelessWidget {
   const CardsServices({Key key}) : super(key: key);
 
@@ -43,7 +45,6 @@ class CardsServices extends StatelessWidget {
 class _Card extends StatelessWidget {
   final  ServicesModel prod;
   _Card(this.prod);
-  final String  url = globals.url;
   
   @override
   Widget build(BuildContext context) {
@@ -88,31 +89,12 @@ class _Card extends StatelessWidget {
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => Checkin(model: prod)));
       } else {
-        _showMessa();
+        showToast("Aún no tienes ordenes en curso!", Colors.red);
       }
     });
   }
-   _showMessa(){
-    Fluttertoast.showToast(
-      msg: "Aún tienes ordenes en curso!",
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 1,
-      backgroundColor: Colors.red,
-      textColor: Colors.white,
-      fontSize: 14.0
-    );
+  
 
-  // _showMessa() {
-  //   Fluttertoast.showToast(
-  //       msg: "Aún tienes ordenes en curso!",
-  //       toastLength: Toast.LENGTH_SHORT,
-  //       gravity: ToastGravity.BOTTOM,
-  //       backgroundColor: Colors.red,
-  //       textColor: Colors.white,
-  //       fontSize: 14.0);
-  // }
-}
 }
 class _DescriptionCard extends StatelessWidget {
   final ServicesModel prod;
@@ -181,17 +163,7 @@ class _DescriptionCard extends StatelessWidget {
     )
     );  
   }
-  // _showMessa(){
-  //   Fluttertoast.showToast(
-  //     msg: "Aún tienes ordenes en curso!",
-  //     toastLength: Toast.LENGTH_SHORT,
-  //     gravity: ToastGravity.BOTTOM,
-  //     timeInSecForIosWeb: 1,
-  //     backgroundColor: Colors.red,
-  //     textColor: Colors.white,
-  //     fontSize: 14.0
-  //   );
-  // }
+  
   _onTap(context){
     final checkUserOrder =CheckUserOrder();
     var res = checkUserOrder.checkUserOrder();

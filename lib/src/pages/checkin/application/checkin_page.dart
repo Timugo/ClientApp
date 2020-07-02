@@ -1,24 +1,21 @@
 //packages
-import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-// pages
-import 'package:timugo/src/widgets/appbar.dart';
-import '../checkout/checkout_page.dart';
-//providers
-import 'package:timugo/src/providers/user.dart';
-import 'package:timugo/src/services/number_provider.dart';
-//models
+import 'package:provider/provider.dart';
+import 'package:timugo/globals.dart' as globals;
 import 'package:timugo/src/models/aditional_model.dart';
 import 'package:timugo/src/models/order_model.dart';
-import 'package:timugo/src/models/services_model.dart';
-// Enviroment variables
-import 'package:timugo/globals.dart' as globals;
+import 'package:timugo/src/pages/homeservices/domain/services_model.dart';
+import 'package:timugo/src/providers/user.dart';
+import 'package:timugo/src/services/number_provider.dart';
+import 'package:timugo/src/widgets/appbar.dart';
+import 'package:timugo/src/widgets/buttonCustom.dart';
+
+import '../../checkout/checkout_page.dart';
 
 // this class contains the  checkin and  aditional services of  services pages
 class Checkin extends StatefulWidget {
   final ServicesModel model; //  this class receive  the model of services
   Checkin({this.model});
-
   @override
   _CheckinState createState() {
     return new _CheckinState(model: model);
@@ -29,10 +26,13 @@ class _CheckinState extends State<Checkin> {
   final ServicesModel model;
   _CheckinState({this.model});
 
-  final List orderFinal = [];
-  final List tem = [];
-  final order = OrderModel();
-  List<int> individualCount = [0, 0];
+  final List orderFinal = []; // contains the final order
+  final List temporalOrder = [];
+  final order = OrderModel(); // instance  of order model
+  List<int> individualCount = [
+    0,
+    0
+  ]; // list that contains the quantity of each service
 
   int number = 1;
   int total = 0;
@@ -40,7 +40,7 @@ class _CheckinState extends State<Checkin> {
 
   // this function add the  principal service of user
   void addServiceToarray() {
-    if (tem.contains(model.name)) {
+    if (temporalOrder.contains(model.name)) {
       for (var i in orderFinal) {
         if (i["nameService"] == model.name) {
           i["quantity"] = number;
@@ -48,7 +48,7 @@ class _CheckinState extends State<Checkin> {
         }
       }
     } else {
-      tem.add(model.name);
+      temporalOrder.add(model.name);
       order.id = model.id;
       order.nameService = model.name;
       order.typeService = "Service";
@@ -114,20 +114,20 @@ class _CheckinState extends State<Checkin> {
   @override
   Widget build(BuildContext context) {
     // Data server Url
-    final String  dataUrl = globals.dataUrl;
+    final String dataUrl = globals.dataUrl;
     final size = MediaQuery.of(context).size;
-    final userInfo = Provider.of<UserInfo>(context);
     final price = int.parse(model.price);
-    
 
     return Scaffold(
-      body: Stack(alignment: Alignment.topCenter, children: <Widget>[
+        body: Stack(alignment: Alignment.topCenter, children: <Widget>[
       AppBarCheckin(),
       Positioned(
-        top: 70,
-        height: size.height * 0.25,
-        child: Image.network(dataUrl+model.urlImg,width: size.height * 0.20,)
-      ),
+          top: 70,
+          height: size.height * 0.25,
+          child: Image.network(
+            dataUrl + model.urlImg,
+            width: size.height * 0.20,
+          )),
       Container(
         child: _crearListado(),
       ),
@@ -147,58 +147,21 @@ class _CheckinState extends State<Checkin> {
               ),
               Column(children: <Widget>[
                 Container(
-                  child: RaisedButton(
-                    elevation: 5.0,
-                    onPressed: () {
-                      userInfo.price = total.toString();
-                      print(orderFinal);
-                      addServiceToarray();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Checkout(
-                            temp: orderFinal,
-                            price: price * number,
-                            priceA: total)
-                        )
-                      );
-                    },
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0)),
-                    padding: EdgeInsets.all(0.0),
-                    child: Ink(
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Color(0xFF19AEFF),
-                              Color(0xFF139DF7),
-                              Color(0xFF0A83EE),
-                              Color(0xFF0570E5),
-                              Color(0xFF0064E0)
-                            ],
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                          ),
-                          borderRadius: BorderRadius.circular(20.0)),
-                      child: Container(
-                          padding: EdgeInsets.fromLTRB(
-                              size.width * 0.1,
-                              size.height * 0.02,
-                              size.width * 0.1,
-                              size.height * 0.02),
-                          alignment: Alignment.center,
-                          child: Text(
-                              'Agregar' +
-                                  ' ' +
-                                  "\$" +
-                                  (total + price * (number)).toString(),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Colors.white,
-                              ))),
-                    ),
-                  ),
-                ),
+                    child: MyCustomButtoms(
+                        hintText: 'Agregar' +
+                            ' ' +
+                            "\$" +
+                            (total + price * (number)).toString(),
+                        onPressed: () {
+                          _submit(price);
+                        },
+                        colors: [
+                      Color(0xFF19AEFF),
+                      Color(0xFF139DF7),
+                      Color(0xFF0A83EE),
+                      Color(0xFF0570E5),
+                      Color(0xFF0064E0)
+                    ])),
               ])
 
               // )
@@ -207,6 +170,18 @@ class _CheckinState extends State<Checkin> {
         ),
       )
     ]));
+  }
+
+  void _submit(int price) {
+    final userInfo = Provider.of<UserInfo>(context);
+
+    userInfo.price = total.toString();
+    addServiceToarray();
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Checkout(
+                temp: orderFinal, price: price * number, priceA: total)));
   }
 
 // this  widget contains the add button
@@ -298,7 +273,7 @@ class _CheckinState extends State<Checkin> {
 
   // this function add the  items the order to list as  json
   void addAditionalOrder(producto) {
-    if (tem.contains(producto.name)) {
+    if (temporalOrder.contains(producto.name)) {
       //verify that the article is already added to the list
       for (var i in orderFinal) {
         if (i["nameService"] == producto.name) {
@@ -311,7 +286,7 @@ class _CheckinState extends State<Checkin> {
       }
     } else {
       print('nuevo'); //if not added create the item
-      tem.add(producto.name);
+      temporalOrder.add(producto.name);
       order.id = producto.id;
       order.nameService = producto.name;
       order.typeService = "aditional";
@@ -319,7 +294,7 @@ class _CheckinState extends State<Checkin> {
       order.quantity = 1;
       orderFinal.add(order.toJson());
       print(orderFinal);
-      print(tem);
+      print(temporalOrder);
     }
   }
 
@@ -330,7 +305,7 @@ class _CheckinState extends State<Checkin> {
         if (i["quantity"] == 1) {
           // if  te quantity of item is the  latest  the delte of list
           orderFinal.remove(i);
-          tem.remove(producto.id);
+          temporalOrder.remove(producto.id);
         } else {
           i["quantity"] -= 1; // just drecrement if there is more than one item
         }

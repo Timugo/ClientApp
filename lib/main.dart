@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:timugo/src/pages/Login/application/login_page.dart';
-import 'package:timugo/src/pages/checkin/checkin_page.dart';
+import 'package:timugo/src/pages/checkin/application/checkin_page.dart';
 import 'package:timugo/src/pages/orderinprocess/orderinprocces_page.dart';
 import 'package:timugo/src/pages/register/application/registerData_page.dart';
 import 'package:timugo/src/pages/register/application/widgets/publicityMethods_widget.dart';
@@ -17,7 +17,7 @@ import 'package:timugo/src/providers/user.dart';
 import 'package:timugo/src/services/number_provider.dart';
 //pages
 
-import 'package:timugo/src/pages/homeservices/services_page.dart';
+import 'package:timugo/src/pages/homeservices/application/services_page.dart';
 import 'package:timugo/src/widgets/formDirection.dart';
 
 void main() async {

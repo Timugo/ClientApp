@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:timugo/src/models/aditional_model.dart';
-import 'package:timugo/src/models/barbers_model.dart';
+import 'package:timugo/src/pages/homeservices/domain/barbers_model.dart';
 import 'package:timugo/src/models/card_model.dart';
 import 'package:timugo/src/models/directions_model.dart';
 import 'package:timugo/src/models/nequi_model.dart';
 import 'package:timugo/src/models/pseInstitu_model.dart';
-import 'package:timugo/src/models/services_model.dart';
+import 'package:timugo/src/pages/homeservices/domain/services_model.dart';
 import 'package:timugo/src/models/temporalOrder_model.dart';
 import 'package:timugo/src/pages/register/domain/publicitymethods_model.dart';
 
