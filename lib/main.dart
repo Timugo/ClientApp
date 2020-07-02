@@ -75,7 +75,7 @@ class _MyAppState extends State<MyApp> {
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          initialRoute: _rute(),
+          initialRoute: 'services',
           navigatorKey: navigatorKey,
           routes: {
             'login': (context) => LoginPage(),

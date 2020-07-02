@@ -1,5 +1,4 @@
 //flutter dependencies
-
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:timugo/src/pages/Login/domain/user_model.dart';
@@ -36,7 +35,7 @@ class _LoginPageState extends State<RegisterUserData> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       body: Padding(
-          padding: EdgeInsets.all(size.height * 0.02),
+          padding: EdgeInsets.all(size.height * 0.05),
           child: SingleChildScrollView(
               child: Column(children: <Widget>[
                   formUserData(context)
@@ -103,7 +102,7 @@ class _LoginPageState extends State<RegisterUserData> {
                   Color(0xFF0570E5),
                   Color(0xFF0064E0)
                 ],
-                onPressed: _sendCommet(context),
+                onPressed: (){sendCommet(context);},
               ),
             ]));
   }
@@ -130,13 +129,15 @@ class _LoginPageState extends State<RegisterUserData> {
           showToast("El email tiene que ser único!", Colors.red);
         }
       });
+    }else{
+      showToast("Por Favor complete los campos del formulario", Colors.red);
     }
-    showToast("Por Favor complete los campos del formulario", Colors.red);
+    
   }
 
-  _sendCommet(context) {
+  sendCommet(context) {
     final userInfo = Provider.of<UserInfo>(context);
-    print(userInfo.publi);
+    if(_formKey.currentState.validate()){
     Alert(
         context: context,
         title: "Cómo nos conociste?",
@@ -156,6 +157,7 @@ class _LoginPageState extends State<RegisterUserData> {
             ),
           )
         ]).show();
+    }
   }
 }
 

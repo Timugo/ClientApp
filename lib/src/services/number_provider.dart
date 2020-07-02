@@ -167,7 +167,7 @@ class DirectionProvider {
     return decodeData;
   }
 }
-
+ 
 class UserProvider{
   final    String url = urlBase+'getUser';
   final prefs =  PreferenciasUsuario();

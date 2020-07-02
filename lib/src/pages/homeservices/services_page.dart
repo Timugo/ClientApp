@@ -13,6 +13,7 @@ import 'package:timugo/src/pages/homeservices/widgets/cardservices_widget.dart';
 import 'package:timugo/src/pages/homeservices/widgets/cardbarbers_widget.dart';
 import 'package:timugo/src/widgets/circularBackground.dart';
 import 'package:timugo/src/services/number_provider.dart';
+import 'package:timugo/src/widgets/toastMessage.dart';
 
  
  // This class contains the principal  services of Timugo and  show the  Barbers Top
@@ -23,34 +24,40 @@ class Services extends StatefulWidget {
 }
 
 class _ServicesState extends State<Services> {
-
+  final  checkUserOrder = CheckUserOrder(); 
+  final  userName = UserProvider();
+  final  prefs    = new PreferenciasUsuario();  
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>(); // global key of scaffol
-  VoidCallback _showBottomSheetCallBack;
-  Position _currentPosition;
+  VoidCallback _showDirections;  // call a button sheet function for show Page Directions
+  Position _currentPosition;     // variable  to  save position
+  
   @override
   void initState() {
     super.initState();
-    _showBottomSheetCallBack = _onButtonPressed;
+    _showDirections = _onButtonPressed;
+    userName.getName(prefs.token); // call to pref user that contains the data  save in the device
+    checkUserOrder.checkUserOrder(); // check
+    _checkUserToken();
   }
+
+  // Get the current loction and upgrade 
   Future<Position>  _getCurrentLocation(context) async {
-    final  userInfo = Provider.of<UserInfo>(context);
     Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     print(position);
     setState(() {
       _currentPosition = position;
-      userInfo.loca =_currentPosition;
     });
     return _currentPosition;
   }
+  // show de modal botton sheet tha open the  add Directions widget
   void _onButtonPressed() {
     setState(() {
-      _showBottomSheetCallBack = null; 
-    }); // show de modal botton sheet tha open the  add Directions widget
+      _showDirections = null; 
+    }); 
     _scaffoldKey.currentState.showBottomSheet( (context) {
       return Container(
         color: Colors.black,
         child: Container(
-        
           child: AddDireccions(position: _currentPosition,),
           decoration: BoxDecoration(
             color: Colors.black,
@@ -66,24 +73,17 @@ class _ServicesState extends State<Services> {
     .whenComplete((){
       if(mounted){
         setState((){
-        _showBottomSheetCallBack = _onButtonPressed;
+        _showDirections = _onButtonPressed;
         });
       }
     });
   }
 
   @override
-
   Widget build(BuildContext context) {
-    
-    final  prefs    = new PreferenciasUsuario();  
-    final  userName = UserProvider();
     final  userInfo = Provider.of<UserInfo>(context);
-    final checkUserOrder =CheckUserOrder();
-   _checkUserToken();
-    
-    userName.getName(prefs.token); // call to pref user that contains the data  save in the device
-    checkUserOrder.checkUserOrder();
+   
+   
     var dir =prefs.direccion == '' ?'Elegir direccion':'';
     
     return WillPopScope(
@@ -109,7 +109,7 @@ class _ServicesState extends State<Services> {
                 leading: Icon(Icons.arrow_drop_down),
                 onTap: () {
                   _getCurrentLocation(context);
-                  _showBottomSheetCallBack();
+                  _showDirections();
                 },
                 )
               )
@@ -119,14 +119,8 @@ class _ServicesState extends State<Services> {
               children: <Widget>[
                 IconButton(
                   icon:Icon(FontAwesomeIcons.bell,color: Colors.black,),
-                  onPressed:(){  // contains the bell function that show '1' if user have orders  and redirect to  order pages
-                    if(prefs.order == '0'){
-                      _showMessa();
-                    } else {
-                      Navigator.push(
-                      context,MaterialPageRoute(
-                      builder: (context) =>OrderProcces()));
-                    }
+                  onPressed:(){  
+                   _checkOrder();
                   },
                 ),
                 Container(
@@ -141,7 +135,6 @@ class _ServicesState extends State<Services> {
                 )
               ],
             ),
-      
           ],
       ),
      drawer: MenuWidget(), // open the menu Drawer page
@@ -166,17 +159,19 @@ class _ServicesState extends State<Services> {
       ),
     )); 
   }
-  _showMessa(){ // show the toast message in bell appbar
-    Fluttertoast.showToast(
-      msg: "Aún no tienes ordenes en curso!",
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 1,
-      backgroundColor: Colors.red,
-      textColor: Colors.white,
-      fontSize: 14.0
-    );
+
+  _checkOrder(){
+    final  prefs    = new PreferenciasUsuario();  
+     // contains the bell function that show '1' if user have orders  and redirect to  order pages
+    if(prefs.order == '0'){
+      showToast("No se encontarón ordenes", Colors.blue);
+    } else {
+      Navigator.push(
+      context,MaterialPageRoute(
+      builder: (context) =>OrderProcces()));
+    }
   }
+  
   _checkUserToken(){
     final prefs =  PreferenciasUsuario();
     final checkTokenUser =CheckTokenUser();

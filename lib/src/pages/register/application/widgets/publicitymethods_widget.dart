@@ -10,7 +10,7 @@ class PublicityMethods extends StatefulWidget {
 }
 
 class _PublicityState extends State<PublicityMethods> {
-   List<bool> _values=[false,false,false,false];
+   List<bool> _values=[false,false,false,false,false,false,false];
   
   var _selecteCategorys = [];
   _onCategorySelected(bool selected, categoryid, i) {
