@@ -14,7 +14,7 @@ class MyCustomButtoms extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return RaisedButton(
       elevation: 5.0,
-      onPressed: () {},
+      onPressed:onPressed, 
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
       padding: EdgeInsets.all(0.0),
       child: Ink(
