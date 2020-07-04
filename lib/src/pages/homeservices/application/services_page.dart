@@ -8,7 +8,7 @@ import 'package:timugo/src/pages/menudrawer/menu_widget.dart';
 import 'package:timugo/src/pages/orderinprocess/orderinprocces_page.dart';
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'package:timugo/src/providers/user.dart';
-import 'package:timugo/src/pages/directions/directions_page.dart';
+import 'package:timugo/src/pages/directions/application/pages/directions_page.dart';
 //Pages
 import 'package:timugo/src/widgets/circularBackground.dart';
 import 'package:timugo/src/services/number_provider.dart';
@@ -25,7 +25,9 @@ class Services extends StatefulWidget {
 class _ServicesState extends State<Services> {
   final  checkUserOrder = CheckUserOrder(); 
   final  userName       = UserProvider();
-  final  prefs          = new PreferenciasUsuario();  
+  final  prefs          = new PreferenciasUsuario();
+  final getdirections = GetAddresses();  
+
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>(); // global key of scaffol
   VoidCallback _showDirections;  // call a button sheet function for show Page Directions
   Position     _currentPosition; // variable  to  save position
@@ -37,6 +39,8 @@ class _ServicesState extends State<Services> {
     userName.getName(prefs.token); // call to pref user that contains the data  save in the device
     checkUserOrder.checkUserOrder(); // check
     _checkUserToken();
+    getdirections.getAddresses();
+    
   }
 
   // Get the current loction and upgrade 
@@ -78,14 +82,14 @@ class _ServicesState extends State<Services> {
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
-    final  userInfo = Provider.of<UserInfo>(context);
-   
-   
-    var dir =prefs.direccion == '' ?'Elegir direccion':'';
+    final userInfo = Provider.of<UserInfo>(context);
+     userInfo.directions = prefs.direccion;
+    var direction =userInfo.directions == null?userInfo.directions:'Elegir direccion';
     
-    return WillPopScope(
+    return  WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
       resizeToAvoidBottomInset: true,
@@ -104,7 +108,7 @@ class _ServicesState extends State<Services> {
               child:Container(
                 child:ListTile(
                 // show  actual address of user and open the page add directions
-                title: Text(userInfo.directions == '' ? prefs.direccion+dir:userInfo.directions,overflow: TextOverflow.ellipsis),
+                title: Text( direction,overflow: TextOverflow.ellipsis),
                 leading: Icon(Icons.arrow_drop_down),
                 onTap: () {
                   _getCurrentLocation(context);
@@ -136,29 +140,50 @@ class _ServicesState extends State<Services> {
             ),
           ],
       ),
-     drawer: MenuWidget(), // open the menu Drawer page
-     body:Stack( // call  the  carsd of services and barbers of services pages 
-        children: <Widget>[
-          CircularBackGround(),
-          SafeArea(
-            child: SingleChildScrollView(
-              child:Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  _Header(),
-                  SizedBox(height: 25,),
-                  CardsServices(),
-                  _HeaderBarbers(),
-                  CardsBarbers(),
-                ],
-              ) ,
-            ),
-          ),
-        ],
-      ),
+      drawer: MenuWidget(), // open the menu Drawer page
+      body: new Container(
+        child:Center(
+          child:RefreshIndicator(
+            onRefresh: _refreshCards,
+            child:ListView.builder(
+              itemCount: 1,
+              itemBuilder: (BuildContext context, int index) {
+                return Stack( // call  the  carsd of services and barbers of services pages 
+                  children: <Widget>[ // CircularBackGround(),
+                    SafeArea(
+                      child: SingleChildScrollView(
+                        child:Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            _Header(),
+                            SizedBox(height: 25,),
+                            CardsServices(),
+                            _HeaderBarbers(),
+                            CardsBarbers(),
+                          ],
+                        ) ,
+                      ),
+                    ),
+                  ],
+                );
+              }
+            )
+          )
+       )
+     ),
     )); 
   }
-
+  Future<void> _refreshCards() async{
+ Navigator.of(context).push(
+    new MaterialPageRoute(
+        builder: (BuildContext context){
+          return new Services();
+        }
+    )
+);
+    
+      
+  }
   _checkOrder(){
     final  prefs    = new PreferenciasUsuario();  
      // contains the bell function that show '1' if user have orders  and redirect to  order pages
@@ -170,7 +195,7 @@ class _ServicesState extends State<Services> {
       builder: (context) =>OrderProcces()));
     }
   }
-  
+ 
   _checkUserToken(){
     final prefs =  PreferenciasUsuario();
     final checkTokenUser =CheckTokenUser();
