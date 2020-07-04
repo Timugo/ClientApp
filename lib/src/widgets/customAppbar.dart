@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:timugo/src/pages/directions/directions_page.dart';
+import 'package:timugo/src/pages/directions/application/pages/directions_page.dart';
 
 class CustomAppBar extends StatelessWidget {
   @override

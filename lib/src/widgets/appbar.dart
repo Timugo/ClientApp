@@ -1,30 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:timugo/src/pages/homeservices/application/services_page.dart';
 
-class AppBarCheckin extends StatelessWidget {
+class MyAppBar extends StatelessWidget  implements PreferredSizeWidget {
+  final Function onPressed;
+  MyAppBar({
+    this.onPressed,
+  });
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: 40),
-      width: double.infinity,
-      color: Colors.transparent,
-      child: Row(
-        children: <Widget>[
-          SizedBox(
-            width: 15.0,
-          ),
-          IconButton(
-            icon: Icon(FontAwesomeIcons.arrowLeft,
-                size: 25.0, color: Colors.black),
-            onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Services()));
-            },
-          ),
-          Spacer()
-        ],
-      ),
+    return  AppBar(
+      elevation: 0,
+      leading: new IconButton(
+        icon: new Icon(
+          FontAwesomeIcons.arrowLeft,
+          color: Colors.black,
+          size: 35,
+        ),
+        onPressed: onPressed,
+        ),
+        backgroundColor: Colors.white10,
     );
   }
+  @override
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }
+

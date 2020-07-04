@@ -26,15 +26,18 @@ class MyCustomButtoms extends StatelessWidget {
               ),
               borderRadius: BorderRadius.circular(20.0)),
           child: Container(
-              padding: EdgeInsets.fromLTRB(size.width * 0.1,
-                  size.height * 0.006, size.width * 0.1, size.height * 0.006),
+              padding: EdgeInsets.fromLTRB(size.width * 0.01,
+                  size.height * 0.006, size.width * 0.01, size.height * 0.006),
               alignment: Alignment.center,
-              child: ListTile(
+              child:icon != null ?  ListTile(
                 leading: Icon(icon, color: Colors.white),
                 title: Text(hintText,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold)),
-              ))),
+              ):Text(hintText,
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold,
+                        fontSize: 20)))),
     );
   }
 }
