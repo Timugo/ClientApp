@@ -14,7 +14,7 @@ final String urlBase = globals.url;
 /* 
   Class that contains the  login services
 */
-class LoginServices {
+class LoginRepositories {
   /* Request Url  */
   final String url = urlBase + 'loginUserV2';
   final prefs = PreferenciasUsuario();

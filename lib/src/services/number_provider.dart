@@ -1,4 +1,6 @@
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:timugo/src/models/aditional_model.dart';
 import 'package:timugo/src/pages/homeservices/domain/barbers_model.dart';
@@ -14,10 +16,15 @@ import 'dart:convert';
 
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'package:timugo/globals.dart' as globals;
+import 'package:timugo/src/widgets/toastMessage.dart';
+
+
+
 
 
 final String urlBase = globals.url;
-class NumberProvider {
+class NumberProvider  {
+ 
   /* Request Url  */
   final String url = urlBase + 'loginUserV2';
 
@@ -208,10 +215,13 @@ class CreateOrderProvider {
     http.Response response =
         await http.post(url, headers: headers, body: encodedData);
     final decodeData = jsonDecode(response.body);
-    if (decodeData['response'] == 2) {
+    if (response.statusCode== 200) {
       prefs.order = (decodeData['content']['orderDB']['id']).toString();
+      
+    }else{
+      showToast("Ups!, sucedío un error, intentalo d nuevo!",Colors.red);
     }
-
+    print(decodeData);
     return decodeData;
   }
 }
@@ -325,7 +335,7 @@ class EditOrderProvider {
   }
 }
 
-class GetAddresses {
+class GetAddresses  {
   final String url = urlBase + 'getAddressesUser';
   final prefs = PreferenciasUsuario();
   List<Directions> _services = new List();
@@ -335,10 +345,14 @@ class GetAddresses {
     http.Response response = await http.get(_urlcode);
     final decodeData = json.decode(response.body);
 
-    var list = decodeData['content'] as List;
+    
 
-    _services = list.map((i) => Directions.fromJson(i)).toList();
-
+    
+     if (_services.isNotEmpty){
+       var list = decodeData['content'] as List;
+       _services = list.map((i) => Directions.fromJson(i)).toList();
+        prefs.direccion = _services[0].address;
+     }
     return _services;
   }
 }

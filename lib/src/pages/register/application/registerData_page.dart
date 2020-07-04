@@ -72,7 +72,6 @@ class _LoginPageState extends State<RegisterUserData> {
                   return null;
                 },
                 onSaved: (String value) {
-                  print('entre');
                   model.name = (value);
                   userInfo.name = model.name;
                   cont += 1;

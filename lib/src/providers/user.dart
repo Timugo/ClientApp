@@ -6,7 +6,7 @@ class UserInfo with ChangeNotifier {
   int _phone = 0;
   String _name='';
   String _email ='';
-  String _directions=''; 
+  String _directions; 
   String _urlImg;
   String _price;
   int _pts;

@@ -1,15 +1,11 @@
 /* Flutter dependencies */
-import 'dart:convert';
-
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 /* Pages */
-import 'package:timugo/src/pages/Login/application/privacypolicies_widget.dart';
+import 'package:timugo/src/pages/Login/application/widgets/privacypolicies_widget.dart';
 import 'package:timugo/src/pages/Login/infrastructure/login_services.dart';
 import 'package:timugo/src/pages/register/application/registerData_page.dart';
 import 'package:timugo/src/providers/user.dart';
@@ -41,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.all(size.height * 0.05),
+        padding: EdgeInsets.only(top:size.height * 0.05,left:size.height * 0.02,right:size.height * 0.02),
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
@@ -54,7 +50,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-  
+  // widget that paint the top image in login
   Widget _loginImage(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
@@ -67,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
       )
     );
   }
-
+  // widget that paint  the textfield for cell phone
   Widget _numberForm(BuildContext context) {
     final userInfo = Provider.of<UserInfo>(context);
     return Form(
@@ -123,14 +119,14 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-/* paint the buttons for login( Facebook,apple and cellphone) and the privacity politices checkbox */
+  //paint the buttons for login( Facebook,apple and cellphone) and the privacity politices checkbox 
   Widget _stackButtons(BuildContext context) {
     return Column(
       children: <Widget>[
         MyCustomButtoms(
           hintText: 'Ingresar con celular',
           icon: FontAwesomeIcons.phone,
-          onPressed: _subimitCellphone,
+          onPressed: _submitCellphone,
           colors: [
             Color(0xFF19AEFF),
             Color(0xFF139DF7),
@@ -173,7 +169,7 @@ class _LoginPageState extends State<LoginPage> {
       ]
     );
   }
-  void _subimitCellphone() async {
+  void _submitCellphone() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       if (checkPolicies){
@@ -189,12 +185,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _submitFacebook() async {
-    final facebookLogin = FacebookLogin();
-    final result = await facebookLogin.logIn(['email']);
-    final token = result.accessToken.token;
-    final graphResponse = await http.get(
-        'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=${token}');
-    final profile = jsonDecode(graphResponse.body);
+    
   }
 
 
