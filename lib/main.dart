@@ -6,7 +6,7 @@ import 'package:timugo/src/pages/checkin/application/checkin_page.dart';
 import 'package:timugo/src/pages/checkout/application/checkout_page.dart';
 import 'package:timugo/src/pages/orderinprocess/orderinprocces_page.dart';
 import 'package:timugo/src/pages/register/application/registerData_page.dart';
-import 'package:timugo/src/pages/register/application/widgets/publicityMethods_widget.dart';
+import 'package:timugo/src/pages/register/application/widgets/publicitymethods_widget.dart';
 
 //User dependencies
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
@@ -88,13 +88,13 @@ class _MyAppState extends State<MyApp> {
             'orderProccess': (context) => OrderProcces(),
             'publicity': (context) => PublicityMethods(),
             'FormDirections': (context) => FormDirections(address: null),
-             'screnloader' : (context) => ScreenLoaderClass()
+            'screnloader': (context) => ScreenLoaderClass()
 
             // 'userInfo' : (context)=> User()
           },
         ));
   }
-  
+
   _rute<String>() {
     final prefs = new PreferenciasUsuario();
     final checkUserOrder = CheckUserOrder();
