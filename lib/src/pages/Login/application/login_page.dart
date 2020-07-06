@@ -4,16 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-/* Pages */
-import 'package:timugo/src/pages/Login/application/widgets/privacypolicies_widget.dart';
-import 'package:timugo/src/pages/Login/infrastructure/login_services.dart';
+// Pages
 import 'package:timugo/src/pages/register/application/registerData_page.dart';
 import 'package:timugo/src/providers/user.dart';
-/* Widget */
+// Widgets
+import 'package:timugo/src/pages/Login/application/widgets/privacypolicies_widget.dart';
 import 'package:timugo/src/widgets/buttonCustom.dart';
 import 'package:timugo/src/widgets/toastMessage.dart';
-/* Models */
+// Models
 import '../domain/user_model.dart';
+//Services
+import 'package:timugo/src/pages/Login/infrastructure/login_services.dart';
 
 
 //contains the login page
@@ -50,6 +51,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+  
   // widget that paint the top image in login
   Widget _loginImage(BuildContext context) {
     return Container(
@@ -63,6 +65,7 @@ class _LoginPageState extends State<LoginPage> {
       )
     );
   }
+  
   // widget that paint  the textfield for cell phone
   Widget _numberForm(BuildContext context) {
     final userInfo = Provider.of<UserInfo>(context);
@@ -169,6 +172,8 @@ class _LoginPageState extends State<LoginPage> {
       ]
     );
   }
+  
+  /* Methods */
   void _submitCellphone() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
@@ -183,9 +188,12 @@ class _LoginPageState extends State<LoginPage> {
       showToast("Digita un número de teléfono valido", Colors.red);
     }
   }
-
+  /*
+    Facebook Login Handler
+  */
   void _submitFacebook() async {
-    
+    final loginServices = LoginServices();
+    loginServices.loginFacebook();
   }
 
 
