@@ -48,6 +48,7 @@ dependencies:
   location_permissions: ^2.0.5
   flutter_facebook_login: ^3.0.0
   screen_loader: ^2.0.0
+  sign_in_with_apple: ^2.5.1
 
 dev_dependencies:
   flutter_test:
