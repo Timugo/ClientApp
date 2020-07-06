@@ -1,5 +1,6 @@
 //flutter dependencies
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:http/http.dart' as http;
 import 'package:timugo/globals.dart' as globals;
 import 'dart:convert';
@@ -65,5 +66,22 @@ class LoginServices {
         'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=$token');
     final profile = jsonDecode(graphResponse.body);
     return profile;
+  }
+
+  /*
+    Function to login the user with Apple account
+    and return the user data
+  */
+  Future<Map<String, dynamic>> appleLogin() async {
+    final credential = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+    );
+    print(credential);
+    // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
+    // after they have been validated with Apple (see `Integration` section for more information on how to do this)
+    
   }
 }

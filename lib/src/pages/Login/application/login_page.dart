@@ -146,6 +146,15 @@ class _LoginPageState extends State<LoginPage> {
           colors: [Color(0xFF3B5998), Color(0xFF3B5998)
           ]
         ),
+        SizedBox(height: 20),
+        MyCustomButtoms(
+          hintText: 'Ingresar con Apple',
+          icon: FontAwesomeIcons.apple,
+          onPressed: _submitApple,
+          colors: [Color(0xFF3B5998), Color(0xFF3B5998)
+          ]
+        ),
+        
         CheckboxListTile(
           controlAffinity: ListTileControlAffinity.leading,
           title: InkWell(
@@ -194,6 +203,14 @@ class _LoginPageState extends State<LoginPage> {
   void _submitFacebook() async {
     final loginServices = LoginServices();
     loginServices.loginFacebook();
+  }
+
+  /*
+    Apple Login Handler
+  */
+  void _submitApple() async {
+    final loginServices = LoginServices();
+    loginServices.appleLogin();
   }
 
 
