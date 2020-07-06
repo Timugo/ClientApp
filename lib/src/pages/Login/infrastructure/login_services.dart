@@ -8,9 +8,6 @@ import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 
 final String urlBase = globals.url;
 
-
-
-
 /* 
   Class that contains the  login services
 */
@@ -32,14 +29,13 @@ class LoginServices {
     return jsonDecode(response.body);
   }
 
-  
   final String urlGetUser = urlBase + 'getUser';
   Future<Map<String, dynamic>> getName(String phone) async {
     var _urlcode = urlGetUser + '?phone=' + phone;
     http.Response response = await http.get(_urlcode);
 
-    if( response.statusCode == 200){
-    }  else {
+    if (response.statusCode == 200) {
+    } else {
       throw Exception('Failed to load post');
     }
     final decodeData = jsonDecode(response.body);
@@ -52,23 +48,22 @@ class LoginServices {
     }
     return decodeData;
   }
+
+  /*
+    Function to login the user with facebook account
+    and return the user data
+  */
   Future<Map<String, dynamic>> loginFacebook() async {
     final facebookLogin = FacebookLogin();
     final result = await facebookLogin.logIn(['email']);
 
-    if(result.status != FacebookLoginStatus.error){
+    if (result.status != FacebookLoginStatus.error) {
       return null;
     }
     final token = result.accessToken.token;
     final graphResponse = await http.get(
-      'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=$token');
+        'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=$token');
     final profile = jsonDecode(graphResponse.body);
-     return profile;
-    
-   }
+    return profile;
+  }
 }
-
-/*
-  Class that get the user information
-*/
-

@@ -16,8 +16,8 @@ import 'package:timugo/src/providers/order.dart';
 import 'package:timugo/src/providers/push_notifications_provider.dart';
 import 'package:timugo/src/providers/user.dart';
 import 'package:timugo/src/services/number_provider.dart';
-//pages
 
+//pages
 import 'package:timugo/src/pages/homeservices/application/services_page.dart';
 import 'package:timugo/src/pages/directions/application/pages/saveaddress_page.dart';
 import 'package:timugo/src/widgets/screenloader_widget.dart';
@@ -26,7 +26,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = new PreferenciasUsuario();
   await prefs.initPrefs();
-
   runApp(MyApp());
 }
 
@@ -37,7 +36,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final GlobalKey<NavigatorState> navigatorKey =
-      new GlobalKey<NavigatorState>();
+  new GlobalKey<NavigatorState>();
   @override
   void initState() {
     //Config of push notification provider
@@ -45,7 +44,6 @@ class _MyAppState extends State<MyApp> {
     final pushProvider = PushNotificationProvider();
     //temporal order to check if user has a current order
     final temporalOrderProvider = TemporalOrderProvider();
-
     //check the user name
     final userName = UserProvider();
     //checking the user data save in device
@@ -55,7 +53,6 @@ class _MyAppState extends State<MyApp> {
     //initialize the push notification provider
     pushProvider.initNotifications();
     pushProvider.messages.listen((data) {
-      print(data);
       if (data == 'cancel') {
         navigatorKey.currentState.pushNamed('services');
       }
@@ -68,57 +65,55 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        providers: [
-          ChangeNotifierProvider(builder: (context) => UserInfo()),
-          ChangeNotifierProvider(builder: (context) => ServicesProvider()),
-          ChangeNotifierProvider(builder: (context) => BarberAsigned()),
-          ChangeNotifierProvider(builder: (context) => Counter()),
-          ChangeNotifierProvider(builder: (context) => Orderinfo()),
-        ],
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          initialRoute: _rute(),
-          navigatorKey: navigatorKey,
-          routes: {
-            'login': (context) => LoginPage(),
-            'registerData': (context) => RegisterUserData(),
-            'services': (context) => Services(),
-            'checkin': (context) => Checkin(),
-            'checkout': (context) => Checkout(),
-            'orderProccess': (context) => OrderProcces(),
-            'publicity': (context) => PublicityMethods(),
-            'FormDirections': (context) => FormDirections(address: null),
-            'screnloader': (context) => ScreenLoaderClass()
-
-            // 'userInfo' : (context)=> User()
-          },
-        ));
+      providers: [
+        ChangeNotifierProvider(builder: (context) => UserInfo()),
+        ChangeNotifierProvider(builder: (context) => ServicesProvider()),
+        ChangeNotifierProvider(builder: (context) => BarberAsigned()),
+        ChangeNotifierProvider(builder: (context) => Counter()),
+        ChangeNotifierProvider(builder: (context) => Orderinfo()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        initialRoute: _route(),
+        navigatorKey: navigatorKey,
+        routes: {
+          'login': (context) => LoginPage(),
+          'registerData': (context) => RegisterUserData(),
+          'services': (context) => Services(),
+          'checkin': (context) => Checkin(),
+          'checkout': (context) => Checkout(),
+          'orderProccess': (context) => OrderProcces(),
+          'publicity': (context) => PublicityMethods(),
+          'FormDirections': (context) => FormDirections(address: null),
+          'screnloader': (context) => ScreenLoaderClass()
+        },
+      )
+    );
   }
 
-  _rute<String>() {
-    final prefs = new PreferenciasUsuario();
-    final checkUserOrder = CheckUserOrder();
-    var res = checkUserOrder.checkUserOrder();
-
-    print(prefs.order);
-    if (prefs.token != '') {
-      var ruta = 'services';
-      print('entre1');
-      res.then((response) async {
-        if (response['content'] == 1) {
-          ruta = 'services';
-          print('servicio');
-          prefs.order = 0.toString();
-        } else {
-          ruta = 'orderProccess';
-          print('servicio1');
-        }
-      });
-
-      print(ruta);
-      return ruta;
+  /*
+    This function return the route to navigate
+    after phone starts 
+  */
+  _route<String>() {
+    final userPreferences = new PreferenciasUsuario();
+    final userService = CheckUserOrder();
+    // Routes Switch
+    if (userPreferences.token != '') {
+      var route = 'services';
+      //Check in the server if has an order in progress
+      userService.checkUserOrder()
+        .then((response) {
+          if (response['content'] == 1) {
+            route = 'services';
+            userPreferences.order = 0.toString();
+          } else {
+            route = 'orderProccess';
+          }
+        });
+      return route;
     } else {
-      return 'login';
+      return 'services';
     }
   }
 }

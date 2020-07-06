@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-
-
 
 class ScreenLoaderClass extends StatelessWidget {
   // This widget is the root of your application.
@@ -26,41 +22,33 @@ class UserList extends StatefulWidget {
 }
 
 class _UserListState extends State<UserList> {
- 
-
-
   Widget _buildList() {
     return RefreshIndicator(
-            child: ListView.builder(
-                padding: EdgeInsets.all(8),
-                itemCount: 4,
-                itemBuilder: (BuildContext context, int index) {
-                  return Card(
-                    child: Column(
-                      children: <Widget>[
-                        ListTile(
-                          title: Text("hola"),
-                        )
-                      ],
-                    ),
-                  );
-                }),
-            onRefresh: _getData,
+      child: ListView.builder(
+          padding: EdgeInsets.all(8),
+          itemCount: 4,
+          itemBuilder: (BuildContext context, int index) {
+            return Card(
+              child: Column(
+                children: <Widget>[
+                  ListTile(
+                    title: Text("hola"),
+                  )
+                ],
+              ),
+            );
+          }),
+      onRefresh: _getData,
     );
-     
-        
   }
 
   Future<void> _getData() async {
-    setState(() {
-      
-    });
+    setState(() {});
   }
 
   @override
   void initState() {
     super.initState();
-   
   }
 
   @override
