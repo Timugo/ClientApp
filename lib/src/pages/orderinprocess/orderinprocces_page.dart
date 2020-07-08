@@ -121,12 +121,8 @@ class _ProccesState extends State<OrderProcces> {
   Widget _barber() {
     final barberAsigned = Provider.of<BarberAsigned>(context);
     final size = MediaQuery.of(context).size;
-
-    var urlI =
-        'https://i.pinimg.com/736x/a4/93/25/a493253f2b9b3be6ef48886bbf92af58.jpg';
-    // var baseUrl= 'https://www.timugo.tk/';
+    var urlI ='https://i.pinimg.com/736x/a4/93/25/a493253f2b9b3be6ef48886bbf92af58.jpg';
     final String baseUrl = globals.url;
-
     if (barberAsigned.name == 'Sin Asignar') {
       _getBarber();
     }
