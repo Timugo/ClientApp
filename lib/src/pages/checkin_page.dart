@@ -11,6 +11,8 @@ import 'package:timugo/src/services/number_provider.dart';
 import 'package:timugo/src/models/aditional_model.dart';
 import 'package:timugo/src/models/order_model.dart';
 import 'package:timugo/src/models/services_model.dart';
+// Enviroment variables
+import 'package:timugo/globals.dart' as globals;
 
 // this class contains the  checkin and  aditional services of  services pages
 class Checkin extends StatefulWidget {
@@ -111,21 +113,21 @@ class _CheckinState extends State<Checkin> {
 
   @override
   Widget build(BuildContext context) {
+    // Data server Url
+    final String  dataUrl = globals.dataUrl;
     final size = MediaQuery.of(context).size;
-    final url = 'https://timugo.tk/';
     final userInfo = Provider.of<UserInfo>(context);
     final price = int.parse(model.price);
+    
 
     return Scaffold(
-        body: Stack(alignment: Alignment.topCenter, children: <Widget>[
+      body: Stack(alignment: Alignment.topCenter, children: <Widget>[
       AppBarCheckin(),
       Positioned(
-          top: 70,
-          height: size.height * 0.25,
-          child: Image.network(
-            url + model.urlImg,
-            width: size.height * 0.20,
-          )),
+        top: 70,
+        height: size.height * 0.25,
+        child: Image.network(dataUrl+model.urlImg,width: size.height * 0.20,)
+      ),
       Container(
         child: _crearListado(),
       ),
@@ -152,12 +154,14 @@ class _CheckinState extends State<Checkin> {
                       print(orderFinal);
                       addServiceToarray();
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Checkout(
-                                  temp: orderFinal,
-                                  price: price * number,
-                                  priceA: total)));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Checkout(
+                            temp: orderFinal,
+                            price: price * number,
+                            priceA: total)
+                        )
+                      );
                     },
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0)),

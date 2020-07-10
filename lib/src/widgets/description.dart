@@ -5,11 +5,8 @@ import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 
 class Description extends StatelessWidget {
-    Description(this.prod);
-    final BarbersModel prod;
-     final url ='https://timugo.tk/';
-     
-     
+  Description(this.prod);
+  final BarbersModel prod;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +20,7 @@ class Description extends StatelessWidget {
                 radius:80.0,
                 backgroundColor: Colors.white,
                 child: CircleAvatar(
-                  backgroundImage:NetworkImage(url+prod.urlImg),
+                  backgroundImage:NetworkImage(prod.urlImg),
                   radius:75
                 ),
                   
@@ -77,13 +74,4 @@ class Description extends StatelessWidget {
     );
   }
 
-        
-        
-
-
-        
-      
-    
-  
-
-    }
+}

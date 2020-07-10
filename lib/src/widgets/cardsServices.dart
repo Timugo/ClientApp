@@ -5,13 +5,13 @@ import 'package:timugo/src/models/services_model.dart';
 import 'package:timugo/src/pages/checkin_page.dart';
 import 'package:timugo/src/providers/user.dart';
 import 'package:timugo/src/services/number_provider.dart';
-import 'package:timugo/globlas.dart' as globals;
+// Enviroment variables
+import 'package:timugo/globals.dart' as globals;
 class CardsServices extends StatelessWidget {
   const CardsServices({Key key}) : super(key: key);
 
   @override 
   Widget build(BuildContext context) {
-    
     final size = MediaQuery.of(context).size;
     final servicesProvider = ServicesProvider();
     return FutureBuilder(
@@ -38,50 +38,42 @@ class CardsServices extends StatelessWidget {
 }
 
 class _Card extends StatelessWidget {
-  
-   
- final  ServicesModel prod;
+  final  ServicesModel prod;
   _Card(this.prod);
-   final String  url = globals.url;
+  final String  url = globals.url;
   
   @override
   Widget build(BuildContext context) {
-
+    // Data server Url
+    final String  dataUrl = globals.dataUrl;
     final size = MediaQuery.of(context).size;
     final userInfo   = Provider.of<UserInfo>(context);
     userInfo.urlImg = prod.urlImg;
-
     return GestureDetector(
       onTap: (){
-              _onTap(context);
-
+        _onTap(context);
       },
-    child:Container(
-      child: Stack(
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-           //   _FirstDescription(prod),//lateral bar with description
-              //SizedBox(width: 10.0),
-              _DescriptionCard(prod),
-            ],
-          ),
-         
-          Positioned(
-            top: size.width>size.height ? size.height*0.0 : size.height*0.0,
-            bottom: size.width>size.height ? size.height*0.14 : size.height*0.11,
-            left: size.width>size.height ? size.width*0.05 : size.width*0.09,
-            //right:size.width>size.height ? size.width*0.05 : size.width*0.001,
-            
-            child: Image.network(url+prod.urlImg,
-              width: size.width>size.height ? size.height*0.22 : size.height*0.15,
-              height: size.width>size.height ? size.height*0.22 : size.height*0.15,
-              )
-          )
+      child:Container(
+        child: Stack(
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                _DescriptionCard(prod),
+              ],
+            ),
           
-        ],
-      ),
-    )
+            Positioned(
+              top: size.width>size.height ? size.height*0.0 : size.height*0.0,
+              bottom: size.width>size.height ? size.height*0.14 : size.height*0.11,
+              left: size.width>size.height ? size.width*0.05 : size.width*0.09,
+              child: Image.network(dataUrl+prod.urlImg,
+                width: size.width>size.height ? size.height*0.22 : size.height*0.15,
+                height: size.width>size.height ? size.height*0.22 : size.height*0.15,
+              )
+            )
+          ],
+        ),
+      )
     );
   }
     _onTap(context){
@@ -150,7 +142,6 @@ class _DescriptionCard extends StatelessWidget {
                     Spacer(),
                     Text('${prod.name}',style: TextStyle(color: Colors.white,fontSize: 14,fontWeight: FontWeight.bold)),
                     Spacer(),
-                  //  Icon(FontAwesomeIcons.heart,color: Colors.white),
                   ],
                 ),
               ),
@@ -163,24 +154,18 @@ class _DescriptionCard extends StatelessWidget {
                     //height: size.height*0.05,
                   ),
                   Container(
-                  
-                      child:RaisedButton(
-                        color: Colors.red,
+                    child:RaisedButton(
+                      color: Colors.red,
                       child:Text('Solicitar',style: TextStyle(color: Colors.white)),
                       onPressed: (){
-                   _onTap(context);
+                        _onTap(context);
                       }
-
-                      
-                      ),
-                  
+                    ),
                     width: 100.0,
                     height: 35,
                     decoration:BoxDecoration(
                       borderRadius: BorderRadius.only(topLeft: Radius.circular(15))
-
                     ) ,
-                    
                   ),
                 ],
               )
@@ -208,19 +193,15 @@ class _DescriptionCard extends StatelessWidget {
   _onTap(context){
     final checkUserOrder =CheckUserOrder();
     var res = checkUserOrder.checkUserOrder();
-      res.then((response) async {
-    if (response['response'] == 1){
-      
+    res.then((response) async {
+      if (response['response'] == 1){
         Navigator.push(
         context,MaterialPageRoute(
         builder: (context) => Checkin(model:prod)));
 
-    }else{
-      _showMessa();
-    }
-      });                  
+      }else{
+        _showMessa();
+      }
+    });                  
   }
-
-
-  
 }
