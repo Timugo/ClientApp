@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">com.timugo.timugo_client_app</string>
+    <string name="app_name">timugo</string>
 
     <!-- Replace "000000000000" with your Facebook App ID here. -->
     <string name="facebook_app_id">736718693521022</string>

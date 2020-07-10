@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:timugo/src/pages/homeservices/application/services_page.dart';
 // Pages
 import 'package:timugo/src/pages/register/application/registerData_page.dart';
 import 'package:timugo/src/providers/user.dart';
@@ -25,6 +26,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   // key for validate the form number
+
+  int resultado;
   final _formKey = GlobalKey<FormState>();
   //  call to service to register
   final registeProvider = LoginServices();
@@ -129,7 +132,7 @@ class _LoginPageState extends State<LoginPage> {
         MyCustomButtoms(
           hintText: 'Ingresar con celular',
           icon: FontAwesomeIcons.phone,
-          onPressed: _submitCellphone,
+          onPressed: (){_submitCellphone();},
           colors: [
             Color(0xFF19AEFF),
             Color(0xFF139DF7),
@@ -184,8 +187,15 @@ class _LoginPageState extends State<LoginPage> {
   
   /* Methods */
   void _submitCellphone() async {
+    final userInfo = Provider.of<UserInfo>(context);
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
+      final checkUser = LoginServices();
+       var res = checkUser.checkLogin(
+          "PHONE", userInfo.phone.toString(),"");
+  
+      res.then((response) async {
+        if(response['content'] == "NEW"){
       if (checkPolicies){
         Navigator.push(
           context, MaterialPageRoute(builder: (context) => RegisterUserData())
@@ -193,24 +203,44 @@ class _LoginPageState extends State<LoginPage> {
       }else{
         showToast("Por favor acepta las políticas de privacidad", Colors.red);
       }
-    }else{
+      }else{
+        Navigator.push(
+          context, MaterialPageRoute(builder: (context) => Services())
+        );
+      }
+      });
+    }
+     else{
       showToast("Digita un número de teléfono valido", Colors.red);
     }
+   
+    
   }
+
   /*
     Facebook Login Handler
   */
   void _submitFacebook() async {
+    if (checkPolicies){
     final loginServices = LoginServices();
     loginServices.loginFacebook();
+    }else{
+    showToast("Por favor acepta las políticas de privacidad", Colors.red);
+
+    }
   }
 
   /*
     Apple Login Handler
   */
   void _submitApple() async {
+    if (checkPolicies){
     final loginServices = LoginServices();
     loginServices.appleLogin();
+  }else{
+    showToast("Por favor acepta las políticas de privacidad", Colors.red);
+
+  }
   }
 
 

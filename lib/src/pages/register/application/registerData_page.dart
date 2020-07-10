@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 /* Models*/
 import 'package:timugo/src/pages/Login/domain/user_model.dart';
+import 'package:timugo/src/pages/Login/infrastructure/login_services.dart';
 /* Pages */ 
 import 'package:timugo/src/pages/homeservices/application/services_page.dart';
 import 'package:timugo/src/pages/register/application/widgets/publicitymethods_widget.dart';
@@ -26,7 +27,7 @@ class RegisterUserData extends StatefulWidget {
 
 class _LoginPageState extends State<RegisterUserData> {
   final _formKey = GlobalKey<FormState>();
-  final sendDataProvider = SendDataProvider();
+  final sendDataProvider = LoginServices();
   final sendToken = TokenProvider();
   int cont = 0;
   UserModel model = UserModel();
@@ -113,8 +114,8 @@ class _LoginPageState extends State<RegisterUserData> {
 
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      var res = sendDataProvider.sendData(
-          userInfo.phone, model.name, model.email, userInfo.publi);
+      var res = sendDataProvider.singUp(
+          userInfo.phone, model.name, model.email,"PHONE", userInfo.publi);
       sendToken.sendToken(prefs.token, prefs.tokenPhone.toString());
 
       res.then((response) async {
