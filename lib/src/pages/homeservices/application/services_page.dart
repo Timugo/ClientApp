@@ -86,7 +86,7 @@ class _ServicesState extends State<Services> {
   Widget build(BuildContext context) {
     final userInfo = Provider.of<UserInfo>(context);
      userInfo.directions = prefs.direccion;
-    var direction =userInfo.directions == null?userInfo.directions:'Elegir direccion';
+    var direction =userInfo.directions != null?userInfo.directions:'Elegir direccion';
     
     return  WillPopScope(
       onWillPop: () async => false,
@@ -202,7 +202,7 @@ class  _Header extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start ,
         children: <Widget>[
           SizedBox(height: 20.0,),
-          prefs.order == '0' ? MyCustomButtoms(icon:FontAwesomeIcons.handScissors,hintText:"Orden en curso",
+          prefs.order == '1' ? MyCustomButtoms(icon:FontAwesomeIcons.handScissors,hintText:"Orden en curso",
           colors: [Colors.blue,Colors.blueAccent],onPressed: _checkOrder(context) ,):Container(),
           Text('Servicios',style:TextStyle(fontWeight:FontWeight.bold,fontSize:30.0)),
           Text('¿Que quieres pedir hoy?',style:TextStyle(fontWeight:FontWeight.w100,fontSize:18.0))

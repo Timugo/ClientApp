@@ -49,7 +49,7 @@ class _Card extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Data server Url
-    final String  dataUrl = globals.dataUrl;
+    final String  dataUrl = globals.url;
     final size = MediaQuery.of(context).size;
     final userInfo = Provider.of<UserInfo>(context);
     userInfo.urlImg = prod.urlImg;

@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:timugo/src/pages/homeservices/application/services_page.dart';
 // Pages
 import 'package:timugo/src/pages/register/application/registerData_page.dart';
+import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'package:timugo/src/providers/user.dart';
 // Widgets
 import 'package:timugo/src/pages/Login/application/widgets/privacypolicies_widget.dart';
@@ -16,6 +17,7 @@ import 'package:timugo/src/widgets/toastMessage.dart';
 import '../domain/user_model.dart';
 //Services
 import 'package:timugo/src/pages/Login/infrastructure/login_services.dart';
+import 'dart:io' show Platform;
 
 
 //contains the login page
@@ -141,22 +143,23 @@ class _LoginPageState extends State<LoginPage> {
             Color(0xFF0064E0)
           ]
         ),
+        // SizedBox(height: 20),
+        // MyCustomButtoms(
+        //   hintText: 'Ingresar con Facebook',
+        //   icon: FontAwesomeIcons.facebook,
+        //   onPressed: _submitFacebook,
+        //   colors: [Color(0xFF3B5998), Color(0xFF3B5998)
+        //   ]
+        // ),
         SizedBox(height: 20),
-        MyCustomButtoms(
-          hintText: 'Ingresar con Facebook',
-          icon: FontAwesomeIcons.facebook,
-          onPressed: _submitFacebook,
-          colors: [Color(0xFF3B5998), Color(0xFF3B5998)
-          ]
-        ),
-        SizedBox(height: 20),
+        Platform.isIOS ?
         MyCustomButtoms(
           hintText: 'Ingresar con Apple',
           icon: FontAwesomeIcons.apple,
           onPressed: _submitApple,
           colors: [Color(0xFF3B5998), Color(0xFF3B5998)
           ]
-        ),
+        ): Container(),
         
         CheckboxListTile(
           controlAffinity: ListTileControlAffinity.leading,
@@ -187,6 +190,7 @@ class _LoginPageState extends State<LoginPage> {
   
   /* Methods */
   void _submitCellphone() async {
+    final prefs = new PreferenciasUsuario();
     final userInfo = Provider.of<UserInfo>(context);
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
@@ -195,7 +199,8 @@ class _LoginPageState extends State<LoginPage> {
           "PHONE", userInfo.phone.toString(),"");
   
       res.then((response) async {
-        if(response['content'] == "NEW"){
+        print(response);
+        if(response['content']['status'] == "NEW"){
       if (checkPolicies){
         Navigator.push(
           context, MaterialPageRoute(builder: (context) => RegisterUserData())
@@ -204,9 +209,12 @@ class _LoginPageState extends State<LoginPage> {
         showToast("Por favor acepta las políticas de privacidad", Colors.red);
       }
       }else{
+        if(response['content']['status'] == "REGISTERED"){
+          prefs.token = userInfo.phone.toString();
         Navigator.push(
           context, MaterialPageRoute(builder: (context) => Services())
         );
+      }
       }
       });
     }
@@ -220,15 +228,15 @@ class _LoginPageState extends State<LoginPage> {
   /*
     Facebook Login Handler
   */
-  void _submitFacebook() async {
-    if (checkPolicies){
-    final loginServices = LoginServices();
-    loginServices.loginFacebook();
-    }else{
-    showToast("Por favor acepta las políticas de privacidad", Colors.red);
+  // void _submitFacebook() async {
+  //   if (checkPolicies){
+  //   final loginServices = LoginServices();
+  //   loginServices.loginFacebook();
+  //   }else{
+  //   showToast("Por favor acepta las políticas de privacidad", Colors.red);
 
-    }
-  }
+  //   }
+  // }
 
   /*
     Apple Login Handler

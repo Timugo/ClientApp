@@ -114,7 +114,7 @@ class _CheckinState extends State<Checkin> {
   @override
   Widget build(BuildContext context) {
     // Data server Url
-    final String dataUrl = globals.dataUrl;
+    final String dataUrl = globals.url;
     final size = MediaQuery.of(context).size;
     final price = int.parse(model.price);
 
@@ -129,7 +129,7 @@ class _CheckinState extends State<Checkin> {
           top: 70,
           height: size.height * 0.25,
           child: Image.network(
-            dataUrl + model.urlImg,
+            dataUrl+model.urlImg,
             width: size.height * 0.20,
           )),
       Container(

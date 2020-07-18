@@ -197,16 +197,15 @@ class UserProvider{
 }
 
 class CreateOrderProvider {
-  final String url = urlBase + 'createOrder';
+  final String url = urlBase + 'orders-barbers/new';
   final prefs = PreferenciasUsuario();
 
-  Future<Map<String, dynamic>> createOrder(
-      int id, String address, String city, List services) async {
+  Future<Map<String, dynamic>> createOrder(String address, String payment, List services) async {
     Map<String, String> headers = {"Content-Type": "application/json"};
     var data = {
-      "idClient": id,
+      "phone": prefs.token,
       "address": address,
-      "city": city,
+      "typePayment": payment,
       "services": json.encode(services)
     };
     final encodedData = json.encode(data);
@@ -344,16 +343,15 @@ class GetAddresses  {
     var _urlcode = url + '?phone=' + prefs.token;
     http.Response response = await http.get(_urlcode);
     final decodeData = json.decode(response.body);
-
-    
-
-    
+      var list = decodeData['content'] as List;
+       _services = list.map((i) => Directions.fromJson(i)).toList();
      if (_services.isNotEmpty){
        var list = decodeData['content'] as List;
        _services = list.map((i) => Directions.fromJson(i)).toList();
         prefs.direccion = _services[0].address;
+         return _services;
      }
-    return _services;
+     return _services;
   }
 }
 
@@ -376,11 +374,11 @@ class DeleteAddress {
 }
 
 class CheckUserOrder {
-  final String url = urlBase + 'checkUserOrder';
+  final String url = urlBase + 'checkOrder';
   final prefs = PreferenciasUsuario();
   var res = 'false';
   Future<Map<String, dynamic>> checkUserOrder() async {
-    var _urlcode = url + '?idUser=' + prefs.id;
+    var _urlcode = url + '?phone=' + prefs.token;
     http.Response response = await http.get(_urlcode);
     final decodeData = json.decode(response.body);
 

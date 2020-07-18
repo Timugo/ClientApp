@@ -134,8 +134,10 @@ class _FormDirectionsState extends State<FormDirections> {
                 decoration: InputDecoration(
                   icon: Icon(Icons.directions),
                   labelText: 'Dirección',
+
                 ),
                 controller:directionController ,
+                enabled: false,
               ),
               SizedBox(height: 40,),
               TextField(

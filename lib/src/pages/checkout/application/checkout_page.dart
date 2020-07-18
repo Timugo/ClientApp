@@ -160,9 +160,32 @@ class _CheckoutState extends State<Checkout>  with ScreenLoader<Checkout> {
             padding: EdgeInsets.only(bottom: size.width * 0.05, top:  size.height * 0.8,left: size.width * 0.05,right: size.width * 0.05),
             child:MyCustomButtoms(
             hintText:  'Solicitar Servicio' + ' ' + "\$" + (servicePrice + aditionalsPrice).toString(),
-            onPressed: ()async{
-              await this.performFuture(_submitOrder);
-              },
+            onPressed:(){
+              final preferencesUser = PreferenciasUsuario();
+    final createOrdeProvider = CreateOrderProvider();
+    var res = createOrdeProvider.createOrder(
+      preferencesUser.direccion,
+      'CASH',
+      finalOrder,
+    );
+    res.then((response) async {      //if the response is 2 = correct
+      if (response['response'] == 2) {  //code ==1 its because the order cant be created for some reason
+        if (response['content']['code'] == 1) { //display the message with the reason
+          showToast( response['content']['message'], Colors.blue[200]);
+          print("entre");
+        } else {                     //if the order was created correctly
+          showToast( response['content']['message'], Colors.blue[200]);
+          Navigator.push(
+            context,  
+            MaterialPageRoute(
+              builder: (context) => OrderProcces()
+            )
+          );      
+        }
+      }else{
+        showToast("error", Colors.red);
+      }
+    });},
             colors: [
               Color(0xFF19AEFF),
               Color(0xFF139DF7),
@@ -211,14 +234,13 @@ class _CheckoutState extends State<Checkout>  with ScreenLoader<Checkout> {
         ]));
   }
 
- Future  _submitOrder() async {
+  _submitOrder() async {
     final preferencesUser = PreferenciasUsuario();
     final userInfo = Provider.of<UserInfo>(context);
     final createOrdeProvider = CreateOrderProvider();
     var res = createOrdeProvider.createOrder(
-      preferencesUser.id,
       preferencesUser.direccion,
-      userInfo.city,
+      'CASH',
       finalOrder,
     );
     res.then((response) async {      //if the response is 2 = correct
@@ -239,7 +261,7 @@ class _CheckoutState extends State<Checkout>  with ScreenLoader<Checkout> {
         showToast("error", Colors.red);
       }
     });
-  return res;
+  
   }
 
   void _onButtonPressed(BuildContext context, Widget ruta) {

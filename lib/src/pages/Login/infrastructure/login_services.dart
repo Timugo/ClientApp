@@ -16,7 +16,7 @@ final String urlBase = globals.urlV2;
 */
 class LoginServices {
   /* Request Url  */
-  final String url = urlBase + 'loginUserV2';
+  final String url = globals.urlV2 + 'user/signup?';
   final prefs = PreferenciasUsuario();
 
   Future<Map<String, dynamic>> singUp(int phone, String name ,String email,String method, String publicityMethods ) async {
@@ -28,6 +28,7 @@ class LoginServices {
     /* Response */
     final encodedData = json.encode(data);
     // making  POST request
+    print(urlFinal);
     http.Response response =
         await http.post(urlFinal, headers: headers, body: encodedData);
     if (response.statusCode != 2){
@@ -92,7 +93,7 @@ class LoginServices {
   }
   
    Future<Map<String, dynamic>> checkLogin(String method, String phone ,String email) async {
-   var _urlcode = url + 'user/register/status?method=$method&phone=$phone&email=$email' + prefs.order;
+   var _urlcode = urlBase + 'user/register/status?method=$method&phone=$phone&email=$email' + prefs.order;
     http.Response response = await http.get(_urlcode);
     final decodeData = json.decode(response.body);
 

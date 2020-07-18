@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:timugo/src/pages/homeservices/domain/barbers_model.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
-
+import 'package:timugo/globals.dart' as globals;
 class Description extends StatelessWidget {
   Description(this.prod);
   final BarbersModel prod;
   @override
   Widget build(BuildContext context) {
+    final String  dataUrl = globals.url;
     return Scaffold(
       body:Container(
     
@@ -18,7 +19,7 @@ class Description extends StatelessWidget {
                 radius:80.0,
                 backgroundColor: Colors.white,
                 child: CircleAvatar(
-                  backgroundImage:NetworkImage(prod.urlImg),
+                  backgroundImage:NetworkImage(dataUrl+prod.urlImg),
                   radius:75
                 ),
                   

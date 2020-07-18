@@ -39,7 +39,7 @@ class _Card extends StatelessWidget {
   //Server url
   final String  url = globals.url;
   // Data server Url
-  final String  dataUrl = globals.dataUrl;
+  final String  dataUrl = globals.url;
   final  BarbersModel prod;
   _Card(this.prod);
   @override
