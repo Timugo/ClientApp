@@ -1,10 +1,13 @@
+// Flutter dependencies
+import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:io';
-
+// Plugins
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// Preferences
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
+// Widgets
+import 'package:timugo/src/widgets/toastMessage.dart';
 
 class PushNotificationProvider {
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
@@ -26,25 +29,21 @@ class PushNotificationProvider {
     });
 
     //Configuring the different cases to recieve push notifications
-    _firebaseMessaging.configure(
-      
-      onMessage: (info) async {
+    _firebaseMessaging.configure(onMessage: (info) async {
       //when the app is open
       print('======= ON MESSAGE ======');
       print(info);
-      _showMessa(info['notification']['body']);
-
+      showToast(info['notification']['body'], Colors.blueAccent);
+     
+      //default no data
       String argument = 'no-data';
-
       if (Platform.isAndroid) {
         argument = info['data']['phone'] ?? 'no-data';
-      } else {
-        //platform ios
+      } else if(Platform.isIOS) {
         argument = info['phone'] ?? 'no-data-ios';
       }
 
       _messagesStreamController.sink.add(argument);
-
     }, onLaunch: (info) async {
       //when the app is running in the background (still alive)
       print('======= ON Launch ======');
@@ -57,19 +56,6 @@ class PushNotificationProvider {
       String noti = info['data']['number'];
       print(noti);
     });
-  }
-
-  //Show toast with the info of current push message
-  _showMessa(info) {
-    // show the toast message in bell appbar
-    Fluttertoast.showToast(
-      msg: info,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.TOP,
-      timeInSecForIosWeb: 1,
-      backgroundColor: Colors.blue,
-      textColor: Colors.white,
-      fontSize: 14.0);
   }
 
   dispose() {
