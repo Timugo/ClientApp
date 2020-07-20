@@ -143,14 +143,14 @@ class _LoginPageState extends State<LoginPage> {
             Color(0xFF0064E0)
           ]
         ),
-        // SizedBox(height: 20),
-        // MyCustomButtoms(
-        //   hintText: 'Ingresar con Facebook',
-        //   icon: FontAwesomeIcons.facebook,
-        //   onPressed: _submitFacebook,
-        //   colors: [Color(0xFF3B5998), Color(0xFF3B5998)
-        //   ]
-        // ),
+        SizedBox(height: 20),
+        MyCustomButtoms(
+          hintText: 'Ingresar con Facebook',
+          icon: FontAwesomeIcons.facebook,
+          onPressed: _submitFacebook,
+          colors: [Color(0xFF3B5998), Color(0xFF3B5998)
+          ]
+        ),
         SizedBox(height: 20),
         Platform.isIOS ?
         MyCustomButtoms(
@@ -228,15 +228,15 @@ class _LoginPageState extends State<LoginPage> {
   /*
     Facebook Login Handler
   */
-  // void _submitFacebook() async {
-  //   if (checkPolicies){
-  //   final loginServices = LoginServices();
-  //   loginServices.loginFacebook();
-  //   }else{
-  //   showToast("Por favor acepta las políticas de privacidad", Colors.red);
+  void _submitFacebook() async {
+    if (checkPolicies){
+    final loginServices = LoginServices();
+    loginServices.loginFacebook();
+    }else{
+    showToast("Por favor acepta las políticas de privacidad", Colors.red);
 
-  //   }
-  // }
+    }
+  }
 
   /*
     Apple Login Handler
