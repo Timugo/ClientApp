@@ -89,7 +89,7 @@ class _Card extends StatelessWidget {
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => Checkin(model: prod)));
       } else {
-        showToast("Aún no tienes ordenes en curso!", Colors.red);
+        showToast("Aún no tienes ordenes en curso!", Color(0xFF0570E5),);
       }
     });
   }
@@ -142,7 +142,7 @@ class _DescriptionCard extends StatelessWidget {
                   ),
                   Container(
                     child:RaisedButton(
-                      color: Colors.red,
+                      color: Color(0xFF0570E5),
                       child:Text('Solicitar',style: TextStyle(color: Colors.white)),
                       onPressed: (){
                         _onTap(context);

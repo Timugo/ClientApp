@@ -47,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-            _loginImage(context),
+            //_loginImage(context),
             _numberForm(context),
             _stackButtons(context)
             ]
@@ -152,14 +152,16 @@ class _LoginPageState extends State<LoginPage> {
           ]
         ),
         SizedBox(height: 20),
-        Platform.isIOS ?
-        MyCustomButtoms(
-          hintText: 'Ingresar con Apple',
-          icon: FontAwesomeIcons.apple,
-          onPressed: _submitApple,
-          colors: [Color(0xFF3B5998), Color(0xFF3B5998)
-          ]
-        ): Container(),
+        // Platform.isIOS ? MyCustomButtoms(
+        //   hintText: 'Ingresar con Apple',
+        //   icon: FontAwesomeIcons.apple,
+        //   onPressed: _submitApple,
+        //   colors: [
+        //     Color(0xFF000000),
+        //     Color(0xFF000000)
+        //   ]
+        // ): 
+        Container(),
         
         CheckboxListTile(
           controlAffinity: ListTileControlAffinity.leading,
@@ -190,37 +192,19 @@ class _LoginPageState extends State<LoginPage> {
   
   /* Methods */
   void _submitCellphone() async {
-    final prefs = new PreferenciasUsuario();
-    final userInfo = Provider.of<UserInfo>(context);
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
-      final checkUser = LoginServices();
-       var res = checkUser.checkLogin(
-          "PHONE", userInfo.phone.toString(),"");
-  
-      res.then((response) async {
-        print(response);
-        if(response['content']['status'] == "NEW"){
-      if (checkPolicies){
-        Navigator.push(
-          context, MaterialPageRoute(builder: (context) => RegisterUserData())
-        );
-      }else{
-        showToast("Por favor acepta las políticas de privacidad", Colors.red);
+    //First check the provacy policies
+    if (checkPolicies){
+      if (_formKey.currentState.validate()) {
+        _formKey.currentState.save();
+        _checkLoginCredentials("PHONE","");
       }
-      }else{
-        if(response['content']['status'] == "REGISTERED"){
-          prefs.token = userInfo.phone.toString();
-        Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Services())
-        );
+      else{
+        showToast("Digita un número de teléfono valido", Colors.red);
       }
-      }
-      });
+    }else{
+      showToast("Primero debes aceptar las políticas de privacidad", Colors.red);
     }
-     else{
-      showToast("Digita un número de teléfono valido", Colors.red);
-    }
+    
    
     
   }
@@ -243,12 +227,62 @@ class _LoginPageState extends State<LoginPage> {
   */
   void _submitApple() async {
     if (checkPolicies){
-    final loginServices = LoginServices();
-    loginServices.appleLogin();
-  }else{
-    showToast("Por favor acepta las políticas de privacidad", Colors.red);
-
+      final loginServices = LoginServices();
+      loginServices.appleLogin()
+        .then((appleUser) {
+          print(appleUser.givenName+appleUser.familyName);
+          if(appleUser.email == null){
+            showToast("Ups, no podemos seguir sin tu email.", Color(0xFF0570E5));
+          }else{
+            _checkLoginCredentials("APPLE",appleUser.email);
+          }
+        })
+        .catchError((onError){
+          showToast("Ups, ocurrio un error. Intenta con otro medio de login", Color(0xFF0570E5));
+        });
+      
+    }else{
+      showToast("Debes aceptar las políticas de privacidad primero", Color(0xFF0570E5));
+    }
   }
+
+  /*
+    This method check if the user or is already registered
+    works for Apple and Phone method
+  */
+  _checkLoginCredentials(String method, String email) {
+    final prefs = new PreferenciasUsuario();
+    final userInfo = Provider.of<UserInfo>(context);
+    final loginServices = LoginServices();
+
+    loginServices.checkLogin(method, userInfo.phone.toString(),email)
+      .then((response) {  
+        //New User
+        if(response['content']['status'] == "NEW"){
+          //Redirect to complete resiter page depending in the login method
+          if(method == "PHONE" ){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => RegisterUserData())
+            );
+          } else if (method == "APPLE") {
+
+          } else if (method == "FACEBOOK") {
+
+          }
+        //User Registered
+        }else if(response['content']['status'] == "REGISTERED"){
+            prefs.token = userInfo.phone.toString();
+            //Redirect to Services page
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Services())
+            );
+        }
+      })
+      .catchError((onError){
+        showToast("Ups tenemos un problema, por favor intentalo mas tarde", Color(0xFF0570E5));
+      });
   }
 
 

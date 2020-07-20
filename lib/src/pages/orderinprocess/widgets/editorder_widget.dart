@@ -89,9 +89,8 @@ class _EditOrderState extends State<EditOrder> {
           shape: new RoundedRectangleBorder(
             borderRadius: new BorderRadius.circular(20.0),
           ),
-          color: Colors.green.shade400,
+          color: Color(0xFF0570E5),
           padding: EdgeInsets.all(0.0),
-//padding: EdgeInsets.fromLTRB(size.width*0.3,size.height*0.02, size.width*0.3, size.height*0.02),
           child: Ink(
             decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -145,7 +144,7 @@ class _EditOrderState extends State<EditOrder> {
               }
             });
           },
-          color: Colors.green,
+          color: Colors.blue,
         ),
         DialogButton(
           child: Text(

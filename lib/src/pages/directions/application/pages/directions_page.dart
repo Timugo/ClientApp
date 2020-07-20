@@ -99,67 +99,70 @@ class DeleteItemInListViewPopupMenuState extends State<AddDireccions> {
               child: _createItems(),
             ),
             Container(
-                alignment: Alignment.bottomCenter,
-                padding: EdgeInsets.only(
-                    bottom: size.height * 0.04, left: 30, right: 30),
-                child: RaisedButton(
-                  elevation: 5.0,
-                  shape: new RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(20.0),
+              alignment: Alignment.bottomCenter,
+              padding: EdgeInsets.only(
+                bottom: size.height * 0.04, left: 30, right: 30
+              ),
+              child: RaisedButton(
+                elevation: 5.0,
+                shape: new RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(20.0),
+                ),
+                padding: EdgeInsets.all(0.0),
+                child: Ink(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Color(0xFF19AEFF),
+                        Color(0xFF139DF7),
+                        Color(0xFF0A83EE),
+                        Color(0xFF0570E5),
+                        Color(0xFF0064E0)
+                      ],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
+                    borderRadius: BorderRadius.circular(20.0)
                   ),
-                  padding: EdgeInsets.all(0.0),
-
-//
-                  child: Ink(
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Color(0xFF19AEFF),
-                            Color(0xFF139DF7),
-                            Color(0xFF0A83EE),
-                            Color(0xFF0570E5),
-                            Color(0xFF0064E0)
-                          ],
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                        ),
-                        borderRadius: BorderRadius.circular(20.0)),
-                    child: Container(
-                      padding: EdgeInsets.fromLTRB(
-                          size.width * 0.1,
-                          size.height * 0.005,
-                          size.width * 0.1,
-                          size.height * 0.005),
-                      child: ListTile(
-                          trailing: Icon(
-                            Icons.add_location,
-                            color: Colors.white,
-                          ),
-                          title: Text("Añade una dirección ",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Colors.white,
-                              ))),
+                  child: Container(
+                    padding: EdgeInsets.fromLTRB(
+                      size.width * 0.1,
+                      size.height * 0.005,
+                      size.width * 0.1,
+                      size.height * 0.005
+                    ),
+                    child: ListTile(
+                      trailing: Icon(
+                        Icons.add_location,
+                        color: Colors.white,
+                      ),
+                      title: Text(
+                        "Añade una dirección ",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                        )
+                      )
                     ),
                   ),
+                ),
 
-                  onPressed: () {
-                    _goTo();
-                  },
-                )),
+                onPressed: () {
+                  _goTo();
+                },
+              )
+            ),
           ],
         ));
   }
 
   _goTo() async {
     _getAddressFrom();
-    print(_currentAddress);
     Future.delayed(const Duration(milliseconds: 100), () {
       setState(() {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => NewTripLocationView()));
-
-        //_showBottomSheetCallBack();
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => NewTripLocationView()));
       });
     });
   }
