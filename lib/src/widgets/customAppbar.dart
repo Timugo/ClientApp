@@ -12,7 +12,7 @@ class CustomAppBar extends StatelessWidget {
         ),
         IconButton(
             icon: Icon(FontAwesomeIcons.userCircle,
-                size: 25.0, color: Colors.black),
+            size: 25.0, color: Colors.black),
             onPressed: () {
               Scaffold.of(context).openDrawer();
             }),
@@ -47,12 +47,11 @@ class CustomAppBar extends StatelessWidget {
             )
           ],
         ),
-        Icon(FontAwesomeIcons.ellipsisV, size: 15.0, color: Colors.black),
-        IconButton(
-          icon:
-              Icon(FontAwesomeIcons.ticketAlt, size: 15.0, color: Colors.black),
-          onPressed: () {},
-        ),
+        //Icon(FontAwesomeIcons.ellipsisV, size: 15.0, color: Colors.black),
+        // IconButton(
+        //   icon : Icon(FontAwesomeIcons.ticketAlt, size: 15.0, color: Colors.black),
+        //   onPressed: () {},
+        // ),
         SizedBox(
           width: 8.0,
         )

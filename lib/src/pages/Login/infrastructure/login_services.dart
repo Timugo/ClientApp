@@ -92,11 +92,10 @@ class LoginServices {
     
   }
   
-   Future<Map<String, dynamic>> checkLogin(String method, String phone ,String email) async {
-   var _urlcode = urlBase + 'user/register/status?method=$method&phone=$phone&email=$email' + prefs.order;
+  Future<Map<String, dynamic>> checkLogin(String method, String phone ,String email) async {
+    var _urlcode = urlBase + 'user/register/status?method=$method&phone=$phone&email=$email' + prefs.order;
     http.Response response = await http.get(_urlcode);
     final decodeData = json.decode(response.body);
-
     if (decodeData['response'] == 1) {
       prefs.order = '0';
     }

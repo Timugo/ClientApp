@@ -18,8 +18,28 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb736718693521022</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>FacebookAppID</key>
+	<string>736718693521022</string>
+	<key>FacebookDisplayName</key>
+	<string>Timugo</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
@@ -49,34 +69,5 @@
 	<false/>
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
-
-	<!-- Facebook Login configuration -->
-    <key>CFBundleURLTypes</key>
-    <array>
-		<!--
-			<dict>
-			... Some other CFBundleURLTypes definition.
-			</dict>
-		-->
-        <dict>
-            <key>CFBundleURLSchemes</key>
-            <array>
-                <string>fb736718693521022</string>
-            </array>
-        </dict>
-    </array>
-    <key>FacebookAppID</key>
-    <string>736718693521022</string>
-    <key>FacebookDisplayName</key>
-    <string>Timugo</string>
-    
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-        <string>fbapi</string>
-        <string>fb-messenger-share-api</string>
-        <string>fbauth2</string>
-        <string>fbshareextension</string>
-    </array>
-	<!-- Facebook Login configuration -->
 </dict>
 </plist>
