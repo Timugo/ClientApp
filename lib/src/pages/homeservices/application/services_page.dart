@@ -117,15 +117,15 @@ class _ServicesState extends State<Services> {
               )
             ),
             Spacer(),
-            Stack(
-              children: <Widget>[
-                IconButton(
-                  icon:Icon(FontAwesomeIcons.ticketAlt,color: Colors.black,),
-                  onPressed:(){  
-                  },
-                ),
-              ],
-            ),
+            // Stack(
+            //   children: <Widget>[
+            //     IconButton(
+            //       icon:Icon(FontAwesomeIcons.ticketAlt,color: Colors.black,),
+            //       onPressed:(){  
+            //       },
+            //     ),
+            //   ],
+            // ),
           ],
       ),
       drawer: MenuWidget(), // open the menu Drawer page
