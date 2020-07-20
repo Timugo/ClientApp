@@ -47,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-            _loginImage(context),
+            //_loginImage(context),
             _numberForm(context),
             _stackButtons(context)
             ]
@@ -152,12 +152,13 @@ class _LoginPageState extends State<LoginPage> {
         //   ]
         // ),
         SizedBox(height: 20),
-        Platform.isIOS ?
-        MyCustomButtoms(
+        Platform.isIOS ? MyCustomButtoms(
           hintText: 'Ingresar con Apple',
           icon: FontAwesomeIcons.apple,
           onPressed: _submitApple,
-          colors: [Color(0xFF3B5998), Color(0xFF3B5998)
+          colors: [
+            Color(0xFF000000),
+            Color(0xFF000000)
           ]
         ): Container(),
         
@@ -243,12 +244,23 @@ class _LoginPageState extends State<LoginPage> {
   */
   void _submitApple() async {
     if (checkPolicies){
-    final loginServices = LoginServices();
-    loginServices.appleLogin();
-  }else{
-    showToast("Por favor acepta las políticas de privacidad", Colors.red);
-
-  }
+      final loginServices = LoginServices();
+      loginServices.appleLogin()
+        .then((appleUser) {
+          print(appleUser.givenName+appleUser.familyName);
+          if(appleUser.email == null){
+            showToast("Ups, no podemos seguir sin tu email.", Colors.red);
+          }else{
+            //Login LOGIC HERE
+          }
+        })
+        .catchError((onError){
+          showToast("Ups, ocurrio un error. Intenta con otro medio de login", Colors.red);
+        });
+      
+    }else{
+      showToast("Debes aceptar las políticas de privacidad primero", Colors.red);
+    }
   }
 
 
