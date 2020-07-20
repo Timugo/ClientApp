@@ -1,14 +1,21 @@
+// Flutter dependencies
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-//import 'package:timugo/src/pages/Payment.dart';
-import 'package:timugo/src/pages/menudrawer/widgets/userprofile_widget.dart';
-import 'package:timugo/src/preferencesUser/preferencesUser.dart';
+// Plugins
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+// Pages
+//import 'package:timugo/src/pages/Payment.dart';
+import 'package:timugo/src/pages/menudrawer/widgets/userprofile_widget.dart';
+// User Preferences
+import 'package:timugo/src/preferencesUser/preferencesUser.dart';
+//Services
 import 'package:timugo/src/services/number_provider.dart';
+//Widgets
+import 'package:timugo/src/widgets/toastMessage.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'dart:io' show Platform;
 
 //import 'Payment.dart';
 //import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -113,20 +120,18 @@ class MenuWidget extends StatelessWidget {
                 }),
           ),
           Container(
-              decoration:
-                  BoxDecoration(border: Border.all(color: Colors.grey[200])),
-              child: ListTile(
-                  leading: Icon(
-                    FontAwesomeIcons.comment,
-                    color: Colors.black,
-                  ),
-                  title: Text('Sugerencias'),
-                  onTap: () {
-                    _sendCommet(context);
-                  }
-                  //     FlutterOpenWhatsapp.sendSingleMessage("573162452663", "Hola, me gustaría que Timugo...");
-                  // }
-                  )),
+            decoration: BoxDecoration(border: Border.all(color: Colors.grey[200])),
+            child: ListTile(
+                leading: Icon(
+                  FontAwesomeIcons.comment,
+                  color: Colors.black,
+                ),
+                title: Text('Sugerencias'),
+                onTap: () {
+                  _sendCommet(context);
+                }
+            )
+          ),
           Container(
             decoration:
                 BoxDecoration(border: Border.all(color: Colors.grey[200])),
@@ -145,7 +150,7 @@ class MenuWidget extends StatelessWidget {
           //    border: Border.all( color: Colors.grey[200])),
           //   child:ListTile(
           //     leading: Icon(FontAwesomeIcons.creditCard,color: Colors.black,),
-          //     title: Text('Métodos de pago',),
+          //     title: Text('Métodos de pago'),
           //     onTap:(){
           //       Navigator.push(
           //         context,MaterialPageRoute(
@@ -159,24 +164,19 @@ class MenuWidget extends StatelessWidget {
   }
 
   _launchURL() async {
+    var url ;
     if (Platform.isAndroid) {
       // Android-specific code
-      const url =
-          'https://play.google.com/store/apps/details?id=com.timugo.timugo_client_app';
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
+      url ='https://play.google.com/store/apps/details?id=com.timugo.timugo_client_app';
     } else if (Platform.isIOS) {
-      const url = 'https://apps.apple.com/us/app/timugo/id1490734184?ls=1';
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
       // iOS-specific code
+      url = 'https://apps.apple.com/us/app/timugo/id1490734184';
+      
     }
+    //Launch the webview
+    canLaunch(url)
+      .then((value) => launch(url))
+      .catchError((onError) =>throw 'Could not launch $url' );
   }
 
   _sendCommet(context) {
@@ -217,13 +217,7 @@ class MenuWidget extends StatelessWidget {
         buttons: [
           DialogButton(
             onPressed: () {
-              final sendFeed = SendFeedBack();
-              var res = sendFeed.sendFeedBack(feedController.text);
-              res.then((response) async {
-                if (response['response'] == 2) {
-                  Navigator.pop(context);
-                }
-              });
+              _sendFeedback(context);
             },
             child: Text(
               "Enviar",
@@ -231,6 +225,24 @@ class MenuWidget extends StatelessWidget {
             ),
           )
         ]).show();
+  }
+
+  void _sendFeedback(context) async {
+    final sendFeed = SendFeedBack();
+    sendFeed.sendFeedBack(feedController.text)
+      .then((response) async {
+        if (response.statusCode == 200) {
+          Navigator.pop(context);
+        }else{
+          //Temporal fix
+          Navigator.pop(context);
+          showToast("Gracias por ayudarnos a mejorar", Color(0xFF0570E5));
+          print("error al enviar el feedback");
+        }
+      })
+      .catchError((onError){
+        print("Error al enviar feedback"+onError);
+      });
   }
 
 //  _sendCalification(context){
