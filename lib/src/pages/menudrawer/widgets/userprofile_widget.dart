@@ -72,8 +72,8 @@ class _UserInfoState extends State<UserInfoPage> {
               elevation: 5.0,
               shape: new RoundedRectangleBorder(
                   borderRadius: new BorderRadius.circular(10.0),
-                  side: BorderSide(color: Colors.green)),
-              color: Colors.green.shade500,
+                  side: BorderSide(color: Color(0xFF0570E5))),
+              color: Colors.blue.shade500,
               padding: EdgeInsets.fromLTRB(size.width * 0.3,
                   size.height * 0.020, size.width * 0.3, size.height * 0.020),
               onPressed: () {

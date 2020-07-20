@@ -154,7 +154,7 @@ class _ProccesState extends State<OrderProcces> {
             leading: IconButton(
                 icon: Icon(
                   Icons.call,
-                  color: Colors.green,
+                  color: Color(0xFF0570E5),
                 ),
                 onPressed: () => launch("tel://" + barberAsigned.phone)),
           )),
