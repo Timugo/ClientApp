@@ -225,9 +225,8 @@ class _LoginPageState extends State<LoginPage> {
           loginServices.getFacebookData(token)
             .then((response)  {
               // Here must to save NAME 
-              var facebookUser = response.body;
-              print(facebookUser);
-              //_checkLoginCredentials("FACEBOOK",facebookUser['email'],facebookyUser['name']);
+              final facebookUser = registerUserModelFromJson(response.body);
+              _checkLoginCredentials("FACEBOOK",facebookUser.email,facebookUser.name);
               
             })
             .catchError((onError){
@@ -269,25 +268,30 @@ class _LoginPageState extends State<LoginPage> {
     works for Apple and Phone method
   */
   _checkLoginCredentials(String method, String email,String name) {
+    // User preferences
     final prefs = new PreferenciasUsuario();
     final userInfo = Provider.of<UserInfo>(context);
+    userInfo.email = email;
+    userInfo.name = name;
+    userInfo.registerMethod = method;
+    //Initialize the login method
     final loginServices = LoginServices();
-
+    // Check login function for all register methods
     loginServices.checkLogin(method, userInfo.phone.toString(),email)
       .then((response) {  
         //New User
         if(response['content']['status'] == "NEW"){
           //Redirect to complete resiter page depending in the login method
           switch (method) {
-            case "FACEBOOK":
-              // redirect to add phone page
-              
-              break;
-            case "APPLE":
-              // redirect to add phone page
+            case "PHONE":
+              // redirect Register User Data
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => RegisterUserData())
+              );
               break;
             default:
-              //Redirect to register name and email data
+              //Default case with APPLE or Facebook Method
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => RegisterUserData())
@@ -295,13 +299,13 @@ class _LoginPageState extends State<LoginPage> {
               break;
           }
         //User Registered
-        }else if(response['content']['status'] == "REGISTERED"){
-            prefs.token = userInfo.phone.toString();
-            //Redirect to Services page
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Services())
-            );
+        } else if(response['content']['status'] == "REGISTERED"){
+          prefs.token = userInfo.phone.toString();
+          //Redirect to Services page
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Services())
+          );
         }
       })
       .catchError((onError){
