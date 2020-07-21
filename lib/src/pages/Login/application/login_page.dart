@@ -19,7 +19,6 @@ import '../domain/user_model.dart';
 import 'package:timugo/src/pages/Login/infrastructure/login_services.dart';
 import 'dart:io' show Platform;
 
-
 //contains the login page
 class LoginPage extends StatefulWidget {
   @override
@@ -152,15 +151,15 @@ class _LoginPageState extends State<LoginPage> {
           ]
         ),
         SizedBox(height: 20),
-        // Platform.isIOS ? MyCustomButtoms(
-        //   hintText: 'Ingresar con Apple',
-        //   icon: FontAwesomeIcons.apple,
-        //   onPressed: _submitApple,
-        //   colors: [
-        //     Color(0xFF000000),
-        //     Color(0xFF000000)
-        //   ]
-        // ): 
+        Platform.isIOS ? MyCustomButtoms(
+          hintText: 'Ingresar con Apple',
+          icon: FontAwesomeIcons.apple,
+          onPressed: _submitApple,
+          colors: [
+            Color(0xFF000000),
+            Color(0xFF000000)
+          ]
+        ): 
         Container(),
         
         CheckboxListTile(
@@ -196,29 +195,48 @@ class _LoginPageState extends State<LoginPage> {
     if (checkPolicies){
       if (_formKey.currentState.validate()) {
         _formKey.currentState.save();
-        _checkLoginCredentials("PHONE","");
+        _checkLoginCredentials("PHONE","","");
       }
       else{
-        showToast("Digita un número de teléfono valido", Colors.red);
+        showToast("Digita un número de teléfono valido", Color(0xFF0570E5));
       }
     }else{
-      showToast("Primero debes aceptar las políticas de privacidad", Colors.red);
+      showToast("Primero debes aceptar las políticas de privacidad", Color(0xFF0570E5));
     }
-    
-   
-    
   }
 
+  
   /*
     Facebook Login Handler
   */
   void _submitFacebook() async {
     if (checkPolicies){
-    final loginServices = LoginServices();
-    loginServices.loginFacebook();
+      final loginServices = LoginServices();
+      var token = await loginServices.getFacebookToken();
+      switch (token) {
+        case "cancelled":
+          showToast("Logeo cancelado, intenta nuevamente",Color(0xFF0570E5));
+          break;
+        case "error":
+          showToast("Ups ocurrio un error. Intenta con otro medio",Color(0xFF0570E5));
+          break;
+        default:
+          print(token);
+          loginServices.getFacebookData(token)
+            .then((response)  {
+              // Here must to save NAME 
+              var facebookUser = response.body;
+              print(facebookUser);
+              //_checkLoginCredentials("FACEBOOK",facebookUser['email'],facebookyUser['name']);
+              
+            })
+            .catchError((onError){
+              showToast("Ups ocurrio un error. Intenta con otro medio",Color(0xFF0570E5));
+              print(onError);
+            });
+      }
     }else{
-    showToast("Por favor acepta las políticas de privacidad", Colors.red);
-
+      showToast("Por favor acepta las políticas de privacidad",Color(0xFF0570E5));
     }
   }
 
@@ -234,7 +252,7 @@ class _LoginPageState extends State<LoginPage> {
           if(appleUser.email == null){
             showToast("Ups, no podemos seguir sin tu email.", Color(0xFF0570E5));
           }else{
-            _checkLoginCredentials("APPLE",appleUser.email);
+            _checkLoginCredentials("APPLE",appleUser.email,appleUser.givenName +" "+appleUser.familyName);
           }
         })
         .catchError((onError){
@@ -250,7 +268,7 @@ class _LoginPageState extends State<LoginPage> {
     This method check if the user or is already registered
     works for Apple and Phone method
   */
-  _checkLoginCredentials(String method, String email) {
+  _checkLoginCredentials(String method, String email,String name) {
     final prefs = new PreferenciasUsuario();
     final userInfo = Provider.of<UserInfo>(context);
     final loginServices = LoginServices();
@@ -260,15 +278,21 @@ class _LoginPageState extends State<LoginPage> {
         //New User
         if(response['content']['status'] == "NEW"){
           //Redirect to complete resiter page depending in the login method
-          if(method == "PHONE" ){
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => RegisterUserData())
-            );
-          } else if (method == "APPLE") {
-
-          } else if (method == "FACEBOOK") {
-
+          switch (method) {
+            case "FACEBOOK":
+              // redirect to add phone page
+              
+              break;
+            case "APPLE":
+              // redirect to add phone page
+              break;
+            default:
+              //Redirect to register name and email data
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => RegisterUserData())
+              );
+              break;
           }
         //User Registered
         }else if(response['content']['status'] == "REGISTERED"){
