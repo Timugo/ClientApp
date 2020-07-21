@@ -55,16 +55,16 @@ class _PublicityState extends State<PublicityMethods> {
         });
   }
 
-  Widget _createCheckBox(
-      BuildContext context, PublicityMethodsModel prod, int index) {
+  Widget _createCheckBox(BuildContext context, PublicityMethodsModel prod, int index) {
     final userInfo = Provider.of<UserInfo>(context);
     return CheckboxListTile(
-        value: _values[index],
-        title: new Text('${prod.name}'),
-        onChanged: (bool selected) {
-          _onCategorySelected(selected, prod.name, index);
-          userInfo.publi = prod.name;
-          print(userInfo.publi);
-        });
+      value: _values[index],
+      title: new Text('${prod.name}'),
+      onChanged: (bool selected) {
+        _onCategorySelected(selected, prod.name, index);
+        userInfo.publicityMethod = prod.name;
+        print(userInfo.publicityMethod);
+      }
+    );
   }
 }
