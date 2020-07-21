@@ -61,18 +61,29 @@ class LoginServices {
     Function to login the user with facebook account
     and return the user data
   */
-  Future<Map<String, dynamic>> loginFacebook() async {
+  Future<String> getFacebookToken() async {
     final facebookLogin = FacebookLogin();
     final result = await facebookLogin.logIn(['email']);
-    if (result.status != FacebookLoginStatus.error) {
-      return null;
+    var returnValue ;
+    switch (result.status) {
+      case FacebookLoginStatus.loggedIn:
+        returnValue = result.accessToken.token;
+        break;
+      case FacebookLoginStatus.cancelledByUser:
+        returnValue = "cancelled";
+        break;
+      case FacebookLoginStatus.error:
+        returnValue =  "error";
+        break;
     }
-    final token = result.accessToken.token;
-    final graphResponse = await http.get(
-        'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=$token');
-    final profile = jsonDecode(graphResponse.body);
-    print(profile);
-    return profile;
+    return returnValue;
+  }
+
+  /*
+    This function get all data from Facebook user
+  */
+  Future<http.Response> getFacebookData(String token) async {
+    return await http.get('https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=$token');
   }
 
   /*
