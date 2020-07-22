@@ -13,7 +13,7 @@ class UserInfo with ChangeNotifier {
   String _urlImg;
   String _price;
   String _city='Cali';
-  String _publi ='null';
+  String _publicityMethod;
   String _payment='Efectivo';
   Position _loca;
   
@@ -61,8 +61,8 @@ class UserInfo with ChangeNotifier {
   get pts{
     return _pts;
   }
-  get publi {
-    return _publi;
+  get publicityMethod {
+    return _publicityMethod;
   }
   get loca {
     return _loca;
@@ -78,8 +78,8 @@ class UserInfo with ChangeNotifier {
     this._loca = nombre;
     notifyListeners();
   }
-  set publi(String nombre){
-    this._publi = nombre;
+  set publicityMethod(String method){
+    this._publicityMethod = method;
     notifyListeners();
   }
   set pts(int nombre){
