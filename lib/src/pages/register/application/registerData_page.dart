@@ -178,7 +178,7 @@ class _LoginPageState extends State<RegisterUserData> {
             onPressed: () {
               // If the user has no select a publicity option
               if (userInfo.publicityMethod == null ) {
-                showToast("Ups... selecciona una opcion para continuar", Color(0xFF0570E5));
+                showToast("Ups... selecciona una opción para continuar", Color(0xFF0570E5));
               } else {
                 _submitRegisterForm(context);
               }
@@ -199,9 +199,8 @@ class _LoginPageState extends State<RegisterUserData> {
     final userInfo = Provider.of<UserInfo>(context);
     final prefs = new PreferenciasUsuario();
     print(prefs.token+userInfo.name+userInfo.email+userInfo.registerMethod+userInfo.publicityMethod);  
-    loginServices.singUp(prefs.token, userInfo.name, userInfo.email, userInfo.registerMethod, userInfo.publicityMethod)
+    loginServices.singUp(int.parse(prefs.token), userInfo.name, userInfo.email, userInfo.registerMethod, userInfo.publicityMethod)
       .then((response) {
-        print("Llego a este punto");
         // Map the answer
         final loginResponse = iServerResponseFromJson(response.body);
         //Successful login
@@ -215,7 +214,7 @@ class _LoginPageState extends State<RegisterUserData> {
             context, MaterialPageRoute(builder: (context) => Services())
           );
         } else {
-          showToast("Ese email ya esta en uso, prueba con otro", Colors.red);
+          showToast("Ups... tenemos un error. Estamos solucionandolo", Colors.red);
         }
       })
       .catchError((onError){
