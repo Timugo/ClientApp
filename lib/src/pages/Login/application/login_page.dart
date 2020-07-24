@@ -201,7 +201,7 @@ class _LoginPageState extends State<LoginPage> {
         showToast("Digita un número de teléfono valido", Color(0xFF0570E5));
       }
     }else{
-      showToast("Primero debes aceptar las políticas de privacidad", Color(0xFF0570E5));
+      showToast("Debes aceptar las políticas de privacidad", Color(0xFF0570E5));
     }
   }
 
@@ -235,7 +235,7 @@ class _LoginPageState extends State<LoginPage> {
             });
       }
     }else{
-      showToast("Por favor acepta las políticas de privacidad",Color(0xFF0570E5));
+      showToast("Debes aceptar las políticas de privacidad",Color(0xFF0570E5));
     }
   }
 
@@ -247,7 +247,6 @@ class _LoginPageState extends State<LoginPage> {
       final loginServices = LoginServices();
       loginServices.appleLogin()
         .then((appleUser) {
-          print(appleUser.givenName+appleUser.familyName);
           if(appleUser.email == null){
             showToast("Ups, no podemos seguir sin tu email.", Color(0xFF0570E5));
           }else{
@@ -259,7 +258,7 @@ class _LoginPageState extends State<LoginPage> {
         });
       
     }else{
-      showToast("Debes aceptar las políticas de privacidad primero", Color(0xFF0570E5));
+      showToast("Debes aceptar las políticas de privacidad", Color(0xFF0570E5));
     }
   }
 
