@@ -214,7 +214,7 @@ class _LoginPageState extends State<RegisterUserData> {
             context, MaterialPageRoute(builder: (context) => Services())
           );
         } else {
-          showToast("Ups... tenemos un error. Estamos solucionandolo", Colors.red);
+          showToast(loginResponse.message, Colors.red);
         }
       })
       .catchError((onError){

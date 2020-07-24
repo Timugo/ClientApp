@@ -9,15 +9,18 @@ String iServerResponseToJson(IServerResponse data) =>
 class IServerResponse {
   int response ;
   final content ;
+  String message;
   IServerResponse({
     this.response,
-    this.content
+    this.content,
+    this.message
   });
 
   factory IServerResponse.fromJson(Map<String, dynamic> json) =>
     IServerResponse(
       response : json["response"],
-      content : json["content"]
+      content : json["content"],
+      message:  json["content"]["message"]
     );
 
   Map<String, dynamic> toJson() => {
