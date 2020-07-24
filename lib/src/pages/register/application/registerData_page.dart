@@ -197,15 +197,13 @@ class _LoginPageState extends State<RegisterUserData> {
 
   _submitRegisterForm(context) {
     final userInfo = Provider.of<UserInfo>(context);
-    final prefs = new PreferenciasUsuario();
-    print(prefs.token+userInfo.name+userInfo.email+userInfo.registerMethod+userInfo.publicityMethod);  
-    loginServices.singUp(int.parse(prefs.token), userInfo.name, userInfo.email, userInfo.registerMethod, userInfo.publicityMethod)
+    final prefs = new PreferenciasUsuario();  
+    loginServices.singUp(userInfo.phone, userInfo.name, userInfo.email, userInfo.registerMethod, userInfo.publicityMethod)
       .then((response) {
         // Map the answer
         final loginResponse = iServerResponseFromJson(response.body);
         //Successful login
         if (loginResponse.response == 2) {
-          print(loginResponse.content);
           prefs.token = userInfo.phone.toString();
           // Register the phone token
           sendToken.sendToken(prefs.token, prefs.tokenPhone.toString());
@@ -214,7 +212,7 @@ class _LoginPageState extends State<RegisterUserData> {
             context, MaterialPageRoute(builder: (context) => Services())
           );
         } else {
-          showToast("Ups... tenemos un error. Estamos solucionandolo", Colors.red);
+          //showToast(loginResponse.content.message, Colors.red);
         }
       })
       .catchError((onError){
