@@ -1,14 +1,17 @@
 import 'dart:convert';
 
+// Converter
 IServerResponse iServerResponseFromJson(String str) =>
     IServerResponse.fromJson(json.decode(str));
-
+// Converter
 String iServerResponseToJson(IServerResponse data) =>
     json.encode(data.toJson());
 
+// main class
 class IServerResponse {
   int response ;
-  final content ;
+  Object content;
+  //Constructor
   IServerResponse({
     this.response,
     this.content
