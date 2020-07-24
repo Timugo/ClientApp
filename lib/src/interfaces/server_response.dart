@@ -7,20 +7,23 @@ IServerResponse iServerResponseFromJson(String str) =>
 String iServerResponseToJson(IServerResponse data) =>
     json.encode(data.toJson());
 
-// main class
 class IServerResponse {
+  // props
   int response ;
   Object content;
+  String message;
   //Constructor
   IServerResponse({
     this.response,
-    this.content
+    this.content,
+    this.message
   });
 
   factory IServerResponse.fromJson(Map<String, dynamic> json) =>
     IServerResponse(
       response : json["response"],
-      content : json["content"]
+      content : json["content"],
+      message:  json["content"]["message"]
     );
 
   Map<String, dynamic> toJson() => {
