@@ -7,7 +7,6 @@ import 'package:timugo/src/pages/checkout/application/checkout_page.dart';
 import 'package:timugo/src/pages/orderinprocess/orderinprocces_page.dart';
 import 'package:timugo/src/pages/register/application/registerData_page.dart';
 import 'package:timugo/src/pages/register/application/widgets/publicitymethods_widget.dart';
-
 //User dependencies
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'package:timugo/src/providers/barber_provider.dart';
@@ -16,11 +15,12 @@ import 'package:timugo/src/providers/order.dart';
 import 'package:timugo/src/providers/push_notifications_provider.dart';
 import 'package:timugo/src/providers/user.dart';
 import 'package:timugo/src/services/number_provider.dart';
-
 //pages
 import 'package:timugo/src/pages/homeservices/application/services_page.dart';
 import 'package:timugo/src/pages/directions/application/pages/saveaddress_page.dart';
 import 'package:timugo/src/widgets/screenloader_widget.dart';
+//enviroment
+import 'package:timugo/globals.dart' as globals;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -116,7 +116,19 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
+  /*
+    This function checks if the current enviroment is development or production
+    development : return true
+    production : return false
+  */
   bool _checkDebugVersion(){
-    return true;
+    var urlBase = globals.url;
+    //production
+    if(urlBase == "https://api.timugo.com/"){
+      return false;
+    }else{
+      // development
+      return true;
+    }
   }
 }
