@@ -35,8 +35,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final GlobalKey<NavigatorState> navigatorKey =
-  new GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
   @override
   void initState() {
     //Config of push notification provider
@@ -73,7 +72,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(builder: (context) => Orderinfo()),
       ],
       child: MaterialApp(
-        debugShowCheckedModeBanner: false,
+        debugShowCheckedModeBanner: _checkDebugVersion(),
         initialRoute: 'login',
         navigatorKey: navigatorKey,
         routes: {
@@ -115,5 +114,9 @@ class _MyAppState extends State<MyApp> {
     } else {
       return 'login';
     }
+  }
+
+  bool _checkDebugVersion(){
+    return true;
   }
 }
