@@ -119,50 +119,56 @@ class _LoginPageState extends State<RegisterUserData> {
   Widget _numberForm(BuildContext context) {
     final userInfo = Provider.of<UserInfo>(context);
     return Form(
-        key: _formKey,
-        child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        new Container(
-                            child: new Flexible(
-                          child: CountryCodePicker(
-                            countryFilter: ['CO'],
-                            onChanged: print,
-                            initialSelection: 'CO',
-                            favorite: ['+57', 'CO'],
-                            showCountryOnly: true,
-                            showOnlyCountryWhenClosed: false,
-                            alignLeft: false,
-                          ),
-                        )),
-                        new Container(
-                          child: new Flexible(
-                              child: TextFormField(
-                            inputFormatters: <TextInputFormatter>[
-                              WhitelistingTextInputFormatter.digitsOnly
-                            ],
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              hintText: 'Celular',
-                            ),
-                            validator: (String value) {
-                              if (value.length < 10) {
-                                return 'Minimo 10 numeros';
-                              }
-                              return null;
-                            },
-                            onSaved: (String value) {
-                              userInfo.phone = int.parse(value);
-                            },
-                          )),
-                        ),
-                      ]),
-                ])));
+      key: _formKey,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                new Container(
+                  child: new Flexible(
+                    child: CountryCodePicker(
+                      countryFilter: ['CO'],
+                      onChanged: print,
+                      initialSelection: 'CO',
+                      favorite: ['+57', 'CO'],
+                      showCountryOnly: true,
+                      showOnlyCountryWhenClosed: false,
+                      alignLeft: false,
+                    ),
+                  )
+                ),
+                new Container(
+                  child: new Flexible(
+                    child: TextFormField(
+                      inputFormatters: <TextInputFormatter>[
+                        WhitelistingTextInputFormatter.digitsOnly
+                      ],
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        hintText: 'Celular',
+                      ),
+                      validator: (String value) {
+                        if (value.length < 10) {
+                          return 'Minimo 10 numeros';
+                        }
+                        return null;
+                      },
+                      onSaved: (String value) {
+                        userInfo.phone = int.parse(value);
+                      },
+                    )
+                  ),
+                ),
+              ]
+            ),
+          ]
+        )
+      )
+    );
   }
 
   _publicityAlert(context) {
@@ -180,6 +186,9 @@ class _LoginPageState extends State<RegisterUserData> {
               if (userInfo.publicityMethod == null ) {
                 showToast("Ups... selecciona una opción para continuar", Color(0xFF0570E5));
               } else {
+                if(userInfo.email == ""){
+                   userInfo.email = (userInfo.phone.toString())+ "@timugo.com";
+                 }
                 _submitRegisterForm(context);
               }
             },
@@ -197,7 +206,7 @@ class _LoginPageState extends State<RegisterUserData> {
 
   _submitRegisterForm(context) {
     final userInfo = Provider.of<UserInfo>(context);
-    final prefs = new PreferenciasUsuario();  
+    final prefs = new PreferenciasUsuario(); 
     loginServices.singUp(userInfo.phone, userInfo.name, userInfo.email, userInfo.registerMethod, userInfo.publicityMethod)
       .then((response) {
         // Map the answer
