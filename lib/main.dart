@@ -1,6 +1,9 @@
 //Flutter dependencies
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:timugo/src/interfaces/server_response.dart';
 import 'package:timugo/src/pages/Login/application/login_page.dart';
 import 'package:timugo/src/pages/checkin/application/checkin_page.dart';
 import 'package:timugo/src/pages/checkout/application/checkout_page.dart';
@@ -41,16 +44,10 @@ class _MyAppState extends State<MyApp> {
     //Config of push notification provider
     super.initState();
     final pushProvider = PushNotificationProvider();
-    //temporal order to check if user has a current order
-    final temporalOrderProvider = TemporalOrderProvider();
-    //check the user name
-    final userName = UserProvider();
-    //checking the user data save in device
-    final prefs = new PreferenciasUsuario();
-    temporalOrderProvider.getBarberAsigned();
-    userName.getName(prefs.token);
+    
     //initialize the push notification provider
     pushProvider.initNotifications();
+    // if the push message is detected
     pushProvider.messages.listen((data) {
       if (data == 'cancel') {
         navigatorKey.currentState.pushNamed('services');
@@ -73,7 +70,7 @@ class _MyAppState extends State<MyApp> {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: _checkDebugVersion(),
-        initialRoute: 'login',
+        initialRoute: _defaultPage(),
         navigatorKey: navigatorKey,
         routes: {
           'login': (context) => LoginPage(),
@@ -94,20 +91,23 @@ class _MyAppState extends State<MyApp> {
     This function return the route to navigate
     after phone starts 
   */
-  _route<String>() {
-    final userPreferences = new PreferenciasUsuario();
+  _defaultPage<String>() {
+    
     final userService = CheckUserOrder();
     // Routes Switch
-    if (userPreferences.token != '') {
+    if (prefs.token != '') {
       var route = 'services';
       //Check in the server if has an order in progress
       userService.checkUserOrder()
-        .then((response) {
-          if (response['content'] == 1) {
+        .then((resp) {
+          final response = iServerResponseFromJson(resp.body);
+          if (response.response == 1) {
             route = 'services';
-            userPreferences.order = 0.toString();
-          } else {
+            prefs.order = "0";
+          } else if (response.response ==2 ) {
             route = 'orderProccess';
+            var decodeData  = json.decode(resp.body);
+            prefs.order = decodeData['content']['id'].toString();
           }
         });
       return route;
