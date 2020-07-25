@@ -23,6 +23,8 @@ import 'package:timugo/src/widgets/toastMessage.dart';
 
 
 final String urlBase = globals.url;
+final String urlBase2 = globals.urlV2;
+final prefs = PreferenciasUsuario();
 class NumberProvider  {
  
   /* Request Url  */
@@ -175,27 +177,6 @@ class DirectionProvider {
   }
 }
  
-class UserProvider{
-  final    String url = urlBase+'getUser';
-  final prefs =  PreferenciasUsuario();
-  
-    Future<Map<String,dynamic>>  getName(String  phone) async{
-        var _urlcode = url+'?phone='+phone;
-        // make POST request
-        http.Response response = await http.get(_urlcode);
-        final decodeData = jsonDecode(response.body);
-       // final userInfo   = Provider.of<UserInfo>();
-        if (decodeData['response'] == 2){
-        prefs.name=decodeData['content']['name'].toString();
-        prefs.pts=decodeData['content']['points'].toString();
-        prefs.id = decodeData['content']['id'].toString();
-        prefs.email = decodeData['content']['email'].toString();
-      //  userInfo.pts=decodeData['content']['points'];
-    }
-    return decodeData;
-  }
-}
-
 class CreateOrderProvider {
   final String url = urlBase + 'orders-barbers/new';
   final prefs = PreferenciasUsuario();
@@ -374,19 +355,9 @@ class DeleteAddress {
 }
 
 class CheckUserOrder {
-  final String url = urlBase + 'checkOrder';
-  final prefs = PreferenciasUsuario();
-  var res = 'false';
-  Future<Map<String, dynamic>> checkUserOrder() async {
-    var _urlcode = url + '?phone=' + prefs.token;
-    http.Response response = await http.get(_urlcode);
-    final decodeData = json.decode(response.body);
-
-    if (decodeData['response'] == 2) {
-      prefs.order = decodeData['content']['id'].toString();
-    }
-
-    return decodeData;
+  
+  Future<http.Response> checkUserOrder() async {
+    return await http.get(urlBase+'checkUserOrder' + '?idUser=' + prefs.id);
   }
 }
 
