@@ -247,11 +247,7 @@ class _LoginPageState extends State<LoginPage> {
       final loginServices = LoginServices();
       loginServices.appleLogin()
         .then((appleUser) {
-          if(appleUser.email == null){
-            showToast("Ups, no podemos seguir sin tu email.", Color(0xFF0570E5));
-          }else{
-            _checkLoginCredentials("APPLE",appleUser.email,appleUser.givenName +" "+appleUser.familyName);
-          }
+          _checkLoginCredentials("APPLE",appleUser.email,appleUser.givenName +" "+appleUser.familyName);
         })
         .catchError((onError){
           showToast("Ups, ocurrio un error. Intenta con otro medio de login", Color(0xFF0570E5));
@@ -266,11 +262,15 @@ class _LoginPageState extends State<LoginPage> {
     This method check if the user or is already registered
     works for Apple and Phone method
   */
-  _checkLoginCredentials(String method, String email,String name) {
+  _checkLoginCredentials(String method, dynamic email,String name) {
     // User preferences
     final prefs = new PreferenciasUsuario();
     final userInfo = Provider.of<UserInfo>(context);
-    userInfo.email = email;
+    if(email == null){
+      userInfo.email = "";
+    }else {
+      userInfo.email = email;
+    }
     userInfo.name = name;
     userInfo.registerMethod = method;
     //Initialize the login method
