@@ -12,26 +12,25 @@ class CardsBarbers extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     final servicesProvider = BarbersProvider();
     return FutureBuilder(
-        future: servicesProvider.getBarbers(),
-        builder:
-            (BuildContext context, AsyncSnapshot<List<BarbersModel>> snapshot) {
-          if (snapshot.hasData) {
-            final productos = snapshot.data;
-            return Container(
-              width: size.width,
-              height: 240,
-              child: PageView.builder(
-                controller: PageController(
-                    viewportFraction: size.width > size.height ? 0.25 : 0.50),
-                pageSnapping: false,
-                itemCount: productos.length,
-                itemBuilder: (context, i) => _Card(productos[i]),
-              ),
-            );
-          } else {
-            return Center(child: CircularProgressIndicator());
-          }
-        });
+      future: servicesProvider.getBarbers(),
+      builder: (context, AsyncSnapshot<List<BarbersModel>> snapshot) {
+        if (snapshot.hasData) {
+          final barbers = snapshot.data;
+          return Container(
+            width: size.width,
+            height: 240,
+            child: PageView.builder(
+              controller: PageController(
+                  viewportFraction: size.width > size.height ? 0.25 : 0.50),
+              pageSnapping: false,
+              itemCount: barbers.length,
+              itemBuilder: (context, i) => _Card(barbers[i]),
+            ),
+          );
+        } else {
+          return Center(child: CircularProgressIndicator());
+        }
+      });
   }
 }
 
@@ -39,9 +38,8 @@ class _Card extends StatelessWidget {
   //Server url
   final String  url = globals.url;
   // Data server Url
-  final String  dataUrl = globals.url;
-  final  BarbersModel prod;
-  _Card(this.prod);
+  final  BarbersModel barber;
+  _Card(this.barber);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -58,17 +56,19 @@ class _Card extends StatelessWidget {
             child:Column(
               children:<Widget>[
                 new RawMaterialButton(
-                  onPressed:  () => _onButtonPressed(context,prod),
+                  onPressed:  () => _onButtonPressed(context,barber),
                   shape: new CircleBorder(),
                   child:CircleAvatar(
                     radius:80.0,
-                    backgroundImage : NetworkImage(dataUrl+prod.urlImg),
+                    backgroundImage : NetworkImage(url+barber.urlImg),
                     backgroundColor : Colors.black,
                     
                   )
                 ),
-                Text(prod.name,style: TextStyle(color: Colors.black,fontSize: 16,fontWeight: FontWeight.bold))
-                ,
+                Text(
+                  barber.name,
+                  style: TextStyle(color: Colors.black,fontSize: 16,fontWeight: FontWeight.bold)
+                ),
               ],
             )
           )

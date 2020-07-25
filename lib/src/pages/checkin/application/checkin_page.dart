@@ -13,6 +13,8 @@ import 'package:timugo/src/widgets/buttonCustom.dart';
 import '../../checkout/application/checkout_page.dart';
 
 // this class contains the  checkin and  aditional services of  services pages
+
+final String baseUrl = globals.url;
 class Checkin extends StatefulWidget {
   final ServicesModel model; //  this class receive  the model of services
   Checkin({this.model});
@@ -29,10 +31,8 @@ class _CheckinState extends State<Checkin> {
   final List orderFinal = []; // contains the final order
   final List temporalOrder = [];
   final order = OrderModel(); // instance  of order model
-  List<int> individualCount = [
-    0,
-    0
-  ]; // list that contains the quantity of each service
+  // list that contains the quantity of each service
+  List<int> individualCount = [0, 0];
    
   int number = 1;
   int totalPrice = 0;
@@ -114,7 +114,7 @@ class _CheckinState extends State<Checkin> {
   @override
   Widget build(BuildContext context) {
     // Data server Url
-    final String dataUrl = globals.url;
+    
     final size = MediaQuery.of(context).size;
     final price = int.parse(model.price);
 
@@ -124,52 +124,47 @@ class _CheckinState extends State<Checkin> {
           Navigator.of(context).pop();
         },
       ),
-      body: Stack(alignment: Alignment.topCenter, children: <Widget>[
-      Positioned(
-          top: 70,
-          height: size.height * 0.25,
-          child: Image.network(
-            dataUrl+model.urlImg,
-            width: size.height * 0.20,
-          )),
-      Container(
-        child: _crearListado(),
-      ),
-      Container(
-        padding: EdgeInsets.only(left:size.width*0.05,right:size.width*0.5,bottom: size.width*0.05 ,top: size.height*0.8),
-        alignment: Alignment.bottomCenter,
-        child: SizedBox(
-          width: double.infinity,
-          height: size.height * 0.1,
-          child: _buttonadd(price)
-        ),
-      ),
-       Container(
-        padding: EdgeInsets.only(left:size.width*0.5,right:size.width*0.05,bottom: size.width*0.05,top: size.height*0.8 ),
-        alignment: Alignment.bottomCenter,
-      
-          child:  MyCustomButtoms(
-            hintText: 'Agregar' +
-                ' ' +
-                "\$" +
-                (totalPrice + price * (number)).toString(),
-               
-            onPressed: () {_submit(price);},
-            colors: [
-              Color(0xFF19AEFF),
-              Color(0xFF139DF7),
-              Color(0xFF0A83EE),
-              Color(0xFF0570E5),
-              Color(0xFF0064E0)
-                ]
+      body: Stack( 
+        alignment: Alignment.topCenter,
+        children: <Widget>[
+          Positioned(
+            top: 70,
+            height: size.height * 0.25,
+            child: Image.network(
+              baseUrl+model.urlImg,
+              width: size.height * 0.20,
+            )
           ),
-        
+          Container(
+            child: _crearListado(),
+          ),
+          Container(
+            padding: EdgeInsets.only(left:size.width*0.05,right:size.width*0.5,bottom: size.width*0.05 ,top: size.height*0.8),
+            alignment: Alignment.bottomCenter,
+            child: SizedBox(
+              width: double.infinity,
+              height: size.height * 0.1,
+              child: _buttonadd(price)
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(left:size.width*0.5,right:size.width*0.05,bottom: size.width*0.05,top: size.height*0.8 ),
+            alignment: Alignment.bottomCenter,
+            child:  MyCustomButtoms(
+              hintText: 'Agregar' +' ' +"\$" +(totalPrice + price * (number)).toString(),
+              onPressed: () {_submit(price);},
+              colors: [
+                Color(0xFF19AEFF),
+                Color(0xFF139DF7),
+                Color(0xFF0A83EE),
+                Color(0xFF0570E5),
+                Color(0xFF0064E0)
+              ]
+            )
+          )
+        ]
       )
-
-
-
-      
-    ]));
+    );
   }
 
   void _submit(int price) {
@@ -178,10 +173,13 @@ class _CheckinState extends State<Checkin> {
     userInfo.price = totalPrice.toString();
     addServiceToarray();
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => Checkout(
-                finalOrder: orderFinal, servicePrice: price * number, aditionalsPrice: totalPrice)));
+      context,
+      MaterialPageRoute(
+        builder: (context) => Checkout(
+          finalOrder: orderFinal, servicePrice: price * number, aditionalsPrice: totalPrice
+        )
+      )
+    );
   }
 
 // this  widget contains the add button

@@ -18,11 +18,14 @@ class UserModel with ChangeNotifier {
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-      phone: (json["phone"]), email: json["email"], name: json["pass"]);
+    phone: json["phone"],
+    email: json["email"],
+    name: json["name"]
+  );
 
   Map<String, dynamic> toJson() => {
-        "name": name,
-        "phone": phone.toString(),
-        "email": email,
-      };
+    "name": name,
+    "phone": phone.toString(),
+    "email": email,
+  };
 }

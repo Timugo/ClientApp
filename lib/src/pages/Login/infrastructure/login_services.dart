@@ -7,7 +7,8 @@ import 'dart:convert';
 // Preferences
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 
-final String urlBase = globals.urlV2;
+final String urlBase = globals.url;
+final String urlBase2 = globals.urlV2;
 
 /* 
   Class that contains the  login services
@@ -15,9 +16,15 @@ final String urlBase = globals.urlV2;
 class LoginServices {
   
   final prefs = PreferenciasUsuario();
+
+  //Methods
+
+  /*
+    Sign Up user
+  */
   Future<http.Response> singUp(int phone, String name ,String email,String method, String publicityMethods ) async {
     // URL
-    final String url = urlBase + 'user/signup?method=$method';
+    final String url = urlBase2 + 'user/signup?method=$method';
     /* Headers */
     Map<String, String> headers = {"Content-Type": "application/json"};
     /* Body */
@@ -27,25 +34,26 @@ class LoginServices {
     return await http.post(url, headers: headers, body: body);
   }
 
-  
-  Future<Map<String, dynamic>> getName(String phone) async {
-    final String urlGetUser = urlBase + 'getUser';
-    var _urlcode = urlGetUser + '?phone=' + phone;
+  /*
+    Get all User data with the user phone
+  */
+  Future<Map<String, dynamic>> getUserInfo(String phone) async {
+    var _urlcode = urlBase + 'getUser?phone=' + phone;
     http.Response response = await http.get(_urlcode);
-
     if (response.statusCode == 200) {
+      final decodeData = jsonDecode(response.body);
+      //POST request (Need to be improved, servives only returns a https requests)
+      if (decodeData['response'] == 2) {
+        print(decodeData['content']);
+        prefs.name = decodeData['content']['name'].toString();
+        prefs.pts = decodeData['content']['points'].toString();
+        prefs.id = decodeData['content']['id'].toString();
+        prefs.email = decodeData['content']['email'].toString();
+      }
+      return decodeData;
     } else {
       throw Exception('Failed to load post');
     }
-    final decodeData = jsonDecode(response.body);
-    //POST request (Need to be improved, servives only returns a https requests)
-    if (decodeData['response'] == 2) {
-      prefs.name = decodeData['content']['name'].toString();
-      prefs.pts = decodeData['content']['points'].toString();
-      prefs.id = decodeData['content']['id'].toString();
-      prefs.email = decodeData['content']['email'].toString();
-    }
-    return decodeData;
   }
 
   /*
@@ -95,7 +103,7 @@ class LoginServices {
   }
   
   Future<Map<String, dynamic>> checkLogin(String method, String phone ,String email) async {
-    var _urlcode = urlBase + 'user/register/status?method=$method&phone=$phone&email=$email' + prefs.order;
+    var _urlcode = urlBase2 + 'user/register/status?method=$method&phone=$phone&email=$email' + prefs.order;
     http.Response response = await http.get(_urlcode);
     final decodeData = json.decode(response.body);
     if (decodeData['response'] == 1) {
