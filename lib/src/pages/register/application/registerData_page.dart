@@ -221,7 +221,7 @@ class _LoginPageState extends State<RegisterUserData> {
             context, MaterialPageRoute(builder: (context) => Services())
           );
         } else {
-          showToast(loginResponse.message, Colors.red);
+          showToast("Este telefono esta registrado", Colors.red);
         }
       })
       .catchError((onError){

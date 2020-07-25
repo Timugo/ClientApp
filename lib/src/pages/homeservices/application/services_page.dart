@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
+import 'package:timugo/src/pages/Login/infrastructure/login_services.dart';
 import 'package:timugo/src/pages/homeservices/application/widgets/cardbarbers_widget.dart';
 import 'package:timugo/src/pages/homeservices/application/widgets/cardservices_widget.dart';
 import 'package:timugo/src/pages/menudrawer/menu_widget.dart';
@@ -23,34 +24,28 @@ class Services extends StatefulWidget {
 }
 
 class _ServicesState extends State<Services> {
-  final  checkUserOrder = CheckUserOrder(); 
-  final  userName       = UserProvider();
-  final  prefs          = new PreferenciasUsuario();
+  final checkUserOrder = CheckUserOrder(); 
+  final loginServices = LoginServices();
+  final prefs = new PreferenciasUsuario();
   final getdirections = GetAddresses();    
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>(); // global key of scaffol
   VoidCallback _showDirections;  // call a button sheet function for show Page Directions
-  Position     _currentPosition; // variable  to  save position
+  Position _currentPosition; // variable  to  save position
   
   @override
   void initState() {
     super.initState();
     _showDirections = _onButtonPressed;
-    userName.getName(prefs.token); // call to pref user that contains the data  save in the device
-    checkUserOrder.checkUserOrder(); // check
+    //Save the userInfo in the user model
+    loginServices.getUserInfo(prefs.token);
+    //Check if user in a current Order
+    checkUserOrder.checkUserOrder();
     _checkUserToken();
     getdirections.getAddresses();
     
   }
 
-  // Get the current loction and upgrade 
-  Future<Position>  _getCurrentLocation(context) async {
-    Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    print(position);
-    setState(() {
-      _currentPosition = position;
-    });
-    return _currentPosition;
-  }
+  
   // show de modal botton sheet tha open the  add Directions widget
   void _onButtonPressed() {
     setState(() {
@@ -160,20 +155,32 @@ class _ServicesState extends State<Services> {
        )
      ),
     )); 
+  
   }
+
   Future<void> _refreshCards() async{
- Navigator.of(context).push(
-    new MaterialPageRoute(
-        builder: (BuildContext context){
-          return new Services();
-        }
-    )
-);
-    
-      
+    Navigator.of(context).push(
+      new MaterialPageRoute(
+          builder: (BuildContext context){
+            return new Services();
+          }
+      )
+    );  
   }
   
- 
+  // Get the current loction and upgrade 
+  _getCurrentLocation(context) async {
+    Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+      .then((coords) {
+        setState(() {
+          _currentPosition = coords;
+        });
+      })
+      .catchError((onError){
+        print("No se detecto la posicion");
+      });
+  }
+
   _checkUserToken(){
     final prefs =  PreferenciasUsuario();
     final checkTokenUser =CheckTokenUser();
@@ -184,7 +191,7 @@ class _ServicesState extends State<Services> {
           sendToken.sendToken(prefs.token.toString(),prefs.tokenPhone.toString());
       }
       else{
-        print(' token registrado');
+        print('token registrado');
       }
     });
   }
@@ -211,8 +218,8 @@ class  _Header extends StatelessWidget {
       ),
     );
   }
-  _checkOrder(BuildContext context){
 
+  _checkOrder(BuildContext context){
      // contains the bell function that show '1' if user have orders  and redirect to  order pages
     if(prefs.order == '0'){
       showToast("No se encontarón ordenes", Colors.blue);

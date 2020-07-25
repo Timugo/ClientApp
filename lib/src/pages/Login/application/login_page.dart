@@ -221,7 +221,6 @@ class _LoginPageState extends State<LoginPage> {
           showToast("Ups ocurrio un error. Intenta con otro medio",Color(0xFF0570E5));
           break;
         default:
-          print(token);
           loginServices.getFacebookData(token)
             .then((response)  {
               // Here must to save NAME 
