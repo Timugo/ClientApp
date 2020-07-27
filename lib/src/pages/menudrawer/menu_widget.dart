@@ -2,10 +2,9 @@
 import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 // Plugins
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:timugo/src/pages/Login/application/login_page.dart';
 // Pages
 //import 'package:timugo/src/pages/Payment.dart';
 import 'package:timugo/src/pages/menudrawer/widgets/userprofile_widget.dart';
@@ -23,7 +22,7 @@ import 'package:url_launcher/url_launcher.dart';
 //MENU DRAWER CLASS
 class MenuWidget extends StatelessWidget {
   final TextEditingController feedController = new TextEditingController();
-
+  final border = Border.all(color: Colors.grey[200]);
   @override
   Widget build(BuildContext context) {
     final prefs = new PreferenciasUsuario();
@@ -34,15 +33,18 @@ class MenuWidget extends StatelessWidget {
         children: <Widget>[
           DrawerHeader(
             child: Container(
-                margin: const EdgeInsets.only(left: 20.0, right: 20.0),
-                child: Column(children: <Widget>[
+              margin: const EdgeInsets.only(left: 20.0, right: 20.0),
+              child: Column(
+                children: <Widget>[
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: Text('Hola!',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.w300)),
+                    child: Text(
+                      'Hola!',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.w300)
+                    ),
                   ),
                   SizedBox(height: 30.0),
                   Align(
@@ -50,104 +52,86 @@ class MenuWidget extends StatelessWidget {
                     child: Text(
                       prefs.name[0].toUpperCase() + prefs.name.substring(1),
                       style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 30.0,
-                          fontWeight: FontWeight.bold),
+                        color: Colors.black,
+                        fontSize: 30.0,
+                        fontWeight: FontWeight.bold
+                      ),
                     ),
                   ),
-                ])),
-          ),
-          new CircularPercentIndicator(
-            radius: 100.0,
-            lineWidth: 10.0,
-            percent: 0.8,
-            header: new Text(prefs.pts + ' ' + 'pts',
-                style: TextStyle(fontWeight: FontWeight.bold)),
-            center: new IconButton(
-              icon: Icon(FontAwesomeIcons.gem),
-              iconSize: 30.0,
-              color: Colors.blue,
-              onPressed: () {
-                Fluttertoast.showToast(
-                  msg: "Proximamente obtendras beneficios con tus puntos",
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                  timeInSecForIosWeb: 1,
-                  backgroundColor: Colors.red,
-                  textColor: Colors.white,
-                  fontSize: 14.0
-                );
-              },
+                ]
+              )
             ),
-            backgroundColor: Colors.white,
-            progressColor: Colors.blue,
           ),
-          // content the perfil data and  go to page info user
           Container(
-            decoration:
-                BoxDecoration(border: Border.all(color: Colors.grey[200])),
-            child: ListTile(
-                leading: Icon(
-                  FontAwesomeIcons.user,
-                  color: Colors.black,
-                ),
-                title: Text(
-                  'Datos del perfil',
-                ),
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => UserInfoPage()));
-                }),
+            decoration : BoxDecoration(border: border),
+            child : ListTile(
+              leading: Icon(
+                FontAwesomeIcons.user,
+                color: Colors.black,
+              ),
+              title: Text(
+                'Datos del perfil',
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => UserInfoPage()
+                  )
+                );
+              }
+            ),
           ),
           //  redirect to whatsapp  with  a message that content the name.
           Container(
-            decoration:
-                BoxDecoration(border: Border.all(color: Colors.grey[200])),
+            decoration : BoxDecoration(border: border),
             child: ListTile(
-                leading: Icon(
-                  FontAwesomeIcons.headset,
-                  color: Colors.black,
-                ),
-                title: Text('Centro de ayuda '),
-                onTap: () async {
-                  var whatsappUrl =
-                      "whatsapp://send?phone=${573106838163}?text=Hola mi nombre es " +
-                          prefs.name +
-                          " y necesito ayuda con mi orden de Timugo'";
-                  await canLaunch(whatsappUrl)
-                      ? launch(whatsappUrl)
-                      : print("No se encontro el link o whatsapp no instalado");
-                }),
+              leading: Icon(
+                FontAwesomeIcons.headset,
+                color: Colors.black,
+              ),
+              title: Text('Centro de ayuda '),
+              onTap: _whatsappSupport()
+            ),
           ),
           Container(
-            decoration: BoxDecoration(border: Border.all(color: Colors.grey[200])),
+            decoration : BoxDecoration(border: border ),
             child: ListTile(
-                leading: Icon(
-                  FontAwesomeIcons.comment,
-                  color: Colors.black,
-                ),
-                title: Text('Sugerencias'),
-                onTap: () {
-                  _sendCommet(context);
-                }
+              leading: Icon(
+                FontAwesomeIcons.comment,
+                color: Colors.black,
+              ),
+              title: Text('Sugerencias'),
+              onTap: () => _sendCommet(context)
             )
           ),
           Container(
-            decoration:
-                BoxDecoration(border: Border.all(color: Colors.grey[200])),
+            decoration : BoxDecoration(border: border),
             child: ListTile(
-                leading: Icon(
-                  FontAwesomeIcons.thumbsUp,
-                  color: Colors.black,
-                ),
-                title: Text('Calificanos'),
-                onTap: () {
-                  _launchURL();
-                }),
+              leading: Icon(
+                FontAwesomeIcons.thumbsUp,
+                color: Colors.black,
+              ),
+              title: Text('Calificanos'),
+              onTap: _launchURL
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(border: border),
+            child:ListTile(
+              leading: Icon(Icons.close,color: Colors.black,),
+              title: Text('Cerrar Sesion'),
+              onTap:(){
+                Navigator.push(
+                  context,MaterialPageRoute(
+                    builder: (context) => LoginPage()
+                  )
+                );
+              }
+            ),
           ),
           // Container(
-          //   decoration: BoxDecoration(
-          //    border: Border.all( color: Colors.grey[200])),
+          //   decoration: BoxDecoration(border: border),
           //   child:ListTile(
           //     leading: Icon(FontAwesomeIcons.creditCard,color: Colors.black,),
           //     title: Text('Métodos de pago'),
@@ -161,6 +145,15 @@ class MenuWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  _whatsappSupport() async {
+    var whatsappUrl =
+      "whatsapp://send?phone=${573106838163}?text=Hola mi nombre es " +
+      prefs.name +" y necesito ayuda con mi orden de Timugo'";
+    canLaunch(whatsappUrl)
+      .then((value) => launch(whatsappUrl))
+      .catchError((onError) =>showToast("Ups.. ocurrio un error. Estamos solucionandolo", Colors.blueAccent));
   }
 
   _launchURL() async {
@@ -227,10 +220,10 @@ class MenuWidget extends StatelessWidget {
         ]).show();
   }
 
-  void _sendFeedback(context) async {
+  void _sendFeedback(context) {
     final sendFeed = SendFeedBack();
     sendFeed.sendFeedBack(feedController.text)
-      .then((response) async {
+      .then((response) {
         if (response.statusCode == 200) {
           Navigator.pop(context);
         }else{
@@ -244,78 +237,4 @@ class MenuWidget extends StatelessWidget {
         print("Error al enviar feedback"+onError);
       });
   }
-
-//  _sendCalification(context){
-//  Alert(
-//         context: context,
-//         title: "Califica tu experiencia",
-//         content: Column(
-//           children: <Widget>[
-//             Container(
-//             height: 200,
-//             color: Color(0xffeeeeee),
-//             padding: EdgeInsets.all(10.0),
-//             child: new ConstrainedBox(
-//               constraints: BoxConstraints(
-//                 maxHeight: 200.0,
-//               ),
-//               child: new Scrollbar(
-//                 child: new SingleChildScrollView(
-//                   scrollDirection: Axis.vertical,
-//                   reverse: true,
-//                   child: SizedBox(
-//                     height: 190.0,
-//                     child: RatingBar(
-//                   initialRating: 3,
-//                   itemCount: 3,
-//                   itemBuilder: (context, index) {
-//                     switch (index) {
-//                         case 0:
-//                           return Icon(
-//                               Icons.mood_bad,
-//                               color: Colors.red,
-//                           );
-//                         case 1:
-//                           return Icon(
-//                               Icons.sentiment_neutral,
-//                               color: Colors.yellow,
-//                           );
-//                         case 2:
-//                           return Icon(
-//                               Icons.sentiment_very_satisfied,
-//                               color: Colors.green,
-//                           );
-
-//                     }
-//                   },
-//                   onRatingUpdate: (rating) {
-//                     print(rating);
-//                   },
-//                     )
-//                   ),
-//                 ),
-//               ),
-//             ),
-//           ),
-//           ],
-//         ),
-//         buttons: [
-//           DialogButton(
-//             onPressed: (){
-//              final sendFeed =SendFeedBack();
-//              var res = sendFeed.sendFeedBack(feedController.text);
-//              res.then((response) async {
-//              if (response['response'] == 2){
-//                Navigator.pop(context);
-//               }});
-//             },
-//             child: Text(
-//               "Enviar",
-//               style: TextStyle(color: Colors.white, fontSize: 20),
-//             ),
-//           )
-//         ]).show();
-
-//   }
-
 }
