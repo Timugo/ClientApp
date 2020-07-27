@@ -39,19 +39,16 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Scaffold(
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 20,vertical: 60),
-        //padding: EdgeInsets.only(top:size.height * 0.07,left:size.height * 0.07,right:size.height * 0.07),
         children: <Widget>[ 
           _loginImage(context),
           _numberForm(context),
           SizedBox(height: 20),
           _stackButtons(context)
-        ]
-          
-        )
+        ]    
+      )
     );
   }
   
@@ -107,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                         if (value.length < 10) {
                           return 'Digita un número de teléfono valido';
                         }
-                        return '';
+                        return null;
                       },
                       onSaved: (String value) {
                         userInfo.phone= int.parse(value);

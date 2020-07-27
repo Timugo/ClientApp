@@ -35,10 +35,10 @@ class _CheckoutState extends State<Checkout>  with ScreenLoader<Checkout> {
   loader() {
     return SpinKitCircle(
       color:Colors.blue,
-    
     );
   }
-   @override
+  
+  @override
   loadingBgBlur() => 10.0;
 
   @override
@@ -56,182 +56,148 @@ class _CheckoutState extends State<Checkout>  with ScreenLoader<Checkout> {
       ),
       body: Stack(
         children: <Widget>[
-          ListView(children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(
-                left: size.width * 0.05,
-                top: size.height * 0.05,
-                bottom: size.height * 0.05
-              ),
-              child: Text(
-                "Resumen de Orden",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold
-                )
-              ),
-            ),
-            Card(
-              child: ListTile(  
-                title: Text(userInfo.directions == ''
-                  ? prefs.direccion + dir
-                  : userInfo.directions
+          ListView(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(
+                  left: size.width * 0.05,
+                  top: size.height * 0.05,
+                  bottom: size.height * 0.05
                 ),
-                trailing: IconButton(
-                  icon: Icon(Icons.arrow_drop_down),
-                  onPressed: () => _onButtonPressed(context, AddDireccions()),
-                ),
-              )
-            ),
-            Card(
-              child: ListTile(
-                title: Text('Tiempo Estimado',),
-                trailing: Text('30 -45 min',
+                child: Text(
+                  "Resumen de Orden",
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20
+                    color: Colors.black,
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold
                   )
                 ),
               ),
-            ),
-            Card(
-              child: ListTile(
-                trailing: RaisedButton.icon(
-                  icon: Icon(Icons.keyboard_arrow_down),
-                  onPressed: () {},
-                  color: Colors.white,
-                  label: Text('Cambiar', style: TextStyle(fontSize: 15)),
-                ),
-                leading: RaisedButton.icon(
-                  color: Colors.green,
-                  icon: Icon(Icons.attach_money),
-                  onPressed: () {},
-                  label: Text("Efectivo")
+              Card(
+                child: ListTile(  
+                  title: Text(userInfo.directions == ''
+                    ? prefs.direccion + dir
+                    : userInfo.directions
+                  ),
+                  trailing: IconButton(
+                    icon: Icon(Icons.arrow_drop_down),
+                    onPressed: () => _onButtonPressed(context, AddDireccions()),
+                  ),
                 )
               ),
-            ),
-            SizedBox(
-              height: size.height * 0.05,
-            ),
-            Container(
-              padding: EdgeInsets.only(
-                left: size.width * 0.05,
-                right: size.width * 0.05,
-                bottom: size.height * 0.1
+              Card(
+                child: ListTile(
+                  title: Text('Tiempo Estimado',),
+                  trailing: Text('60 minutos',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20
+                    )
+                  ),
+                ),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text('Resumen',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
-                  ListTile(
-                    contentPadding: EdgeInsets.only(left: 0),
-                    title: Text('Costo del servicio :'),
-                    trailing: Text("\$" + servicePrice.toString(),
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 18)
-                    ),
+              Card(
+                child: ListTile(
+                  trailing: RaisedButton.icon(
+                    icon: Icon(Icons.keyboard_arrow_down),
+                    onPressed: () {},
+                    color: Colors.white,
+                    label: Text('Cambiar', style: TextStyle(fontSize: 15)),
                   ),
-                  ListTile(
-                    contentPadding: EdgeInsets.only(left: 0),
-                    title: Text('Costos adiccionales :'),
-                    trailing: Text("\$" + aditionalsPrice.toString(),
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 18)
-                    ),
-                  ),
-                  ListTile(
-                    contentPadding: EdgeInsets.only(left: 0),
-                    title: Text('Total a cobrar',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 22)),
-                    subtitle: Text('Con efectivo'),
-                    trailing: Text("\$" + (servicePrice + aditionalsPrice).toString(),
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18)),
-                  ),
-                ],
+                  leading: RaisedButton.icon(
+                    color: Colors.green,
+                    icon: Icon(Icons.attach_money),
+                    onPressed: () {},
+                    label: Text("Efectivo")
+                  )
+                ),
               ),
-            )
-          ]),
+              SizedBox(height: size.height * 0.05),
+              Container(
+                padding: EdgeInsets.only(
+                  left: size.width * 0.05,
+                  right: size.width * 0.05,
+                  bottom: size.height * 0.1
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text('Costos',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
+                    ListTile(
+                      contentPadding: EdgeInsets.only(left: 0),
+                      title: Text('Servicios + Domicilio :'),
+                      trailing: Text("\$" + servicePrice.toString(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18)
+                      ),
+                    ),
+                    ListTile(
+                      contentPadding: EdgeInsets.only(left: 0),
+                      title: Text('Adicionales :'),
+                      trailing: Text(
+                        "\$" + aditionalsPrice.toString(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18
+                        )
+                      ),
+                    ),
+                    ListTile(
+                      contentPadding: EdgeInsets.only(left: 0),
+                      title: Text(
+                        'Total',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 22)
+                      ),
+                      trailing: Text("\$" + (servicePrice + aditionalsPrice).toString(),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18)),
+                    ),
+                  ],
+                ),
+              )
+            ]
+          ),
           Container(
             alignment: Alignment.bottomCenter,
             padding: EdgeInsets.only(bottom: size.width * 0.05, top:  size.height * 0.8,left: size.width * 0.05,right: size.width * 0.05),
             child:MyCustomButtoms(
-            hintText:  'Solicitar Servicio' + ' ' + "\$" + (servicePrice + aditionalsPrice).toString(),
-            onPressed:(){
-              final preferencesUser = PreferenciasUsuario();
-    final createOrdeProvider = CreateOrderProvider();
-    var res = createOrdeProvider.createOrder(
-      preferencesUser.direccion,
-      'CASH',
-      finalOrder,
-    );
-    res.then((response) async {      //if the response is 2 = correct
-      if (response['response'] == 2) {  //code ==1 its because the order cant be created for some reason
-        if (response['content']['code'] == 1) { //display the message with the reason
-          showToast( response['content']['message'], Colors.blue[200]);
-          print("entre");
-        } else {                     //if the order was created correctly
-          showToast( response['content']['message'], Colors.blue[200]);
-          Navigator.push(
-            context,  
-            MaterialPageRoute(
-              builder: (context) => OrderProcces()
+              hintText:  'Solicitar Servicio',
+              onPressed:(){
+                final preferencesUser = PreferenciasUsuario();
+                final createOrdeProvider = CreateOrderProvider();
+                var res = createOrdeProvider.createOrder(preferencesUser.direccion,'CASH',finalOrder);
+                res.then((response) {
+                  if (response['response'] == 2) {  
+                    //Error
+                    if (response['content']['code'] == 1) { 
+                      //display the message with the reason
+                      showToast( response['content']['message'], Colors.blue[200]);
+                    } else {                     //if the order was created correctly
+                      showToast( response['content']['message'], Colors.blue[200]);
+                      Navigator.push(
+                        context,  
+                        MaterialPageRoute(
+                          builder: (context) => OrderProcces()
+                        )
+                      );      
+                    }
+                  }else{
+                    showToast("Ups... tenemos un error. Estamos solucionandolo", Colors.red);
+                  }
+                });
+              },
+              colors: [
+                Color(0xFF19AEFF),
+                Color(0xFF139DF7),
+                Color(0xFF0A83EE),
+                Color(0xFF0570E5),
+                Color(0xFF0064E0)
+              ]
             )
-          );      
-        }
-      }else{
-        showToast("error", Colors.red);
-      }
-    });},
-            colors: [
-              Color(0xFF19AEFF),
-              Color(0xFF139DF7),
-              Color(0xFF0A83EE),
-              Color(0xFF0570E5),
-              Color(0xFF0064E0)
-                ]
           )
-        //     child: RaisedButton(
-        //       elevation: 5.0,
-        //       onPressed: 
-        //       shape: RoundedRectangleBorder(
-        //           borderRadius: BorderRadius.circular(20.0)),
-        //       padding: EdgeInsets.all(0.0),
-        //       child: Ink(
-        //         decoration: BoxDecoration(
-        //             gradient: LinearGradient(
-        //               colors: [
-        //                 Color(0xFF19AEFF),
-        //                 Color(0xFF139DF7),
-        //                 Color(0xFF0A83EE),
-        //                 Color(0xFF0570E5),
-        //                 Color(0xFF0064E0)
-        //               ],
-        //               begin: Alignment.centerLeft,
-        //               end: Alignment.centerRight,
-        //             ),
-        //             borderRadius: BorderRadius.circular(10.0)),
-        //         child: Container(
-        //           padding: EdgeInsets.fromLTRB(
-        //               size.width * 0.25,
-        //               size.height * 0.02,
-        //               size.width * 0.25,
-        //               size.height * 0.02),
-        //           child: Text(
-        //             'Solicitar Servicio' + ' ' + "\$" + (servicePrice + aditionalsPrice).toString(),
-        //             textAlign: TextAlign.center,
-        //             style: TextStyle(
-        //               color: Colors.white,
-        //             ),
-        //           ),
-        //         ),
-        //       ),
-        //     ),
-          )
-        ]));
+        ]
+      )
+    );
   }
 
   _submitOrder() async {
