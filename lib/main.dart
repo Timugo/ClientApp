@@ -1,15 +1,8 @@
 //Flutter dependencies
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:timugo/src/interfaces/server_response.dart';
-import 'package:timugo/src/pages/Login/application/login_page.dart';
-import 'package:timugo/src/pages/checkin/application/checkin_page.dart';
-import 'package:timugo/src/pages/checkout/application/checkout_page.dart';
-import 'package:timugo/src/pages/orderinprocess/orderinprocces_page.dart';
-import 'package:timugo/src/pages/register/application/registerData_page.dart';
-import 'package:timugo/src/pages/register/application/widgets/publicitymethods_widget.dart';
 //User dependencies
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'package:timugo/src/providers/barber_provider.dart';
@@ -17,11 +10,8 @@ import 'package:timugo/src/providers/counter_provider.dart';
 import 'package:timugo/src/providers/order.dart';
 import 'package:timugo/src/providers/push_notifications_provider.dart';
 import 'package:timugo/src/providers/user.dart';
+import 'package:timugo/src/routes/routes.dart';
 import 'package:timugo/src/services/number_provider.dart';
-//pages
-import 'package:timugo/src/pages/homeservices/application/services_page.dart';
-import 'package:timugo/src/pages/directions/application/pages/saveaddress_page.dart';
-import 'package:timugo/src/widgets/screenloader_widget.dart';
 //enviroment
 import 'package:timugo/globals.dart' as globals;
 
@@ -72,17 +62,7 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: _checkDebugVersion(),
         initialRoute: _defaultPage(),
         navigatorKey: navigatorKey,
-        routes: {
-          'login': (context) => LoginPage(),
-          'registerData': (context) => RegisterUserData(),
-          'services': (context) => Services(),
-          'checkin': (context) => Checkin(),
-          'checkout': (context) => Checkout(),
-          'orderProccess': (context) => OrderProcces(),
-          'publicity': (context) => PublicityMethods(),
-          'FormDirections': (context) => FormDirections(address: null),
-          'screnloader': (context) => ScreenLoaderClass()
-        },
+        routes: getAppRoutes(),
       )
     );
   }
