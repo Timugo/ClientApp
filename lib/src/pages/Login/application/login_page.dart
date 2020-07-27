@@ -41,76 +41,73 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.only(top:size.height * 0.05,left:size.height * 0.02,right:size.height * 0.02),
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-            //_loginImage(context),
-            _numberForm(context),
-            _stackButtons(context)
-            ]
-          )
+      body: ListView(
+        padding: EdgeInsets.symmetric(horizontal: 20,vertical: 60),
+        //padding: EdgeInsets.only(top:size.height * 0.07,left:size.height * 0.07,right:size.height * 0.07),
+        children: <Widget>[ 
+          _loginImage(context),
+          _numberForm(context),
+          SizedBox(height: 20),
+          _stackButtons(context)
+        ]
+          
         )
-      ),
     );
   }
   
   // widget that paint the top image in login
-  Widget _loginImage(BuildContext context) {
+  Widget _loginImage(context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.4,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/images/barbersho.jpg'),
-          fit: BoxFit.fill,
-        ),
-      )
+      height: MediaQuery.of(context).size.height * 0.3,
+      child: Image(image :AssetImage('assets/images/phone.png')) ,  
     );
   }
   
   // widget that paint  the textfield for cell phone
-  Widget _numberForm(BuildContext context) {
+  Widget _numberForm(context) {
     final userInfo = Provider.of<UserInfo>(context);
     return Form(
       key: _formKey,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
+      child: Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                new Container(
-                  child: new Flexible(
+                Container(
+                  child: Flexible(
                     child: CountryCodePicker(
-                    countryFilter: ['CO'],
-                    onChanged: print,
-                    initialSelection: 'CO',
-                    favorite: ['+57', 'CO'],
-                    showCountryOnly: true,
-                    showOnlyCountryWhenClosed: false,
-                    alignLeft: false,
+                      countryFilter: ['CO'],
+                      onChanged: print,
+                      initialSelection: 'CO',
+                      favorite: ['+57', 'CO'],
+                      showCountryOnly: true,
+                      showOnlyCountryWhenClosed: false,
+                      alignLeft: false,
                     ),
                   )
                 ),
-                new Container(
-                  child: new Flexible(
+                Container(
+                  child: Flexible(
                     child: TextFormField(
+                      keyboardType: TextInputType.number,
                       inputFormatters: <TextInputFormatter>[
                         WhitelistingTextInputFormatter.digitsOnly
-                        ],
-                      keyboardType: TextInputType.number,
+                      ],
                       decoration: InputDecoration(
                         hintText: 'Celular',
+                        labelText: 'Celular',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6)
+                        ),
                       ),
                       validator: (String value) {
                         if (value.length < 10) {
                           return 'Digita un número de teléfono valido';
                         }
-                        return null;
+                        return '';
                       },
                       onSaved: (String value) {
                         userInfo.phone= int.parse(value);
@@ -121,13 +118,13 @@ class _LoginPageState extends State<LoginPage> {
               ]
             )
           ]
-        )
+        ),
       )
     );
   }
 
   //paint the buttons for login( Facebook,apple and cellphone) and the privacity politices checkbox 
-  Widget _stackButtons(BuildContext context) {
+  Widget _stackButtons(context) {
     return Column(
       children: <Widget>[
         MyCustomButtoms(
@@ -142,26 +139,6 @@ class _LoginPageState extends State<LoginPage> {
             Color(0xFF0064E0)
           ]
         ),
-        SizedBox(height: 20),
-        MyCustomButtoms(
-          hintText: 'Ingresar con Facebook',
-          icon: FontAwesomeIcons.facebook,
-          onPressed: _submitFacebook,
-          colors: [Color(0xFF3B5998), Color(0xFF3B5998)
-          ]
-        ),
-        SizedBox(height: 20),
-        Platform.isIOS ? MyCustomButtoms(
-          hintText: 'Ingresar con Apple',
-          icon: FontAwesomeIcons.apple,
-          onPressed: _submitApple,
-          colors: [
-            Color(0xFF000000),
-            Color(0xFF000000)
-          ]
-        ): 
-        Container(),
-        
         CheckboxListTile(
           controlAffinity: ListTileControlAffinity.leading,
           title: InkWell(
@@ -184,7 +161,26 @@ class _LoginPageState extends State<LoginPage> {
               }
             );
           },
-        )
+        ),
+        Divider(),
+        MyCustomButtoms(
+          hintText: 'Ingresar con Facebook',
+          icon: FontAwesomeIcons.facebook,
+          onPressed: _submitFacebook,
+          colors: [Color(0xFF3B5998), Color(0xFF3B5998)
+          ]
+        ),
+        SizedBox(height: 20),
+        Platform.isIOS ? MyCustomButtoms(
+          hintText: 'Iniciar sesión con Apple',
+          icon: FontAwesomeIcons.apple,
+          onPressed: _submitApple,
+          colors: [
+            Color(0xFF000000),
+            Color(0xFF000000)
+          ]
+        ): 
+        Container(),
       ]
     );
   }
@@ -205,7 +201,6 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  
   /*
     Facebook Login Handler
   */
@@ -310,7 +305,5 @@ class _LoginPageState extends State<LoginPage> {
         showToast("Ups tenemos un problema, por favor intentalo mas tarde", Color(0xFF0570E5));
       });
   }
-
-
 
 }
