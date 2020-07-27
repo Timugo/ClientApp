@@ -19,6 +19,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  http:
+  cupertino_icons: ^0.1.2
   validators: ^2.0.0+1
   flutter_spinkit: "^4.1.2"
   provider: ^2.0.1
@@ -27,13 +29,8 @@ dependencies:
   country_code_picker: ^1.2.2
   webview_flutter: ^0.3.14+1
   rflutter_alert: ^1.0.2
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.2
   font_awesome_flutter:
   firebase_messaging:
-  http:
-  percent_indicator: "^2.1.1"
   smooth_star_rating: 1.0.4+2
   fluttertoast: ^4.0.1
   url_launcher: ^5.0.3
