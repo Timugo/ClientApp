@@ -1,8 +1,6 @@
 //Flutter dependencies
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:timugo/src/interfaces/server_response.dart';
 //User dependencies
 import 'package:timugo/src/preferencesUser/preferencesUser.dart';
 import 'package:timugo/src/providers/barber_provider.dart';
@@ -60,40 +58,11 @@ class _MyAppState extends State<MyApp> {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: _checkDebugVersion(),
-        initialRoute: _defaultPage(),
+        initialRoute: defaultRoute(),
         navigatorKey: navigatorKey,
         routes: getAppRoutes(),
       )
     );
-  }
-
-  /*
-    This function return the route to navigate
-    after phone starts 
-  */
-  _defaultPage<String>() {
-    
-    final userService = CheckUserOrder();
-    // Routes Switch
-    if (prefs.token != '') {
-      var route = 'services';
-      //Check in the server if has an order in progress
-      userService.checkUserOrder()
-        .then((resp) {
-          final response = iServerResponseFromJson(resp.body);
-          if (response.response == 1) {
-            route = 'services';
-            prefs.order = "0";
-          } else if (response.response ==2 ) {
-            route = 'orderProccess';
-            var decodeData  = json.decode(resp.body);
-            prefs.order = decodeData['content']['id'].toString();
-          }
-        });
-      return route;
-    } else {
-      return 'login';
-    }
   }
 
   /*
